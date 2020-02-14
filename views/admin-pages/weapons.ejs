@@ -1,0 +1,24 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+<h1 class="users-title card-title">
+    Weapon management <a href="/admin/values/genders/add">+</a>
+</h1>
+
+<% if (weapons.length > 0) {%>
+<ul class="list-group">
+    <% weapons.forEach(value => { %>
+    <li class="list-group-item">
+
+        <%= value.id %> | <%= value.gender %>
+        <a href="/admin/values/genders/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>
+        <a href="/admin/values/genders/edit/<%= value.id %>"
+            class="btn btn-success float-right  margin-right-10">Edit</a>
+    </li>
+
+    <% }) %>
+</ul>
+<% } else { %>
+<p class="alert alert-primary aler">
+    No weapons found. Go <a href="/admin/values/genders/add">here</a> to add a gender.
+</p>
+<% } %>

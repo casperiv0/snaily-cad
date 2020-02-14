@@ -1,0 +1,57 @@
+.users-title {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.users-list {
+  position: absolute;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.card-body {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+  width: 300px;
+}
+
+.card-title {
+  text-align: center;
+}
+
+.list-group {
+  margin-top: 100px;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.edit-veh-form {
+  margin: 100px;
+}
+
+.list-group-item {
+  font-size: 20px;
+  font-weight: 600;
+  min-width: 250px;
+}
+
+.margin-right-10 {
+  margin-right: 10px;
+}
+
+.cancel-btn {
+  margin-right: 10px;
+}
+
+.aler {
+  position: relative;
+  top: 100px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+.add-player-form {
+  margin: 50px;
+}

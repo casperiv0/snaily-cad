@@ -1,0 +1,14 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+<form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <input type="text" class="form-control" name="gender" id="first-name" placeholder="Gender" required>
+        </div>
+    </div>
+    <div class="form-row">
+    </div>
+    <button type="submit" class="btn btn-primary float-right">Add Gender</button>
+    <a class="btn btn-danger cancel-btn float-right" href="/admin/values/genders">Cancel</a>
+</form>
