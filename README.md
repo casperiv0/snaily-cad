@@ -1,1 +1,1 @@
-"# equinox-cad" 
+# equinox-cad
