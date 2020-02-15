@@ -6,7 +6,7 @@ const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePag
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage } = require("./routes/officers/officer")
+const { officersPage, tabletPage, penalCodesPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
@@ -69,6 +69,7 @@ app.post("/citizen/add", addCitizen)
 // Officers
 app.get("/officers", officersPage)
 app.get("/officers/tablet", tabletPage)
+app.get("/officers/penal-codes", penalCodesPage)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

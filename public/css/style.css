@@ -107,3 +107,10 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.btn-primaryy {
+  color:#007bff;
+  background-color:#fff;
+  border-color:#fff
+}
+.btn-primaryy:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}

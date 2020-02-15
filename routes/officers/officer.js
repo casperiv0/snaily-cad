@@ -1,4 +1,4 @@
-let fetch = require("node-fetch")
+const fetch = require("node-fetch")
 
 module.exports = {
     officersPage: (req, res) => {
@@ -17,6 +17,13 @@ module.exports = {
                 })
             })
         })
+    },
+    penalCodesPage: (req, res) => {
+        const url = "http://95.179.141.103:3000";
+        fetch(url)
+            .then(res => res.json())
+            .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json }));
+
     }
 }
 
