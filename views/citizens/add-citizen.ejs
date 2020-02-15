@@ -21,7 +21,12 @@ include("../partials/admin-header.ejs") %>
 
     <div class="form-group">
         <label for="exampleInputEmail1">Enter Gender</label>
-        <input name="gender" type="text" class="form-control" placeholder="Gender" required />
+        <select name="gender" class="form-control">
+            <% genders.forEach(gender => { %>
+            <option value="<%= gender.gender %>"><%= gender.gender %></option>
+            <% }) %>
+        </select>
+        <!-- <input name="gender" type="text" class="form-control" placeholder="Gender" required /> -->
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Enter Hair Color</label>

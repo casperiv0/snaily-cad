@@ -26,7 +26,14 @@ module.exports = {
         });
     },
     addCitizenPage: (req, res) => {
-        res.render("citizens/add-citizen.ejs", { title: "Add Citizen" })
+        let genderQ = "SELECT * FROM `genders`"
+        db.query(genderQ, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result })
+
+        });
     },
     addCitizen: (req, res) => {
         let first_name = req.body.first_name;
