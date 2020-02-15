@@ -1,6 +1,11 @@
 module.exports = {
     adminPanel: (req, res) => {
-        res.render("admin.ejs", { title: 'Admin Panel' })
+        if (req.session.loggedin) {
+            res.render("admin.ejs", { title: 'Admin Panel' })
+        } else {
+            res.render("errors/logged.ejs", { title: "Error" })
+        }
+        res.end();
 
     },
     citizensPage: (req, res) => {

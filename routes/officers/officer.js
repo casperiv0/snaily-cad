@@ -6,5 +6,8 @@ module.exports = {
         // }
         res.render("officers-pages/officers.ejs", { title: "My Officers", users: "qsd" })
 
+    },
+    tabletPage: (req, res) => {
+        res.render("officers-pages/tablet.ejs", { title: "Officers Tablet" })
     }
 }

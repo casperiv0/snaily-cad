@@ -22,7 +22,7 @@
 }
 
 .list-group {
-  margin-top: 100px;
+  margin-top: 60px;
   margin-left: 50px;
   margin-right: 50px;
 }
@@ -57,7 +57,7 @@
   margin: 50px;
 }
 
-#myInput {
+/* #myInput {
   position: relative;
   top: 100px;
   margin-right: 80px;
@@ -66,7 +66,7 @@
   font-size: 16px;
   padding: 12px 20px 12px 40px;
   border: 1px solid #ddd;
-}
+} */
 
 .searchbar-a {
   border: 1px solid #ddd;
@@ -90,46 +90,20 @@
   border: 1px solid #ddd;
 }
 
-.tablet {
-  display: none;
-  z-index: 15000;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgb(43, 43, 48);
-  height: 750px;
-  width: 650px;
+.admin-login {
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
-.login-form {
-  width: 300px;
-  margin: 0 auto;
-  font-family: Tahoma, Geneva, sans-serif;
+.margin-left-10 {
+  margin-left: 10px;
 }
 
-.login-form h1 {
-  text-align: center;
-  color: #4d4d4d;
-  font-size: 24px;
-  padding: 20px 0 20px 0;
+.margin-top {
+  margin-top: 150px;
 }
 
-.login-form input[type="password"], .login-form input[type="text"] {
-  width: 100%;
-  padding: 15px;
-  border: 1px solid #dddddd;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-}
-
-.login-form input[type="submit"] {
-  width: 100%;
-  padding: 15px;
-  background-color: #535b63;
-  border: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-weight: bold;
-  color: #ffffff;
+.disabled {
+  opacity: 0;
+  pointer-events: none;
 }

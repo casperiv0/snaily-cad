@@ -3,7 +3,7 @@ include("../partials/admin-header.ejs") %>
 <h1 class="users-title card-title">
   Vehicles management <a href="/admin/values/cars/add">+</a>
 </h1>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for users..">
+<input type="text" id="myInput" class="form-control margin-top" onkeyup="myFunction()" placeholder="Search for users..">
 
 <% if (vehicles.length > 0) {%>
 <ul class="list-group" id="myUL">
@@ -22,22 +22,3 @@ include("../partials/admin-header.ejs") %>
   No Vehicles found. Go <a href="/admin/values/cars/add">here</a> to add a vehicle.
 </p>
 <% } %>
-
-<script>
-  function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-      a = li[i];
-      txtValue = a.textContent || a.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  }
-</script>

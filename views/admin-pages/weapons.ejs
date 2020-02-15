@@ -4,6 +4,9 @@ include("../partials/admin-header.ejs") %>
     Weapon management <a href="/admin/values/weapons/add">+</a>
 </h1>
 
+<input class="disabled form-control margin-top" type="text" name="" id="">
+<!-- <input type="text" id="myInput" class="form-control margin-top" onkeyup="myFunction()" placeholder="Search for users.."> -->
+
 <% if (weapons.length > 0) {%>
 <ul class="list-group">
     <% weapons.forEach(value => { %>

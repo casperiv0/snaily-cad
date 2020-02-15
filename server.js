@@ -5,7 +5,7 @@ const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
-const { officersPage } = require("./routes/officers/officer")
+const { officersPage, tabletPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
@@ -29,10 +29,10 @@ app.use(session({
 app.get("/", homePage)
 app.get("/admin", adminPanel)
 
-app.get('/login', function (req, res) {
+app.get('/admin/login', function (req, res) {
     res.render("citizens/login.ejs", { title: "Login", message: "" })
 });
-app.post('/auth', function (request, response) {
+app.post('/admin/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
@@ -42,12 +42,12 @@ app.post('/auth', function (request, response) {
                 request.session.username = username;
                 response.redirect('/home');
             } else {
-                response.send('Please enter Username and Password!');
+                response.render("errors/logged.ejs", { title: "Error" })
             }
             response.end();
         });
     } else {
-        response.send('Please enter Username and Password!');
+        response.render("errors/logged.ejs", { title: "Error" })
         response.end();
     }
 });
@@ -64,6 +64,7 @@ app.post("/citizen/add", addCitizen)
 
 // Officers
 app.get("/officers", officersPage)
+app.get("/officers/tablet", tabletPage)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

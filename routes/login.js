@@ -1,7 +1,7 @@
 module.exports = {
     loggedinHomePage: (req, res, next) => {
         if (req.session.loggedin) {
-            res.render("home.ejs", { title: "home" })
+            res.redirect("/admin")
         } else {
             res.send("You're not logged in!");
         }
