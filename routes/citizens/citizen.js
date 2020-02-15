@@ -27,11 +27,12 @@ module.exports = {
     },
     addCitizenPage: (req, res) => {
         let genderQ = "SELECT * FROM `genders`"
-        db.query(genderQ, (err, result) => {
+        let ethnicityQ = "SELECT * FROM `ethnicities`"
+        db.query(`${genderQ}; ${ethnicityQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result })
+            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1] })
 
         });
     },

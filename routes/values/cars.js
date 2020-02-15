@@ -61,6 +61,32 @@ module.exports = {
             }
             res.redirect('/admin/values/cars');
         });
+    },
+    regVehiclePage: (req, res) => {
+        let query = "SELECT * FROM `citizens` ORDER BY id ASC"
+        let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
+        let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
+
+        db.query(`${query}; ${carQ}; ${in_s}`, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2] })
+        });
+    },
+    regVehicle: (req, res) => {
+        let owner = req.body.owner;
+        let vehicle = req.body.vehicle;
+        let in_status = req.body.in_status;
+        let query = "INSERT INTO `registered-cars` (`owner`, `vehicle`, `in_status`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "')";
+
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect("/citizen")
+        });
     }
 
 }

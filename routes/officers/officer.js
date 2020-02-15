@@ -1,3 +1,5 @@
+let fetch = require("node-fetch")
+
 module.exports = {
     officersPage: (req, res) => {
         // if (req.session.loggedin) {
@@ -8,6 +10,13 @@ module.exports = {
 
     },
     tabletPage: (req, res) => {
-        res.render("officers-pages/tablet.ejs", { title: "Officers Tablet" })
+        res.render("officers-pages/tablet.ejs", {
+            title: "Officers Tablet", fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
+                url.json("http://95.179.141.103:8000/businesses").then(result => {
+                    console.log(result)
+                })
+            })
+        })
     }
 }
+

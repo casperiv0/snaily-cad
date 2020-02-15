@@ -2,9 +2,10 @@ const express = require("express")
 const app = express()
 const { homePage } = require("./routes/index")
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
-const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar } = require("./routes/values/cars")
+const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
+const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
 const { officersPage, tabletPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
@@ -40,9 +41,12 @@ app.post('/admin/auth', function (request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
+                console.log("Successfully logged in at: " + request.connection.remoteAddress)
                 response.redirect('/home');
             } else {
                 response.render("errors/logged.ejs", { title: "Error" })
+                console.log("log in failed at: " + request.connection.remoteAddress)
+
             }
             response.end();
         });
@@ -73,6 +77,9 @@ app.get("/admin/values/cars/edit/:id", editVehiclePage)
 app.get("/admin/values/cars/delete/:id", deleteVehiclePage)
 app.post("/admin/values/cars/edit/:id", editVehicle)
 app.post("/admin/values/cars/add", addCar)
+// Car Regestration
+app.get("/cars/register", regVehiclePage)
+app.post("/cars/register", regVehicle)
 
 // Genders 
 app.get("/admin/values/genders", genderPage)
@@ -81,6 +88,14 @@ app.get("/admin/values/genders/delete/:id", deleteGender)
 app.post("/admin/values/genders/add", addGender)
 app.get("/admin/values/genders/edit/:id", editGenderPage)
 app.post("/admin/values/genders/edit/:id", editGender)
+
+// ethnicities 
+app.get("/admin/values/ethnicities", ethnicitiesPage)
+app.get("/admin/values/ethnicities/add", addethnicityPage)
+app.get("/admin/values/ethnicities/edit/:id", editEthnicityPage)
+app.get("/admin/values/ethnicities/delete/:id", deleteEthnicity)
+app.post("/admin/values/ethnicities/edit/:id", editethnicity)
+app.post("/admin/values/ethnicities/add", addethnicity)
 
 // Weapons
 app.get("/admin/values/weapons", weaponsPage)
@@ -99,12 +114,16 @@ async function main() {
         user: "root",
         password: "7{aH$mkLP@vfpW-!",
         database: "equinox_cad",
+        multipleStatements: true
     });
     // 7{aH$mkLP@vfpW-!
-    app.listen(3001, () => {
-        console.log("Running on 3001")
+    app.listen(port, () => {
+
+        console.log(`Running on ${port}`)
     });
 
 }
+// var start = (process.platform == 'darwin' ? 'open' : process.platform == 'win32' ? 'start' : 'xdg-open');
+// require('child_process').exec(start + ' ' + "http://localhost:" + port + "/");
 
 main();

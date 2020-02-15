@@ -1,0 +1,11 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+<form class="edit-veh-form" action="" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Ethnicity</label>
+        <input name="ethnicity" type="text" class="form-control" placeholder="Ethnicity"
+            value="<%= ethnicity.ethnicity %>" />
+    </div>
+    <button type="submit" class="btn btn-success float-right">Update</button>
+</form>

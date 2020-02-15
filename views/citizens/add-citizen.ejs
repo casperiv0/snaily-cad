@@ -15,7 +15,11 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Enter Ethnicity</label>
-        <input name="ethnicity" type="text" class="form-control" placeholder="Ethnicity" required />
+        <select name="ethnicity" class="form-control">
+            <% ethnicities.forEach(ethnicity => { %>
+            <option value="<%= ethnicity.ethnicity %>"><%= ethnicity.ethnicity %></option>
+            <% }) %>
+        </select>
     </div>
 
     <div class="form-group">
