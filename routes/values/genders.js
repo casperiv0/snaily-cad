@@ -34,6 +34,30 @@ module.exports = {
             }
             res.redirect('/admin/values/genders/');
         });
+    },
+    editGenderPage: (req, res) => {
+        let genderId = req.params.id;
+        let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0] })
+        });
+    },
+    editGender: (req, res) => {
+        let genderId = req.params.id;
+        let gender = req.body.gender;
+        let query = 'UPDATE `genders` SET `gender` = "' + gender + '" WHERE `genders`.`id` = "' + genderId + '"';
+
+        db.query(query, (err, result) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.redirect('/admin/values/genders');
+            console.log(`EDIT?? ${gender}`)
+        });
     }
 
 }

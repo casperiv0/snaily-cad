@@ -1,6 +1,6 @@
 module.exports = {
     addCarPage: (req, res) => {
-        res.render("add-vehicle.ejs", { title: "Add Vehicle" })
+        res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle" })
     },
     addCar: (req, res) => {
         let name = req.body.cname;
@@ -31,7 +31,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("values/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0] })
+            res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0] })
         });
     },
     editVehicle: (req, res) => {

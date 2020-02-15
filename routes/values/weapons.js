@@ -22,17 +22,41 @@ module.exports = {
         });
     },
     addWeaponPage: (req, res) => {
-        res.render("genders/add-gender.ejs", { title: "Add Gender" })
+        res.render("weapons/add-weapons.ejs", { title: "Add Weapon" })
     },
     addWeapon: (req, res) => {
-        let gender = req.body.gender;
+        let name = req.body.name;
 
-        let query = "INSERT INTO `genders` (`gender`) VALUES ('" + gender + "')";
+        let query = "INSERT INTO `weapons` (`name`) VALUES ('" + name + "')";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
             res.redirect('/admin/values/weapons/');
+        });
+    },
+    editWeaponPage: (req, res) => {
+        let genderId = req.params.id;
+        let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0] })
+        });
+    },
+    editWeapon: (req, res) => {
+        let genderId = req.params.id;
+        let name = req.body.name;
+        let query = 'UPDATE `weapons` SET `name` = "' + name + '" WHERE `weapons`.`id` = "' + genderId + '"';
+
+        db.query(query, (err, result) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).send(err);
+            }
+            res.redirect('/admin/values/weapons');
+            console.log(`EDIT?? ${name}`)
         });
     }
 

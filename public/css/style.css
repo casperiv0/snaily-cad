@@ -5,10 +5,10 @@
 }
 
 .users-list {
-  position: absolute;
-  top: 200px;
-  left: 50%;
-  transform: translate(-50%);
+  position: relative;
+  top: 150px;
+  margin-right: 100px;
+  margin-left: 100px;
 }
 
 .card-body {
@@ -35,6 +35,7 @@
   font-size: 20px;
   font-weight: 600;
   min-width: 250px;
+  margin-top: 10px;
 }
 
 .margin-right-10 {
@@ -54,4 +55,81 @@
 
 .add-player-form {
   margin: 50px;
+}
+
+#myInput {
+  position: relative;
+  top: 100px;
+  margin-right: 80px;
+  margin-left: 120px;
+  width: 80%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+}
+
+.searchbar-a {
+  border: 1px solid #ddd;
+  margin-top: -1px;
+  /* Prevent double borders */
+  background-color: #f6f6f6;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px;
+  color: black;
+  display: block
+}
+
+#myInput-2 {
+  position: relative;
+  margin-left: 50px;
+  top: 100px;
+  width: 80%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+}
+
+.tablet {
+  display: none;
+  z-index: 15000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(43, 43, 48);
+  height: 750px;
+  width: 650px;
+}
+
+.login-form {
+  width: 300px;
+  margin: 0 auto;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+
+.login-form h1 {
+  text-align: center;
+  color: #4d4d4d;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+}
+
+.login-form input[type="password"], .login-form input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.login-form input[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background-color: #535b63;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
 }
