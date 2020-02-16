@@ -95,7 +95,7 @@ app.get('/home', loggedinHomePage);
 app.get("/admin/citizens", citizensPage)
 app.get("/admin/citizens/delete/:id", deleteCitizen)
 app.get("/citizen", citizenPage)
-app.get("/citizens/:id", citizenDetailPage)
+app.get("/citizens/:id-:first_name-:last_name", citizenDetailPage)
 app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 

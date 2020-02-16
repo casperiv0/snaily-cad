@@ -119,3 +119,7 @@
 .uppercase {
   text-transform: uppercase;
 }
+
+.color-black {
+  color: black;
+}

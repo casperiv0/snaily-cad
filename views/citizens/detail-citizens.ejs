@@ -3,14 +3,36 @@
 <h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
 <div class="users-list">
     <ul class="list-group">
-        <li class="list-group-item">First Name: <%= citizen.first_name %> </li>
-        <li class="list-group-item">Last Name: <%= citizen.last_name %></li>
-        <li class="list-group-item">Gender: <%= citizen.gender %></li>
-        <li class="list-group-item">Birthday: <%= citizen.birth %> </li>
-        <li class="list-group-item">Ethnicity: <%= citizen.ethnicity %> </li>
-        <li class="list-group-item">Hair Color: <%= citizen.hair %> </li>
-        <li class="list-group-item">Eye Color: <%= citizen.eyes %> </li>
-        <li class="list-group-item">Address: <%= citizen.address %> </li>
-        <li class="list-group-item">Height: <%= citizen.height %> </li>
+        <li class="list-group-item">First Name: <%= citizen[0].first_name %> </li>
+        <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li>
+        <li class="list-group-item">Gender: <%= citizen[0].gender %></li>
+        <li class="list-group-item">Birthday: <%= citizen[0].birth %> </li>
+        <li class="list-group-item">Ethnicity: <%= citizen[0].ethnicity %> </li>
+        <li class="list-group-item">Hair Color: <%= citizen[0].hair %> </li>
+        <li class="list-group-item">Eye Color: <%= citizen[0].eyes %> </li>
+        <li class="list-group-item">Address: <%= citizen[0].address %> </li>
+        <li class="list-group-item">Height: <%= citizen[0].height %> </li>
+        <div href="#" class="list-group-item list-group-item-action active">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Vehicles:</h5>
+            </div>
+            <% if (!vehicles[0]) { %>
+            <li class="list-group-item color-black">
+                <p>No vehicles registered to this person.</p>
+            </li>
+            <% } else  {%>
+            <p class="mb-1">
+                <% vehicles.forEach(vehicle => { %>
+                <li class="list-group-item color-black"> <%= vehicle.vehicle %>
+                    <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
+                </li>
+
+                <%  }) %>
+            </p>
+
+            <% } %>
+
+
+        </div>
     </ul>
 </div>

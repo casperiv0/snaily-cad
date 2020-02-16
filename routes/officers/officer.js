@@ -78,7 +78,7 @@ module.exports = {
     },
     searchPlatePage: (req, res) => {
         if (req.session.PDloggedin) {
-            let query = "SELECT * FROM `registered-cars` ORDER by id ASC"
+            let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
             db.query(query, (err, result) => {
                 res.render("officers-pages/plate.ejs", { title: "Plate Search | Police Department", isAdmin: req.session.admin, plates: result })
             })
@@ -105,7 +105,7 @@ module.exports = {
     plateResultsPage: (req, res) => {
         if (req.session.PDloggedin) {
             let id = req.params.id;
-            let query = "SELECT * FROM `registered-cars` WHERE id = '" + id + "' ";
+            let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
             db.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);

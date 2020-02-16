@@ -8,7 +8,8 @@
         <li class="list-group-item">
 
             <%= value.id %> | <%= value.first_name %> <%= value.last_name %> | <%= value.birth %>
-            <a href="/citizens/<%= value.id %>" class="btn btn-success float-right">More Info</a>
+            <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
+                class="btn btn-success float-right">More Info</a>
         </li>
 
         <% }) %>
