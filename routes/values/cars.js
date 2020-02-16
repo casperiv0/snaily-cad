@@ -106,10 +106,11 @@ module.exports = {
         });
     },
     regVehicle: (req, res) => {
+        let plate = req.body.plate;
         let owner = req.body.owner;
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
-        let query = "INSERT INTO `registered-cars` (`owner`, `vehicle`, `in_status`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "')";
+        let query = "INSERT INTO `registered-cars` (`owner`, `vehicle`, `in_status`, `plate`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "')";
 
 
         db.query(query, (err, result) => {

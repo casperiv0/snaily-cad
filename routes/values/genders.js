@@ -6,10 +6,10 @@ module.exports = {
                 if (err) {
                     res.sendStatus(400)
                 }
-                res.render("admin-pages/gender.ejs", { title: 'Admin Panel | Genders', genders: result })
+                res.render("admin-pages/gender.ejs", { title: 'Admin Panel | Genders', genders: result, isAdmin: req.session.isAdmin })
             })
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -27,16 +27,16 @@ module.exports = {
                 res.redirect('/admin/values/genders');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
     addGenderPage: (req, res) => {
         if (req.session.loggedin) {
-            res.render("genders/add-gender.ejs", { title: "Add Gender" })
+            res.render("genders/add-gender.ejs", { title: "Add Gender", isAdmin: req.session.isAdmin })
 
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
     },
     addGender: (req, res) => {
@@ -51,7 +51,7 @@ module.exports = {
                 res.redirect('/admin/values/genders/');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -63,10 +63,10 @@ module.exports = {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0] })
+                res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0], isAdmin: req.session.isAdmin })
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -85,7 +85,7 @@ module.exports = {
                 console.log(`EDIT?? ${gender}`)
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     }

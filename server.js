@@ -9,7 +9,7 @@ const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePag
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage, penalCodesPage, officersDash } = require("./routes/officers/officer")
+const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
@@ -33,27 +33,14 @@ app.use(session({
 app.use(eSession.main(session));
 
 
-let url = "http://95.179.141.103:3000";
-fetch(url).then(url => url.json()).then(results => results.forEach(result => {
-    console.log(`${result.title}\n${result.des}`)
-}))
-
-let officers = [
-    "casper",
-    "toby"
-]
-
-
-
-
-
 app.get("/", homePage)
 app.get("/admin", adminPanel)
 
 app.get('/admin/login', function (req, res) {
 
-    res.render("citizens/login.ejs", { title: "Login", message: "Please Login", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
+    res.render("citizens/login.ejs", { title: "Login", message: "Session expired, Please log back in.", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
 });
+
 app.post('/admin/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
@@ -66,14 +53,15 @@ app.post('/admin/auth', function (request, response) {
                 console.log("Successfully logged in at: " + request.connection.remoteAddress)
                 response.redirect('/home');
             } else {
-                response.render("errors/logged.ejs", { title: "Error" })
-                console.log("log in failed at: " + request.connection.remoteAddress)
-
+                response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Wrong Username or Password" })
+                console.log("log in failed at: ", request.connection.remoteAddress)
             }
+            // response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
             response.end();
         });
     } else {
-        response.render("errors/logged.ejs", { title: "Error" })
+        response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
+
         response.end();
     }
 });
@@ -81,22 +69,22 @@ app.post('/officers/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        db.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+        db.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
             if (results.length > 0) {
                 request.session.PDloggedin = true;
                 request.session.username = username;
-
-                // console.log("Successfully logged in at: " + request.connection.remoteAddress)
                 response.redirect('/myofficers');
             } else {
-                response.render("errors/logged.ejs", { title: "Error" })
+                response.render("officers-pages/login.ejs", { title: 'Police Dept.', isAdmin: request.session.admin, message: "Wrong Username or Password" })
+                // response.render("errors/logged.ejs", { title: "Error", isAdmin: request.session.isAdmin })
                 console.log("log in failed at: " + request.connection.remoteAddress)
 
             }
             response.end();
         });
     } else {
-        response.render("errors/logged.ejs", { title: "Error" })
+        response.render("officers-pages/login.ejs", { title: 'Police Dept.', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
+
         response.end();
     }
 });
@@ -116,6 +104,15 @@ app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
 app.get("/officers/tablet", tabletPage)
 app.get("/officers/penal-codes", penalCodesPage)
+app.get("/officers/dash/search/plate", searchPlatePage)
+app.get("/officers/dash/search/plate/:id", plateResultsPage)
+// app.get("/officers/")
+app.get("/officers/dash/search/person-name", searchNamePage)
+
+
+app.get('/officers/login', function (req, res) {
+    res.render("officers-pages/login.ejs", { title: "Login", message: "Session expired, Please log back in.", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
+});
 
 
 // Cars

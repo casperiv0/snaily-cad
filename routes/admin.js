@@ -3,7 +3,8 @@ module.exports = {
         if (req.session.loggedin) {
             res.render("admin.ejs", { title: 'Admin Panel', isAdmin: req.session.admin })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/admin/login")
+
         }
 
     },
@@ -18,7 +19,7 @@ module.exports = {
             })
 
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/admin/login")
         }
 
 
@@ -37,7 +38,8 @@ module.exports = {
                 res.redirect('/admin/citizens');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.redirect("/admin/login")
+
         }
 
 

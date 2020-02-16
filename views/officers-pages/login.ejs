@@ -2,7 +2,7 @@
 
 <div class="login-form">
     <% if(message != ''){ %>
-    <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
         <%= message %>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -10,7 +10,7 @@
     </div>
     <% } %>
     <form action="auth" class="admin-login" method="POST">
-        <h1 class="card-title">Admin Login</h1>
+        <h1 class="card-title">Police Dept.</h1>
         <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
             <input type="text" class="form-control" name="username" aria-describedby="emailHelp" required>
@@ -18,7 +18,7 @@
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
             <input type="password" class="form-control" name="password">
-            <small>Please Note IP's are logged if you try to falsely log in as admin.</small>
+            <small>Don't share this username nor password to anyone!</small>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
 

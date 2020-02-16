@@ -6,10 +6,10 @@ module.exports = {
                 if (err) {
                     res.sendStatus(400)
                 }
-                res.render("admin-pages/weapons.ejs", { title: 'Admin Panel | Weapons', weapons: result })
+                res.render("admin-pages/weapons.ejs", { title: 'Admin Panel | Weapons', weapons: result, isAdmin: req.session.isAdmin })
             })
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -27,15 +27,15 @@ module.exports = {
                 res.redirect('/admin/values/weapons');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
     addWeaponPage: (req, res) => {
         if (req.session.loggedin) {
-            res.render("weapons/add-weapons.ejs", { title: "Add Weapon" })
+            res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: req.session.isAdmin })
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -51,7 +51,7 @@ module.exports = {
                 res.redirect('/admin/values/weapons/');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -63,10 +63,10 @@ module.exports = {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0] })
+                res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0], isAdmin: req.session.isAdmin })
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -85,7 +85,7 @@ module.exports = {
                 console.log(`EDIT?? ${name}`)
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     }

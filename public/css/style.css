@@ -114,3 +114,8 @@
   border-color:#fff
 }
 .btn-primaryy:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}
+
+
+.uppercase {
+  text-transform: uppercase;
+}

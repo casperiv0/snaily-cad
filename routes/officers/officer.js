@@ -20,35 +20,99 @@ let roles = {
 
 module.exports = {
     officersPage: (req, res, next) => {
-        if (!req.session.hasRole('police')) {
-            res.sendStatus(403);
-            return;
-        }
-        // if (req.session.loggedin) {
-        // } else {
-        //     res.redirect("/login")
+        // if (!req.session.hasRole('police')) {
+        //     res.sendStatus(403);
+        //     return;
         // }
-        res.render("officers-pages/officers.ejs", { title: "My Officers", users: "qsd", isAdmin: req.session.admin })
+        if (req.session.PDloggedin) {
+            let qeury = "SELECT * FROM `officers` ORDER by id ASC"
+            db.query(qeury, (err, result) => {
+                if (err) {
+                    console.log("Error" + err)
+                }
+                res.render("officers-pages/officers.ejs", { title: "Equinox Officers", users: "qsd", isAdmin: req.session.admin, officers: result })
+
+            })
+
+        } else {
+            res.redirect("/officers/login")
+        }
 
     },
     tabletPage: (req, res) => {
-        res.render("officers-pages/tablet.ejs", {
-            title: "Officers Tablet", fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
-                url.json("http://95.179.141.103:8000/businesses").then(result => {
-                    console.log(result)
+        if (req.session.PDloggedin) {
+            res.render("officers-pages/tablet.ejs", {
+                title: "Officers Tablet", fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
+                    url.json("http://95.179.141.103:8000/businesses").then(result => {
+                        console.log(result)
+                    })
                 })
             })
-        })
+        } else {
+            res.redirect("/officers/login")
+        }
+
     },
     penalCodesPage: (req, res) => {
-        const url = "http://95.179.141.103:3000";
-        fetch(url)
-            .then(res => res.json())
-            .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }));
+        if (req.session.PDloggedin) {
+            const url = "http://95.179.141.103:3000";
+            fetch(url)
+                .then(res => res.json())
+                .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }));
+        } else {
+            res.redirect("/officers/login")
+
+        }
+
 
     },
     officersDash: (req, res) => {
-        res.render("officers-pages/officers-dash.ejs", { title: "Police Department", users: "qsd", isAdmin: req.session.admin })
+        if (req.session.PDloggedin) {
+
+            res.render("officers-pages/officers-dash.ejs", { title: "Police Department", isAdmin: req.session.admin })
+
+        } else {
+            res.redirect("/officers/login")
+
+        }
+    },
+    searchPlatePage: (req, res) => {
+        if (req.session.PDloggedin) {
+            let query = "SELECT * FROM `registered-cars` ORDER by id ASC"
+            db.query(query, (err, result) => {
+                res.render("officers-pages/plate.ejs", { title: "Plate Search | Police Department", isAdmin: req.session.admin, plates: result })
+            })
+
+        } else {
+            res.redirect("/officers/login")
+
+        }
+    },
+    searchNamePage: (req, res) => {
+        if (req.session.PDloggedin) {
+
+            res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin })
+
+        } else {
+            res.redirect("/officers/login")
+
+        }
+    },
+    plateResultsPage: (req, res) => {
+        if (req.session.PDloggedin) {
+            let id = req.params.id;
+            let query = "SELECT * FROM `registered-cars` WHERE id = '" + id + "' ";
+            db.query(query, (err, result) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, result: result[0] })
+            });
+
+        } else {
+            res.redirect("/officers/login")
+
+        }
     }
 }
 

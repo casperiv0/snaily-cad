@@ -1,10 +1,10 @@
 module.exports = {
     addethnicityPage: (req, res) => {
         if (req.session.loggedin) {
-            res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities" })
+            res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: req.session.isAdmin })
 
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
     },
     addethnicity: (req, res) => {
@@ -19,7 +19,7 @@ module.exports = {
                 res.redirect('/admin/values/ethnicities/');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -30,10 +30,10 @@ module.exports = {
                 if (err) {
                     res.sendStatus(400)
                 }
-                res.render("admin-pages/ethnicities.ejs", { title: 'Admin Panel | Values', ethnicities: result })
+                res.render("admin-pages/ethnicities.ejs", { title: 'Admin Panel | Values', ethnicities: result, isAdmin: req.session.isAdmin })
             })
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -45,10 +45,10 @@ module.exports = {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity", ethnicity: result[0] })
+                res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity", ethnicity: result[0], isAdmin: req.session.isAdmin })
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -66,7 +66,7 @@ module.exports = {
                 res.redirect('/admin/values/ethnicities');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     },
@@ -84,7 +84,7 @@ module.exports = {
                 res.redirect('/admin/values/ethnicities');
             });
         } else {
-            res.render("errors/logged.ejs", { title: "Error" })
+            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
 
     }
