@@ -13,6 +13,7 @@ const { officersPage, tabletPage, penalCodesPage, officersDash } = require("./ro
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
+const fetch = require("node-fetch")
 const session = require("express-session");
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
@@ -32,10 +33,16 @@ app.use(session({
 app.use(eSession.main(session));
 
 
+let url = "http://95.179.141.103:3000";
+fetch(url).then(url => url.json()).then(results => results.forEach(result => {
+    console.log(`${result.title}\n${result.des}`)
+}))
+
 let officers = [
     "casper",
     "toby"
 ]
+
 
 
 
