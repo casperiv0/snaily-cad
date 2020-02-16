@@ -1,12 +1,15 @@
 const express = require("express")
 const app = express()
 const { homePage } = require("./routes/index")
+let eSession = require('easy-session');
+let Acl = require("virgen-acl").Acl, acl = new Acl();
+let cookieParser = require('cookie-parser');
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage, penalCodesPage } = require("./routes/officers/officer")
+const { officersPage, tabletPage, penalCodesPage, officersDash } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
@@ -15,10 +18,10 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.set('views', __dirname + '/views');
 app.set("view engine", "ejs")
 app.use(session({
@@ -26,12 +29,23 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(eSession.main(session));
+
+
+let officers = [
+    "casper",
+    "toby"
+]
+
+
+
 
 app.get("/", homePage)
 app.get("/admin", adminPanel)
 
 app.get('/admin/login', function (req, res) {
-    res.render("citizens/login.ejs", { title: "Login", message: "" })
+
+    res.render("citizens/login.ejs", { title: "Login", message: "Please Login", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
 });
 app.post('/admin/auth', function (request, response) {
     var username = request.body.username;
@@ -41,8 +55,32 @@ app.post('/admin/auth', function (request, response) {
             if (results.length > 0) {
                 request.session.loggedin = true;
                 request.session.username = username;
+                request.session.admin = true;
                 console.log("Successfully logged in at: " + request.connection.remoteAddress)
                 response.redirect('/home');
+            } else {
+                response.render("errors/logged.ejs", { title: "Error" })
+                console.log("log in failed at: " + request.connection.remoteAddress)
+
+            }
+            response.end();
+        });
+    } else {
+        response.render("errors/logged.ejs", { title: "Error" })
+        response.end();
+    }
+});
+app.post('/officers/auth', function (request, response) {
+    var username = request.body.username;
+    var password = request.body.password;
+    if (username && password) {
+        db.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+            if (results.length > 0) {
+                request.session.PDloggedin = true;
+                request.session.username = username;
+
+                // console.log("Successfully logged in at: " + request.connection.remoteAddress)
+                response.redirect('/myofficers');
             } else {
                 response.render("errors/logged.ejs", { title: "Error" })
                 console.log("log in failed at: " + request.connection.remoteAddress)
@@ -67,9 +105,11 @@ app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 
 // Officers
-app.get("/officers", officersPage)
+app.get("/myofficers", officersPage)
+app.get("/officers/dash", officersDash)
 app.get("/officers/tablet", tabletPage)
 app.get("/officers/penal-codes", penalCodesPage)
+
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

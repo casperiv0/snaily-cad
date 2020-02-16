@@ -30,11 +30,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="/officers">My Officers</a>
+          <a class="nav-link" href="/myofficers">My Officers</a>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="/citizen">Citizens</a>
         </li>
+        <% if (isAdmin === true) {%>
+        <li class="nav-item">
+          <a class="nav-link " href="/admin">Admin </a>
+        </li>
+        <%} else {%>
+        <%} %>
         <li class="nav-item">
           <a class="btn btn-primary nav-link" href="/officers/tablet">Tablet</a>
         </li>

@@ -4,9 +4,9 @@ module.exports = {
         let query = "SELECT * FROM `citizens`"
         db.query(query, (err, result) => {
             if (err) {
-                res.sendStatus(401)
+                console.log(err)
             }
-            res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result })
+            res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin })
         })
         // if (req.session.loggedin) {
         // } else {
@@ -22,7 +22,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0] })
+            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], isAdmin: req.session.admin })
         });
     },
     addCitizenPage: (req, res) => {
@@ -32,7 +32,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1] })
+            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], isAdmin: req.session.admin })
 
         });
     },

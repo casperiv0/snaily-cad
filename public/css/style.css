@@ -1,15 +1,15 @@
-.users-title {
+/* .users-title {
   position: absolute;
   left: 50%;
   transform: translate(-50%);
-}
+} */
 
-.users-list {
+/* .users-list {
   position: relative;
   top: 150px;
   margin-right: 100px;
   margin-left: 100px;
-}
+} */
 
 .card-body {
   background-color: rgba(0, 0, 0, 0.5);
