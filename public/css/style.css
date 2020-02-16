@@ -32,6 +32,7 @@
 }
 
 .list-group-item {
+  text-transform: capitalize;
   font-size: 20px;
   font-weight: 600;
   min-width: 250px;
@@ -126,4 +127,11 @@
 
 .top-1 {
   margin-top: 2px;
+}
+
+#more {
+  display: none;
+}
+#more2 {
+  display: none;
 }

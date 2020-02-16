@@ -35,5 +35,27 @@
 
 
         </div>
+        <div class="list-group-item list-group-item-action active">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Weapons:</h5>
+            </div>
+            <% if (!weapons[0]) { %>
+            <li class="list-group-item color-black">
+                <p>No Weapons registered to this person.</p>
+            </li>
+            <% } else  {%>
+            <p class="mb-1">
+                <% weapons.forEach(weapon => { %>
+                <li class="list-group-item color-black"> <%= weapon.weapon %>
+                    <p> weapon Status: <%= weapon.status %> </p>
+                </li>
+
+                <%  }) %>
+            </p>
+
+            <% } %>
+
+
+        </div>
     </ul>
 </div>

@@ -52,6 +52,34 @@
         <label for="exampleInputEmail1">Enter Weight</label>
         <input name="weight" type="text" class="form-control" placeholder="Weight" />
     </div>
+
+    <!-- Licences -->
+    <div class="form-group">
+        <label for="exampleInputEmail1">Drivers Licence</label>
+        <select name="dmv" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Firearms Licence</label>
+        <select name="dmv" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Pilots Licence</label>
+        <select name="dmv" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
     <a href="/citizen" class="btn cancel-btn btn-danger float-right">Cancel</a>
     <button type="submit" class="btn btn-success float-right margin-right-10">Add Citizen</button>
 </form>

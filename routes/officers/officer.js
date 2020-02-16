@@ -107,6 +107,7 @@ module.exports = {
         if (req.session.PDloggedin) {
             let id = req.params.id;
             let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
+
             db.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
@@ -126,12 +127,13 @@ module.exports = {
             let last_name = req.params.last_name;
             let owner = first_name + " " + last_name;
             let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
+            let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-            db.query(`${query}; ${vehiclesQ}`, (err, result) => {
+            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1] })
+                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1], weapons: result[2] })
             });
 
         } else {

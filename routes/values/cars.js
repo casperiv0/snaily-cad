@@ -11,6 +11,7 @@ module.exports = {
     addCar: (req, res) => {
         if (req.session.loggedin) {
             let name = req.body.cname;
+
             console.log(`${name} was a success! ADD`)
 
             let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
@@ -110,7 +111,8 @@ module.exports = {
         let owner = req.body.owner;
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
-        let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "')";
+        let color = req.body.color;
+        let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 
         db.query(query, (err, result) => {

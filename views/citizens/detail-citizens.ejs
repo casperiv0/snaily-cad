@@ -16,21 +16,27 @@
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Vehicles:</h5>
             </div>
-            <% if (!vehicles[0]) { %>
-            <li class="list-group-item color-black">
-                <p>No vehicles registered to this person.</p>
-            </li>
-            <% } else  {%>
-            <p class="mb-1">
-                <% vehicles.forEach(vehicle => { %>
-                <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                    <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
+            <div id="dots"></div>
+            <div id="more">
+
+                <% if (!vehicles[0]) { %>
+                <li class="list-group-item color-black">
+                    <p>No vehicles registered to this person.</p>
                 </li>
+                <% } else  {%>
+                <p class="mb-1">
+                    <% vehicles.forEach(vehicle => { %>
+                    <li class="list-group-item color-black"> <%= vehicle.vehicle %>
+                        <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
+                    </li>
 
-                <%  }) %>
-            </p>
+                    <%  }) %>
+                </p>
 
-            <% } %>
+                <% } %>
+            </div>
+            <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
+
 
 
         </div>
@@ -38,23 +44,58 @@
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Weapons:</h5>
             </div>
-            <% if (!weapons[0]) { %>
-            <li class="list-group-item color-black">
-                <p>No Weapons registered to this person.</p>
-            </li>
-            <% } else  {%>
-            <p class="mb-1">
-                <% weapons.forEach(weapon => { %>
-                <li class="list-group-item color-black"> <%= weapon.weapon %>
-                    <p> weapon Status: <%= weapon.status %> </p>
+            <div id="dots2"></div>
+            <div id="more2">
+                <% if (!weapons[0]) { %>
+                <li class="list-group-item color-black">
+                    <p>No Weapons registered to this person.</p>
                 </li>
+                <% } else  {%>
+                <p class="mb-1">
+                    <% weapons.forEach(weapon => { %>
+                    <li class="list-group-item color-black"> <%= weapon.weapon %>
+                        <p> weapon Status: <%= weapon.status %> </p>
+                    </li>
 
-                <%  }) %>
-            </p>
+                    <%  }) %>
+                </p>
 
-            <% } %>
+                <% } %>
+            </div>
+            <div class="btn btn-primary" onclick="wep()" id="weaponBtn">See all</button>
 
 
-        </div>
+            </div>
     </ul>
 </div>
+
+<script>
+    function veh() {
+        let dots = document.getElementById("dots");
+        let moreText = document.getElementById("more");
+        let vehBtn = document.getElementById("vehBtn")
+        let weapenBtn = document.getElementById("weapenBtn")
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            moreText.style.display = "inline";
+        }
+    }
+    function wep() {
+        let dots = document.getElementById("dots2");
+        let moreText = document.getElementById("more2");
+        let vehBtn = document.getElementById("vehBtn")
+        let weapenBtn = document.getElementById("weapenBtn")
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            moreText.style.display = "none";
+        } else {
+            dots.style.display = "none";
+            moreText.style.display = "inline";
+        }
+    }
+</script>

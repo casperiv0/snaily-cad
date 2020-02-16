@@ -82,7 +82,6 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 res.redirect('/admin/values/weapons');
-                console.log(`EDIT?? ${name}`)
             });
         } else {
             res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
@@ -97,7 +96,6 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            console.log(result[1])
             res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin })
         });
     },

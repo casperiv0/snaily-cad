@@ -2,6 +2,16 @@
 
 <h1 class="card-title">Citizens <a href="/citizen/add">+</a> </h1>
 <div class="users-list">
+    <% if(message != ''){ %>
+    <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
+        <%= message %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% } %>
+
+    <%# hell %>
     <ul class="list-group" id="myUL">
         <a class="btn btn-primary " href="/cars/register">register a car</a>
         <a class="btn btn-primary top-1" href="/weapons/register">register a weapon</a>

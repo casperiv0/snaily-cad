@@ -6,7 +6,7 @@ module.exports = {
             if (err) {
                 console.log(err)
             }
-            res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin })
+            res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "" })
         })
         // if (req.session.loggedin) {
         // } else {
@@ -33,11 +33,12 @@ module.exports = {
     addCitizenPage: (req, res) => {
         let genderQ = "SELECT * FROM `genders`"
         let ethnicityQ = "SELECT * FROM `ethnicities`"
-        db.query(`${genderQ}; ${ethnicityQ}`, (err, result) => {
+        let dmvQ = "SELECT * FROM `in_statuses`"
+        db.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], isAdmin: req.session.admin })
+            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin })
 
         });
     },
