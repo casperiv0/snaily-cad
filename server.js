@@ -9,7 +9,7 @@ const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePag
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage } = require("./routes/officers/officer")
+const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 let port = 3001;
@@ -108,6 +108,7 @@ app.get("/officers/dash/search/plate", searchPlatePage)
 app.get("/officers/dash/search/plate/:id", plateResultsPage)
 // app.get("/officers/")
 app.get("/officers/dash/search/person-name", searchNamePage)
+app.get("/officers/dash/search/name/:id", nameResultsPage)
 
 
 app.get('/officers/login', function (req, res) {

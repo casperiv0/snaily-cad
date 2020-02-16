@@ -90,8 +90,12 @@ module.exports = {
     },
     searchNamePage: (req, res) => {
         if (req.session.PDloggedin) {
+            let query = "SELECT * FROM `citizens` ORDER by id ASC"
+            db.query(query, (err, result) => {
+                res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin, information: result })
 
-            res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin })
+            })
+
 
         } else {
             res.redirect("/officers/login")
@@ -107,6 +111,22 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, result: result[0] })
+            });
+
+        } else {
+            res.redirect("/officers/login")
+
+        }
+    },
+    nameResultsPage: (req, res) => {
+        if (req.session.PDloggedin) {
+            let id = req.params.id;
+            let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+            db.query(query, (err, result) => {
+                if (err) {
+                    return res.status(500).send(err);
+                }
+                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0] })
             });
 
         } else {

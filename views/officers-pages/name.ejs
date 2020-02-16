@@ -2,9 +2,45 @@
 
 <a href="/officers/dash" class="btn btn-primary">Police Dashboard</a>
 
-<h1 class="card-title">Equinox Officers</h1>
+<h1 class="card-title">Name Search</h1>
 
-<div class="users-list">
-    <ul class="list-group">
-    </ul>
-</div>
+<ul class="list-group">
+
+    <input type="text" id="myInput" class="list-group-item  uppercase" onkeyup="myFunction()"
+        placeholder="Search Names">
+
+
+
+    <div class="users-list">
+        <ul class="group-item" id="myUL">
+            <% information.forEach(info => { %>
+            <li class="list-group-item"><%= info.first_name %> <%= info.last_name %> | <%= info.birth %>
+                <a href="/officers/dash/search/name/<%= info.id %>" class="btn btn-success float-right">More info</a>
+
+            </li>
+            <%   }) %>
+        </ul>
+
+
+    </div>
+
+</ul>
+
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
