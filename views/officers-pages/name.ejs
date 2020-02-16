@@ -15,7 +15,8 @@
         <ul class="group-item" id="myUL">
             <% information.forEach(info => { %>
             <li class="list-group-item"><%= info.first_name %> <%= info.last_name %> | <%= info.birth %>
-                <a href="/officers/dash/search/name/<%= info.id %>" class="btn btn-success float-right">More info</a>
+                <a href="/officers/dash/search/name/<%= info.id %>-<%= info.first_name %>-<%= info.last_name %>"
+                    class="btn btn-success float-right">More info</a>
 
             </li>
             <%   }) %>

@@ -12,5 +12,28 @@
         <li class="list-group-item">Eye Color: <%= result.eyes %> </li>
         <li class="list-group-item">Address: <%= result.address %> </li>
         <li class="list-group-item">Height: <%= result.height %> </li>
+
+        <div class="list-group-item list-group-item-action active">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Vehicles:</h5>
+            </div>
+            <% if (!vehicles[0]) { %>
+            <li class="list-group-item color-black">
+                <p>No vehicles registered to this person.</p>
+            </li>
+            <% } else  {%>
+            <p class="mb-1">
+                <% vehicles.forEach(vehicle => { %>
+                <li class="list-group-item color-black"> <%= vehicle.vehicle %>
+                    <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
+                </li>
+
+                <%  }) %>
+            </p>
+
+            <% } %>
+
+
+        </div>
     </ul>
 </div>

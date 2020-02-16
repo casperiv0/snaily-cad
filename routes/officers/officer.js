@@ -91,6 +91,7 @@ module.exports = {
     searchNamePage: (req, res) => {
         if (req.session.PDloggedin) {
             let query = "SELECT * FROM `citizens` ORDER by id ASC"
+
             db.query(query, (err, result) => {
                 res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin, information: result })
 
@@ -121,12 +122,16 @@ module.exports = {
     nameResultsPage: (req, res) => {
         if (req.session.PDloggedin) {
             let id = req.params.id;
+            let first_name = req.params.first_name;
+            let last_name = req.params.last_name;
+            let owner = first_name + " " + last_name;
+            let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-            db.query(query, (err, result) => {
+            db.query(`${query}; ${vehiclesQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0] })
+                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1] })
             });
 
         } else {

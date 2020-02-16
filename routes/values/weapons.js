@@ -87,7 +87,33 @@ module.exports = {
         } else {
             res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
         }
+    },
+    regWeaponPage: (req, res) => {
+        let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
+        let citizens = "SELECT * FROM `citizens`"
+        let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
 
+        db.query(`${weapons}; ${citizens}; ${wStatusess}`, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            console.log(result[1])
+            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin })
+        });
+    },
+    regWeapon: (req, res) => {
+        let owner = req.body.owner;
+        let weapon = req.body.weapon;
+        let status = req.body.status;
+        let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
+
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect("/citizen")
+        });
     }
 
 }

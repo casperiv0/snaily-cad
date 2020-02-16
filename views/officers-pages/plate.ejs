@@ -15,7 +15,8 @@
         <ul class="group-item" id="myUL">
             <% plates.forEach(plate => { %>
             <li class="list-group-item"><%= plate.plate %>
-                <a href="/officers/dash/search/plate/<%= plate.id %>" class="btn btn-success float-right">More info</a>
+                <a href="/officers/dash/search/plate/<%= plate.id %>-<%= plate.owner %> "
+                    class="btn btn-success float-right">More info</a>
 
             </li>
             <%   }) %>

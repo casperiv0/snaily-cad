@@ -1,9 +1,10 @@
 <%- include("../partials/header.ejs") %>
 
 <h1 class="card-title">Citizens <a href="/citizen/add">+</a> </h1>
-<a class="btn btn-primary" href="/cars/register">register a car</a>
 <div class="users-list">
     <ul class="list-group" id="myUL">
+        <a class="btn btn-primary " href="/cars/register">register a car</a>
+        <a class="btn btn-primary top-1" href="/weapons/register">register a weapon</a>
         <% citizen.forEach(value => { %>
         <li class="list-group-item">
 

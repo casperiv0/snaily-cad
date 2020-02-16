@@ -20,15 +20,14 @@ module.exports = {
         let first_name = req.params.first_name;
         let last_name = req.params.last_name;
         let owner = first_name + " " + last_name;
-        console.log(owner)
         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
         let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-        db.query(`${query}; ${vehiclesQ}`, (err, result) => {
+        let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
+        db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            console.log(result)
-            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], isAdmin: req.session.admin })
+            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
         });
     },
     addCitizenPage: (req, res) => {

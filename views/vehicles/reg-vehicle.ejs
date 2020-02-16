@@ -32,7 +32,7 @@
         <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Insurance status</label>
             <input list="i-status" type="text" class="form-control" name="in_status" id="first-name"
-                placeholder="Vehicle" required>
+                placeholder="Insurance status" required>
             <datalist id="i-status">
                 <% in_status.forEach(status => { %>
                 <option value="<%= status.status %>"></option>

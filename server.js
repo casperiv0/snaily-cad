@@ -7,7 +7,7 @@ let cookieParser = require('cookie-parser');
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
-const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage } = require("./routes/values/weapons")
+const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
 const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
@@ -105,10 +105,10 @@ app.get("/officers/dash", officersDash)
 app.get("/officers/tablet", tabletPage)
 app.get("/officers/penal-codes", penalCodesPage)
 app.get("/officers/dash/search/plate", searchPlatePage)
-app.get("/officers/dash/search/plate/:id", plateResultsPage)
+app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
 // app.get("/officers/")
 app.get("/officers/dash/search/person-name", searchNamePage)
-app.get("/officers/dash/search/name/:id", nameResultsPage)
+app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 
 
 app.get('/officers/login', function (req, res) {
@@ -123,6 +123,7 @@ app.get("/admin/values/cars/edit/:id", editVehiclePage)
 app.get("/admin/values/cars/delete/:id", deleteVehiclePage)
 app.post("/admin/values/cars/edit/:id", editVehicle)
 app.post("/admin/values/cars/add", addCar)
+
 // Car Regestration
 app.get("/cars/register", regVehiclePage)
 app.post("/cars/register", regVehicle)
@@ -150,6 +151,10 @@ app.get("/admin/values/weapons/delete/:id", deleteWeapon)
 app.post("/admin/values/weapons/add", addWeapon)
 app.get("/admin/values/weapons/edit/:id", editWeaponPage)
 app.post("/admin/values/weapons/edit/:id", editWeapon)
+
+// Weapon regestration
+app.get("/weapons/register", regWeaponPage)
+app.post("/weapons/register", regWeapon)
 
 
 
