@@ -118,8 +118,8 @@ module.exports = {
                 if (err) {
                     return res.status(404).send(err);
                 }
-                console.log(result[1])
-                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, plates: result[0][0], name: result[1] })
+                console.log(result[1][0])
+                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, plates: result[0][0], name: result[1][0] })
             });
 
         } else {

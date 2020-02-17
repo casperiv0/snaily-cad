@@ -120,7 +120,7 @@ app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage
 
 
 app.get('/officers/login', function (req, res) {
-    res.render("officers-pages/login.ejs", { title: "Login", message: "Session expired, Please log back in.", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
+    res.render("officers-pages/login.ejs", { title: "Login", message: "", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
 });
 
 
