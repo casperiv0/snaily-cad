@@ -45,6 +45,7 @@ module.exports = {
     addCitizen: (req, res) => {
         let first_name = req.body.first_name;
         let last_name = req.body.last_name;
+        let full_name = first_name + " " + last_name;
         let birth = req.body.birth;
         let gender = req.body.gender;
         let ethnicity = req.body.ethnicity;
@@ -59,8 +60,11 @@ module.exports = {
         if (weight == "") {
             weight = "Unknown"
         }
+        let dmv = req.body.dmv;
+        let fireArms = req.body.fire;
+        let pilot = req.body.pilot
 
-        let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`) VALUES ('" + first_name + "','" + last_name + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "' )";
+        let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);

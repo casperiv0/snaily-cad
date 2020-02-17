@@ -107,12 +107,19 @@ module.exports = {
         if (req.session.PDloggedin) {
             let id = req.params.id;
             let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
+            let getOwner = req.params.owner;
+            // let owner = getOwner.split(" ");
+            // let first_name = owner[0];
+            // let last_name = owner[1];
 
-            db.query(query, (err, result) => {
+            let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
+
+            db.query(`${query}; ${query2};`, (err, result) => {
                 if (err) {
-                    return res.status(500).send(err);
+                    return res.status(404).send(err);
                 }
-                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, result: result[0] })
+                console.log(result[1])
+                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, plates: result[0][0], name: result[1] })
             });
 
         } else {

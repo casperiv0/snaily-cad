@@ -1,13 +1,15 @@
 <%- include("../partials/header.ejs") %>
 
 
-<h1 class="card-title"> <%= result.plate %></h1>
+<h1 class="card-title"> <%= plates.plate %></h1>
 <div class="users-list">
     <ul class="list-group">
-        <li class="list-group-item">Full name:
-            <%= result.owner %>
+        <li class="list-group-item name">Vehicle Owner:
+            <a
+                href="/officers/dash/search/name/<%= name[0].id %>-<%= name[0].first_name %>-<%= name[0].last_name %> "><%= plates.owner %></a>
         </li>
-        <li class="list-group-item">Vehicle: <%= result.vehicle %></li>
-        <li class="list-group-item">Insurance Status: <%= result.in_status %></li>
+        <li class="list-group-item">Vehicle: <%= plates.vehicle %></li>
+        <li class="list-group-item">Vehicle Color: <%= plates.color %></li>
+        <li class="list-group-item">Insurance Status: <%= plates.in_status %></li>
     </ul>
 </div>

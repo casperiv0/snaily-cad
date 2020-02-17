@@ -91,6 +91,14 @@ app.post('/officers/auth', function (request, response) {
 
 app.get('/home', loggedinHomePage);
 
+app.use(function (req, res, next) {
+    if (res.statusCode == 404) {
+        res.status(404).render("errors/404.ejs", { title: "404 | Equinox CAD", isAdmin: req.session.admin })
+    } else {
+        next()
+    }
+})
+
 // Citizens
 app.get("/admin/citizens", citizensPage)
 app.get("/admin/citizens/delete/:id", deleteCitizen)

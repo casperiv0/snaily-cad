@@ -1,5 +1,5 @@
 <%- include("../partials/header.ejs") %>
-
+<% if (citizen[0]) { %>
 <h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
 <div class="users-list">
     <ul class="list-group">
@@ -12,6 +12,26 @@
         <li class="list-group-item">Eye Color: <%= citizen[0].eyes %> </li>
         <li class="list-group-item">Address: <%= citizen[0].address %> </li>
         <li class="list-group-item">Height: <%= citizen[0].height %> </li>
+        <li class="list-group-item">Weight: <%= citizen[0].weight %> </li>
+        <div class="list-group-item list-group-item-action active">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Licences:</h5>
+            </div>
+            <div id="dots3"></div>
+            <div id="more3">
+                <p class="mb-1">
+                    <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li>
+                    <li class="list-group-item color-black">Pilot Licence: <%= citizen[0].pilot_licence %> </li>
+                    <li class="list-group-item color-black">Firearms Licence: <%= citizen[0].fire_licence %> </li>
+                    <!-- <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li> -->
+                </p>
+
+            </div>
+            <button class="btn btn-primary" onclick="lic()" id="licBtn">See all</button>
+
+
+
+        </div>
         <div class="list-group-item list-group-item-action active">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Vehicles:</h5>
@@ -27,7 +47,9 @@
                 <p class="mb-1">
                     <% vehicles.forEach(vehicle => { %>
                     <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                        <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
+                        <p>Plate: <span class="uppercase"><%= vehicle.plate %></span> <br> Insurance Status:
+                            <%= vehicle.in_status %>
+                        </p>
                     </li>
 
                     <%  }) %>
@@ -62,12 +84,16 @@
 
                 <% } %>
             </div>
-            <div class="btn btn-primary" onclick="wep()" id="weaponBtn">See all</button>
+            <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
 
 
             </div>
     </ul>
 </div>
+<% } else { %>
+<p class="text-center">Citizen Not Found. Go Back <a href="/citizen">Here</a>.</p>
+
+<% } %>
 
 <script>
     function veh() {
@@ -79,9 +105,12 @@
         if (dots.style.display === "none") {
             dots.style.display = "inline";
             moreText.style.display = "none";
+            vehBtn.textContent = "See All"
+
         } else {
             dots.style.display = "none";
             moreText.style.display = "inline";
+            vehBtn.textContent = "See Less"
         }
     }
     function wep() {
@@ -93,9 +122,28 @@
         if (dots.style.display === "none") {
             dots.style.display = "inline";
             moreText.style.display = "none";
+            weapenBtn.textContent = "See All"
         } else {
             dots.style.display = "none";
             moreText.style.display = "inline";
+            weapenBtn.textContent = "See Less"
+        }
+    }
+    function lic() {
+        let dots = document.getElementById("dots3");
+        let moreText = document.getElementById("more3");
+        let vehBtn = document.getElementById("vehBtn")
+        let weapenBtn = document.getElementById("weapenBtn")
+        let licBtn = document.getElementById("licBtn")
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            moreText.style.display = "none";
+            licBtn.textContent = "See All"
+        } else {
+            dots.style.display = "none";
+            moreText.style.display = "inline";
+            licBtn.textContent = "See Less"
         }
     }
 </script>

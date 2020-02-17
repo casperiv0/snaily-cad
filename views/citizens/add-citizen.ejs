@@ -65,7 +65,7 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1">Firearms Licence</label>
-        <select name="dmv" class="form-control">
+        <select name="fire" class="form-control">
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
@@ -74,12 +74,12 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1">Pilots Licence</label>
-        <select name="dmv" class="form-control">
+        <select name="pilot" class="form-control">
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
         </select>
     </div>
+    <button type="submit" class="btn btn-primary float-right margin-right-10">Add Citizen</button>
     <a href="/citizen" class="btn cancel-btn btn-danger float-right">Cancel</a>
-    <button type="submit" class="btn btn-success float-right margin-right-10">Add Citizen</button>
 </form>

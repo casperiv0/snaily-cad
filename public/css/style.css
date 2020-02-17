@@ -135,3 +135,10 @@
 #more2 {
   display: none;
 }
+#more3 {
+  display: none;
+}
+
+.cap {
+  text-transform: capitalize;
+}
