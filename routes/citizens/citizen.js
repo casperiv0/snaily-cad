@@ -1,13 +1,17 @@
 module.exports = {
     citizenPage: (req, res, next) => {
 
-        let query = "SELECT * FROM `citizens`"
-        db.query(query, (err, result) => {
-            if (err) {
-                console.log(err)
-            }
-            res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "" })
+        let query = "SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'"
+        db2.query("SELECT * FROM `users`", (err, result1) => {
+            db.query(query, (err, result) => {
+                if (err) {
+                    console.log(err)
+                }
+                console.log(result)
+                res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result[0], isAdmin: req.session.admin, message: "", username: req.session.username2 })
+            })
         })
+
         // if (req.session.loggedin) {
         // } else {
         //     res.send("You're not logged in!");
@@ -38,14 +42,17 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin })
+            res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin, username: req.session.username2 })
 
         });
     },
     addCitizen: (req, res) => {
-        let first_name = req.body.first_name;
-        let last_name = req.body.last_name;
-        let full_name = first_name + " " + last_name;
+        // let first_name = req.body.first_name;
+        let first_name = req.session.username2;
+        // let last_name = req.body.last_name;
+        let last_name = "Unknown";
+        // let full_name = first_name + " " + last_name;
+        let full_name = first_name;
         let birth = req.body.birth;
         let gender = req.body.gender;
         let ethnicity = req.body.ethnicity;

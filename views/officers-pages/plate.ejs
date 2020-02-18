@@ -15,7 +15,7 @@
 
         <ul class="group-item" id="myUL">
             <% plates.forEach(plate => { %>
-            <li class="list-group-item"><%= plate.plate %>
+            <li class="list-group-item"><span class="uppercase"><%= plate.plate %></span>
                 <a href="/officers/dash/search/plate/<%= plate.id %>-<%= plate.owner %> "
                     class="btn btn-primary float-right">More info</a>
 
@@ -29,6 +29,7 @@
 </ul>
 
 <script>
+
     function myFunction() {
         var input, filter, ul, li, a, i, txtValue;
         input = document.getElementById("myInput");

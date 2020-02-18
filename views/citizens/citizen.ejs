@@ -1,6 +1,6 @@
 <%- include("../partials/header.ejs") %>
 
-<h1 class="card-title">Citizens <a href="/citizen/add">+</a> </h1>
+<h1 class="card-title cap">Welcome back <%= username %> </h1>
 <div class="users-list">
     <% if(message != ''){ %>
     <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
@@ -11,18 +11,21 @@
     </div>
     <% } %>
 
-    <%# hell %>
+
     <ul class="list-group" id="myUL">
-        <a class="btn btn-primary " href="/cars/register">register a car</a>
+        <!-- <a class="btn btn-primary" href="/citizen/add">Add A Citizen</a> -->
+        <a class="btn btn-primary top-1" href="/cars/register">register a car</a>
         <a class="btn btn-primary top-1" href="/weapons/register">register a weapon</a>
-        <% citizen.forEach(value => { %>
+        <%# citizen.forEach(value => { %>
         <li class="list-group-item">
 
-            <%= value.id %> | <%= value.first_name %> <%= value.last_name %> | <%= value.birth %>
-            <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
+            <%= citizen.id %> | <%= citizen.first_name %> | <%= citizen.birth %>
+            <a href="/citizens/<%= citizen.id %>-<%= citizen.first_name %>-<%= citizen.last_name %>"
                 class="btn btn-success float-right">More Info</a>
         </li>
 
-        <% }) %>
+        <%# }) %>
     </ul>
 </div>
+
+<!-- <%= citizen.last_name %> -->

@@ -12,6 +12,7 @@ const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, edit
 const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
+const { loginPage, registerPage, login, register } = require("./routes/login-reg")
 let port = 3001;
 const fetch = require("node-fetch")
 const session = require("express-session");
@@ -107,6 +108,12 @@ app.get("/citizens/:id-:first_name-:last_name", citizenDetailPage)
 app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 
+//  Login : Registration
+app.get("/login", loginPage);
+app.post("/login", login);
+app.get("/register", registerPage);
+app.post("/register", register);
+
 // Officers
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
@@ -175,6 +182,14 @@ async function main() {
         database: "equinox_cad",
         multipleStatements: true
     });
+
+    db2 = await mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "7{aH$mkLP@vfpW-!",
+        database: "accounts",
+        multipleStatements: true
+    })
     // 7{aH$mkLP@vfpW-!
     app.listen(port, () => {
 

@@ -1,7 +1,7 @@
 <%- include("../partials/header.ejs") %>
 
 <% if (plates) { %>
-<h1 class="card-title"> <%= plates.plate %></h1>
+<h1 class="card-title uppercase"> <%= plates.plate %></h1>
 <div class="users-list">
     <ul class="list-group">
         <li class="list-group-item name">Vehicle Owner:
@@ -10,7 +10,7 @@
         </li>
         <li class="list-group-item">Vehicle: <%= plates.vehicle %></li>
         <li class="list-group-item">Vehicle Color: <%= plates.color %></li>
-        <li class="list-group-item">Insurance Status: <%= plates.in_status %></li>
+        <li class="list-group-item">Insurance Status: <span id="status"><%= plates.in_status %></span> </li>
     </ul>
 </div>
 
@@ -18,3 +18,21 @@
 <p class="text-center">Plate Not Found. Go Back <a href="/officers/dash/search/plate">Here</a>.</p>
 
 <% } %>
+
+
+<script>
+    let status = document.getElementById("status");
+    if (status.textContent === "Fake") {
+        status.style.color = "red"
+    } else if (status.textContent === "Stolen") {
+        status.style.color = "red"
+    } else if (status.textContent === "Invalid") {
+        status.style.color = "red"
+    } else if (status.textContent === "Expired") {
+        status.style.color = "red"
+    } else if (status.textContent === "Suspended") {
+        status.style.color = "red"
+    } else {
+        status.style.color = "green"
+    }
+</script>

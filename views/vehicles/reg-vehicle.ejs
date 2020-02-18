@@ -29,7 +29,7 @@
                 placeholder="Vehicle Owner" required>
             <datalist id="owners">
                 <% owners.forEach(owner => { %>
-                <option value="<%= owner.first_name %> <%= owner.last_name %>"></option>
+                <option value="<%= owner.full_name %>"></option>
                 <% }) %>
             </datalist>
         </div>
