@@ -10,7 +10,7 @@ const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGend
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
 const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage } = require("./routes/officers/officer")
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage } = require("./routes/citizens/citizen")
+const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 const { loginPage, registerPage, login, register } = require("./routes/login-reg")
 let port = 3001;
@@ -107,6 +107,7 @@ app.get("/citizen", citizenPage)
 app.get("/citizens/:id-:first_name-:last_name", citizenDetailPage)
 app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
+app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 
 //  Login : Registration
 app.get("/login", loginPage);

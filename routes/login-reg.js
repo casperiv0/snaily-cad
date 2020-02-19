@@ -1,6 +1,10 @@
 module.exports = {
     loginPage: (req, res) => {
-        res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "" })
+        if (req.session.loggedin) {
+            res.redirect("/citizen")
+        } else {
+            res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "" })
+        }
     },
     login: (req, res) => {
         var username = req.body.username;
@@ -42,7 +46,11 @@ module.exports = {
         }
     },
     registerPage: (req, res) => {
-        res.render("login-res/reg.ejs", { title: "Register | Equuinox CAD", isAdmin: req.session.isAdmin, message: "" })
+        if (req.session.loggedin) {
+            res.redirect("/citizen")
+        } else {
+            res.render("login-res/reg.ejs", { title: "Register | Equuinox CAD", isAdmin: req.session.isAdmin, message: "" })
+        }
     },
     register: (req, res) => {
         var username = req.body.username;
@@ -53,6 +61,8 @@ module.exports = {
             res.end();
         }
         if (username && password) {
+            req.session.loggedin = true;
+
             db2.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
                 if (error) {
                     console.log(error)

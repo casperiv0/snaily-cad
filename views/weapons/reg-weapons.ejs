@@ -4,14 +4,10 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Owner Name</label>
-            <input list="owners" type="text" class="form-control" name="owner" id="first-name"
-                placeholder="Weapon Owner" required>
-            <datalist id="owners">
-                <% owners.forEach(owner => { %>
-                <option value="<%= owner.first_name %> "></option>
-                <% }) %>
-            </datalist>
+            <input type="text" class="form-control" name="owner" id="first-name" disabled placeholder="Weapon Owner"
+                citizen value="<%= name %>">
         </div>
+        <script>console.log("<%= name %>")</script>
         <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Weapon</label>
             <input list="weapons" type="text" class="form-control" name="weapon" id="first-name" placeholder="Weapon"

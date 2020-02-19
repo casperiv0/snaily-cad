@@ -3,6 +3,8 @@
 <h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
 <div class="users-list">
     <ul class="list-group">
+        <a class="btn bg-success list-group-item"
+            href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
         <li class="list-group-item">Full Name: <%= citizen[0].first_name %> </li>
         <!-- <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li> -->
         <li class="list-group-item">Gender: <%= citizen[0].gender %></li>
@@ -68,11 +70,6 @@
             </div>
             <div id="dots2"></div>
             <div id="more2">
-                <% if (!weapons[0]) { %>
-                <li class="list-group-item color-black">
-                    <p>No Weapons registered to this person.</p>
-                </li>
-                <% } else  {%>
                 <p class="mb-1">
                     <% weapons.forEach(weapon => { %>
                     <li class="list-group-item color-black"> <%= weapon.weapon %>
@@ -81,8 +78,6 @@
 
                     <%  }) %>
                 </p>
-
-                <% } %>
             </div>
             <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
 

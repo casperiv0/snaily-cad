@@ -1,13 +1,16 @@
 module.exports = {
     citizenPage: (req, res, next) => {
 
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
+
         let query = "SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'"
         db2.query("SELECT * FROM `users`", (err, result1) => {
             db.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                 }
-                console.log(result)
                 res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result[0], isAdmin: req.session.admin, message: "", username: req.session.username2 })
             })
         })
@@ -26,7 +29,7 @@ module.exports = {
         let owner = first_name + " " + last_name;
         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
         let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-        let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
+        let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
         db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
@@ -79,4 +82,16 @@ module.exports = {
             res.redirect(`/citizen`);
         });
     },
+    editCitizenPage: (req, res) => {
+        let genderQ = "SELECT * FROM `genders`"
+        let ethnicityQ = "SELECT * FROM `ethnicities`"
+        let dmvQ = "SELECT * FROM `in_statuses`"
+        let current = "SELECT * FROM `citizens` WHERE `first_name` = '" + req.session.username2 + "'"
+        db.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
+            if (err) {
+                console.log(err)
+            }
+            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: req.session.username2 })
+        });
+    }
 }

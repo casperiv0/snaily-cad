@@ -96,11 +96,12 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin })
+            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin, name: req.session.username2 })
         });
     },
     regWeapon: (req, res) => {
-        let owner = req.body.owner;
+        // let owner = req.body.owner;
+        let owner = req.session.username2
         let weapon = req.body.weapon;
         let status = req.body.status;
         let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";

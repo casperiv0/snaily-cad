@@ -1,0 +1,92 @@
+<%- include("../partials/header.ejs") %>
+
+<form class="edit-veh-form" action="" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Full Name</label>
+        <input name="first_name" type="text" class="form-control" placeholder="First Name" disabled
+            value="<%= username %> " />
+    </div>
+    <!-- <div class="form-group">
+        <label for="exampleInputEmail1">Enter Last Name</label>
+        <input name="last_name" type="text" class="form-control" placeholder="Last Name" disabled
+            value="<%= username %> " />
+    </div> -->
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Birthday</label>
+        <input name="birth" type="text" class="form-control" placeholder="Birthday" required
+            value="<%= current[0].birth %> " />
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Ethnicity</label>
+        <select name="ethnicity" class="form-control" slot="<%= current.ethnicity %> ">
+            <% ethnicities.forEach(ethnicity => { %>
+            <option value="<%= ethnicity.ethnicity %>"><%= ethnicity.ethnicity %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Gender</label>
+        <select name="gender" class="form-control" r="<%= current.gender %> ">
+            <% genders.forEach(gender => { %>
+            <option value="<%= gender.gender %>"><%= gender.gender %></option>
+            <% }) %>
+        </select>
+        <!-- <input name="gender" type="text" class="form-control" placeholder="Gender" required /> -->
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Hair Color</label>
+        <input name="hair" type="text" class="form-control" placeholder="Hair Color" required
+            value="<%= current[0].hair %> " />
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Eye Color</label>
+        <input name="eyes" type="text" class="form-control" placeholder="Eye Color" required
+            value="<%= current[0].eyes %> " />
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Address</label>
+        <input name="address" type="text" class="form-control" placeholder="Address" required
+            value="<%= current[0].address %> " />
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Height</label>
+        <input name="height" type="text" class="form-control" placeholder="Height" value="<%= current[0].height %> " />
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Enter Weight</label>
+        <input name="weight" type="text" class="form-control" placeholder="Weight" value="<%= current[0].weight %> " />
+    </div>
+
+    <!-- Licences -->
+    <div class="form-group">
+        <label for="exampleInputEmail1">Drivers Licence</label>
+        <select name="dmv" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Firearms Licence</label>
+        <select name="fire" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputEmail1">Pilots Licence</label>
+        <select name="pilot" class="form-control">
+            <% dmvs.forEach(dmv => { %>
+            <option value="<%= dmv.status %>"><%= dmv.status %></option>
+            <% }) %>
+        </select>
+    </div>
+    <p>Before you edit make sure you reselected the licences, gender and ethnicity</p>
+    <button type="submit" class="btn btn-primary float-right margin-right-10">Edit Citizen</button>
+    <a href="/citizen" class="btn cancel-btn btn-danger float-right">Cancel</a>
+</form>

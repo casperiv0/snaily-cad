@@ -58,7 +58,8 @@ module.exports = {
             const url = "http://95.179.141.103:3000";
             fetch(url)
                 .then(res => res.json())
-                .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }));
+                .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }))
+            // .catch(res.send("Penal Code API probably is down! Please come back later."));
         } else {
             res.redirect("/officers/login")
 

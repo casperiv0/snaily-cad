@@ -115,6 +115,12 @@
   border-color:#fff
 }
 .btn-primaryy:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}
+.btn-primaryy2 {
+  color:#007bff;
+  background-color:#fff;
+  border-color:#fff
+}
+.btn-primaryy2:hover{color:#fff;background-color:#0069d9;border-color:#0062cc}
 
 
 .uppercase {

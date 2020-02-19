@@ -103,7 +103,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin })
+            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2 })
         });
     },
     regVehicle: (req, res) => {
