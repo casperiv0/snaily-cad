@@ -1,6 +1,6 @@
 module.exports = {
     genderPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `genders` ORDER BY id ASC"
             db.query(query, (err, result) => {
                 if (err) {
@@ -14,7 +14,7 @@ module.exports = {
 
     },
     deleteGender: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM genders WHERE id = "' + playerId + '"';
@@ -32,7 +32,7 @@ module.exports = {
 
     },
     addGenderPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             res.render("genders/add-gender.ejs", { title: "Add Gender", isAdmin: req.session.isAdmin })
 
         } else {
@@ -40,7 +40,7 @@ module.exports = {
         }
     },
     addGender: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let gender = req.body.gender;
 
             let query = "INSERT INTO `genders` (`gender`) VALUES ('" + gender + "')";
@@ -56,7 +56,7 @@ module.exports = {
 
     },
     editGenderPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
             db.query(query, (err, result) => {
@@ -71,7 +71,7 @@ module.exports = {
 
     },
     editGender: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let gender = req.body.gender;
             let query = 'UPDATE `genders` SET `gender` = "' + gender + '" WHERE `genders`.`id` = "' + genderId + '"';

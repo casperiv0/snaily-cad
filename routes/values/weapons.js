@@ -1,6 +1,6 @@
 module.exports = {
     weaponsPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `weapons` ORDER BY id ASC"
             db.query(query, (err, result) => {
                 if (err) {
@@ -14,7 +14,7 @@ module.exports = {
 
     },
     deleteWeapon: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM weapons WHERE id = "' + playerId + '"';
@@ -32,7 +32,7 @@ module.exports = {
 
     },
     addWeaponPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: req.session.isAdmin })
         } else {
             res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
@@ -40,7 +40,7 @@ module.exports = {
 
     },
     addWeapon: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let name = req.body.name;
 
             let query = "INSERT INTO `weapons` (`name`) VALUES ('" + name + "')";
@@ -56,7 +56,7 @@ module.exports = {
 
     },
     editWeaponPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
             db.query(query, (err, result) => {
@@ -71,7 +71,7 @@ module.exports = {
 
     },
     editWeapon: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let name = req.body.name;
             let query = 'UPDATE `weapons` SET `name` = "' + name + '" WHERE `weapons`.`id` = "' + genderId + '"';

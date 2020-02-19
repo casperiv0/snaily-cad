@@ -3,10 +3,23 @@
 <h1 class="card-title">Equinox CAD</h1>
 
 <ul class="list-group">
+
+    <% if (!loggedin) { %>
     <a href="/login" class="btn btn-primaryy list-group-item">
         Login in
     </a>
     <a href="/register" class="btn btn-primaryy list-group-item">
         Register
     </a>
+    <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find bugs,
+        typos or errors? DM CasperTheGhost#4546 on discord.</p>
+    <% } else {%>
+    <h3 class="card-title cap">Welcome Back <%= username %> </h3>
+    <a href="/citizen" class="btn btn-primaryy list-group-item">
+        Citizen Page
+    </a>
+    <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find bugs,
+        typos or errors? DM CasperTheGhost#4546 on discord.</p>
+    <%   } %>
+
 </ul>

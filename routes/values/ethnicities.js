@@ -1,6 +1,6 @@
 module.exports = {
     addethnicityPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: req.session.isAdmin })
 
         } else {
@@ -8,7 +8,7 @@ module.exports = {
         }
     },
     addethnicity: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let ethnicity = req.body.ethnicity;
 
             let query = "INSERT INTO `ethnicities` (`ethnicity`) VALUES ('" + ethnicity + "')";
@@ -24,7 +24,7 @@ module.exports = {
 
     },
     ethnicitiesPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `ethnicities` ORDER BY id ASC"
             db.query(query, (err, result) => {
                 if (err) {
@@ -38,7 +38,7 @@ module.exports = {
 
     },
     editEthnicityPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let ethnicitiesId = req.params.id;
             let query = "SELECT * FROM `ethnicities` WHERE id = '" + ethnicitiesId + "' ";
             db.query(query, (err, result) => {
@@ -53,7 +53,7 @@ module.exports = {
 
     },
     editethnicity: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let carId = req.params.id;
             let ethnicity = req.body.ethnicity;
             let query = 'UPDATE `ethnicities` SET `ethnicity` = "' + ethnicity + '" WHERE `ethnicities`.`id` = "' + carId + '"';
@@ -71,7 +71,7 @@ module.exports = {
 
     },
     deleteEthnicity: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM ethnicities WHERE id = "' + playerId + '"';

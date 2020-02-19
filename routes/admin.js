@@ -1,6 +1,6 @@
 module.exports = {
     adminPanel: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             res.render("admin.ejs", { title: 'Admin Panel', isAdmin: req.session.admin })
         } else {
             res.redirect("/admin/login")
@@ -9,7 +9,7 @@ module.exports = {
 
     },
     citizensPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `users` ORDER BY id ASC"
             db.query(query, (err, result) => {
                 if (err) {
@@ -25,7 +25,7 @@ module.exports = {
 
     },
     deleteCitizen: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM users WHERE id = "' + playerId + '"';

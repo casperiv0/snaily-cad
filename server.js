@@ -52,7 +52,7 @@ app.post('/admin/auth', function (request, response) {
     if (username && password) {
         db.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
             if (results.length > 0) {
-                request.session.loggedin = true;
+                request.session.loggedinAdmin = true;
                 request.session.username = username;
                 request.session.admin = true;
                 console.log("Successfully logged in at: " + request.connection.remoteAddress)
@@ -113,6 +113,16 @@ app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
+
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/")
+    // res.render("login-res/logout.ejs", { title: "Are you sure you want to logout? | Equinox CAD", isAdmin: req.session.isAdmin })
+})
+
+app.post("/logout", (req, res) => {
+    req.session
+})
 
 //  Login : Registration
 app.get("/login", loginPage);

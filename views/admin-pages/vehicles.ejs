@@ -3,11 +3,12 @@ include("../partials/admin-header.ejs") %>
 <h1 class="users-title card-title">
   Vehicles management <a href="/admin/values/cars/add">+</a>
 </h1>
-<input type="text" id="myInput" class="form-control margin-top" onkeyup="myFunction()"
-  placeholder="Search for Vehicles..">
 
 <% if (vehicles.length > 0) {%>
 <ul class="list-group" id="myUL">
+  <input type="text" id="myInput" class="form-control margin-top" onkeyup="myFunction()"
+    placeholder="Search for Vehicles..">
+
   <% vehicles.forEach(value => { %>
   <li class="list-group-item">
 

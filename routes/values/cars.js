@@ -1,6 +1,6 @@
 module.exports = {
     addCarPage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: req.session.admin })
 
         } else {
@@ -9,7 +9,7 @@ module.exports = {
         res.end();
     },
     addCar: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let name = req.body.cname;
 
             console.log(`${name} was a success! ADD`)
@@ -27,7 +27,7 @@ module.exports = {
 
     },
     carValuePage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `vehicles` ORDER BY id ASC"
             db.query(query, (err, result) => {
                 if (err) {
@@ -41,7 +41,7 @@ module.exports = {
 
     },
     editVehiclePage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let carId = req.params.id;
             let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
             db.query(query, (err, result) => {
@@ -56,7 +56,7 @@ module.exports = {
 
     },
     editVehicle: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let carId = req.params.id;
             let car_name = req.body.cname;
             let myear = req.body.myear;
@@ -76,7 +76,7 @@ module.exports = {
 
     },
     deleteVehiclePage: (req, res) => {
-        if (req.session.loggedin) {
+        if (req.session.loggedinAdmin) {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';

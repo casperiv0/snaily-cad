@@ -1,6 +1,6 @@
 module.exports = {
     homePage: (req, res) => {
-        res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin })
+        res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2 })
     },
 
 }
