@@ -3,8 +3,8 @@ const mysql = require('mysql');
 let db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "7{aH$mkLP@vfpW-!",
-    database: "equinox_cad",
+    password: process.env.DBP,
+    database: process.env.DB
 });
 
 const cars = [
