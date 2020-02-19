@@ -1,0 +1,47 @@
+<%- include("../partials/header.ejs") %>
+
+<form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Discord Username</label>
+        <input type="text" name="dUsername" required
+            placeholder="E.G. CasperTheGhost#4546, application without # will NOT be read" class="form-control"
+            id="exampleInputEmail1" aria-describedby="emailHelp">
+
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">What inspired you to apply?</label>
+        <input type="text" name="q1" class="form-control" id="exampleInputPassword1">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Do you have previous experience as an officer?</label>
+        <select name="q2" id="q2" class="form-control">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Which department you looking to apply to?</label>
+        <select name="q3" id="q3" class="form-control">
+            <option value="sahp">SAHP</option>
+            <option value="BCSO">BCSO</option>
+            <option value="LSPD">LSPD</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Are you over 16?</label>
+        <select name="q4" id="q4" class="form-control">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Do you agree that you will be on duty once a week as a minimal
+            requirement?</label>
+        <select name="q5" id="q5" class="form-control">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        <small>You'll be DM'ed if you ARE accepted.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+</form>

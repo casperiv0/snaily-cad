@@ -147,6 +147,9 @@ module.exports = {
             res.redirect("/officers/login")
 
         }
+    },
+    officerApplyPage: (req, res) => {
+        res.send("sd")
     }
 }
 

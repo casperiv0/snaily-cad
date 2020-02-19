@@ -4,16 +4,20 @@ const { homePage } = require("./routes/index")
 let eSession = require('easy-session');
 let Acl = require("virgen-acl").Acl, acl = new Acl();
 let cookieParser = require('cookie-parser');
+const Discord = require("discord.js")
+const bot = new Discord.Client()
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage } = require("./routes/officers/officer")
+const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage, officerApplyPage } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 const { loginPage, registerPage, login, register } = require("./routes/login-reg")
 let port = 3001;
+const prefix = "?"
+
 const fetch = require("node-fetch")
 const session = require("express-session");
 const mysql = require('mysql');
@@ -126,7 +130,7 @@ app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
 // app.get("/officers/")
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
-
+// application
 
 app.get('/officers/login', function (req, res) {
     res.render("officers-pages/login.ejs", { title: "Login", message: "", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
@@ -173,6 +177,50 @@ app.post("/admin/values/weapons/edit/:id", editWeapon)
 app.get("/weapons/register", regWeaponPage)
 app.post("/weapons/register", regWeapon)
 
+app.get("/officers/apply", (req, res) => {
+    res.render("officers-pages/apply.ejs", { title: "Apply | Equinox CAD", isAdmin: req.session.isAdmin })
+    // bot.channels.get("643417616337207296").send(``)
+})
+
+app.post("/officers/apply", async (req, res) => {
+    res.redirect("/")
+    let dUsername = req.body.dUsername;
+    let q1 = req.body.q1;
+    let q2 = req.body.q2;
+    let q3 = req.body.q3;
+    let q4 = req.body.q4;
+    let q5 = req.body.q5;
+    // 643417616337207296 << Testing channel
+    // 679698348730482689 << app channel - Equinox Roleplay
+    let embed = new Discord.RichEmbed()
+        .setTitle(`New Police Application From ${dUsername}`)
+        .setColor("0000FF")
+        .addField("**What inspired you to apply?**", q1)
+        .addField("**Do you have previous experience as an officer?**", q2)
+        .addField("**Which department you looking to apply to?**", q3)
+        .addField("**Are you over 16?**", q4)
+        .addField("**Do you agree that you will be on duty once a week as a minimal requirement?**", q5)
+    bot.channels.get("679712964374167560").send(embed)
+    // .then(async (embedMsg, message) => {
+    //     embedMsg.react("✅").then(r => {
+    //         embedMsg.react("❌")
+    //         let approved = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '✅' && user.id !== bot.user.id);
+    //         let declined = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '❌' && user.id !== bot.user.id);
+
+    //         approved.on('collect', r => {
+    //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
+    //         });
+
+    //         declined.on("collect", r => {
+    //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
+
+    //         });
+    //     })
+    // })
+    // await message.react("😄")
+})
+
+
 
 
 async function main() {
@@ -197,6 +245,42 @@ async function main() {
 
         console.log(`Running on ${port}`)
     });
+
+    bot.login("NjY3MzEzMjU3MzcxMDA5MDQ0.Xk1DiQ.2AFHxwid3ndDyvfEk_Ws9dIFN_M");
+
+    bot.on("ready", () => {
+        console.log(`bot up and running ${bot.user.username}`)
+    })
+
+    bot.on('message', (message, bot) => {
+        if (!message.content.startsWith(prefix) || message.author.bot) return;
+        let messageArray = message.content.split(/ +/);
+        let args = message.content
+            .slice(prefix.length)
+            .trim()
+            .split(/ +/g);
+        let cmd = args.shift().toLowerCase();
+        let commandfile;
+        if (bot.commands.has(cmd)) {
+            commandfile = bot.commands.get(cmd);
+        } else if (bot.aliases.has(cmd)) {
+            commandfile = bot.commands.get(bot.aliases.get(cmd));
+        } else {
+            return;
+        }
+        console.log(
+            `${message.author.username} Has used the ${(commandfile, cmd)} command in ${
+            message.guild.name
+            }`
+        );
+        try {
+            commandfile.run(bot, message, args, cmd, commandfile);
+        } catch (err) {
+            console.log("There was an error loading the commands");
+            console.log(err);
+        }
+    });
+
 
 }
 // var start = (process.platform == 'darwin' ? 'open' : process.platform == 'win32' ? 'start' : 'xdg-open');
