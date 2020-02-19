@@ -93,5 +93,37 @@ module.exports = {
             }
             res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: req.session.username2 })
         });
+    },
+    editCitizen: (req, res) => {
+        let id = req.params.id
+        let first_name = req.session.username2;
+        // let last_name = req.body.last_name;
+        let last_name = "Unknown";
+        // let full_name = first_name + " " + last_name;
+        let full_name = first_name;
+        let birth = req.body.birth;
+        let gender = req.body.gender;
+        let ethnicity = req.body.ethnicity;
+        let hair_color = req.body.hair;
+        let eyes_color = req.body.eyes;
+        let address = req.body.address;
+        let height = req.body.height;
+        if (height == "") {
+            height = "Unknown"
+        }
+        let weight = req.body.weight;
+        if (weight == "") {
+            weight = "Unknown"
+        }
+        let dmv = req.body.dmv;
+        let fireArms = req.body.fire;
+        let pilot = req.body.pilot
+        let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
+        db.query(query, (err, result) => {
+            if (err) {
+                console.log(err)
+            }
+            res.redirect(`/citizens/${id}-${first_name}-${last_name}`)
+        })
     }
 }
