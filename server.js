@@ -6,6 +6,7 @@ let Acl = require("virgen-acl").Acl, acl = new Acl();
 let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
+require('dotenv').config()
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
 const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
@@ -238,16 +239,16 @@ async function main() {
     db = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "7{aH$mkLP@vfpW-!",
-        database: "equinox_cad",
+        password: process.env.DBP,
+        database: process.env.DB,
         multipleStatements: true
     });
 
     db2 = await mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "7{aH$mkLP@vfpW-!",
-        database: "accounts",
+        password: process.env.DBP,
+        database: process.env.DB2,
         multipleStatements: true
     })
     // 7{aH$mkLP@vfpW-!
@@ -256,7 +257,7 @@ async function main() {
         console.log(`Running on ${port}`)
     });
 
-    bot.login("NjY3MzEzMjU3MzcxMDA5MDQ0.Xk1DiQ.2AFHxwid3ndDyvfEk_Ws9dIFN_M");
+    bot.login(process.env.BOT_TOKEN);
 
     bot.on("ready", () => {
         console.log(`bot up and running ${bot.user.username}`)
