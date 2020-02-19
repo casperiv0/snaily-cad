@@ -61,7 +61,7 @@ module.exports = {
             res.end();
         }
         if (username && password) {
-            req.session.loggedin = true;
+            // req.session.loggedin = true;
 
             db2.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
                 if (error) {
