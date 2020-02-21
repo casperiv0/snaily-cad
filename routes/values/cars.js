@@ -108,10 +108,11 @@ module.exports = {
     },
     regVehicle: (req, res) => {
         let plate = req.body.plate;
-        let owner = req.body.owner;
+        let owner = req.session.username2;
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
+        console.log(owner)
         let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 
