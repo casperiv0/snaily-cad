@@ -41,11 +41,7 @@
             <div id="dots"></div>
             <div id="more">
 
-                <% if (!vehicles[0]) { %>
-                <li class="list-group-item color-black">
-                    <p>No vehicles registered to this person.</p>
-                </li>
-                <% } else  {%>
+
                 <p class="mb-1">
                     <% vehicles.forEach(vehicle => { %>
                     <li class="list-group-item color-black"> <%= vehicle.vehicle %>
@@ -56,8 +52,6 @@
 
                     <%  }) %>
                 </p>
-
-                <% } %>
             </div>
             <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
 

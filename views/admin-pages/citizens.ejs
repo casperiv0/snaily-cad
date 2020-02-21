@@ -11,7 +11,7 @@ include("../partials/admin-header.ejs") %>
 
       <%= user.id %> | <%= user.username %>
       <a href="/admin/citizens/delete/<%= user.id %>" class="btn btn-danger float-right">Delete</a>
-      <!-- <a href="/admin/values/weapons/edit/<%= user.id %>" class="btn btn-success float-right  margin-right-10">Edit</a> -->
+      <a href="/admin/values/weapons/edit/<%= user.id %>" class="btn btn-success float-right  margin-right-10">Edit</a>
     </li>
 
     <% }) %>
