@@ -131,10 +131,12 @@ module.exports = {
             let id = req.params.id;
             let first_name = req.params.first_name;
             let last_name = req.params.last_name;
-            let owner = first_name + " " + last_name;
+            let owner = req.params.first_name;
             let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
             let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+            // console.log(getOwner)
+
             db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
