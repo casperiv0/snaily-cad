@@ -26,7 +26,8 @@ module.exports = {
         let id = req.params.id;
         let first_name = req.params.first_name;
         let last_name = req.params.last_name;
-        let owner = first_name + " " + last_name;
+        // let owner = first_name + " " + last_name;
+        let owner = req.params.first_name;
         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
         let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
         let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
