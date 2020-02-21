@@ -20,7 +20,7 @@ module.exports = {
             let deleteUserQuery = 'DELETE FROM genders WHERE id = "' + playerId + '"';
 
             db.query(deleteUserQuery, (err, result) => {
-                console.log(`${playerId} was a success! DELETE`)
+
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -82,7 +82,6 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 res.redirect('/admin/values/genders');
-                console.log(`EDIT?? ${gender}`)
             });
         } else {
             res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })

@@ -12,8 +12,6 @@ module.exports = {
         if (req.session.loggedinAdmin) {
             let name = req.body.cname;
 
-            console.log(`${name} was a success! ADD`)
-
             let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
             db.query(query, (err, result) => {
                 if (err) {
@@ -68,7 +66,6 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 res.redirect('/admin/values/cars');
-                console.log(`yes?? ${car_name}`)
             });
         } else {
             res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
@@ -82,7 +79,6 @@ module.exports = {
             let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
 
             db.query(deleteUserQuery, (err, result) => {
-                console.log(`${playerId} was a success! DELETE`)
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -112,7 +108,6 @@ module.exports = {
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
-        console.log(owner)
         let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 

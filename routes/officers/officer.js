@@ -44,7 +44,6 @@ module.exports = {
             res.render("officers-pages/tablet.ejs", {
                 title: "Officers Tablet", fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
                     url.json("http://95.179.141.103:8000/businesses").then(result => {
-                        console.log(result)
                     })
                 })
             })
@@ -119,7 +118,7 @@ module.exports = {
                 if (err) {
                     return res.status(404).send(err);
                 }
-                // console.log(result[1][0])
+
                 res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, plates: result[0][0], name: result[1][0] })
             });
         } else {

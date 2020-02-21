@@ -20,7 +20,6 @@ module.exports = {
             let deleteUserQuery = 'DELETE FROM weapons WHERE id = "' + playerId + '"';
 
             db.query(deleteUserQuery, (err, result) => {
-                console.log(`${playerId} was a success! DELETE`)
                 if (err) {
                     return res.status(500).send(err);
                 }
