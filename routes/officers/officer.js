@@ -135,7 +135,6 @@ module.exports = {
             let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
             let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-            // console.log(getOwner)
 
             db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
                 if (err) {

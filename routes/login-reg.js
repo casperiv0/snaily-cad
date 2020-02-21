@@ -20,7 +20,6 @@ module.exports = {
                             if (err) {
                                 res.redirect("/citizen/add")
                             }
-                            console.log(result)
                             if (!result[0]) {
                                 res.redirect("/citizen/add")
                             }
@@ -65,7 +64,6 @@ module.exports = {
                 if (error) {
                     console.log(error)
                 }
-                console.log(results)
                 if (results.length > 0) {
                     res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
                 } else {
