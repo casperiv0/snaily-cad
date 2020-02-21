@@ -14,7 +14,6 @@ module.exports = {
                 if (results.length > 0) {
                     req.session.loggedin = true;
                     req.session.username2 = username;
-                    console.log("Successfully logged in at: " + req.connection.remoteAddress)
 
                     try {
                         db.query("SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'", (err, result) => {
@@ -35,7 +34,6 @@ module.exports = {
 
                 } else {
                     res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
-                    console.log("log in failed at: ", req.connection.remoteAddress)
                 }
                 // res.end();
             });

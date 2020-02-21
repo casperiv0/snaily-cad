@@ -11,7 +11,7 @@ module.exports = {
     citizensPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `users` ORDER BY id ASC"
-            db.query(query, (err, result) => {
+            db2.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
