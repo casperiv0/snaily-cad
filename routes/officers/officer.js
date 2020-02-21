@@ -132,15 +132,18 @@ module.exports = {
             let first_name = req.params.first_name;
             let last_name = req.params.last_name;
             let owner = req.params.first_name;
+            let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'"
             let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
             let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
 
-            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
+
+            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1], weapons: result[2] })
+
+                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1], weapons: result[2], charges: result[3] })
             });
 
         } else {
@@ -150,6 +153,30 @@ module.exports = {
     },
     officerApplyPage: (req, res) => {
         res.send("sd")
+    },
+    addOffencePage: (req, res) => {
+        const url = "http://95.179.141.103:3000";
+        fetch(url)
+            .then(res => res.json())
+            .then(json => res.render("officers-pages/add-offence.ejs", { title: "Add Offence | Equinox CAD", penals: json, isAdmin: req.session.admin, req: req }))
+    },
+    addOffence: (req, res) => {
+        let name = req.body.name;
+        let offence = req.body.offence;
+        let date = req.body.date;
+        let officer_name = req.body.officer_name;
+        let notes = req.body.notes;
+        if (notes == "") {
+            notes = "None"
+        }
+
+        let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect(`/officers/dash/search/person-name`);
+        });
     }
 }
 
