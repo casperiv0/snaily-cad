@@ -54,11 +54,15 @@ module.exports = {
         let new_name = req.body.new_name;
         let query = "SELECT * FROM `users` WHERE username = '" + old_name + "' ";
         let query2 = 'UPDATE `users` SET `username` = "' + new_name + '" WHERE `users`.`username` = "' + old_name + '"';
+        let query3 = 'UPDATE `citizens` SET `first_name` = "' + new_name + '", `full_name` = "' + new_name + '"  WHERE `citizens`.`first_name` = "' + new_name + '"';
 
         db2.query(query, (err, result1) => {
             db2.query(query2, (err, result2) => {
-                console.log(result1);
-                console.log(result2);
+                db.query(query3, (err,result3) => {
+                    console.log(result3);
+                    console.log(result1);
+                    console.log(result2);
+                });
             });
             res.redirect("/citizen")
         });
