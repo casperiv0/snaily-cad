@@ -56,7 +56,7 @@ module.exports = {
         let query2 = 'UPDATE `users` SET `username` = "' + new_name + '" WHERE `users`.`username` = "' + old_name + '"';
 
         db2.query(query, (err, result1) => {
-            db2(query2, (err, result2) => {
+            db2.query(query2, (err, result2) => {
                 console.log(result1)
                 console.log(result2)
             })
