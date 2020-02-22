@@ -258,7 +258,7 @@ async function main() {
 
         console.log(`Running on ${port}`)
     });
-
+    bot.commands = new Discord.Collection();
     bot.login(process.env.BOT_TOKEN);
 
     bot.on("ready", () => {
