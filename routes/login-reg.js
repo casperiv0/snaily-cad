@@ -49,7 +49,7 @@ module.exports = {
             res.render("login-res/change.ejs", {title: "Change name | Equinox CAD",isAdmin: req.session.isAdmin, message: "", req: req  })
         }
     },
-    changeUsername: (req,res) => {
+    changeUsername: (req, res) => {
         let old_name = req.body.old_name;
         let new_name = req.body.new_name;
         let query = "SELECT * FROM `users` WHERE username = '" + old_name + "' ";
@@ -57,10 +57,11 @@ module.exports = {
 
         db2.query(query, (err, result1) => {
             db2.query(query2, (err, result2) => {
-                console.log(result1)
-                console.log(result2)
-            })
-        })
+                console.log(result1);
+                console.log(result2);
+            });
+            res.redirect("/citizen")
+        });
     },
     registerPage: (req, res) => {
         if (req.session.loggedin) {
