@@ -15,12 +15,6 @@ module.exports = {
             })
         })
 
-        // if (req.session.loggedin) {
-        // } else {
-        //     res.send("You're not logged in!");
-        // }
-        // res.end();
-
     },
     citizenDetailPage: (req, res) => {
         let id = req.params.id;
