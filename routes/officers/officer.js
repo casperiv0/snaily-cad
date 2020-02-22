@@ -20,10 +20,6 @@ let roles = {
 
 module.exports = {
     officersPage: (req, res, next) => {
-        // if (!req.session.hasRole('police')) {
-        //     res.sendStatus(403);
-        //     return;
-        // }
         if (req.session.PDloggedin) {
             let qeury = "SELECT * FROM `officers` ORDER by id ASC"
             db.query(qeury, (err, result) => {
@@ -58,7 +54,6 @@ module.exports = {
             fetch(url)
                 .then(res => res.json())
                 .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }))
-            // .catch(res.send("Penal Code API probably is down! Please come back later."));
         } else {
             res.redirect("/officers/login")
 
