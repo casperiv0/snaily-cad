@@ -16,7 +16,7 @@ const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, 
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 const { loginPage, registerPage, login, register, changeUsername, changeUsernamePage } = require("./routes/login-reg")
-let port = 3001;
+let port = 80;
 const prefix = "?"
 
 const fetch = require("node-fetch")
