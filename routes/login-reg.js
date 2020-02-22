@@ -42,11 +42,31 @@ module.exports = {
             res.end();
         }
     },
+    changeUsernamePage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
+            res.render("login-res/change.ejs", {title: "Change name | Equinox CAD",isAdmin: req.session.isAdmin, message: "", req: req  })
+        }
+    },
+    changeUsername: (req,res) => {
+        let old_name = req.body.old_name;
+        let new_name = req.body.new_name;
+        let query = "SELECT * FROM `users` WHERE username = '" + old_name + "' ";
+        let query2 = 'UPDATE `users` SET `username` = "' + new_name + '" WHERE `users`.`username` = "' + old_name + '"';
+
+        db2.query(query, (err, result1) => {
+            db2(query2, (err, result2) => {
+                console.log(result1)
+                console.log(result2)
+            })
+        })
+    },
     registerPage: (req, res) => {
         if (req.session.loggedin) {
             res.redirect("/citizen")
         } else {
-            res.render("login-res/reg.ejs", { title: "Register | Equuinox CAD", isAdmin: req.session.isAdmin, message: "" })
+            res.render("login-res/reg.ejs", { title: "Register | Equinox CAD", isAdmin: req.session.isAdmin, message: "" })
         }
     },
     register: (req, res) => {
