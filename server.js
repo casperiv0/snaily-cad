@@ -15,7 +15,7 @@ const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, edit
 const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage, officerApplyPage, addOffencePage, addOffence } = require("./routes/officers/officer")
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
-const { loginPage, registerPage, login, register } = require("./routes/login-reg")
+const { loginPage, registerPage, login, register, changeUsername, changeUsernamePage } = require("./routes/login-reg")
 let port = 3001;
 const prefix = "?"
 
@@ -114,6 +114,8 @@ app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
+app.get("/edit-name", changeUsernamePage)
+app.post("/edit-name", changeUsername)
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
