@@ -11,7 +11,8 @@ module.exports = {
                 if (err) {
                     console.log(err)
                 }
-                res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result[0], isAdmin: req.session.admin, message: "", username: req.session.username2 })
+                console.log(result[0])
+                res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "", username: req.session.username2 })
             })
         })
 
