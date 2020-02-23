@@ -94,12 +94,13 @@ module.exports = {
         let query = "SELECT * FROM `citizens` ORDER BY id ASC"
         let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
         let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
+        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2 +"'"
 
         db.query(`${query}; ${carQ}; ${in_s}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2 })
+            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
         });
     },
     regVehicle: (req, res) => {
