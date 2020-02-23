@@ -100,7 +100,7 @@ module.exports = {
     },
     regWeapon: (req, res) => {
         // let owner = req.body.owner;
-        let owner = req.session.username2
+        let owner = req.body.owner;
         let weapon = req.body.weapon;
         let status = req.body.status;
         let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
