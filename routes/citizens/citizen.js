@@ -82,12 +82,13 @@ module.exports = {
         let genderQ = "SELECT * FROM `genders`"
         let ethnicityQ = "SELECT * FROM `ethnicities`"
         let dmvQ = "SELECT * FROM `in_statuses`"
-        let current = "SELECT * FROM `citizens` WHERE `first_name` = '" + req.session.username2 + "'"
+        let id = req.params.id;
+        let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
         db.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
             if (err) {
                 console.log(err)
             }
-            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: req.session.username2 })
+            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3].full_name })
         });
     },
     editCitizen: (req, res) => {
