@@ -122,5 +122,18 @@ module.exports = {
             }
             res.redirect(`/citizens/${id}-${first_name}-${last_name}`)
         })
+    },
+    deleteCitizens: (req, res) => {
+        let playerId = req.params.id;
+        // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
+        let deleteUserQuery = 'DELETE FROM users WHERE id = "' + playerId + '"';
+
+        db.query(deleteUserQuery, (err, result) => {
+
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect('/citizen');
+        });
     }
 }

@@ -13,7 +13,7 @@ const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGend
 const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage } = require("./routes/values/weapons")
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
 const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage, officerApplyPage, addOffencePage, addOffence } = require("./routes/officers/officer")
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen } = require("./routes/citizens/citizen")
+const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen,deleteCitizens } = require("./routes/citizens/citizen")
 const { loggedinHomePage } = require("./routes/login")
 const { loginPage, registerPage, login, register, changeUsername, changeUsernamePage } = require("./routes/login-reg")
 let port = 80;
@@ -114,7 +114,7 @@ app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
-app.post("/citizen/delete/:id-:first_name-:last_name", deleteCitizen)
+app.post("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
 app.get("/edit-name", changeUsernamePage)
 app.post("/edit-name", changeUsername)
 
