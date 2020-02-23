@@ -47,7 +47,7 @@ module.exports = {
     },
     addCitizen: (req, res) => {
         // let first_name = req.body.first_name;
-        let first_name = req.session.username2;
+        let first_name = req.body.full_name;
         // let last_name = req.body.last_name;
         let last_name = "Unknown";
         // let full_name = first_name + " " + last_name;
