@@ -96,7 +96,7 @@ module.exports = {
         let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2 +"'"
 
-        db.query(`${query}; ${carQ}; ${in_s}`, (err, result) => {
+        db.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
