@@ -93,7 +93,7 @@ module.exports = {
     },
     editCitizen: (req, res) => {
         let id = req.params.id
-        let first_name = req.session.username2;
+        let first_name = req.body.full_name;
         // let last_name = req.body.last_name;
         let last_name = "Unknown";
         // let full_name = first_name + " " + last_name;
