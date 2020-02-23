@@ -17,7 +17,7 @@
         <a class="btn btn-danger top-1" href="/logout">Logout</a>
         <a class="btn btn-primary top-1" href="/cars/register">register a car</a>
         <a class="btn btn-primary top-1" href="/weapons/register">register a weapon</a>
-        <%# citizen.forEach(value => { %>
+        <% citizen.forEach(value => { %>
         <li class="list-group-item">
 
             <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
@@ -25,6 +25,6 @@
                 class="btn btn-success float-right">More Info</a>
         </li>
 
-        <%# }) %>
+        <% }) %>
     </ul>
 </div>
