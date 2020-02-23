@@ -5,25 +5,7 @@
     <ul class="list-group">
         <a class="btn bg-success list-group-item"
             href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
-            <div class="modal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Delete <%= citizen[0].first_name %> <%= citizen[0].last_name %></h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <p>Are you sure you want to delete this citizen?</p>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <a class="btn btn-primary" href="/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Delete Citizen</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    
         <li class="list-group-item">Full Name: <%= citizen[0].first_name %> </li>
         <!-- <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li> -->
         <li class="list-group-item">Gender: <%= citizen[0].gender %></li>
