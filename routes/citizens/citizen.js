@@ -88,7 +88,7 @@ module.exports = {
             if (err) {
                 console.log(err)
             }
-            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3].full_name })
+            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3] })
         });
     },
     editCitizen: (req, res) => {
