@@ -1,3 +1,6 @@
+import Darkmode from 'darkmode-js';
+let darkModeWidget = new Darkmode()
+
 module.exports = {
     citizenPage: (req, res, next) => {
 
@@ -11,8 +14,7 @@ module.exports = {
                 if (err) {
                     console.log(err)
                 }
-                console.log(result[0])
-                res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "", username: req.session.username2 })
+                res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "", username: req.session.username2, darkMode: darkModeWidget })
             })
         })
 
@@ -46,6 +48,7 @@ module.exports = {
         });
     },
     addCitizen: (req, res) => {
+
         // let first_name = req.body.first_name;
         let first_name = req.body.full_name;
         // let last_name = req.body.last_name;
@@ -68,7 +71,9 @@ module.exports = {
         }
         let dmv = req.body.dmv;
         let fireArms = req.body.fire;
-        let pilot = req.body.pilot
+        let pilot = req.body.pilot;
+
+
 
         let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
         db.query(query, (err, result) => {
