@@ -1,4 +1,4 @@
-import Darkmode from 'darkmode-js';
+let Darkmode =  require('darkmode-js');
 let darkModeWidget = new Darkmode()
 
 module.exports = {

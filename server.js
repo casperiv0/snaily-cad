@@ -7,7 +7,7 @@ let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 require('dotenv').config()
-import Darkmode from 'darkmode-js';
+let Darkmode =  require('darkmode-js');
 let darkModeWidget = new Darkmode().showWidget();
 
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
