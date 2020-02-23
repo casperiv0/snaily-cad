@@ -105,7 +105,7 @@ module.exports = {
     },
     regVehicle: (req, res) => {
         let plate = req.body.plate;
-        let owner = req.session.username2;
+        let owner = req.body.owner;
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
