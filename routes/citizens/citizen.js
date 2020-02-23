@@ -5,7 +5,7 @@ module.exports = {
             res.redirect("/login")
         }
 
-        let query = "SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'"
+        let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
         db2.query("SELECT * FROM `users`", (err, result1) => {
             db.query(query, (err, result) => {
                 if (err) {
