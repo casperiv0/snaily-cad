@@ -20,8 +20,8 @@
         <%# citizen.forEach(value => { %>
         <li class="list-group-item">
 
-            <%= citizen.id %> | <%= citizen.first_name %> | <%= citizen.birth %>
-            <a href="/citizens/<%= citizen.id %>-<%= citizen.first_name %>-<%= citizen.last_name %>"
+            <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
+            <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
                 class="btn btn-success float-right">More Info</a>
         </li>
 
