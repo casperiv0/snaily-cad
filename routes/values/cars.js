@@ -100,7 +100,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
+            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
         });
     },
     regVehicle: (req, res) => {
@@ -114,22 +114,22 @@ module.exports = {
         db.query(q1, (err, result) => {
             console.log(result.length)
             if (result.length > 0) {
-                res.send('plate does exist')
+            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: 'Plate Already Exists', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
             } else {
-                res.send('Plate does not exist')
+      let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
+
+
+        db.query(query, (err, result) => {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.redirect("/citizen")
+        });
             }
         })
 
 
-        // let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
-
-
-        // db.query(query, (err, result) => {
-        //     if (err) {
-        //         return res.status(500).send(err);
-        //     }
-        //     res.redirect("/citizen")
-        // });
+  
     }
 
 }
