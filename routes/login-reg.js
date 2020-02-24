@@ -82,25 +82,34 @@ module.exports = {
             return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords are not the same!" })
             res.end();
         }
-        if (username && password) {
-            // req.session.loggedin = true;
+        let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
 
-            db2.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
-                if (error) {
-                    console.log(error)
-                }
-                if (results.length > 0) {
-                    res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
+        db2.query(q1, (err, result) => {
+            if (result.length > 0) {
+                res.send("Username Already Exists Please go back and change the username.")
+            } else {
+                if (username && password) {
+                    // req.session.loggedin = true;
+        
+                    db2.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
+                        if (error) {
+                            console.log(error)
+                        }
+                        if (results.length > 0) {
+                            res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
+                        } else {
+        
+                            res.redirect('/login');
+                        }
+                        res.end();
+                    });
                 } else {
-
-                    res.redirect('/login');
+                    res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again" })
+        
+                    res.end();
                 }
-                res.end();
-            });
-        } else {
-            res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again" })
-
-            res.end();
-        }
+            }
+        })
+        
     }
 }
