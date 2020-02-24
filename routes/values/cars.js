@@ -113,7 +113,7 @@ module.exports = {
 
         db.query(q1, (err, result) => {
             // console.log(result[0])
-            if (result[0] === plate) {
+            if (plate === result[0]) {
                 res.send('plate does exist')
             } else {
                 res.send('Plate does not exist')
