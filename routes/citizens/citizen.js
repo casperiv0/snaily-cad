@@ -56,6 +56,7 @@ module.exports = {
         let last_name = "Unknown";
         // let full_name = first_name + " " + last_name;
         let full_name = first_name;
+        let linked_to = req.session.username2;
         let birth = req.body.birth;
         let gender = req.body.gender;
         let ethnicity = req.body.ethnicity;
@@ -76,7 +77,7 @@ module.exports = {
 
 
 
-        let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
+        let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
