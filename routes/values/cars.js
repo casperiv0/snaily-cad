@@ -113,7 +113,7 @@ module.exports = {
 
         db.query(q1, (err, result1) => {
             console.log(result1.forEach(plate => {
-                plate.plate;
+                plate[0].plate;
             }))
             if (plate === result1.plate) {
                 res.send('Plate does exist')
