@@ -94,7 +94,7 @@ module.exports = {
         let query = "SELECT * FROM `citizens` ORDER BY id ASC"
         let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
         let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
-        let ownerQ = "SELECT * FROM `citizens`"
+        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2+"'"
 
         db.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
             if (err) {
