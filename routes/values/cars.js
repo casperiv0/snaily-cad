@@ -113,7 +113,7 @@ module.exports = {
 
         db.query(q1, (err, result) => {
             if (result.length > 0) {
-                res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: 'Plate Already Exists', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
+                res.send("Plate Already Exists Please go back and change the plate.")
             } else {
                 let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
