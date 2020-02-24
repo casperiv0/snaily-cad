@@ -109,11 +109,10 @@ module.exports = {
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
-        let q1 = "SELECT * FROM `registered_cars` WHERE plate = '"+ plate+ "'"
+        let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '"+ plate+ "'"
 
         db.query(q1, (err, result1) => {
-            let plates = result1[0]
-            let platess = plates.forEach(element => {
+            let platess = result1.forEach(element => {
                 element.plate
             });
             console.log(platess)
