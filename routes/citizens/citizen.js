@@ -21,6 +21,9 @@ module.exports = {
 
     },
     citizenDetailPage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         let id = req.params.id;
         let first_name = req.params.first_name;
         let last_name = req.params.last_name;
@@ -37,6 +40,9 @@ module.exports = {
         });
     },
     addCitizenPage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         let genderQ = "SELECT * FROM `genders`"
         let ethnicityQ = "SELECT * FROM `ethnicities`"
         let dmvQ = "SELECT * FROM `in_statuses`"
@@ -49,7 +55,9 @@ module.exports = {
         });
     },
     addCitizen: (req, res) => {
-
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         // let first_name = req.body.first_name;
         let first_name = req.body.full_name;
         // let last_name = req.body.last_name;
@@ -86,6 +94,9 @@ module.exports = {
         });
     },
     editCitizenPage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         let genderQ = "SELECT * FROM `genders`"
         let ethnicityQ = "SELECT * FROM `ethnicities`"
         let dmvQ = "SELECT * FROM `in_statuses`"
@@ -99,6 +110,9 @@ module.exports = {
         });
     },
     editCitizen: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         let id = req.params.id
         let first_name = req.body.full_name;
         // let last_name = req.body.last_name;
@@ -131,6 +145,9 @@ module.exports = {
         })
     },
     deleteCitizens: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        }
         let playerId = req.params.id;
         // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
         let deleteUserQuery = 'DELETE FROM citizens WHERE id = "' + playerId + '"';

@@ -90,12 +90,13 @@ module.exports = {
         let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
         let citizens = "SELECT * FROM `citizens`"
         let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
+        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2 +"'"
 
-        db.query(`${weapons}; ${citizens}; ${wStatusess}`, (err, result) => {
+        db.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin, name: req.session.username2 })
+            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin, name: req.session.username2, owner: result[3] })
         });
     },
     regWeapon: (req, res) => {
