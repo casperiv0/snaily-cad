@@ -96,6 +96,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send(err);
             }
+            console.log(result[3])
             res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: req.session.admin, name: req.session.username2, owner: result[3] })
         });
     },
