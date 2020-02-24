@@ -8,7 +8,7 @@
                required >
                 <datalist id="owner">
                     <% owner.forEach(name => { %>
-                    <option value="<%= name.full_name %>"></option>
+                    <option value="<%= name[0].full_name %>"></option>
                     <% }) %>
                 </datalist>
         </div>
