@@ -7,8 +7,7 @@ let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 require('dotenv').config()
-let Darkmode =  require('darkmode-js');
-let darkModeWidget = new Darkmode().showWidget();
+const favicon = require('express-favicon');
 
 const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
 const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
@@ -40,6 +39,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+app.use(favicon(__dirname + '/public/icon.png'));
 app.use(eSession.main(session));
 
 
