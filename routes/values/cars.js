@@ -112,7 +112,7 @@ module.exports = {
         let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '"+ plate+ "'"
 
         db.query(q1, (err, result) => {
-            console.log(result.plate[0])
+            console.log(result.plate)
             if (plate == result.plate) {
                 res.send('Plate does exist')
             } else {
