@@ -3,16 +3,15 @@
 <form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Owner Name (Full Name)</label>
-            <input type="text" id="owner" class="form-control" name="owner" id="first-name" placeholder="Weapon Owner"
-               required >
-                <datalist id="owner">
-                    <% owner.forEach(name => { %>
-                    <option value="<%= name.full_name %>"></option>
-                    <% }) %>
-                </datalist>
+            <label for="exampleInputEmail1">Weapon Owner</label>
+            <input list="owner" type="text" class="form-control" name="owner" id="first-name" placeholder="Weapon"
+                required>
+            <datalist id="owner">
+                <% owner.forEach(name => { %>
+                <option value="<%= name.full_name %>"></option>
+                <% }) %>
+            </datalist>
         </div>
-        <script>console.log("<%= name %>")</script>
         <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Weapon</label>
             <input list="weapons" type="text" class="form-control" name="weapon" id="first-name" placeholder="Weapon"
