@@ -22,6 +22,7 @@ const { loginPage, registerPage, login, register, changeUsername, changeUsername
 let port = 80;
 const prefix = "?"
 
+
 const fetch = require("node-fetch")
 const session = require("express-session");
 const mysql = require('mysql');
