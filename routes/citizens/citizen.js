@@ -132,7 +132,7 @@ module.exports = {
     deleteCitizens: (req, res) => {
         let playerId = req.params.id;
         // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-        let deleteUserQuery = 'DELETE FROM users WHERE id = "' + playerId + '"';
+        let deleteUserQuery = 'DELETE FROM citizens WHERE id = "' + playerId + '"';
 
         db.query(deleteUserQuery, (err, result) => {
 
