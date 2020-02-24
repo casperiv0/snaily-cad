@@ -111,11 +111,9 @@ module.exports = {
         let color = req.body.color;
         let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '"+ plate+ "'"
 
-        db.query(q1, (err, result1) => {
-            console.log(result1.forEach(plate => {
-                plate[0].plate;
-            }))
-            if (plate === result1.plate) {
+        db.query(q1, (err, result) => {
+            console.log(result.plate[0])
+            if (plate == result.plate) {
                 res.send('Plate does exist')
             } else {
                 res.send('plate does not exist')
