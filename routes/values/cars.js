@@ -94,7 +94,7 @@ module.exports = {
         let query = "SELECT * FROM `citizens` ORDER BY id ASC"
         let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
         let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
-        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2+"'"
+        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
 
         db.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
             if (err) {
@@ -109,27 +109,26 @@ module.exports = {
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
-        let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '"+ plate+ "'"
+        let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '" + plate + "'"
 
         db.query(q1, (err, result) => {
-            console.log(result.length)
             if (result.length > 0) {
-            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: 'Plate Already Exists', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
+                res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: 'Plate Already Exists', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: req.session.admin, name: req.session.username2, owners: result[3] })
             } else {
-      let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
+                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 
-        db.query(query, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            res.redirect("/citizen")
-        });
+                db.query(query, (err, result) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    res.redirect("/citizen")
+                });
             }
         })
 
 
-  
+
     }
 
 }
