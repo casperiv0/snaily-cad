@@ -109,6 +109,17 @@ module.exports = {
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
+        let q1 = "SELECT * FROM `registered_cars` WHERE plate = '"+ plate+ "'"
+
+        db.query(q1, (err, result1) => {
+            if (!result1.plate) {
+                res.send('Plate does not exist')
+            } else {
+                res.send('plate already exist')
+            }
+        })
+
+
         let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 
