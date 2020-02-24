@@ -117,7 +117,7 @@ app.get("/citizen/add", addCitizenPage)
 app.post("/citizen/add", addCitizen)
 app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
-app.post("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
+app.get("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
 app.get("/edit-name", changeUsernamePage)
 app.post("/edit-name", changeUsername)
 
