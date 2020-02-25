@@ -21,12 +21,12 @@ module.exports = {
     citizenDetailPage: (req, res) => {
         if (!req.session.loggedin) {
             res.redirect("/login")
-        } else { 
-        db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-            result.forEach(linked_to => {
-                if (linked_to !== req.session.username2) {
-                    res.send('not yours bud')
-                  }  else {
+        } else {
+            db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+                result.forEach(linked_to => {
+                    if (linked_to !== req.session.username2) {
+                        console.log('not yours yeets')
+                    } else {
                         let id = req.params.id;
                         let first_name = req.params.first_name;
                         let last_name = req.params.last_name;
@@ -42,10 +42,9 @@ module.exports = {
                             res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
                         });
                     }
+                })       
             })
-            
-        })
-    }
+        }
     },
     addCitizenPage: (req, res) => {
         if (!req.session.loggedin) {
