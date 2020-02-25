@@ -28,7 +28,7 @@ module.exports = {
                 let user = req.session.username2;
                 console.log(linked_to)    
                 console.log(user)    
-                    if (linked_to === user) {
+                    if (linked_to == user) {
                         let id = req.params.id;
                         let first_name = req.params.first_name;
                         let last_name = req.params.last_name;
