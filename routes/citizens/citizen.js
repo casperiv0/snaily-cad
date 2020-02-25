@@ -22,26 +22,28 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect("/login")
         }
-        db.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-            console.log(result.linked_to)
-            if (result.linked_to !== req.session.username2) {
-                res.send('not yours bud')
-            } else {
-                let id = req.params.id;
-                let first_name = req.params.first_name;
-                let last_name = req.params.last_name;
-                // let owner = first_name + " " + last_name;
-                let owner = req.params.first_name;
-                let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-                let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-                let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
-                db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
-                    if (err) {
-                        return res.status(500).send(err);
+        db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+            result.forEach(linked_to => {
+                if (linked_to !== req.session.username2) {
+                    res.send('not yours bud')
+                  }  else {
+                        let id = req.params.id;
+                        let first_name = req.params.first_name;
+                        let last_name = req.params.last_name;
+                        // let owner = first_name + " " + last_name;
+                        let owner = req.params.first_name;
+                        let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+                        let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
+                        let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
+                        db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
+                            if (err) {
+                                return res.status(500).send(err);
+                            }
+                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
+                        });
                     }
-                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
-                });
-            }
+            })
+            
         })
 
     },
