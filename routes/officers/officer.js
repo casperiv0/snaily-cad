@@ -165,7 +165,7 @@ module.exports = {
             notes = "None"
         }
 
-        let query = "INSERT INTO `posted_chargs` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
+        let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
         db.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
