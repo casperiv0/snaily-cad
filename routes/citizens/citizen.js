@@ -24,8 +24,8 @@ module.exports = {
         } else {
             db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
                 console.log(req.session.username2);
-                let linked_to = result[0].linked_to;
-                let user = req.session.username2;
+                let linked_to = `${result[0].linked_to}`;
+                let user = `${req.session.username2}`;
                 console.log(linked_to)    
                 console.log(user)    
                     if (linked_to == user) {
