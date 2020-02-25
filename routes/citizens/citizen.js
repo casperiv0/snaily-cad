@@ -36,7 +36,12 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 console.log(result[0])
-                res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
+                if (result[0].full_name === req.session.username2) {
+                    res.send('yours ')
+                } else {
+                    res.send('not yours ')
+                }
+                // res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
             });
         }
     },
