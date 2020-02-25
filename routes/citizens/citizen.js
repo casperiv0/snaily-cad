@@ -23,12 +23,12 @@ module.exports = {
             res.redirect("/login")
         } else {
             db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                console.log(result[0].linked_to)    
-                console.log(req.session.username2)
-                let linked_to = result[0].linked_to
-                    if (linked_to != req.session.username2) {
-                        console.log('not yours yeets')
-                    } else {
+                console.log(req.session.username2);
+                let linked_to = result[0].linked_to;
+                let user = req.session.username2;
+                console.log(linked_to)    
+                console.log(user)    
+                    if (linked_to === user) {
                         let id = req.params.id;
                         let first_name = req.params.first_name;
                         let last_name = req.params.last_name;
@@ -43,6 +43,8 @@ module.exports = {
                             }
                             res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
                         });
+                    } else {
+                        console.log('not yours yeets')
                     }
                 })       
         }
