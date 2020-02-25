@@ -37,7 +37,7 @@ module.exports = {
                 }
                 console.log(result[0][0].full_name)
                 if (result[0][0].full_name == req.session.username2) {
-                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
+                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
                 } else {
                     res.sendStatus(401)
                 }
@@ -55,7 +55,7 @@ module.exports = {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin, username: req.session.username2 })
+                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin, username: req.session.username2 })
 
             });
         }
