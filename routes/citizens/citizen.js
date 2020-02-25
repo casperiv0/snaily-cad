@@ -24,7 +24,7 @@ module.exports = {
         } else {
             db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
                 result.forEach(linked_to => {
-                    if (linked_to !== req.session.username2) {
+                    if (linked_to != req.session.username2) {
                         console.log('not yours yeets')
                     } else {
                         let id = req.params.id;
