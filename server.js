@@ -250,7 +250,8 @@ async function main() {
         user: "root",
         password: process.env.DBP,
         database: process.env.DB,
-        multipleStatements: true
+        multipleStatements: true,
+        timeout: 0
     });
 
     db2 = await mysql.createConnection({
@@ -258,7 +259,8 @@ async function main() {
         user: "root",
         password: process.env.DBP,
         database: process.env.DB2,
-        multipleStatements: true
+        multipleStatements: true,
+        timeout: 0
     })
     // 7{aH$mkLP@vfpW-!
     app.listen(port, () => {
