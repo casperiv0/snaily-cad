@@ -11,7 +11,7 @@ module.exports = {
                     if (err) {
                         console.log(err)
                     }
-                    res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "", username: req.session.username2})
+                    res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: req.session.admin, message: "", username: req.session.username2 })
                 })
             })
         }
@@ -21,22 +21,29 @@ module.exports = {
     citizenDetailPage: (req, res) => {
         if (!req.session.loggedin) {
             res.redirect("/login")
-        } else {
-            let id = req.params.id;
-            let first_name = req.params.first_name;
-            let last_name = req.params.last_name;
-            // let owner = first_name + " " + last_name;
-            let owner = req.params.first_name;
-            let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-            let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-            let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
-            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
-            });
         }
+        db.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+            if (result.linked_to !== req.session.username2) {
+                res.send('not yours bud')
+            }
+            else {
+                let id = req.params.id;
+                let first_name = req.params.first_name;
+                let last_name = req.params.last_name;
+                // let owner = first_name + " " + last_name;
+                let owner = req.params.first_name;
+                let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+                let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
+                let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
+                db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
+                });
+            }
+        })
+
     },
     addCitizenPage: (req, res) => {
         if (!req.session.loggedin) {
@@ -50,7 +57,7 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 res.render("citizens/add-citizen.ejs", { title: "Add Citizen", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: req.session.admin, username: req.session.username2 })
-    
+
             });
         }
     },
@@ -82,9 +89,9 @@ module.exports = {
             let dmv = req.body.dmv;
             let fireArms = req.body.fire;
             let pilot = req.body.pilot;
-    
-    
-    
+
+
+
             let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
             db.query(query, (err, result) => {
                 if (err) {
@@ -154,9 +161,9 @@ module.exports = {
             let playerId = req.params.id;
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM citizens WHERE id = "' + playerId + '"';
-    
+
             db.query(deleteUserQuery, (err, result) => {
-    
+
                 if (err) {
                     return res.status(500).send(err);
                 }
