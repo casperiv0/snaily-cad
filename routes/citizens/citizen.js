@@ -37,11 +37,10 @@ module.exports = {
                 }
                 console.log(result[0][0].full_name)
                 if (result[0][0].full_name == req.session.username2) {
-                    res.send('yours ')
+                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
                 } else {
-                    res.send('not yours ')
+                    res.sendStatus(401)
                 }
-                // res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
             });
         }
     },
