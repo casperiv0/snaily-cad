@@ -27,7 +27,7 @@ module.exports = {
                 let user = req.session.username2;
                 console.log(linked_to)    
                 console.log(user)    
-                    if (linked_to != user) {
+                    if (user != linked_to) {
                     console.log('not yours bud')
                     } else {
                         console.log('yours')
