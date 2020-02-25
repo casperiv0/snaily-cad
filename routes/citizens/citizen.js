@@ -26,7 +26,7 @@ module.exports = {
                 console.log(result[0].linked_to)    
                 console.log(req.session.username2)
                 let linked_to = result[0]
-                    if (result[0] !== req.session.username2) {
+                    if (result[0].linked_to !== req.session.username2) {
                         console.log('not yours yeets')
                     } else {
                         let id = req.params.id;
