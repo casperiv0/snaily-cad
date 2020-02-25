@@ -87,7 +87,6 @@ app.post('/officers/auth', function (request, response) {
             } else {
                 response.render("officers-pages/login.ejs", { title: 'Police Dept.', isAdmin: request.session.admin, message: "Wrong Username or Password" })
                 // response.render("errors/logged.ejs", { title: "Error", isAdmin: request.session.isAdmin })
-                console.log("log in failed at: " + request.connection.remoteAddress)
 
             }
             response.end();
