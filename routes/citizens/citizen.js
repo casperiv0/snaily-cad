@@ -36,7 +36,7 @@ module.exports = {
                     return res.status(500).send(err);
                 }
                 console.log(result[0])
-                if (result[0].full_name === req.session.username2) {
+                if (result[0].full_name == req.session.username2) {
                     res.send('yours ')
                 } else {
                     res.send('not yours ')
