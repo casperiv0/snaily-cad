@@ -23,7 +23,8 @@ module.exports = {
             res.redirect("/login")
         } else {
             db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                result.forEach(linked_to => {
+                console.log(result)    
+                let linked_to = result
                     if (linked_to != req.session.username2) {
                         console.log('not yours yeets')
                     } else {
@@ -43,7 +44,6 @@ module.exports = {
                         });
                     }
                 })       
-            })
         }
     },
     addCitizenPage: (req, res) => {
