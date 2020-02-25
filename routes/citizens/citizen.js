@@ -23,7 +23,8 @@ module.exports = {
             res.redirect("/login")
         } else {
             db.query("SELECT linked_to FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                console.log(result[0])    
+                console.log(result[0].linked_to)    
+                console.log(req.session.username2)
                 let linked_to = result[0]
                     if (result[0] !== req.session.username2) {
                         console.log('not yours yeets')
