@@ -284,11 +284,9 @@ async function main() {
         } else {
             return;
         }
-        console.log(
-            `${message.author.username} Has used the ${(commandfile, cmd)} command in ${
-            message.guild.name
-            }`
-        );
+        if (cmd === '!accept '+args) {
+            message.channel.send('yes?')
+        }
         try {
             commandfile.run(bot, message, args, cmd, commandfile);
         } catch (err) {
@@ -296,10 +294,6 @@ async function main() {
             console.log(err);
         }
     });
-
-
 }
-// var start = (process.platform == 'darwin' ? 'open' : process.platform == 'win32' ? 'start' : 'xdg-open');
-// require('child_process').exec(start + ' ' + "http://localhost:" + port + "/");
 
 main();
