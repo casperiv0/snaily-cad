@@ -66,7 +66,6 @@ app.post('/admin/auth', function (request, response) {
                 response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Wrong Username or Password" })
                 console.log("log in failed at: ", request.connection.remoteAddress)
             }
-            // response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
             response.end();
         });
     } else {
@@ -100,13 +99,6 @@ app.post('/officers/auth', function (request, response) {
 
 app.get('/home', loggedinHomePage);
 
-app.use(function (req, res, next) {
-    if (res.statusCode == 404) {
-        res.status(404).render("errors/404.ejs", { title: "404 | Equinox CAD", isAdmin: req.session.admin })
-    } else {
-        next()
-    }
-})
 
 // Citizens
 app.get("/admin/citizens", citizensPage)
@@ -239,7 +231,10 @@ app.post("/officers/apply", async (req, res) => {
     // await message.react("😄")
 })
 
-
+// 404 page 
+app.get('*', (req, res) => {
+    res.status(404).render("errors/404.ejs", { title: "404 | Equinox CAD", isAdmin: req.session.admin })
+})
 
 
 async function main() {
