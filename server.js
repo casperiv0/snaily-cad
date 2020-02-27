@@ -134,7 +134,7 @@ app.post('/admin/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        db.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
             if (results.length > 0) {
                 request.session.loggedinAdmin = true;
                 request.session.username = username;
@@ -165,7 +165,7 @@ app.post('/officers/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
     if (username && password) {
-        db.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+        connection.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
             if (results.length > 0) {
                 request.session.PDloggedin = true;
                 request.session.username = username;
