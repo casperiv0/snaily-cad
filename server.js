@@ -94,7 +94,7 @@ const {
 } = require("./routes/officers/officer");
 
 // Citizens
-import {
+const {
     citizenPage,
     citizenDetailPage,
     addCitizen,
@@ -102,7 +102,7 @@ import {
     editCitizenPage,
     editCitizen,
     deleteCitizens
-} from "./routes/citizens/citizen";
+} = require("./routes/citizens/citizen");
 
 // Registration - Login
 const {
