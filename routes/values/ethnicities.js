@@ -12,7 +12,7 @@ module.exports = {
             let ethnicity = req.body.ethnicity;
 
             let query = "INSERT INTO `ethnicities` (`ethnicity`) VALUES ('" + ethnicity + "')";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -26,7 +26,7 @@ module.exports = {
     ethnicitiesPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `ethnicities` ORDER BY id ASC"
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
@@ -41,7 +41,7 @@ module.exports = {
         if (req.session.loggedinAdmin) {
             let ethnicitiesId = req.params.id;
             let query = "SELECT * FROM `ethnicities` WHERE id = '" + ethnicitiesId + "' ";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -58,7 +58,7 @@ module.exports = {
             let ethnicity = req.body.ethnicity;
             let query = 'UPDATE `ethnicities` SET `ethnicity` = "' + ethnicity + '" WHERE `ethnicities`.`id` = "' + carId + '"';
 
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                     return res.status(500).send(err);
@@ -76,7 +76,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM ethnicities WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
 
                 if (err) {
                     return res.status(500).send(err);

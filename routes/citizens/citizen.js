@@ -6,8 +6,8 @@ module.exports = {
         } else {
 
             let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
-            db2.query("SELECT * FROM `users`", (err, result1) => {
-                db.query(query, (err, result) => {
+            connection1.query("SELECT * FROM `users`", (err, result1) => {
+                connection.query(query, (err, result) => {
                     if (err) {
                         console.log(err)
                     }
@@ -31,7 +31,7 @@ module.exports = {
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
             let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
             let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
-            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
+            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -50,7 +50,7 @@ module.exports = {
             let genderQ = "SELECT * FROM `genders`"
             let ethnicityQ = "SELECT * FROM `ethnicities`"
             let dmvQ = "SELECT * FROM `in_statuses`"
-            db.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
+            connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -91,7 +91,7 @@ module.exports = {
 
 
             let query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -108,7 +108,7 @@ module.exports = {
             let dmvQ = "SELECT * FROM `in_statuses`"
             let id = req.params.id;
             let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
-            db.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
+            connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
                 if (err) {
                     console.log(err)
                 }
@@ -144,7 +144,7 @@ module.exports = {
             let fireArms = req.body.fire;
             let pilot = req.body.pilot
             let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                 }
@@ -160,7 +160,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM citizens WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
 
                 if (err) {
                     return res.status(500).send(err);

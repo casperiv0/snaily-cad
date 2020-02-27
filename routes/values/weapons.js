@@ -2,7 +2,7 @@ module.exports = {
     weaponsPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `weapons` ORDER BY id ASC"
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
@@ -19,7 +19,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM weapons WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -43,7 +43,7 @@ module.exports = {
             let name = req.body.name;
 
             let query = "INSERT INTO `weapons` (`name`) VALUES ('" + name + "')";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -58,7 +58,7 @@ module.exports = {
         if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -75,7 +75,7 @@ module.exports = {
             let name = req.body.name;
             let query = 'UPDATE `weapons` SET `name` = "' + name + '" WHERE `weapons`.`id` = "' + genderId + '"';
 
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                     return res.status(500).send(err);
@@ -92,7 +92,7 @@ module.exports = {
         let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '"+ req.session.username2 +"'"
 
-        db.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
+        connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
@@ -108,7 +108,7 @@ module.exports = {
         let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
 
 
-        db.query(query, (err, result) => {
+        connection.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }

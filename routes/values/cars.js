@@ -13,7 +13,7 @@ module.exports = {
             let name = req.body.cname;
 
             let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -27,7 +27,7 @@ module.exports = {
     carValuePage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `vehicles` ORDER BY id ASC"
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
@@ -42,7 +42,7 @@ module.exports = {
         if (req.session.loggedinAdmin) {
             let carId = req.params.id;
             let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -60,7 +60,7 @@ module.exports = {
             let myear = req.body.myear;
             let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '", `myear` = "' + myear + '" WHERE `vehicles`.`id` = "' + carId + '"';
 
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                     return res.status(500).send(err);
@@ -78,7 +78,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -96,7 +96,7 @@ module.exports = {
         let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
 
-        db.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
+        connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }
@@ -111,14 +111,14 @@ module.exports = {
         let color = req.body.color;
         let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '" + plate + "'"
 
-        db.query(q1, (err, result) => {
+        connection.query(q1, (err, result) => {
             if (result.length > 0) {
                 res.send("Plate Already Exists Please go back and change the plate.")
             } else {
                 let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
 
 
-                db.query(query, (err, result) => {
+                connection.query(query, (err, result) => {
                     if (err) {
                         return res.status(500).send(err);
                     }

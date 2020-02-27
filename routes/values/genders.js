@@ -2,7 +2,7 @@ module.exports = {
     genderPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `genders` ORDER BY id ASC"
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
@@ -19,7 +19,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM genders WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
 
                 if (err) {
                     return res.status(500).send(err);
@@ -44,7 +44,7 @@ module.exports = {
             let gender = req.body.gender;
 
             let query = "INSERT INTO `genders` (`gender`) VALUES ('" + gender + "')";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -59,7 +59,7 @@ module.exports = {
         if (req.session.loggedinAdmin) {
             let genderId = req.params.id;
             let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -76,7 +76,7 @@ module.exports = {
             let gender = req.body.gender;
             let query = 'UPDATE `genders` SET `gender` = "' + gender + '" WHERE `genders`.`id` = "' + genderId + '"';
 
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err)
                     return res.status(500).send(err);

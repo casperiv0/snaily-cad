@@ -22,7 +22,7 @@ module.exports = {
     officersPage: (req, res, next) => {
         if (req.session.PDloggedin) {
             let qeury = "SELECT * FROM `officers` ORDER by id ASC"
-            db.query(qeury, (err, result) => {
+            connection.query(qeury, (err, result) => {
                 if (err) {
                     console.log("Error" + err)
                 }
@@ -74,7 +74,7 @@ module.exports = {
     searchPlatePage: (req, res) => {
         if (req.session.PDloggedin) {
             let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 res.render("officers-pages/plate.ejs", { title: "Plate Search | Police Department", isAdmin: req.session.admin, plates: result })
             })
 
@@ -87,7 +87,7 @@ module.exports = {
         if (req.session.PDloggedin) {
             let query = "SELECT * FROM `citizens` ORDER by id ASC"
 
-            db.query(query, (err, result) => {
+            connection.query(query, (err, result) => {
                 res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin, information: result })
 
             })
@@ -109,7 +109,7 @@ module.exports = {
 
             let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
 
-            db.query(`${query}; ${query2};`, (err, result) => {
+            connection.query(`${query}; ${query2};`, (err, result) => {
                 if (err) {
                     return res.status(404).send(err);
                 }
@@ -133,7 +133,7 @@ module.exports = {
             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
 
 
-            db.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
+            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
@@ -166,7 +166,7 @@ module.exports = {
         }
 
         let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
-        db.query(query, (err, result) => {
+        connection.query(query, (err, result) => {
             if (err) {
                 return res.status(500).send(err);
             }

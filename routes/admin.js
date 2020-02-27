@@ -11,7 +11,7 @@ module.exports = {
     citizensPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `users` ORDER BY id ASC"
-            db2.query(query, (err, result) => {
+            connection1.query(query, (err, result) => {
                 if (err) {
                     res.sendStatus(400)
                 }
@@ -30,7 +30,7 @@ module.exports = {
             // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
             let deleteUserQuery = 'DELETE FROM users WHERE id = "' + playerId + '"';
 
-            db.query(deleteUserQuery, (err, result) => {
+            connection.query(deleteUserQuery, (err, result) => {
 
                 if (err) {
                     return res.status(500).send(err);
