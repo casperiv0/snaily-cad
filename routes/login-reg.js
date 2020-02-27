@@ -10,13 +10,13 @@ module.exports = {
         var username = req.body.username;
         var password = req.body.password;
         if (username && password) {
-            db2.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+            connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
                 if (results.length > 0) {
                     req.session.loggedin = true;
                     req.session.username2 = username;
 
                     try {
-                        db.query("SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'", (err, result) => {
+                        connection.query("SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'", (err, result) => {
                             if (err) {
                                 res.redirect("/citizen/add")
                             }
@@ -56,9 +56,9 @@ module.exports = {
         let query2 = 'UPDATE `users` SET `username` = "' + new_name + '" WHERE `users`.`username` = "' + old_name + '"';
         let query3 = 'UPDATE `citizens` SET `first_name` = "' + new_name + '", `full_name` = "' + new_name + '"  WHERE `citizens`.`first_name` = "' + new_name + '"';
 
-        db2.query(query, (err, result1) => {
-            db2.query(query2, (err, result2) => {
-                db.query(query3, (err,result3) => {
+        connection1.query(query, (err, result1) => {
+            connection1.query(query2, (err, result2) => {
+                connection.query(query3, (err,result3) => {
                     console.log(result3);
                     console.log(result1);
                     console.log(result2);
@@ -84,14 +84,14 @@ module.exports = {
         }
         let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
 
-        db2.query(q1, (err, result) => {
+        connection1.query(q1, (err, result) => {
             if (result.length > 0) {
                 res.send("Username Already Exists Please go back and change the username.")
             } else {
                 if (username && password) {
                     // req.session.loggedin = true;
         
-                    db2.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
+                    connection1.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
                         if (error) {
                             console.log(error)
                         }
