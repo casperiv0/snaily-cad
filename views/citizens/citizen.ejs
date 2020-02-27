@@ -1,29 +1,32 @@
 <%- include("../partials/header.ejs") %>
-<h1 class="card-title cap">Welcome back <%= username %> </h1>
-<div class="users-list">
-    <% if(message != ''){ %>
-    <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
-        <%= message %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+
+<div class="container">
+    <h1 class="card-title cap">Welcome back <%= username %> </h1>
+    <div class="users-list">
+        <% if(message != ''){ %>
+        <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
+            <%= message %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% } %>
+
+
+        <ul class="list-group" id="myUL">
+            <a class="btn btn-danger top-1" href="/logout">Logout</a>
+            <a href="/citizen/add" class="btn btn-primary top-1 cap">add a new citizen</a>
+            <a class="btn btn-primary top-1 cap" href="/cars/register">register a car</a>
+            <a class="btn btn-primary top-1 cap" href="/weapons/register">register a weapon</a>
+            <% citizen.forEach(value => { %>
+            <li class="list-group-item">
+
+                <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
+                <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
+                    class="btn btn-success float-right">More Info</a>
+            </li>
+
+            <% }) %>
+        </ul>
     </div>
-    <% } %>
-
-
-    <ul class="list-group" id="myUL">
-        <a class="btn btn-danger top-1" href="/logout">Logout</a>
-        <a href="/citizen/add" class="btn btn-primary top-1 cap">add a new citizen</a>
-        <a class="btn btn-primary top-1 cap" href="/cars/register">register a car</a>
-        <a class="btn btn-primary top-1 cap" href="/weapons/register">register a weapon</a>
-        <% citizen.forEach(value => { %>
-        <li class="list-group-item">
-
-            <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
-            <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
-                class="btn btn-success float-right">More Info</a>
-        </li>
-
-        <% }) %>
-    </ul>
 </div>

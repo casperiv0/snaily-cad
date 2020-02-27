@@ -93,6 +93,12 @@ const {
     officerLoginPage
 } = require("./routes/officers/officer");
 
+const {
+    emsPage,
+    emsLogin,
+    emsLoginPage
+} = require('./routes/ems-fd/ems-fd')
+
 // Citizens
 const {
     citizenPage,
@@ -179,6 +185,12 @@ app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 app.get('/officers/login', officerLoginPage);
+
+
+// EMS/FD
+app.get('/ems-fd', emsPage);
+app.get('/ems-fd/login', emsLoginPage)
+app.post('/ems-fd/login', emsLogin)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

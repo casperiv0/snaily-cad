@@ -1,0 +1,25 @@
+<%- include("../partials/header.ejs") %>
+
+    <form action="" class="container mx-auto" method="POST">
+        <h1 class="card-title">EMS/FD .</h1>
+        <% if(message != ''){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= message %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% } %>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="text" class="form-control" name="username" aria-describedby="emailHelp" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" name="password">
+            <small>Don't share this username nor password to anyone!</small>
+        </div>
+        <a href="/officers/apply" class="btn btn-success">Apply for PD</a>
+        <button type="submit" class="btn btn-primary">Login</button>
+
+    </form>
