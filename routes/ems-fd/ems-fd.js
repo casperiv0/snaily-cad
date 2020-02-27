@@ -166,7 +166,7 @@ module.exports = {
         });
     },
     emsLoginPage: (req, res) => {
-        res.render("officers-pages/login.ejs", {
+        res.render("ems-fd/login.ejs", {
             title: "Police Login | Equinox CAD",
             message: "",
             isAdmin: req.session.admin,
