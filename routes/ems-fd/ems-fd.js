@@ -167,7 +167,7 @@ module.exports = {
     },
     emsLoginPage: (req, res) => {
         res.render("ems-fd/login.ejs", {
-            title: "Police Login | Equinox CAD",
+            title: "EMS/FD Login | Equinox CAD",
             message: "",
             isAdmin: req.session.admin,
             loggedIn: req.session.loggedin
