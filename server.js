@@ -1,23 +1,95 @@
 const express = require("express")
 const app = express()
-const { homePage } = require("./routes/index")
+const {
+    homePage
+} = require("./routes/index")
 let eSession = require('easy-session');
-let Acl = require("virgen-acl").Acl, acl = new Acl();
+let Acl = require("virgen-acl").Acl,
+    acl = new Acl();
 let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 require('dotenv').config()
 const favicon = require('express-favicon');
+let connection;
+let connection1;
+let db;
+let db2
 
-const { adminPanel, citizensPage, deleteCitizen } = require("./routes/admin")
-const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage } = require("./routes/values/cars")
-const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders")
-const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage } = require("./routes/values/weapons")
-const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities")
-const { officersPage, tabletPage, penalCodesPage, officersDash, searchNamePage, searchPlatePage, plateResultsPage, nameResultsPage, officerApplyPage, addOffencePage, addOffence } = require("./routes/officers/officer")
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen,deleteCitizens } = require("./routes/citizens/citizen")
-const { loggedinHomePage } = require("./routes/login")
-const { loginPage, registerPage, login, register, changeUsername, changeUsernamePage } = require("./routes/login-reg")
+const {
+    adminPanel,
+    citizensPage,
+    deleteCitizen
+} = require("./routes/admin")
+const {
+    addCarPage,
+    carValuePage,
+    editVehiclePage,
+    editVehicle,
+    deleteVehiclePage,
+    addCar,
+    regVehicle,
+    regVehiclePage
+} = require("./routes/values/cars")
+const {
+    genderPage,
+    deleteGender,
+    addGenderPage,
+    addGender,
+    editGender,
+    editGenderPage
+} = require("./routes/values/genders")
+const {
+    weaponsPage,
+    deleteWeapon,
+    addWeaponPage,
+    addWeapon,
+    editWeapon,
+    editWeaponPage,
+    regWeapon,
+    regWeaponPage
+} = require("./routes/values/weapons")
+const {
+    ethnicitiesPage,
+    addethnicityPage,
+    addethnicity,
+    editEthnicityPage,
+    editethnicity,
+    deleteEthnicity
+} = require("./routes/values/ethnicities")
+const {
+    officersPage,
+    tabletPage,
+    penalCodesPage,
+    officersDash,
+    searchNamePage,
+    searchPlatePage,
+    plateResultsPage,
+    nameResultsPage,
+    officerApplyPage,
+    addOffencePage,
+    addOffence
+} = require("./routes/officers/officer")
+const {
+    citizenPage,
+    citizenDetailPage,
+    addCitizen,
+    addCitizenPage,
+    editCitizenPage,
+    editCitizen,
+    deleteCitizens
+} = require("./routes/citizens/citizen")
+const {
+    loggedinHomePage
+} = require("./routes/login")
+const {
+    loginPage,
+    registerPage,
+    login,
+    register,
+    changeUsername,
+    changeUsernamePage
+} = require("./routes/login-reg")
 let port = 80;
 const prefix = "?"
 
@@ -29,7 +101,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.set('views', __dirname + '/views');
@@ -48,7 +122,12 @@ app.get("/admin", adminPanel)
 
 app.get('/admin/login', function (req, res) {
 
-    res.render("citizens/login.ejs", { title: "Login", message: "Session expired, Please log back in.", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
+    res.render("citizens/login.ejs", {
+        title: "Login",
+        message: "Session expired, Please log back in.",
+        isAdmin: req.session.admin,
+        loggedIn: req.session.loggedin
+    })
 });
 
 app.post('/admin/auth', function (request, response) {
@@ -63,13 +142,21 @@ app.post('/admin/auth', function (request, response) {
                 console.log("Successfully logged in at: " + request.connection.remoteAddress)
                 response.redirect('/home');
             } else {
-                response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Wrong Username or Password" })
+                response.render("citizens/login.ejs", {
+                    title: 'Admin Panel',
+                    isAdmin: request.session.admin,
+                    message: "Wrong Username or Password"
+                })
                 console.log("log in failed at: ", request.connection.remoteAddress)
             }
             response.end();
         });
     } else {
-        response.render("citizens/login.ejs", { title: 'Admin Panel', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
+        response.render("citizens/login.ejs", {
+            title: 'Admin Panel',
+            isAdmin: request.session.admin,
+            message: "Something went wrong! Please try again"
+        })
 
         response.end();
     }
@@ -84,14 +171,22 @@ app.post('/officers/auth', function (request, response) {
                 request.session.username = username;
                 response.redirect('/myofficers');
             } else {
-                response.render("officers-pages/login.ejs", { title: 'Police Dept.', isAdmin: request.session.admin, message: "Wrong Username or Password" })
+                response.render("officers-pages/login.ejs", {
+                    title: 'Police Dept.',
+                    isAdmin: request.session.admin,
+                    message: "Wrong Username or Password"
+                })
                 // response.render("errors/logged.ejs", { title: "Error", isAdmin: request.session.isAdmin })
 
             }
             response.end();
         });
     } else {
-        response.render("officers-pages/login.ejs", { title: 'Police Dept.', isAdmin: request.session.admin, message: "Something went wrong! Please try again" })
+        response.render("officers-pages/login.ejs", {
+            title: 'Police Dept.',
+            isAdmin: request.session.admin,
+            message: "Something went wrong! Please try again"
+        })
 
         response.end();
     }
@@ -144,7 +239,12 @@ app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage
 // application
 
 app.get('/officers/login', function (req, res) {
-    res.render("officers-pages/login.ejs", { title: "Login", message: "", isAdmin: req.session.admin, loggedIn: req.session.loggedin })
+    res.render("officers-pages/login.ejs", {
+        title: "Login",
+        message: "",
+        isAdmin: req.session.admin,
+        loggedIn: req.session.loggedin
+    })
 });
 
 
@@ -189,7 +289,10 @@ app.get("/weapons/register", regWeaponPage)
 app.post("/weapons/register", regWeapon)
 
 app.get("/officers/apply", (req, res) => {
-    res.render("officers-pages/apply.ejs", { title: "Apply | Equinox CAD", isAdmin: req.session.isAdmin })
+    res.render("officers-pages/apply.ejs", {
+        title: "Apply | Equinox CAD",
+        isAdmin: req.session.isAdmin
+    })
     // bot.channels.get("643417616337207296").send(``)
 })
 
@@ -233,29 +336,74 @@ app.post("/officers/apply", async (req, res) => {
 
 // 404 page 
 app.get('*', (req, res) => {
-    res.status(404).render("errors/404.ejs", { title: "404 | Equinox CAD", isAdmin: req.session.admin })
+    res.status(404).render("errors/404.ejs", {
+        title: "404 | Equinox CAD",
+        isAdmin: req.session.admin
+    })
 })
 
 
 async function main() {
 
-    db = await mysql.createConnection({
+    db = {
         host: "localhost",
         user: "root",
         password: process.env.DBP,
         database: process.env.DB,
         multipleStatements: true,
         timeout: 0
-    });
+    };
 
-    db2 = await mysql.createConnection({
+    db2 = {
         host: "localhost",
         user: "root",
         password: process.env.DBP,
         database: process.env.DB2,
         multipleStatements: true,
         timeout: 0
-    })
+    }
+
+
+
+    function handleDisconnect() {
+        connection = mysql.createConnection(db); // Recreate the connection, since
+        connection1 = mysql.createConnection(db2); // Recreate the connection, since
+        // the old one cannot be reused.
+
+        connection.connect(function (err) { // The server is either down
+            if (err) { // or restarting (takes a while sometimes).
+                console.log('error when connecting to db1:', err);
+                setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+            } // to avoid a hot loop, and to allow our node script to
+        }); // process asynchronous requests in the meantime.
+        // If you're also serving http, display a 503 error.
+        connection.on('error', function (err) {
+            console.log('db error - 1', err);
+            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
+
+        connection1.connect(function (err) { // The server is either down
+            if (err) { // or restarting (takes a while sometimes).
+                console.log('error when connecting to db2:', err);
+                setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+            } // to avoid a hot loop, and to allow our node script to
+        }); // process asynchronous requests in the meantime.
+        // If you're also serving http, display a 503 error.
+        connection1.on('error - 2', function (err) {
+            console.log('db error', err);
+            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
+    }
+
+    handleDisconnect();
     // 7{aH$mkLP@vfpW-!
     app.listen(port, () => {
 
@@ -283,9 +431,6 @@ async function main() {
             commandfile = bot.commands.get(bot.aliases.get(cmd));
         } else {
             return;
-        }
-        if (cmd === '!accept '+args) {
-            message.channel.send('yes?')
         }
         try {
             commandfile.run(bot, message, args, cmd, commandfile);
