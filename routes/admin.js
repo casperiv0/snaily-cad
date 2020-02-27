@@ -26,13 +26,13 @@ module.exports = {
                     req.session.username = username;
                     req.session.admin = true;
                     console.log("Successfully logged in at: " + req.connection.remoteAddress)
-                    res.redirect('/home');
+                    res.redirect('/admin');
                 } else {
                     res.render("citizens/login.ejs", {
                         title: 'Admin Panel',
                         isAdmin: req.session.admin,
                         message: "Wrong Username or Password"
-                    })
+                    });
                     console.log("log in failed at: ", req.connection.remoteAddress)
                 }
                 res.end();
@@ -43,7 +43,6 @@ module.exports = {
                 isAdmin: req.session.admin,
                 message: "Something went wrong! Please try again"
             })
-    
             res.end();
         }
     },

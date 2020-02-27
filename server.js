@@ -104,11 +104,6 @@ const {
     deleteCitizens
 } = require("./routes/citizens/citizen");
 
-
-const {
-    loggedinHomePage
-} = require("./routes/login");
-
 // Registration - Login
 const {
     loginPage,
@@ -137,19 +132,15 @@ app.use(favicon(__dirname + '/public/icon.png'));
 app.use(eSession.main(session));
 
 
+
+
+// Home/defualt pages
 app.get("/", homePage)
 
 // Admin
 app.get("/admin", adminPanel);
 app.get('/admin/login', adminLoginPage);
 app.post('/admin/auth', adminLogin);
-
-
-
-
-// Home/defualt pages
-app.get('/home', loggedinHomePage);
-
 
 // Citizens
 app.get("/admin/citizens", citizensPage)
@@ -164,21 +155,15 @@ app.get("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
 app.get("/edit-name", changeUsernamePage)
 app.post("/edit-name", changeUsername)
 
-app.get("/logout", (req, res) => {
-    req.session.destroy();
-    res.redirect("/")
-    // res.render("login-res/logout.ejs", { title: "Are you sure you want to logout? | Equinox CAD", isAdmin: req.session.isAdmin })
-})
-
-app.post("/logout", (req, res) => {
-    req.session
-})
-
-//  Login : Registration
+//  Login : Registration : Logout
 app.get("/login", loginPage);
 app.post("/login", login);
 app.get("/register", registerPage);
 app.post("/register", register);
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/")
+})
 
 // Officers
 app.get('/officer/login', officerLoginPage)
@@ -193,10 +178,7 @@ app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
 app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
-// application
-
 app.get('/officers/login', officerLoginPage);
-
 
 // Cars
 app.get("/admin/values/cars", carValuePage)
@@ -243,7 +225,6 @@ app.get("/officers/apply", (req, res) => {
         title: "Apply | Equinox CAD",
         isAdmin: req.session.isAdmin
     })
-    // bot.channels.get("643417616337207296").send(``)
 })
 
 app.post("/officers/apply", async (req, res) => {
@@ -344,7 +325,6 @@ async function main() {
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
             } // to avoid a hot loop, and to allow our node script to
         }); // process asynchronous requests in the meantime.
-        // If you're also serving http, display a 503 error.
         connection1.on('error - 2', function (err) {
             console.log('db error', err);
             if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
@@ -367,30 +347,6 @@ async function main() {
     bot.on("ready", () => {
         console.log(`bot up and running ${bot.user.username}`)
     })
-
-    bot.on('message', (message, bot) => {
-        if (!message.content.startsWith(prefix) || message.author.bot) return;
-        let messageArray = message.content.split(/ +/);
-        let args = message.content
-            .slice(prefix.length)
-            .trim()
-            .split(/ +/g);
-        let cmd = args.shift().toLowerCase();
-        let commandfile;
-        if (bot.commands.has(cmd)) {
-            commandfile = bot.commands.get(cmd);
-        } else if (bot.aliases.has(cmd)) {
-            commandfile = bot.commands.get(bot.aliases.get(cmd));
-        } else {
-            return;
-        }
-        try {
-            commandfile.run(bot, message, args, cmd, commandfile);
-        } catch (err) {
-            console.log("There was an error loading the commands");
-            console.log(err);
-        }
-    });
 }
 
 main();
