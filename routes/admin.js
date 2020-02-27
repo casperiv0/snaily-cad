@@ -8,6 +8,45 @@ module.exports = {
         }
 
     },
+    adminLoginPage: (req, res) => {
+        res.render("citizens/login.ejs", {
+            title: "Login",
+            message: "Session expired, Please log back in.",
+            isAdmin: req.session.admin,
+            loggedIn: req.session.loggedin
+        })
+    }, 
+    adminLogin: (req, res) => {
+        var username = req.body.username;
+        var password = req.body.password;
+        if (username && password) {
+            connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+                if (results.length > 0) {
+                    req.session.loggedinAdmin = true;
+                    req.session.username = username;
+                    req.session.admin = true;
+                    console.log("Successfully logged in at: " + req.connection.remoteAddress)
+                    res.redirect('/home');
+                } else {
+                    res.render("citizens/login.ejs", {
+                        title: 'Admin Panel',
+                        isAdmin: req.session.admin,
+                        message: "Wrong Username or Password"
+                    })
+                    console.log("log in failed at: ", req.connection.remoteAddress)
+                }
+                res.end();
+            });
+        } else {
+            res.render("citizens/login.ejs", {
+                title: 'Admin Panel',
+                isAdmin: req.session.admin,
+                message: "Something went wrong! Please try again"
+            })
+    
+            res.end();
+        }
+    },
     citizensPage: (req, res) => {
         if (req.session.loggedinAdmin) {
             let query = "SELECT * FROM `users` ORDER BY id ASC"

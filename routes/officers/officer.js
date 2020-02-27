@@ -26,7 +26,12 @@ module.exports = {
                 if (err) {
                     console.log("Error" + err)
                 }
-                res.render("officers-pages/officers.ejs", { title: "Equinox Officers", users: "qsd", isAdmin: req.session.admin, officers: result })
+                res.render("officers-pages/officers.ejs", {
+                    title: "Equinox Officers",
+                    users: "qsd",
+                    isAdmin: req.session.admin,
+                    officers: result
+                })
 
             })
 
@@ -38,9 +43,9 @@ module.exports = {
     tabletPage: (req, res) => {
         if (req.session.PDloggedin) {
             res.render("officers-pages/tablet.ejs", {
-                title: "Officers Tablet", fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
-                    url.json("http://95.179.141.103:8000/businesses").then(result => {
-                    })
+                title: "Officers Tablet",
+                fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
+                    url.json("http://95.179.141.103:8000/businesses").then(result => {})
                 })
             })
         } else {
@@ -53,7 +58,11 @@ module.exports = {
             const url = "http://95.179.141.103:3000";
             fetch(url)
                 .then(res => res.json())
-                .then(json => res.render("officers-pages/penal-codes.ejs", { title: "Penal Codes | Equinox CAD", penals: json, isAdmin: req.session.admin }))
+                .then(json => res.render("officers-pages/penal-codes.ejs", {
+                    title: "Penal Codes | Equinox CAD",
+                    penals: json,
+                    isAdmin: req.session.admin
+                }))
         } else {
             res.redirect("/officers/login")
 
@@ -64,7 +73,10 @@ module.exports = {
     officersDash: (req, res) => {
         if (req.session.PDloggedin) {
 
-            res.render("officers-pages/officers-dash.ejs", { title: "Police Department", isAdmin: req.session.admin })
+            res.render("officers-pages/officers-dash.ejs", {
+                title: "Police Department",
+                isAdmin: req.session.admin
+            })
 
         } else {
             res.redirect("/officers/login")
@@ -75,7 +87,11 @@ module.exports = {
         if (req.session.PDloggedin) {
             let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
             connection.query(query, (err, result) => {
-                res.render("officers-pages/plate.ejs", { title: "Plate Search | Police Department", isAdmin: req.session.admin, plates: result })
+                res.render("officers-pages/plate.ejs", {
+                    title: "Plate Search | Police Department",
+                    isAdmin: req.session.admin,
+                    plates: result
+                })
             })
 
         } else {
@@ -88,7 +104,11 @@ module.exports = {
             let query = "SELECT * FROM `citizens` ORDER by id ASC"
 
             connection.query(query, (err, result) => {
-                res.render("officers-pages/name.ejs", { title: "Name Search | Police Department", isAdmin: req.session.admin, information: result })
+                res.render("officers-pages/name.ejs", {
+                    title: "Name Search | Police Department",
+                    isAdmin: req.session.admin,
+                    information: result
+                })
 
             })
 
@@ -114,7 +134,12 @@ module.exports = {
                     return res.status(404).send(err);
                 }
 
-                res.render("officers-pages/plate-results.ejs", { title: "Plate Results | Police Department", isAdmin: req.session.admin, plates: result[0][0], name: result[1][0] })
+                res.render("officers-pages/plate-results.ejs", {
+                    title: "Plate Results | Police Department",
+                    isAdmin: req.session.admin,
+                    plates: result[0][0],
+                    name: result[1][0]
+                })
             });
         } else {
             res.redirect("/officers/login")
@@ -138,7 +163,14 @@ module.exports = {
                     return res.status(500).send(err);
                 }
 
-                res.render("officers-pages/name-results.ejs", { title: "Name Results | Police Department", isAdmin: req.session.admin, result: result[0][0], vehicles: result[1], weapons: result[2], charges: result[3] })
+                res.render("officers-pages/name-results.ejs", {
+                    title: "Name Results | Police Department",
+                    isAdmin: req.session.admin,
+                    result: result[0][0],
+                    vehicles: result[1],
+                    weapons: result[2],
+                    charges: result[3]
+                })
             });
 
         } else {
@@ -150,10 +182,20 @@ module.exports = {
         res.send("sd")
     },
     addOffencePage: (req, res) => {
-        const url = "http://95.179.141.103:3000";
-        fetch(url)
-            .then(res => res.json())
-            .then(json => res.render("officers-pages/add-offence.ejs", { title: "Add Offence | Equinox CAD", penals: json, isAdmin: req.session.admin, req: req }))
+        if (req.session.PDloggedin) {
+            const url = "http://95.179.141.103:3000";
+            fetch(url)
+                .then(res => res.json())
+                .then(json => res.render("officers-pages/add-offence.ejs", {
+                    title: "Add Offence | Equinox CAD",
+                    penals: json,
+                    isAdmin: req.session.admin,
+                    req: req
+                }))
+        } else {
+            res.redirect('/officers/login')
+        }
+
     },
     addOffence: (req, res) => {
         let name = req.body.name;
@@ -174,4 +216,3 @@ module.exports = {
         });
     }
 }
-

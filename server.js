@@ -4,23 +4,35 @@ const {
     homePage
 } = require("./routes/index")
 let eSession = require('easy-session');
-let Acl = require("virgen-acl").Acl,
-    acl = new Acl();
 let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 require('dotenv').config()
 const favicon = require('express-favicon');
+const fetch = require("node-fetch")
+const session = require("express-session");
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+// Variables
 let connection;
 let connection1;
 let db;
-let db2
+let db2;
+let port = 80;
+const prefix = "?"
 
+// Admin
 const {
     adminPanel,
+    adminLoginPage,
+    adminLogin,
     citizensPage,
     deleteCitizen
 } = require("./routes/admin")
+
+// Vehicles
 const {
     addCarPage,
     carValuePage,
@@ -31,6 +43,8 @@ const {
     regVehicle,
     regVehiclePage
 } = require("./routes/values/cars")
+
+// Genders
 const {
     genderPage,
     deleteGender,
@@ -39,6 +53,8 @@ const {
     editGender,
     editGenderPage
 } = require("./routes/values/genders")
+
+// Weapons
 const {
     weaponsPage,
     deleteWeapon,
@@ -49,6 +65,8 @@ const {
     regWeapon,
     regWeaponPage
 } = require("./routes/values/weapons")
+
+// Ethnicities
 const {
     ethnicitiesPage,
     addethnicityPage,
@@ -57,6 +75,8 @@ const {
     editethnicity,
     deleteEthnicity
 } = require("./routes/values/ethnicities")
+
+// Officers
 const {
     officersPage,
     tabletPage,
@@ -69,7 +89,9 @@ const {
     officerApplyPage,
     addOffencePage,
     addOffence
-} = require("./routes/officers/officer")
+} = require("./routes/officers/officer");
+
+// Citizens
 const {
     citizenPage,
     citizenDetailPage,
@@ -78,10 +100,14 @@ const {
     editCitizenPage,
     editCitizen,
     deleteCitizens
-} = require("./routes/citizens/citizen")
+} = require("./routes/citizens/citizen");
+
+
 const {
     loggedinHomePage
-} = require("./routes/login")
+} = require("./routes/login");
+
+// Registration - Login
 const {
     loginPage,
     registerPage,
@@ -90,16 +116,8 @@ const {
     changeUsername,
     changeUsernamePage
 } = require("./routes/login-reg")
-let port = 80;
-const prefix = "?"
 
-
-const fetch = require("node-fetch")
-const session = require("express-session");
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-const path = require('path');
-
+// Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
     extended: true
@@ -118,49 +136,16 @@ app.use(eSession.main(session));
 
 
 app.get("/", homePage)
-app.get("/admin", adminPanel)
 
-app.get('/admin/login', function (req, res) {
+// Admin
+app.get("/admin", adminPanel);
+app.get('/admin/login', adminLoginPage);
+app.post('/admin/auth', adminLogin);
 
-    res.render("citizens/login.ejs", {
-        title: "Login",
-        message: "Session expired, Please log back in.",
-        isAdmin: req.session.admin,
-        loggedIn: req.session.loggedin
-    })
-});
 
-app.post('/admin/auth', function (request, response) {
-    var username = request.body.username;
-    var password = request.body.password;
-    if (username && password) {
-        connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
-            if (results.length > 0) {
-                request.session.loggedinAdmin = true;
-                request.session.username = username;
-                request.session.admin = true;
-                console.log("Successfully logged in at: " + request.connection.remoteAddress)
-                response.redirect('/home');
-            } else {
-                response.render("citizens/login.ejs", {
-                    title: 'Admin Panel',
-                    isAdmin: request.session.admin,
-                    message: "Wrong Username or Password"
-                })
-                console.log("log in failed at: ", request.connection.remoteAddress)
-            }
-            response.end();
-        });
-    } else {
-        response.render("citizens/login.ejs", {
-            title: 'Admin Panel',
-            isAdmin: request.session.admin,
-            message: "Something went wrong! Please try again"
-        })
 
-        response.end();
-    }
-});
+
+
 app.post('/officers/auth', function (request, response) {
     var username = request.body.username;
     var password = request.body.password;
@@ -192,6 +177,7 @@ app.post('/officers/auth', function (request, response) {
     }
 });
 
+// Home/defualt pages
 app.get('/home', loggedinHomePage);
 
 
