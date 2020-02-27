@@ -369,6 +369,8 @@ async function main() {
         connection = mysql.createConnection(db); // Recreate the connection, since
         connection1 = mysql.createConnection(db2); // Recreate the connection, since
         // the old one cannot be reused.
+        global.connection = connection
+        global.connection1 = connection1
 
         connection.connect(function (err) { // The server is either down
             if (err) { // or restarting (takes a while sometimes).
