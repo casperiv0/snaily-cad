@@ -10,7 +10,7 @@ module.exports = {
     },
     adminLoginPage: (req, res) => {
         res.render("citizens/login.ejs", {
-            title: "Login",
+            title: "Admin Login | Equinox CAD",
             message: "Session expired, Please log back in.",
             isAdmin: req.session.admin,
             loggedIn: req.session.loggedin

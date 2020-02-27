@@ -214,5 +214,43 @@ module.exports = {
             }
             res.redirect(`/officers/dash/search/person-name`);
         });
+    },
+    officerLoginPage: (req, res) => {
+        res.render("officers-pages/login.ejs", {
+            title: "Police Login | Equinox CAD",
+            message: "",
+            isAdmin: req.session.admin,
+            loggedIn: req.session.loggedin
+        })
+    },
+    officerLogin: (req, res) => {
+        var username = req.body.username;
+        var password = req.body.password;
+        if (username && password) {
+            connection.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+                if (results.length > 0) {
+                    req.session.PDloggedin = true;
+                    req.session.username = username;
+                    res.redirect('/myofficers');
+                } else {
+                    res.render("officers-pages/login.ejs", {
+                        title: 'Police Dept.',
+                        isAdmin: req.session.admin,
+                        message: "Wrong Username or Password"
+                    })
+                    // res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
+    
+                }
+                res.end();
+            });
+        } else {
+            res.render("officers-pages/login.ejs", {
+                title: 'Police Dept.',
+                isAdmin: req.session.admin,
+                message: "Something went wrong! Please try again"
+            })
+    
+            res.end();
+        }
     }
 }

@@ -88,7 +88,9 @@ const {
     nameResultsPage,
     officerApplyPage,
     addOffencePage,
-    addOffence
+    addOffence,
+    officerLogin,
+    officerLoginPage
 } = require("./routes/officers/officer");
 
 // Citizens
@@ -145,38 +147,6 @@ app.post('/admin/auth', adminLogin);
 
 
 
-
-app.post('/officers/auth', function (request, response) {
-    var username = request.body.username;
-    var password = request.body.password;
-    if (username && password) {
-        connection.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
-            if (results.length > 0) {
-                request.session.PDloggedin = true;
-                request.session.username = username;
-                response.redirect('/myofficers');
-            } else {
-                response.render("officers-pages/login.ejs", {
-                    title: 'Police Dept.',
-                    isAdmin: request.session.admin,
-                    message: "Wrong Username or Password"
-                })
-                // response.render("errors/logged.ejs", { title: "Error", isAdmin: request.session.isAdmin })
-
-            }
-            response.end();
-        });
-    } else {
-        response.render("officers-pages/login.ejs", {
-            title: 'Police Dept.',
-            isAdmin: request.session.admin,
-            message: "Something went wrong! Please try again"
-        })
-
-        response.end();
-    }
-});
-
 // Home/defualt pages
 app.get('/home', loggedinHomePage);
 
@@ -211,6 +181,8 @@ app.get("/register", registerPage);
 app.post("/register", register);
 
 // Officers
+app.get('/officer/login', officerLoginPage)
+app.post('/officers/auth', officerLogin);
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
 app.get("/officers/tablet", tabletPage)
@@ -219,19 +191,11 @@ app.get("/officers/dash/search/plate", searchPlatePage)
 app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
 app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
 app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
-// app.get("/officers/")
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 // application
 
-app.get('/officers/login', function (req, res) {
-    res.render("officers-pages/login.ejs", {
-        title: "Login",
-        message: "",
-        isAdmin: req.session.admin,
-        loggedIn: req.session.loggedin
-    })
-});
+app.get('/officers/login', officerLoginPage);
 
 
 // Cars
