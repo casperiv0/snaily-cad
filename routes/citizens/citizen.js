@@ -35,7 +35,7 @@ module.exports = {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                if (result[0][0].full_name == req.session.username2) {
+                if (result[0][0].linked_to == req.session.username2) {
                     res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: req.session.admin })
                 } else {
                     res.sendStatus(401)
