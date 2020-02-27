@@ -16,7 +16,7 @@ module.exports = {
             })
 
         } else {
-            res.redirect("/officers/login")
+            res.redirect("/ems-fd/login")
         }
 
     },
