@@ -108,11 +108,16 @@ module.exports = {
             let dmvQ = "SELECT * FROM `in_statuses`"
             let id = req.params.id;
             let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
+            
             connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
+                if (result[3][0].linked_to == req.session.username2) {
+                res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3] })
+                } else {
+                    res.sendStatus(401)
+                }
                 if (err) {
                     console.log(err)
                 }
-                res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3] })
             });
         }
     },
