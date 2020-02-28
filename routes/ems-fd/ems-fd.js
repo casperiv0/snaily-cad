@@ -1,9 +1,10 @@
 module.exports = {
     emsPage: (req, res, next) => {
         if (req.session.EMSloggedin) {
-            let qeury = "SELECT * FROM `ems-fd` ORDER by id ASC"
+            let qeury = "SELECT * d `ems-fd` ORDER by id ASC"
             connection.query(qeury, (err, result) => {
                 if (err) {
+                    res.send("Oops something went wrong!")
                     console.log("Error" + err)
                 }
                 res.render("ems-fd/ems-fd.ejs", {
