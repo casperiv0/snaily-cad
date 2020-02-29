@@ -20,7 +20,7 @@ let connection;
 let connection1;
 let db;
 let db2;
-let port = 3001;
+let port = 80;
 const prefix = "?"
 
 // Admin
@@ -88,15 +88,11 @@ const {
     officerApplyPage,
     addOffencePage,
     addOffence,
-    officerLogin,
-    officerLoginPage,
     officerApply
 } = require("./routes/officers/officer");
 
 const {
     emsPage,
-    emsLogin,
-    emsLoginPage
 } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
@@ -172,8 +168,6 @@ app.get("/logout", (req, res) => {
 })
 
 // Officers
-app.get('/officer/login', officerLoginPage)
-app.post('/officers/auth', officerLogin);
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
 app.get("/officers/penal-codes", penalCodesPage)
@@ -183,14 +177,11 @@ app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
 app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
-app.get('/officers/login', officerLoginPage);
 app.get("/officers/apply", officerApplyPage);
 app.post("/officers/apply", officerApply);
 
 // EMS/FD
 app.get('/ems-fd', emsPage);
-app.get('/ems-fd/login', emsLoginPage)
-app.post('/ems-fd/login', emsLogin)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

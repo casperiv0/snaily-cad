@@ -223,75 +223,56 @@ module.exports = {
         // await message.react("😄")
     },
     addOffencePage: (req, res) => {
-        if (req.session.PDloggedin) {
-            const url = "http://95.179.141.103:3000";
-            fetch(url)
-                .then(res => res.json())
-                .then(json => res.render("officers-pages/add-offence.ejs", {
-                    title: "Add Offence | Equinox CAD",
-                    penals: json,
-                    isAdmin: req.session.admin,
-                    req: req
-                }))
-        } else {
-            res.redirect('/officers/login')
-        }
 
-    },
-    addOffence: (req, res) => {
-        let name = req.body.name;
-        let offence = req.body.offence;
-        let date = req.body.date;
-        let officer_name = req.body.officer_name;
-        let notes = req.body.notes;
-        if (notes == "") {
-            notes = "None"
-        }
-
-        let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
-        connection.query(query, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            res.redirect(`/officers/dash/search/person-name`);
-        });
-    },
-    officerLoginPage: (req, res) => {
-        res.render("officers-pages/login.ejs", {
-            title: "Police Login | Equinox CAD",
-            message: "",
-            isAdmin: req.session.admin,
-            loggedIn: req.session.loggedin
-        })
-    },
-    officerLogin: (req, res) => {
-        var username = req.body.username;
-        var password = req.body.password;
-        if (username && password) {
-            connection.query('SELECT * FROM `officer-acc` WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
-                if (results.length > 0) {
-                    req.session.PDloggedin = true;
-                    req.session.username = username;
-                    res.redirect('/myofficers');
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    const url = "http://95.179.141.103:3000";
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(json => res.render("officers-pages/add-offence.ejs", {
+                            title: "Add Offence | Equinox CAD",
+                            penals: json,
+                            isAdmin: req.session.admin,
+                            req: req
+                        }))
                 } else {
-                    res.render("officers-pages/login.ejs", {
-                        title: 'Police Dept.',
-                        isAdmin: req.session.admin,
-                        message: "Wrong Username or Password"
-                    })
-                    // res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
-
-                }
-                res.end();
+                    res.sendStatus(403);
+                };
             });
         } else {
-            res.render("officers-pages/login.ejs", {
-                title: 'Police Dept.',
-                isAdmin: req.session.admin,
-                message: "Something went wrong! Please try again"
-            })
+            res.redirect("/login")
+        }
+    },
+    addOffence: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
 
-            res.end();
+                    let name = req.body.name;
+                    let offence = req.body.offence;
+                    let date = req.body.date;
+                    let officer_name = req.body.officer_name;
+                    let notes = req.body.notes;
+                    if (notes == "") {
+                        notes = "None"
+                    }
+
+                    let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
+                        res.redirect(`/officers/dash/search/person-name`);
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login")
         }
     }
 }
