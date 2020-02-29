@@ -121,7 +121,8 @@ const {
     dispatchPage,
     disptachNameSearch,
     disptachPlateSearch,
-    disptachWeaponSearch
+    disptachWeaponSearch,
+    disptachAddressSearch
 } = require("./routes/dispatch")
 
 // Middleware
@@ -180,7 +181,7 @@ app.get("/dispatch", dispatchPage)
 app.post("/dispatch/search/name", disptachNameSearch)
 app.post("/dispatch/search/plate", disptachPlateSearch)
 app.post("/dispatch/search/weapon", disptachWeaponSearch)
-
+app.post("/dispatch/search/address", disptachAddressSearch)
 // Officers
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)

@@ -1,8 +1,11 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container mt-3">
 
+
+<div class="container mt-3">
     <a href="/dispatch" class="btn text-dark btn-primary cap mb-2 list-group-item">Back to Dispatch</a>
+
+    <% if (weapons.length > 0) {%>
     <div class="container row mx-auto">
         <ul class="list-group row">
 
@@ -19,6 +22,14 @@
             <% }) %>
         </ul>
     </div>
+
+    <%  } else {%>
+    <ul class="list-group">
+        <li class="list-group-item">
+            No one found registered with this weapon
+        </li>
+    </ul>
+    <% } %>
 
 
 </div>

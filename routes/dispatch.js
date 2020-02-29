@@ -1,11 +1,12 @@
 module.exports = {
     dispatchPage: (req, res) => {
         let weapons = "SELECT * FROM weapons"
-        connection.query(weapons, (err, result) => {
+        let addressess = "SELECT address FROM citizens"
+        connection.query(`${weapons}; ${addressess}`, (err, result) => {
             if (err) {
                 return console.log(err)
             } else {
-                res.render("dispatch/main.ejs", { title: "Dispatch | Equinox CAD", isAdmin: "", weapons: result })
+                res.render("dispatch/main.ejs", { title: "Dispatch | Equinox CAD", isAdmin: "", weapons: result[0], address: result[1] })
             }
         })
     },
@@ -49,8 +50,20 @@ module.exports = {
         let weaponQ = "SELECT * FROM `registered_weapons` WHERE weapon = '" + searchQ + "'"
 
         connection.query(`${weaponQ}`, (err, result) => {
-            console.log(result)
             res.render("dispatch/weapons-search.ejs", { title: 'Dispatch | Equinox CAD', isAdmin: "", weapons: result })
         })
+    },
+    disptachAddressSearch: (req, res) => {
+        let searchQ = req.body.address_search;
+        let query = "SELECT * FROM citizens WHERE address = '" + searchQ + "'"
+
+        connection.query(query, (err, result) => {
+            if (err) {
+                return console.log(err)
+            } else {
+                res.render("dispatch/address-search.ejs", { title: "Dispatch | Equinox CAD", isAdmin: "", users: result })
+            }
+        })
+
     }
 }
