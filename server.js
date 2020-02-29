@@ -20,7 +20,7 @@ let connection;
 let connection1;
 let db;
 let db2;
-let port = 80;
+let port = process.env.ENV === "dev" ? 3001 : 80;
 const prefix = "?"
 
 // Admin
