@@ -30,24 +30,49 @@ module.exports = {
 
 
     },
-    deleteCitizen: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let playerId = req.params.id;
-            // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-            let deleteUserQuery = 'DELETE FROM users WHERE id = "' + playerId + '"';
-
-            connection.query(deleteUserQuery, (err, result) => {
-
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.redirect('/admin/citizens');
+    adminEditCitizenPage: (req, res) => {
+        if (req.session.loggedin) {
+            let id = req.params.id
+            let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
+            let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(`${query1}; ${query}`, (err, result) => {
+                if (result[0][0].admin == 'admin') {
+                    res.render("admin-pages/edit-citizens.ejs", { title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].admin })
+                } else {
+                    res.sendStatus(403)
+                };
             });
         } else {
-            res.redirect("/admin/login")
-
+            res.redirect("/login")
         }
 
+    },
+    adminEditCitizen: (req, res) => {
+        if (req.session.loggedin) {
+            let id = req.params.id
+            let admin = req.body.admin
+            let leo = req.body.leo
+            let ems = req.body.ems
+            console.log(ems, admin, leo);
+            let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
+            let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            let query2 = 'UPDATE `users` SET `admin` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '" WHERE `users`.`id` = "' + id + '"';
+            connection1.query(`${query1}; ${query}`, (err, result) => {
+                if (result[0][0].admin == 'admin') {
+                    connection1.query(query2, (err, result1) => {
+                        if (err) {
+                            res.sendStatus(500).send(err)
+                        } else {
+                            res.redirect("/admin/users")
+                        }
+                    })
+                } else {
+                    res.sendStatus(403)
+                };
+            });
+        } else {
+            res.redirect("/login")
+        }
 
     }
 

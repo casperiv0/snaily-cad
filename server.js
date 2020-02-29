@@ -20,7 +20,7 @@ let connection;
 let connection1;
 let db;
 let db2;
-let port = 3001;
+let port = 80;
 const prefix = "?"
 
 // Admin
@@ -28,7 +28,8 @@ const {
     adminPanel,
     adminLoginPage,
     usersPage,
-    deleteCitizen
+    adminEditCitizen,
+    adminEditCitizenPage
 } = require("./routes/admin")
 
 // Vehicles
@@ -144,7 +145,8 @@ app.get("/admin", adminPanel);
 // app.get('/admin/login', adminLoginPage);
 // app.post('/admin/auth', adminLogin);
 app.get("/admin/users", usersPage)
-app.get("/admin/users/delete/:id", deleteCitizen)
+app.get("/admin/users/edit/:id", adminEditCitizenPage)
+app.post("/admin/users/edit/:id", adminEditCitizen)
 
 // Citizens
 app.get("/citizen", citizenPage)
