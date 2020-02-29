@@ -11,33 +11,23 @@
   margin-left: 100px;
 } */
 
-.card-body {
-  background-color: rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
-  width: 300px;
-}
-
-.card-title {
-  text-align: center;
-}
-
-.list-group {
+/* .list-group {
   margin-top: 60px;
   margin-left: 50px;
   margin-right: 50px;
-}
+} */
 
 .edit-veh-form {
   margin: 100px;
 }
-
+/* 
 .list-group-item {
   text-transform: capitalize;
   font-size: 20px;
   font-weight: 600;
   min-width: 250px;
   margin-top: 10px;
-}
+} */
 
 .margin-right-10 {
   margin-right: 10px;
@@ -161,4 +151,8 @@
 
 .bolder {
   font-weight: bolder;
+}
+
+.no-out {
+  outline: none;
 }

@@ -1,0 +1,24 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-3">
+
+    <a href="/dispatch" class="btn text-dark btn-primary cap mb-2 list-group-item">Back to Dispatch</a>
+    <div class="container row mx-auto">
+        <ul class="list-group row">
+
+            <% weapons.forEach(weapon => {%>
+            <div class="card list-group-item" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= weapon.owner %></h5>
+                    <p class="card-text"> <span class="bolder"> Weapon Status:</span> <span class="cap">
+                            <%= weapon.status %>
+                        </span> <br> <span class="bolder">Weapon:</span> <span class="cap"><%= weapon.weapon %></span>
+                    </p>
+                </div>
+            </div>
+            <% }) %>
+        </ul>
+    </div>
+
+
+</div>

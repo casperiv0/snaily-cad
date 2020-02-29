@@ -1,117 +1,125 @@
 <%- include("../partials/header.ejs") %>
-<% if (citizen[0]) { %>
-<h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
-<div class="users-list">
-    <ul class="list-group">
-        <a class="btn btn-success"
-            href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
-    
+
+<div class="container">
+
+
+    <% if (citizen[0]) { %>
+    <h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
+    <div class="users-list">
+        <ul class="list-group">
+            <a class="btn btn-success"
+                href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
+
             <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger top-1" data-toggle="modal" data-target="#exampleModal">
-    Delete Citizen
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">delete <%= citizen[0].first_name %> <%= citizen[0].last_name %>?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Are you sure?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary top-1" data-dismiss="modal">Cancel</button>
-          <a  href="/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>" class="btn btn-primary">Delete Citizen</a>
-        </div>
-      </div>
+            <button type="button" class="btn btn-danger top-1" data-toggle="modal" data-target="#exampleModal">
+                Delete Citizen
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">delete <%= citizen[0].first_name %>
+                                <%= citizen[0].last_name %>?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary top-1" data-dismiss="modal">Cancel</button>
+                            <a href="/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>"
+                                class="btn btn-primary">Delete Citizen</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <li class="list-group-item">Full Name: <%= citizen[0].first_name %> </li>
+            <!-- <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li> -->
+            <li class="list-group-item">Gender: <%= citizen[0].gender %></li>
+            <li class="list-group-item">Birthday: <%= citizen[0].birth %> </li>
+            <li class="list-group-item">Ethnicity: <%= citizen[0].ethnicity %> </li>
+            <li class="list-group-item">Hair Color: <%= citizen[0].hair %> </li>
+            <li class="list-group-item">Eye Color: <%= citizen[0].eyes %> </li>
+            <li class="list-group-item">Address: <%= citizen[0].address %> </li>
+            <li class="list-group-item">Height: <%= citizen[0].height %> </li>
+            <li class="list-group-item">Weight: <%= citizen[0].weight %> </li>
+            <div class="list-group-item list-group-item-action active">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Licences:</h5>
+                </div>
+                <div id="dots3"></div>
+                <div id="more3">
+                    <p class="mb-1">
+                        <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li>
+                        <li class="list-group-item color-black">Pilot Licence: <%= citizen[0].pilot_licence %> </li>
+                        <li class="list-group-item color-black">Firearms Licence: <%= citizen[0].fire_licence %> </li>
+                        <!-- <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li> -->
+                    </p>
+
+                </div>
+                <button class="btn btn-primary" onclick="lic()" id="licBtn">See all</button>
+
+
+
+            </div>
+            <div class="list-group-item list-group-item-action active">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Vehicles:</h5>
+                </div>
+                <div id="dots"></div>
+                <div id="more">
+
+
+                    <p class="mb-1">
+                        <% vehicles.forEach(vehicle => { %>
+                        <li class="list-group-item color-black"> <%= vehicle.vehicle %>
+                            <p>Plate: <span class="uppercase"><%= vehicle.plate %></span> <br> Insurance Status:
+                                <%= vehicle.in_status %>
+                            </p>
+                        </li>
+
+                        <%  }) %>
+                    </p>
+                </div>
+                <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
+
+
+
+            </div>
+            <div class="list-group-item list-group-item-action active">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Weapons:</h5>
+                </div>
+                <div id="dots2"></div>
+                <div id="more2">
+                    <p class="mb-1">
+                        <% weapons.forEach(weapon => { %>
+                        <li class="list-group-item color-black"> <%= weapon.weapon %>
+                            <p> weapon Status: <%= weapon.status %> </p>
+                        </li>
+
+                        <%  }) %>
+                    </p>
+                </div>
+                <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
+
+
+                </div>
+        </ul>
     </div>
-  </div>
+    <% } else { %>
+    <p class="text-center">Citizen Not Found. Go Back <a href="/citizen">Here</a>.</p>
 
+    <% } %>
 
-        <li class="list-group-item">Full Name: <%= citizen[0].first_name %> </li>
-        <!-- <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li> -->
-        <li class="list-group-item">Gender: <%= citizen[0].gender %></li>
-        <li class="list-group-item">Birthday: <%= citizen[0].birth %> </li>
-        <li class="list-group-item">Ethnicity: <%= citizen[0].ethnicity %> </li>
-        <li class="list-group-item">Hair Color: <%= citizen[0].hair %> </li>
-        <li class="list-group-item">Eye Color: <%= citizen[0].eyes %> </li>
-        <li class="list-group-item">Address: <%= citizen[0].address %> </li>
-        <li class="list-group-item">Height: <%= citizen[0].height %> </li>
-        <li class="list-group-item">Weight: <%= citizen[0].weight %> </li>
-        <div class="list-group-item list-group-item-action active">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Licences:</h5>
-            </div>
-            <div id="dots3"></div>
-            <div id="more3">
-                <p class="mb-1">
-                    <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li>
-                    <li class="list-group-item color-black">Pilot Licence: <%= citizen[0].pilot_licence %> </li>
-                    <li class="list-group-item color-black">Firearms Licence: <%= citizen[0].fire_licence %> </li>
-                    <!-- <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li> -->
-                </p>
-
-            </div>
-            <button class="btn btn-primary" onclick="lic()" id="licBtn">See all</button>
-
-
-
-        </div>
-        <div class="list-group-item list-group-item-action active">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Vehicles:</h5>
-            </div>
-            <div id="dots"></div>
-            <div id="more">
-
-
-                <p class="mb-1">
-                    <% vehicles.forEach(vehicle => { %>
-                    <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                        <p>Plate: <span class="uppercase"><%= vehicle.plate %></span> <br> Insurance Status:
-                            <%= vehicle.in_status %>
-                        </p>
-                    </li>
-
-                    <%  }) %>
-                </p>
-            </div>
-            <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
-
-
-
-        </div>
-        <div class="list-group-item list-group-item-action active">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Weapons:</h5>
-            </div>
-            <div id="dots2"></div>
-            <div id="more2">
-                <p class="mb-1">
-                    <% weapons.forEach(weapon => { %>
-                    <li class="list-group-item color-black"> <%= weapon.weapon %>
-                        <p> weapon Status: <%= weapon.status %> </p>
-                    </li>
-
-                    <%  }) %>
-                </p>
-            </div>
-            <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
-
-
-            </div>
-    </ul>
 </div>
-<% } else { %>
-<p class="text-center">Citizen Not Found. Go Back <a href="/citizen">Here</a>.</p>
-
-<% } %>
-
 <script>
     function veh() {
         let dots = document.getElementById("dots");

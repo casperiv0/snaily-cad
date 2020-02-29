@@ -1,0 +1,47 @@
+<%- include("../partials/header.ejs") %>
+
+
+<div class="container">
+    <% if (plates && name) { %>
+    <h1 class="card-title">Plate: <span class="uppercase"><%= plates.plate %></span></h1>
+    <div class="users-list">
+        <ul class="list-group">
+            <a href="/dispatch" class="btn btn-primary cap mb-2">Back to Dispatch</a>
+
+            <li class="list-group-item name"><span class="bolder"> Vehicle Owner:</span>
+                <a
+                    href="/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %> "><%= plates.owner %></a>
+            </li>
+            <li class="list-group-item"> <span class="bolder"> Vehicle:</span> <%= plates.vehicle %></li>
+            <li class="list-group-item"><span class="bolder">Vehicle Color:</span> <span
+                    id="color"><%= plates.color %></span></li>
+            <li class="list-group-item"> <span class="bolder"> Insurance Status:</span> <span
+                    id="status"><%= plates.in_status %></span> </li>
+        </ul>
+    </div>
+
+    <% } else { %>
+    <p class="text-center">Plate Not Found. Go Back <a href="/dispatch">Here</a>.</p>
+
+    <% } %>
+
+</div>
+
+
+<script>
+    let status = document.getElementById("status");
+    if (status.textContent === "Fake") {
+        status.style.color = "red"
+    } else if (status.textContent === "Stolen") {
+        status.style.color = "red"
+    } else if (status.textContent === "Invalid") {
+        status.style.color = "red"
+    } else if (status.textContent === "Expired") {
+        status.style.color = "red"
+    } else if (status.textContent === "Suspended") {
+        status.style.color = "red"
+    } else {
+        status.style.color = "green"
+    }
+
+</script>

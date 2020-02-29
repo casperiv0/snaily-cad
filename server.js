@@ -115,7 +115,14 @@ const {
     register,
     changeUsername,
     changeUsernamePage
-} = require("./routes/login-reg")
+} = require("./routes/login-reg");
+
+const {
+    dispatchPage,
+    disptachNameSearch,
+    disptachPlateSearch,
+    disptachWeaponSearch
+} = require("./routes/dispatch")
 
 // Middleware
 app.use(express.static(__dirname + '/public'));
@@ -168,6 +175,11 @@ app.get("/logout", (req, res) => {
     req.session.destroy();
     res.redirect("/")
 })
+
+app.get("/dispatch", dispatchPage)
+app.post("/dispatch/search/name", disptachNameSearch)
+app.post("/dispatch/search/plate", disptachPlateSearch)
+app.post("/dispatch/search/weapon", disptachWeaponSearch)
 
 // Officers
 app.get("/myofficers", officersPage)

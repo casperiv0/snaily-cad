@@ -1,0 +1,135 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-2">
+    <div class="card mt-3" style="width: 18rem;">
+        <div class="card-header">
+            <span class="">Utility Panel</span>
+        </div>
+        <ul class="list-group list-group-flush">
+
+            <!-- Name Search Modal -->
+            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#nameSearch"
+                data-toggle="modal">Name Search</button>
+
+            <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Name Search</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/dispatch/search/name" id="modal" method="post">
+                                <div class="form-group">
+                                    <label for="name-search">Search By Name</label>
+                                    <input type="text" name="name_search" class="form-control" id="name-search"
+                                        placeholder="Search By Full Name">
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plate Search Modal -->
+            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#plateSearch"
+                data-toggle="modal">Plate Search</button>
+
+            <div class="modal fade" id="plateSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Plate Search</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/dispatch/search/plate" id="modal" method="post">
+                                <div class="form-group">
+                                    <label for="plate-search">Search By Plate</label>
+                                    <input type="text" name="plate_search" class="form-control" id="plate-search"
+                                        placeholder="Search By Plate">
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Weapon Search Modal -->
+            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#weaponSearch"
+                data-toggle="modal">Weapon Search</button>
+
+            <div class="modal fade" id="weaponSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Weapon Search</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/dispatch/search/weapon" id="modal" method="post">
+                                <div class="form-group">
+                                    <label for="weapon-search">Search By Weapon</label>
+                                    <select name="weapon_search" id="weapon-search" class="form-control"
+                                        placeholder="Search By Weapon">
+                                        <% weapons.forEach(weapon => {%>
+                                        <option value="<%= weapon.name %>"><%= weapon.name %></option>
+                                        <% }) %>
+                                    </select>
+
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <a class="btn text-dark  btn-primary list-group-item">Address Search</a>
+            <a class="btn btn-primary text-dark  list-group-item">Active Units</a>
+        </ul>
+    </div>
+
+    <!-- <div class="card mx-auto" style="width: 18rem;">
+        <div class="card-header">
+            <span class="">Utility Panel</span>
+        </div>
+        <ul class="list-group list-group-flush">
+            <a href="/dispatch/search/name" class="btn text-dark  btn-primary list-group-item">Name Search</a>
+            <a href="/dispatch/search/plate" class="btn text-dark  btn-primary list-group-item">Plate Search</a>
+            <a href="/dispatch/search/weapons" class="btn text-dark  btn-primary list-group-item">Weapons Search</a>
+            <a href="/dispatch/search/address" class="btn text-dark  btn-primary list-group-item">Address Search</a>
+            <a href="/dispatch/units" class="btn btn-primary text-dark  list-group-item">Active Units</a>
+        </ul>
+    </div> -->
+</div>
