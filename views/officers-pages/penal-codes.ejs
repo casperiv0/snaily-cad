@@ -1,24 +1,28 @@
 <%- include("../partials/header.ejs") %>
 
-<h1 class="card-title">Penal Codes</h1>
 
-<ul class="list-group" id="myUL">
-    <a href="/officers/dash" class="btn btn-primary">Police Dashboard</a>
-    <input type="text" id="myInput" class="list-group-item" onkeyup="search()"
-        placeholder="Search by Title or Description..">
-    <% penals.forEach(value => { %>
+<div class="container">
+    <h1 class="card-title text-center mt-3">Penal Codes</h1>
 
-    <li href="#" class="list-group-item">
-        <div class="d-flex w-100 justify-content-between bolder">
-            <h5 class="bolder"><%= value.title %> </h5>
-        </div>
-        <p class="mb-1"><%= value.des %>
-        </p>
+    <ul class="list-group mt-2" id="myUL">
+        <a href="/officers/dash" class="btn btn-primary ">Police Dashboard</a>
+        <input type="text" id="myInput" class="list-group-item mt-2" onkeyup="search()"
+            placeholder="Search by Title or Description..">
+        <% penals.forEach(value => { %>
 
-    </li>
+        <li href="#" class="list-group-item mt-2">
+            <div class="d-flex w-100 justify-content-between bolder">
+                <h5 class="bolder"><%= value.title %> </h5>
+            </div>
+            <p class="mb-1"><%= value.des %>
+            </p>
 
-    <% }) %>
-</ul>
+        </li>
+
+        <% }) %>
+    </ul>
+</div>
+
 
 <script>
     function search() {

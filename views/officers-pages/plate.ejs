@@ -1,40 +1,35 @@
 <%- include("../partials/header.ejs") %>
 
 
-<h1 class="card-title">Equinox Officers</h1>
+<div class="container">
 
-<ul class="list-group">
-    <a href="/officers/dash" class="btn btn-primary">Police Dashboard</a>
+    <h1 class="card-title text-center mt-3">Equinox Officers</h1>
 
-    <input type="text" id="myInput" class="list-group-item  uppercase" onkeyup="myFunction()"
-        placeholder="Search Plates">
+    <ul class="list-group" id="searUL">
+        <a href="/officers/dash" class="btn btn-primary mt-2">Police Dashboard</a>
 
+        <input type="text" id="searhI" class="list-group-item uppercase  mt-2" onkeyup="seardd()"
+            placeholder="Search Plates">
 
-
-    <div class="users-list">
-
-        <ul class="group-item" id="myUL">
-            <% plates.forEach(plate => { %>
-            <li class="list-group-item"><span class="uppercase"><%= plate.plate %></span>
-                <a href="/officers/dash/search/plate/<%= plate.id %>-<%= plate.owner %> "
-                    class="btn btn-primary float-right">More info</a>
-
-            </li>
-            <%   }) %>
-        </ul>
+        <% plates.forEach(plate => { %>
+        <li class="list-group-item mt-2"><span class="uppercase"><%= plate.plate %></span>
+            <a href="/officers/dash/search/plate/<%= plate.id %>-<%= plate.owner %>"
+                class="btn btn-primary float-right">More info</a>
+        </li>
+        <%   }) %>
 
 
-    </div>
+    </ul>
 
-</ul>
+</div>
 
 <script>
 
-    function myFunction() {
+    function seardd() {
         var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("myInput");
+        input = document.getElementById("searhI");
         filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
+        ul = document.getElementById("searUL");
         li = ul.getElementsByTagName("li");
         for (i = 0; i < li.length; i++) {
             a = li[i];

@@ -156,3 +156,7 @@
 .no-out {
   outline: none;
 }
+
+.center {
+  text-align: center;
+}

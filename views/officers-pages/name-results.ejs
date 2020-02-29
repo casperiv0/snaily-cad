@@ -1,24 +1,25 @@
 <%- include("../partials/header.ejs") %>
 
-<h1 class="card-title cap"> <%= result.first_name %> <%= result.last_name %></h1>
-<div class="users-list">
+
+
+<div class="container ">
+    <h1 class="card-title cap mt-3 text-center"> <%= result.first_name %> <%= result.last_name %></h1>
 
     <ul class="list-group">
-        <a href="/officers/dash/search/person-name" class="btn btn-primary cap">Back to name search</a>
-        <li class="list-group-item">Full Name: <%= result.full_name %> </li>
-        <!-- <li class="list-group-item">Last Name: <%= result.last_name %></li> -->
-        <li class="list-group-item">Gender: <%= result.gender %></li>
-        <li class="list-group-item">Birthday: <%= result.birth %> </li>
-        <li class="list-group-item">Ethnicity: <%= result.ethnicity %> </li>
-        <li class="list-group-item">Hair Color: <%= result.hair %> </li>
-        <li class="list-group-item">Eye Color: <%= result.eyes %> </li>
-        <li class="list-group-item">Address: <%= result.address %> </li>
-        <li class="list-group-item">Height: <%= result.height %> </li>
-        <li class="list-group-item">Weight: <%= result.weight %> </li>
+        <a href="/officers/dash/search/person-name" class="btn btn-primary cap mt-2">Back to name search</a>
+        <li class="list-group-item mt-2">Full Name: <%= result.full_name %> </li>
+        <li class="list-group-item mt-2">Gender: <%= result.gender %></li>
+        <li class="list-group-item mt-2">Birthday: <%= result.birth %> </li>
+        <li class="list-group-item mt-2">Ethnicity: <%= result.ethnicity %> </li>
+        <li class="list-group-item mt-2">Hair Color: <%= result.hair %> </li>
+        <li class="list-group-item mt-2">Eye Color: <%= result.eyes %> </li>
+        <li class="list-group-item mt-2">Address: <%= result.address %> </li>
+        <li class="list-group-item mt-2">Height: <%= result.height %> </li>
+        <li class="list-group-item mt-2">Weight: <%= result.weight %> </li>
 
-        <div class="list-group-item list-group-item-action active">
+        <div class="list-group-item list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Licences:</h5>
+                <h5 class="mb-1 ">Licences:</h5>
             </div>
             <div id="dots3"></div>
             <div id="more3">
@@ -34,7 +35,7 @@
 
 
         </div>
-        <div class="list-group-item list-group-item-action active">
+        <div class="list-group-item list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Vehicles:</h5>
             </div>
@@ -53,7 +54,7 @@
 
 
         </div>
-        <div class="list-group-item list-group-item-action active">
+        <div class="list-group-item list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Weapons:</h5>
             </div>
@@ -84,7 +85,7 @@
 
 
         <!-- Charges -->
-        <div class="list-group-item list-group-item-action active">
+        <div class="list-group-item list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Legal:</h5>
             </div>
@@ -93,7 +94,9 @@
                 <% if (!charges[0]) { %>
                 <li class="list-group-item color-black">
                     <p>Clean record.</p>
-                    <a class="btn btn-primary" href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add Offence</a>
+                    <a class="btn btn-primary"
+                        href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                        Offence</a>
                 </li>
                 <% } else  {%>
                 <p class="mb-1">
@@ -116,6 +119,7 @@
             </div>
     </ul>
 </div>
+
 
 
 

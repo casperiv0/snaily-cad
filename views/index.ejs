@@ -1,26 +1,31 @@
 <%- include("./partials/header.ejs") %>
 
-<h1 class="card-title">Equinox CAD</h1>
 
-<ul class="list-group">
+<div class="container mx-auto">
+    <h1 class="card-title text-center mt-3">Equinox CAD</h1>
 
-    <% if (!loggedin) { %>
-    <a href="/login" class="btn btn-primaryy list-group-item">
-        Login in
-    </a>
-    <a href="/register" class="btn btn-primaryy list-group-item">
-        Register
-    </a>
-    <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find bugs,
-        typos or errors? DM CasperTheGhost#4546 on discord.</p>
-    <p>Want to become an officer? <a href="/officers/apply">Apply here</a></p>
-    <% } else {%>
-    <h3 class="card-title cap">Welcome Back <%= username %> </h3>
-    <a href="/citizen" class="btn btn-primaryy list-group-item">
-        Citizen Page
-    </a>
-    <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find bugs,
-        typos or errors? DM CasperTheGhost#4546 on discord.</p>
-    <%   } %>
+    <ul class="list-group mt-2">
 
-</ul>
+        <% if (!loggedin) { %>
+        <a href="/login" class="btn btn-primaryy list-group-item">
+            Login in
+        </a>
+        <a href="/register" class="btn btn-primaryy list-group-item mt-2">
+            Register
+        </a>
+        <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find
+            bugs,
+            typos or errors? DM CasperTheGhost#4546 on discord.</p>
+        <p>Want to become an officer? <a href="/officers/apply">Apply here</a></p>
+        <% } else {%>
+        <h3 class="card-title cap text-center">Welcome Back <%= username %> </h3>
+        <a href="/citizen" class="btn btn-primaryy list-group-item">
+            Citizen Page
+        </a>
+        <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find
+            bugs,
+            typos or errors? DM CasperTheGhost#4546 on discord.</p>
+        <%   } %>
+
+    </ul>
+</div>

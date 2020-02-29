@@ -1,7 +1,7 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container">
-    <h1 class="card-title cap">Welcome back <%= username %> </h1>
+<div class="container mt-3">
+    <h1 class="card-title cap text-center">Welcome back <%= username %> </h1>
     <div class="users-list">
         <% if(message != ''){ %>
         <div class="alert alert-danger alert-dismissible fade show margin-right-10 margin-left-10" role="alert">
@@ -19,7 +19,7 @@
             <a class="btn btn-primary top-1 cap" href="/cars/register">register a car</a>
             <a class="btn btn-primary top-1 cap" href="/weapons/register">register a weapon</a>
             <% citizen.forEach(value => { %>
-            <li class="list-group-item">
+            <li class="list-group-item mt-2">
 
                 <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
                 <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
