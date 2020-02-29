@@ -89,7 +89,8 @@ const {
     addOffencePage,
     addOffence,
     officerLogin,
-    officerLoginPage
+    officerLoginPage,
+    officerApply
 } = require("./routes/officers/officer");
 
 const {
@@ -175,7 +176,6 @@ app.get('/officer/login', officerLoginPage)
 app.post('/officers/auth', officerLogin);
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
-app.get("/officers/tablet", tabletPage)
 app.get("/officers/penal-codes", penalCodesPage)
 app.get("/officers/dash/search/plate", searchPlatePage)
 app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
@@ -184,7 +184,8 @@ app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
 app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 app.get('/officers/login', officerLoginPage);
-
+app.get("/officers/apply", officerApplyPage);
+app.post("/officers/apply", officerApply);
 
 // EMS/FD
 app.get('/ems-fd', emsPage);
@@ -231,49 +232,10 @@ app.post("/admin/values/weapons/edit/:id", editWeapon)
 app.get("/weapons/register", regWeaponPage)
 app.post("/weapons/register", regWeapon)
 
-app.get("/officers/apply", (req, res) => {
-    res.render("officers-pages/apply.ejs", {
-        title: "Apply | Equinox CAD",
-        isAdmin: req.session.isAdmin
-    })
-})
+
 
 app.post("/officers/apply", async (req, res) => {
-    res.redirect("/")
-    let dUsername = req.body.dUsername;
-    let q1 = req.body.q1;
-    let q2 = req.body.q2;
-    let q3 = req.body.q3;
-    let q4 = req.body.q4;
-    let q5 = req.body.q5;
-    // 643417616337207296 << Testing channel
-    // 679698348730482689 << app channel - Equinox Roleplay
-    let embed = new Discord.RichEmbed()
-        .setTitle(`New Police Application From ${dUsername}`)
-        .setColor("0000FF")
-        .addField("**What inspired you to apply?**", q1)
-        .addField("**Do you have previous experience as an officer?**", q2)
-        .addField("**Which department you looking to apply to?**", q3)
-        .addField("**Are you over 16?**", q4)
-        .addField("**Do you agree that you will be on duty once a week as a minimal requirement?**", q5)
-    bot.channels.get("679712964374167560").send(embed)
-    // .then(async (embedMsg, message) => {
-    //     embedMsg.react("✅").then(r => {
-    //         embedMsg.react("❌")
-    //         let approved = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '✅' && user.id !== bot.user.id);
-    //         let declined = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '❌' && user.id !== bot.user.id);
 
-    //         approved.on('collect', r => {
-    //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
-    //         });
-
-    //         declined.on("collect", r => {
-    //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
-
-    //         });
-    //     })
-    // })
-    // await message.react("😄")
 })
 
 // 404 page 

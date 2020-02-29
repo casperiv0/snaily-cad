@@ -1,185 +1,226 @@
 const fetch = require("node-fetch")
-
-let roles = {
-    founders: {
-        can: ['publish'],
-        inherits: ['admin']
-    },
-    admin: {
-        can: ['write'],
-        inherits: ['police']
-    },
-    police: {
-        can: ['read', 'write'],
-        inherits: ['guest']
-    },
-    guest: {
-        can: ['read']
-    }
-}
-
 module.exports = {
     officersPage: (req, res, next) => {
-        if (req.session.PDloggedin) {
-            let qeury = "SELECT * FROM `officers` ORDER by id ASC"
-            connection.query(qeury, (err, result) => {
-                if (err) {
-                    console.log("Error" + err)
-                }
-                res.render("officers-pages/officers.ejs", {
-                    title: "Equinox Officers",
-                    users: "qsd",
-                    isAdmin: req.session.admin,
-                    officers: result
-                })
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let qeury = "SELECT * FROM `officers` ORDER by id ASC"
+                    connection.query(qeury, (err, result) => {
+                        if (err) {
+                            console.log("Error" + err)
+                        }
+                        res.render("officers-pages/officers.ejs", {
+                            title: "Equinox Officers",
+                            users: "qsd",
+                            isAdmin: req.session.admin,
+                            officers: result
+                        });
 
-            })
-
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
         } else {
-            res.redirect("/officers/login")
-        }
-
-    },
-    tabletPage: (req, res) => {
-        if (req.session.PDloggedin) {
-            res.render("officers-pages/tablet.ejs", {
-                title: "Officers Tablet",
-                fetch: fetch("http://95.179.141.103:8000/businesses").then(url => {
-                    url.json("http://95.179.141.103:8000/businesses").then(result => {})
-                })
-            })
-        } else {
-            res.redirect("/officers/login")
-        }
-
+            res.redirect("/login");
+        };
     },
     penalCodesPage: (req, res) => {
-        if (req.session.PDloggedin) {
-            const url = "http://95.179.141.103:3000";
-            fetch(url)
-                .then(res => res.json())
-                .then(json => res.render("officers-pages/penal-codes.ejs", {
-                    title: "Penal Codes | Equinox CAD",
-                    penals: json,
-                    isAdmin: req.session.admin
-                }))
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    const url = "http://95.179.141.103:3000";
+                    fetch(url)
+                        .then(res => res.json())
+                        .then(json => res.render("officers-pages/penal-codes.ejs", {
+                            title: "Penal Codes | Equinox CAD",
+                            penals: json,
+                            isAdmin: req.session.admin
+                        }))
+                } else {
+                    res.sendStatus(403);
+                };
+            });
         } else {
-            res.redirect("/officers/login")
-
+            res.redirect("/login")
         }
-
-
     },
     officersDash: (req, res) => {
-        if (req.session.PDloggedin) {
-
-            res.render("officers-pages/officers-dash.ejs", {
-                title: "Police Department",
-                isAdmin: req.session.admin
-            })
-
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    res.render("officers-pages/officers-dash.ejs", {
+                        title: "Police Department",
+                        isAdmin: req.session.admin
+                    })
+                } else {
+                    res.sendStatus(403);
+                };
+            });
         } else {
-            res.redirect("/officers/login")
-
+            res.redirect("/login")
         }
     },
     searchPlatePage: (req, res) => {
-        if (req.session.PDloggedin) {
-            let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
-            connection.query(query, (err, result) => {
-                res.render("officers-pages/plate.ejs", {
-                    title: "Plate Search | Police Department",
-                    isAdmin: req.session.admin,
-                    plates: result
-                })
-            })
-
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
+                    connection.query(query, (err, result) => {
+                        res.render("officers-pages/plate.ejs", {
+                            title: "Plate Search | Police Department",
+                            isAdmin: req.session.admin,
+                            plates: result
+                        })
+                    })
+                } else {
+                    res.sendStatus(403);
+                };
+            });
         } else {
-            res.redirect("/officers/login")
-
+            res.redirect("/login")
         }
     },
     searchNamePage: (req, res) => {
-        if (req.session.PDloggedin) {
-            let query = "SELECT * FROM `citizens` ORDER by id ASC"
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let query = "SELECT * FROM `citizens` ORDER by id ASC"
 
-            connection.query(query, (err, result) => {
-                res.render("officers-pages/name.ejs", {
-                    title: "Name Search | Police Department",
-                    isAdmin: req.session.admin,
-                    information: result
-                })
+                    connection.query(query, (err, result) => {
+                        res.render("officers-pages/name.ejs", {
+                            title: "Name Search | Police Department",
+                            isAdmin: req.session.admin,
+                            information: result
+                        })
 
-            })
-
-
-        } else {
-            res.redirect("/officers/login")
-
-        }
-    },
-    plateResultsPage: (req, res) => {
-        if (req.session.PDloggedin) {
-            let id = req.params.id;
-            let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
-            let getOwner = req.params.owner;
-            // let owner = getOwner.split(" ");
-            // let first_name = owner[0];
-            // let last_name = owner[1];
-
-            let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
-
-            connection.query(`${query}; ${query2};`, (err, result) => {
-                if (err) {
-                    return res.status(404).send(err);
-                }
-
-                res.render("officers-pages/plate-results.ejs", {
-                    title: "Plate Results | Police Department",
-                    isAdmin: req.session.admin,
-                    plates: result[0][0],
-                    name: result[1][0]
-                })
+                    })
+                } else {
+                    res.sendStatus(403);
+                };
             });
         } else {
-            res.redirect("/officers/login")
+            res.redirect("/login")
+        };
+    },
+    plateResultsPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let id = req.params.id;
+                    let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
+                    let getOwner = req.params.owner;
+                    // let owner = getOwner.split(" ");
+                    // let first_name = owner[0];
+                    // let last_name = owner[1];
 
+                    let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
+
+                    connection.query(`${query}; ${query2};`, (err, result) => {
+                        if (err) {
+                            return res.status(404).send(err);
+                        }
+
+                        res.render("officers-pages/plate-results.ejs", {
+                            title: "Plate Results | Police Department",
+                            isAdmin: req.session.admin,
+                            plates: result[0][0],
+                            name: result[1][0]
+                        })
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login")
         }
     },
     nameResultsPage: (req, res) => {
-        if (req.session.PDloggedin) {
-            let id = req.params.id;
-            let first_name = req.params.first_name;
-            let last_name = req.params.last_name;
-            let owner = req.params.first_name;
-            let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'"
-            let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-            let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
-            let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let id = req.params.id;
+                    let first_name = req.params.first_name;
+                    let last_name = req.params.last_name;
+                    let owner = req.params.first_name;
+                    let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'"
+                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
+                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
+                    let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
 
 
-            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
+                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
 
-                res.render("officers-pages/name-results.ejs", {
-                    title: "Name Results | Police Department",
-                    isAdmin: req.session.admin,
-                    result: result[0][0],
-                    vehicles: result[1],
-                    weapons: result[2],
-                    charges: result[3]
-                })
+                        res.render("officers-pages/name-results.ejs", {
+                            title: "Name Results | Police Department",
+                            isAdmin: req.session.admin,
+                            result: result[0][0],
+                            vehicles: result[1],
+                            weapons: result[2],
+                            charges: result[3]
+                        })
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
             });
-
         } else {
-            res.redirect("/officers/login")
-
-        }
+            res.redirect("/login");
+        };
     },
     officerApplyPage: (req, res) => {
-        res.send("sd")
+        res.render("officers-pages/apply.ejs", {
+            title: "Apply | Equinox CAD",
+            isAdmin: req.session.isAdmin
+        })
+    },
+    officerApply: (req, res) => {
+        res.redirect("/")
+        let dUsername = req.body.dUsername;
+        let q1 = req.body.q1;
+        let q2 = req.body.q2;
+        let q3 = req.body.q3;
+        let q4 = req.body.q4;
+        let q5 = req.body.q5;
+        // 643417616337207296 << Testing channel
+        // 679698348730482689 << app channel - Equinox Roleplay
+        let embed = new Discord.RichEmbed()
+            .setTitle(`New Police Application From ${dUsername}`)
+            .setColor("0000FF")
+            .addField("**What inspired you to apply?**", q1)
+            .addField("**Do you have previous experience as an officer?**", q2)
+            .addField("**Which department you looking to apply to?**", q3)
+            .addField("**Are you over 16?**", q4)
+            .addField("**Do you agree that you will be on duty once a week as a minimal requirement?**", q5)
+        bot.channels.get("679712964374167560").send(embed)
+        // .then(async (embedMsg, message) => {
+        //     embedMsg.react("✅").then(r => {
+        //         embedMsg.react("❌")
+        //         let approved = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '✅' && user.id !== bot.user.id);
+        //         let declined = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '❌' && user.id !== bot.user.id);
+
+        //         approved.on('collect', r => {
+        //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
+        //         });
+
+        //         declined.on("collect", r => {
+        //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
+
+        //         });
+        //     })
+        // })
+        // await message.react("😄")
     },
     addOffencePage: (req, res) => {
         if (req.session.PDloggedin) {
@@ -239,7 +280,7 @@ module.exports = {
                         message: "Wrong Username or Password"
                     })
                     // res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
-    
+
                 }
                 res.end();
             });
@@ -249,7 +290,7 @@ module.exports = {
                 isAdmin: req.session.admin,
                 message: "Something went wrong! Please try again"
             })
-    
+
             res.end();
         }
     }
