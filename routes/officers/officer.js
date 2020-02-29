@@ -3,8 +3,8 @@ module.exports = {
     officersPage: (req, res, next) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
                     let qeury = "SELECT * FROM `officers` ORDER by id ASC"
                     connection.query(qeury, (err, result) => {
                         if (err) {
@@ -13,7 +13,7 @@ module.exports = {
                         res.render("officers-pages/officers.ejs", {
                             title: "Equinox Officers",
                             users: "qsd",
-                            isAdmin: req.session.admin,
+                            isAdmin: result1[0].admin,
                             officers: result
                         });
 
@@ -37,7 +37,7 @@ module.exports = {
                         .then(json => res.render("officers-pages/penal-codes.ejs", {
                             title: "Penal Codes | Equinox CAD",
                             penals: json,
-                            isAdmin: req.session.admin
+                            isAdmin: result[0].admin
                         }))
                 } else {
                     res.sendStatus(403);
@@ -54,7 +54,7 @@ module.exports = {
                 if (result[0].leo == 'yes') {
                     res.render("officers-pages/officers-dash.ejs", {
                         title: "Police Department",
-                        isAdmin: req.session.admin
+                        isAdmin: result[0].admin
                     })
                 } else {
                     res.sendStatus(403);
@@ -67,13 +67,13 @@ module.exports = {
     searchPlatePage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
                     let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
                     connection.query(query, (err, result) => {
                         res.render("officers-pages/plate.ejs", {
                             title: "Plate Search | Police Department",
-                            isAdmin: req.session.admin,
+                            isAdmin: result1[0].admin,
                             plates: result
                         })
                     })
@@ -88,14 +88,14 @@ module.exports = {
     searchNamePage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
                     let query = "SELECT * FROM `citizens` ORDER by id ASC"
 
                     connection.query(query, (err, result) => {
                         res.render("officers-pages/name.ejs", {
                             title: "Name Search | Police Department",
-                            isAdmin: req.session.admin,
+                            isAdmin: result1[0].admin,
                             information: result
                         })
 
@@ -111,8 +111,8 @@ module.exports = {
     plateResultsPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
                     let id = req.params.id;
                     let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
                     let getOwner = req.params.owner;
@@ -129,7 +129,7 @@ module.exports = {
 
                         res.render("officers-pages/plate-results.ejs", {
                             title: "Plate Results | Police Department",
-                            isAdmin: req.session.admin,
+                            isAdmin: result1[0].admin,
                             plates: result[0][0],
                             name: result[1][0]
                         })
@@ -145,8 +145,8 @@ module.exports = {
     nameResultsPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
                     let id = req.params.id;
                     let first_name = req.params.first_name;
                     let last_name = req.params.last_name;
@@ -164,7 +164,7 @@ module.exports = {
 
                         res.render("officers-pages/name-results.ejs", {
                             title: "Name Results | Police Department",
-                            isAdmin: req.session.admin,
+                            isAdmin: result1[0].admin,
                             result: result[0][0],
                             vehicles: result[1],
                             weapons: result[2],
@@ -234,7 +234,7 @@ module.exports = {
                         .then(json => res.render("officers-pages/add-offence.ejs", {
                             title: "Add Offence | Equinox CAD",
                             penals: json,
-                            isAdmin: req.session.admin,
+                            isAdmin: result[0].admin,
                             req: req
                         }))
                 } else {

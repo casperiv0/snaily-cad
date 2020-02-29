@@ -11,6 +11,9 @@
       <a class="dropdown-item" href="/admin/values/ethnicities">Ethnicities</a>
     </div>
   </div>
-  <!-- <a class="navbar-brand text-light margin-left-10" href="/admin/citizens">Citizens</a> -->
+  <% if (isAdmin == 'admin') { %>
+  <a class="navbar-brand text-light margin-left-10" href="/admin/users">User management</a>
+  <% } else {%>
+  <%} %>
 
 </nav>

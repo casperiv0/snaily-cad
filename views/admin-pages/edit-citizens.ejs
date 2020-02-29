@@ -1,10 +1,12 @@
 <%- include("../partials/header.ejs") %>
 
-<form action="" class="container mx-auto" method="POST">
-    <h1 class="card-title cap">Edit <%= user[0].username %> </h1>
+
+<form action="" class="container mx-auto mt-2" method="POST">
+    <h1 class="card-title cap text-center ">Edit <%= user[0].username %> </h1>
     <div class="form-group">
         <label for="exampleInputEmail333">CAD Permisions</label>
-        <input type="text" list="admin" class="form-control" name="admin" aria-describedby="emailHelp">
+        <input type="text" list="admin" class="form-control" value="<%= user[0].admin %>" name="admin"
+            aria-describedby="emailHelp">
         <datalist id="admin">
             <option value="moderator">Moderator</option>
             <option value="admin">Admin</option>
@@ -13,7 +15,8 @@
 
     <div class="form-group">
         <label for="exampleInputEmail333">LEO Access</label>
-        <input type="text" list="leo" class="form-control" name="leo" aria-describedby="emailHelp">
+        <input type="text" list="leo" value="<%= user[0].leo %>" class="form-control" name="leo"
+            aria-describedby="emailHelp">
         <datalist id="leo">
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -22,7 +25,8 @@
 
     <div class="form-group">
         <label for="exampleInputEmail333">EMS/FD Access</label>
-        <input type="text" list="ems" class="form-control" name="ems" aria-describedby="emailHelp">
+        <input type="text" list="ems" value="<%= user[0].ems_fd %>" class="form-control" name="ems"
+            aria-describedby="emailHelp">
         <datalist id="ems">
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -30,6 +34,7 @@
     </div>
 
     <!-- <a href="/ems-fd/apply" class="btn btn-success">Apply for PD</a> -->
+    <a href="/admin/users" class="btn btn-danger cancel-btn">Cancel</a>
     <button type="submit" class="btn btn-primary">Update</button>
 
 </form>
