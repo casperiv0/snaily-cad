@@ -4,7 +4,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             connection1.query(query, (err, result) => {
                 if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                    res.render("admin.ejs", { title: 'Admin Panel', isAdmin: result[0].admin })
+                    res.render("admin.ejs", { title: 'Admin Panel | Equinox CAD', isAdmin: result[0].admin })
                 } else {
                     res.sendStatus(403)
                 }
