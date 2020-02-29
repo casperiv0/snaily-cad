@@ -9,7 +9,7 @@
                 href="/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %> "><%= plates.owner %></a>
         </li>
         <li class="list-group-item">Vehicle: <%= plates.vehicle %></li>
-        <li class="list-group-item">Vehicle Color: <%= plates.color %></li>
+        <li class="list-group-item">Vehicle Color: <span id="color"><%= plates.color %></span></li>
         <li class="list-group-item">Insurance Status: <span id="status"><%= plates.in_status %></span> </li>
     </ul>
 </div>
@@ -35,4 +35,19 @@
     } else {
         status.style.color = "green"
     }
+
+    // let color = document.getElementById("color");
+    // if (color.textContent === "Red") {
+    //     color.style.color = "red"
+    // } else if (color.textContent === "green") {
+    //     color.style.color = "green"
+    // } else if (color.textContent === "Red") {
+    //     color.style.color = "red"
+    // } else if (color.textContent === "blue") {
+    //     color.style.color = "blue"
+    // } else {
+    //     color.style.color = "yellow"
+    // }
+    // console.log(color.textContent, color)
+
 </script>

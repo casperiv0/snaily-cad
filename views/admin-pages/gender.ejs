@@ -1,25 +1,28 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
-<h1 class="users-title card-title">
-    Gender management <a href="/admin/values/genders/add">+</a>
-</h1>
-<input class="disabled form-control margin-top" type="text" name="" id="">
 
-<% if (genders.length > 0) {%>
-<ul class="list-group">
-    <% genders.forEach(value => { %>
-    <li class="list-group-item">
+<div class="container">
+    <h1 class="users-title card-title">
+        Gender management <a href="/admin/values/genders/add">+</a>
+    </h1>
+    <input class="disabled list-group-item" type="text" name="" id="">
 
-        <%= value.id %> | <%= value.gender %>
-        <a href="/admin/values/genders/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>
-        <a href="/admin/values/genders/edit/<%= value.id %>"
-            class="btn btn-success float-right  margin-right-10">Edit</a>
-    </li>
+    <% if (genders.length > 0) {%>
+    <ul class="list-group">
+        <% genders.forEach(value => { %>
+        <li class="list-group-item">
 
-    <% }) %>
-</ul>
-<% } else { %>
-<p class="alert alert-primary aler">
-    No genders found. Go <a href="/admin/values/genders/add">here</a> to add a gender.
-</p>
-<% } %>
+            <%= value.id %> | <%= value.gender %>
+            <a href="/admin/values/genders/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>
+            <a href="/admin/values/genders/edit/<%= value.id %>"
+                class="btn btn-success float-right  margin-right-10">Edit</a>
+        </li>
+
+        <% }) %>
+    </ul>
+    <% } else { %>
+    <p class="alert alert-primary aler">
+        No genders found. Go <a href="/admin/values/genders/add">here</a> to add a gender.
+    </p>
+    <% } %>
+</div>
