@@ -4,7 +4,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             connection1.query(query, (err, result) => {
                 if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                    res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: req.session.admin })
+                    res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: result[0].admin })
                 } else {
                     res.sendStatus(403)
                 }
@@ -46,7 +46,7 @@ module.exports = {
                         if (err) {
                             res.sendStatus(400)
                         }
-                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: req.session.admin })
+                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result[0].admin })
                     })
                 } else {
                     res.sendStatus(403)
@@ -67,7 +67,7 @@ module.exports = {
                         if (err) {
                             return res.status(500).send(err);
                         }
-                        res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: req.session.admin })
+                        res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].admin })
                     });
                 } else {
                     res.sendStatus(403)
