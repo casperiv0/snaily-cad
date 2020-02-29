@@ -1,93 +1,130 @@
 module.exports = {
     addCarPage: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: req.session.admin })
-
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: req.session.admin })
+                } else {
+                    res.sendStatus(403)
+                }
+            })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
-        res.end();
     },
     addCar: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let name = req.body.cname;
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    let name = req.body.cname;
 
-            let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
-            connection.query(query, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
+                    let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
+                        res.redirect('/admin/values/cars/');
+                    });
+                } else {
+                    res.sendStatus(403)
                 }
-                res.redirect('/admin/values/cars/');
-            });
+            })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
 
     },
     carValuePage: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let query = "SELECT * FROM `vehicles` ORDER BY id ASC"
-            connection.query(query, (err, result) => {
-                if (err) {
-                    res.sendStatus(400)
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    let query = "SELECT * FROM `vehicles` ORDER BY id ASC"
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            res.sendStatus(400)
+                        }
+                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: req.session.admin })
+                    })
+                } else {
+                    res.sendStatus(403)
                 }
-                res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: req.session.admin })
             })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
-
     },
     editVehiclePage: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let carId = req.params.id;
-            let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
-            connection.query(query, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    let carId = req.params.id;
+                    let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
+                        res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: req.session.admin })
+                    });
+                } else {
+                    res.sendStatus(403)
                 }
-                res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: req.session.admin })
-            });
+            })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
-
     },
     editVehicle: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let carId = req.params.id;
-            let car_name = req.body.cname;
-            let myear = req.body.myear;
-            let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '", `myear` = "' + myear + '" WHERE `vehicles`.`id` = "' + carId + '"';
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    let carId = req.params.id;
+                    let car_name = req.body.cname;
+                    let myear = req.body.myear;
+                    let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '", `myear` = "' + myear + '" WHERE `vehicles`.`id` = "' + carId + '"';
 
-            connection.query(query, (err, result) => {
-                if (err) {
-                    console.log(err)
-                    return res.status(500).send(err);
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                            return res.status(500).send(err);
+                        }
+                        res.redirect('/admin/values/cars');
+                    });
+                } else {
+                    res.sendStatus(403)
                 }
-                res.redirect('/admin/values/cars');
-            });
+            })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
 
     },
     deleteVehiclePage: (req, res) => {
-        if (req.session.loggedinAdmin) {
-            let playerId = req.params.id;
-            // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-            let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                    let playerId = req.params.id;
+                    // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
+                    let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
 
-            connection.query(deleteUserQuery, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
+                    connection.query(deleteUserQuery, (err, result) => {
+                        if (err) {
+                            return res.status(500).send(err);
+                        }
+                        res.redirect('/admin/values/cars');
+                    });
+                } else {
+                    res.sendStatus(403)
                 }
-                res.redirect('/admin/values/cars');
-            });
+            })
         } else {
-            res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.admin })
+            res.redirect("/login")
         }
-
     },
     regVehiclePage: (req, res) => {
 

@@ -8,7 +8,7 @@ module.exports = {
                     console.log("Error" + err)
                 }
                 res.render("ems-fd/ems-fd.ejs", {
-                    title: "Equinox EMS/FD | Equinox CAD",
+                    title: "EMS/FD | Equinox CAD",
                     users: "qsd",
                     isAdmin: req.session.admin,
                     ems: result
@@ -190,7 +190,7 @@ module.exports = {
                         message: "Wrong Username or Password"
                     })
                     // res.render("errors/logged.ejs", { title: "Error", isAdmin: req.session.isAdmin })
-    
+
                 }
                 res.end();
             });
@@ -200,7 +200,7 @@ module.exports = {
                 isAdmin: req.session.admin,
                 message: "Something went wrong! Please try again"
             })
-    
+
             res.end();
         }
     }
