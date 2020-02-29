@@ -108,10 +108,10 @@ module.exports = {
             let dmvQ = "SELECT * FROM `in_statuses`"
             let id = req.params.id;
             let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
-            
+
             connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
                 if (result[3][0].linked_to == req.session.username2) {
-                res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3] })
+                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: req.session.isAdmin, username: result[3] })
                 } else {
                     res.sendStatus(401)
                 }
@@ -126,51 +126,66 @@ module.exports = {
             res.redirect("/login")
         } else {
             let id = req.params.id
-            let first_name = req.body.full_name;
-            // let last_name = req.body.last_name;
-            let last_name = "Unknown";
-            // let full_name = first_name + " " + last_name;
-            let full_name = first_name;
-            let birth = req.body.birth;
-            let gender = req.body.gender;
-            let ethnicity = req.body.ethnicity;
-            let hair_color = req.body.hair;
-            let eyes_color = req.body.eyes;
-            let address = req.body.address;
-            let height = req.body.height;
-            if (height == "") {
-                height = "Unknown"
-            }
-            let weight = req.body.weight;
-            if (weight == "") {
-                weight = "Unknown"
-            }
-            let dmv = req.body.dmv;
-            let fireArms = req.body.fire;
-            let pilot = req.body.pilot
-            let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
-            connection.query(query, (err, result) => {
+            connection.query("SELECT * FROM citizens WHERE id = '" + id + "'", (err, citiZn) => {
                 if (err) {
                     console.log(err)
+                    return res.sendStatus(500)
+                } else {
+
+
+                    let first_name = req.body.full_name;
+                    // let last_name = req.body.last_name;
+                    let last_name = "Unknown";
+                    // let full_name = first_name + " " + last_name;
+                    let full_name = first_name;
+                    let birth = req.body.birth;
+                    let gender = req.body.gender;
+                    let ethnicity = req.body.ethnicity;
+                    let hair_color = req.body.hair;
+                    let eyes_color = req.body.eyes;
+                    let address = req.body.address;
+                    let height = req.body.height;
+                    if (height == "") {
+                        height = "Unknown"
+                    }
+                    let weight = req.body.weight;
+                    if (weight == "") {
+                        weight = "Unknown"
+                    }
+                    let dmv = req.body.dmv;
+                    let fireArms = req.body.fire;
+                    let pilot = req.body.pilot
+                    let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
+                    let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
+                    let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
+                    connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                        res.redirect(`/citizens/${id}-${first_name}-${last_name}`)
+                    })
                 }
-                res.redirect(`/citizens/${id}-${first_name}-${last_name}`)
             })
+
         }
     },
     deleteCitizens: (req, res) => {
         if (!req.session.loggedin) {
             res.redirect("/login")
         } else {
-            let playerId = req.params.id;
-            // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-            let deleteUserQuery = 'DELETE FROM citizens WHERE id = "' + playerId + '"';
+            let id = req.params.id;
+            let query = 'SELECT * FROM citizens WHERE id = "' + id + '"';
 
-            connection.query(deleteUserQuery, (err, result) => {
+            connection.query(query, (err, result) => {
+                let vehicles = "DELETE FROM registered_cars WHERE owner = '" + result[0].full_name + "'"
+                let weapons = "DELETE FROM registered_weapons WHERE owner = '" + result[0].full_name + "'"
+                let citizens = "DELETE FROM citizens WHERE id = '" + id + "'"
+                connection.query(`${vehicles}; ${weapons}; ${citizens}`, (err1, result1) => {
+                    if (err1) {
+                        return res.status(500).send(err);
+                    }
+                });
 
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.redirect('/citizen');
             });
         }
     }
