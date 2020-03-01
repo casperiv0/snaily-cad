@@ -43,14 +43,14 @@ module.exports = {
                         return res.status(500).send(err);
                     }
                     if (result[0][0].linked_to == req.session.username2) {
-                        console.log(first_name + "first_nae")
-                        console.log(result[3][0].business_owner)
-                        if (result[3][0].business_owner == first_name) {
-                            isCeo = true
-                        } else {
-                            isCeo = false
-                        }
-                        console.log(isCeo);
+                        // console.log(first_name + "first_nae")
+                        // console.log(result[3][0].business_owner)
+                        // if (result[3][0].business_owner == first_name) {
+                        //     isCeo = true
+                        // } else {
+                        //     isCeo = false
+                        // }
+                        // console.log(isCeo);
 
                         res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin })
                     } else {
@@ -258,6 +258,7 @@ module.exports = {
         let companyName = req.body.companyName;
         let owner = req.body.owner;
         let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`) VALUES  ("' + companyName + '", "' + owner + '")';
+        let query2 = 'UPDATE `citizens` SET `business` = "' + companyName + '" WHERE `citizens`.`full_name` = "' + citizen_name + '"';
 
         connection.query(query, (err, result1) => {
             if (err) {
