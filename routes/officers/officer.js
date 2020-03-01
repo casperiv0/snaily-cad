@@ -151,24 +151,25 @@ module.exports = {
                     let first_name = req.params.first_name;
                     let last_name = req.params.last_name;
                     let owner = req.params.first_name;
-                    let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'"
-                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
-                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'"
+                    let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'";
+                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'";
+                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'";
                     let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+                    let warrantsQ = "SELECT * FROM `warrants` WHERE name = '" + owner + "'";
 
 
-                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}`, (err, result) => {
+                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}; ${warrantsQ}`, (err, result) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
-
                         res.render("officers-pages/name-results.ejs", {
                             title: "Name Results | Police Department",
                             isAdmin: result1[0].admin,
                             result: result[0][0],
                             vehicles: result[1],
                             weapons: result[2],
-                            charges: result[3]
+                            charges: result[3],
+                            warrants: result[4]
                         })
                     });
                 } else {
@@ -267,6 +268,47 @@ module.exports = {
                         }
                         res.redirect(`/officers/dash/search/person-name`);
                     });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login")
+        }
+    },
+    addWarrantPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    res.render("officers-pages/warrant.ejs", { title: "Add Warrant | Equinox CAD", isAdmin: result[0].admin, req: req })
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login")
+        }
+    },
+    addWarrant: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    let name = req.body.name;
+                    let d_from = req.body.d_from;
+                    let d_to = req.body.d_to;
+                    let reason = req.body.reason
+                    let query = "INSERT INTO `warrants` ( `name`, `reason`, `d_from`, `d_to`) VALUES ('" + name + "','" + reason + "','" + d_from + "','" + d_to + "')";
+
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            return res.sendStatus(500).send("Something went wrong in the response."), console.log(err)
+                        } else {
+                            res.redirect(`/officers/dash/search/person-name`)
+                        }
+
+                    })
                 } else {
                     res.sendStatus(403);
                 };

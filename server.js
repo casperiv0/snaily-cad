@@ -89,7 +89,9 @@ const {
     officerApplyPage,
     addOffencePage,
     addOffence,
-    officerApply
+    officerApply,
+    addWarrant,
+    addWarrantPage
 } = require("./routes/officers/officer");
 
 const {
@@ -194,6 +196,8 @@ app.get("/officers/dash/search/person-name", searchNamePage)
 app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 app.get("/officers/apply", officerApplyPage);
 app.post("/officers/apply", officerApply);
+app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
+app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
 
 // EMS/FD
 app.get('/ems-fd', emsPage);

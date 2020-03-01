@@ -149,6 +149,10 @@
   display: none;
 }
 
+#more5 {
+  display: none;
+}
+
 .bolder {
   font-weight: bolder;
 }
