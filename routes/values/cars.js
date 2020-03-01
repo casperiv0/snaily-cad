@@ -127,22 +127,27 @@ module.exports = {
         }
     },
     regVehiclePage: (req, res) => {
-        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-        connection1.query(query, (err, result1) => {
-            let query = "SELECT * FROM `citizens` ORDER BY id ASC"
-            let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
-            let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
-            let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+        if (req.session.loggedin) {
 
-            connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3] })
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection1.query(query, (err, result1) => {
+                let query = "SELECT * FROM `citizens` ORDER BY id ASC"
+                let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
+                let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
+                let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+
+                connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+
+                    res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3] })
+                });
             });
-        });
 
-
+        } else {
+            res.redirect("/login")
+        }
 
     },
     regVehicle: (req, res) => {
