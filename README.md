@@ -10,6 +10,7 @@ ToDO
 - [x] EMS/FD tab
 - [x] better offences system
 - [x] being able to change name
+- [ ] register a company
 - [ ] Dispatch System
 - [ ] Add warants
 - [ ] Dark mode

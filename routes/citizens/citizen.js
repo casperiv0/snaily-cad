@@ -210,5 +210,56 @@ module.exports = {
 
             });
         }
+    },
+    companyPage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection1.query(query, (err, result1) => {
+                let query2 = "SELECT * FROM businesses";
+                let citizen = "SELECT * FROM citizens WHERE linked_to = '" + req.session.username2 + "'"
+                connection.query(`${query2}; ${citizen}`, (err, result) => {
+
+                    res.render("citizens/company.ejs", { title: "Edit Citizen | Equinox CAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1] })
+                })
+            });
+
+        }
+    },
+    company: (req, res) => {
+        let joined_business = req.body.join_business;
+        let citizen_name = req.body.citizen_name;
+        let query = 'UPDATE `citizens` SET `business` = "' + joined_business + '" WHERE `citizens`.`full_name` = "' + citizen_name + '"';
+
+        connection.query(query, (err, result1) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                res.redirect(`/citizen/company/${joined_business}`)
+                console.log(result1);
+
+            }
+        })
+    },
+    createCompany: (req, res) => {
+        let companyName = req.body.companyName;
+        let owner = req.body.owner;
+        let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`) VALUES  ("' + companyName + '", "' + owner + '")';
+
+        connection.query(query, (err, result1) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                res.redirect(`/citizen/company/${companyName}`)
+                console.log(result1);
+
+            }
+        })
+    },
+    companyDetailPage: (req, res) => {
+        res.render("company/main.ejs", { title: req.params.company + "| Equinox CAD", isAdmin: "" })
     }
 }

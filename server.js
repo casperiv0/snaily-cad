@@ -107,7 +107,11 @@ const {
     addCitizenPage,
     editCitizenPage,
     editCitizen,
-    deleteCitizens
+    deleteCitizens,
+    companyPage,
+    company,
+    createCompany,
+    companyDetailPage
 } = require("./routes/citizens/citizen");
 
 // Registration - Login
@@ -169,8 +173,10 @@ app.post("/citizen/add", addCitizen)
 app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
 app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
 app.get("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
-app.get("/edit-name", changeUsernamePage)
-app.post("/edit-name", changeUsername)
+app.get("/citizen/company", companyPage)
+app.post("/citizen/company/join", company)
+app.post("/citizen/company/create", createCompany)
+app.get("/citizen/company/:company", companyDetailPage)
 
 //  Login : Registration : Logout
 app.get("/login", loginPage);
