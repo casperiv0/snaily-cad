@@ -5,11 +5,6 @@
         <label for="exampleInputEmail1">Enter Full Name</label>
         <input name="full_name" type="text" class="form-control" placeholder="Full Name" />
     </div>
-    <!-- <div class="form-group">
-        <label for="exampleInputEmail1">Enter Last Name</label>
-        <input name="last_name" type="text" class="form-control" placeholder="Last Name" disabled
-            value="<%= username %> " />
-    </div> -->
     <div class="form-group">
         <label for="exampleInputEmail1">Enter Birthday</label>
         <input name="birth" type="text" class="form-control" placeholder="Birthday" required />
@@ -30,7 +25,6 @@
             <option value="<%= gender.gender %>"><%= gender.gender %></option>
             <% }) %>
         </select>
-        <!-- <input name="gender" type="text" class="form-control" placeholder="Gender" required /> -->
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">Enter Hair Color</label>
@@ -59,20 +53,21 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Drivers Licence</label>
         <select name="dmv" class="form-control">
-            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
+            <option value="none">None</option>
         </select>
     </div>
 
     <div class="form-group">
         <label for="exampleInputEmail1">Firearms Licence</label>
         <select name="fire" class="form-control">
-            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
+            <% dmvs.forEach(dmv => { %>
+
         </select>
     </div>
 
@@ -80,10 +75,10 @@
         <label for="exampleInputEmail1">Pilots Licence</label>
 
         <select name="pilot" class="form-control">
-            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
+            <option value="none">None</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary float-right margin-right-10">Add Citizen</button>
