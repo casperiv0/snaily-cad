@@ -258,9 +258,9 @@ module.exports = {
         let companyName = req.body.companyName;
         let owner = req.body.owner;
         let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`) VALUES  ("' + companyName + '", "' + owner + '")';
-        let query2 = 'UPDATE `citizens` SET `business` = "' + companyName + '" WHERE `citizens`.`full_name` = "' + citizen_name + '"';
+        let query2 = 'UPDATE `citizens` SET `business` = "' + companyName + '" WHERE `citizens`.`full_name` = "' + owner + '"';
 
-        connection.query(query, (err, result1) => {
+        connection.query(`${query}; ${query2}`, (err, result1) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500);
