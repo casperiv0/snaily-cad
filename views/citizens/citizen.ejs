@@ -14,13 +14,11 @@
 
 
         <ul class="list-group" id="myUL">
-            <div class="container mx-auto row">
-                <a class="btn btn-danger  " href="/logout">Logout</a>
-                <a class="btn btn-primary  ml-3" href="/account/edit">Edit Account</a>
-                <a href="/citizen/add" class="btn btn-primary cap  ml-3">add a new citizen</a>
-                <a class="btn btn-primary cap ml-3" href="/cars/register">register a car</a>
-                <a class="btn btn-primary cap ml-3" href="/weapons/register">register a weapon</a>
-            </div>
+            <a class="btn btn-danger  mt-1" href="/logout">Logout</a>
+            <a class="btn btn-primary  mt-1" href="/account/edit">Edit Account</a>
+            <a href="/citizen/add" class="btn btn-primary cap  mt-1">add a new citizen</a>
+            <a class="btn btn-primary cap mt-1" href="/cars/register">register a car</a>
+            <a class="btn btn-primary cap mt-1" href="/weapons/register">register a weapon</a>
 
             <% citizen.forEach(value => { %>
             <li class="list-group-item mt-2">

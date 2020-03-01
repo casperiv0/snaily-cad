@@ -1,33 +1,18 @@
-/* .users-title {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
-} */
+body::-webkit-scrollbar {
+  width: 10px;
+}
 
-/* .users-list {
-  position: relative;
-  top: 150px;
-  margin-right: 100px;
-  margin-left: 100px;
-} */
+body::-webkit-scrollbar-track {
+  background: #6c757d !important;
+}
 
-/* .list-group {
-  margin-top: 60px;
-  margin-left: 50px;
-  margin-right: 50px;
-} */
+body::-webkit-scrollbar-thumb {
+  background: #343a40 !important;
+}
 
 .edit-veh-form {
   margin: 100px;
 }
-/* 
-.list-group-item {
-  text-transform: capitalize;
-  font-size: 20px;
-  font-weight: 600;
-  min-width: 250px;
-  margin-top: 10px;
-} */
 
 .margin-right-10 {
   margin-right: 10px;
@@ -47,17 +32,6 @@
 .add-player-form {
   margin: 50px;
 }
-
-/* #myInput {
-  position: relative;
-  top: 100px;
-  margin-right: 80px;
-  margin-left: 120px;
-  width: 80%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-} */
 
 .searchbar-a {
   border: 1px solid #ddd;
