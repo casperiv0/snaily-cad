@@ -59,6 +59,7 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Drivers Licence</label>
         <select name="dmv" class="form-control">
+            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
@@ -68,6 +69,7 @@
     <div class="form-group">
         <label for="exampleInputEmail1">Firearms Licence</label>
         <select name="fire" class="form-control">
+            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
@@ -76,7 +78,9 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1">Pilots Licence</label>
+
         <select name="pilot" class="form-control">
+            <option value="none">None</option>
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
