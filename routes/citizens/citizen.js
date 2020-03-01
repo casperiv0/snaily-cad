@@ -260,6 +260,6 @@ module.exports = {
         })
     },
     companyDetailPage: (req, res) => {
-        res.render("company/main.ejs", { title: req.params.company + "| Equinox CAD", isAdmin: "" })
+        res.render("company/main.ejs", { title: req.params.company + " | Equinox CAD", isAdmin: "" })
     }
 }
