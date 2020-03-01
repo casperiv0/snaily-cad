@@ -5,7 +5,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             connection1.query(query, (err, result1) => {
                 if (result1[0].leo == 'yes') {
-                    let qeury = "SELECT * FROM `officers` ORDER by id ASC"
+                    let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "'"
                     connection.query(qeury, (err, result) => {
                         if (err) {
                             console.log("Error" + err)
@@ -18,6 +18,45 @@ module.exports = {
                         });
 
                     });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    addOfficerPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
+                    res.render("officers-pages/add-officers.ejs", { title: "Add Officer | Equinox CAD", isAdmin: result1[0].admin, req: req })
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    addOfficer: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result1) => {
+                if (result1[0].leo == 'yes') {
+                    let officer_name = req.body.officer_name;
+                    let dept = req.body.dept;
+                    let de = ""
+                    let query = "INSERT INTO `officers` ( `officer_name`, `officer_dept`,`officer_rank`,  `linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + de + "','" + req.session.username2 + "')";
+
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            return res.sendStatus(500)
+                        } else {
+                            res.redirect("/myofficers")
+                        }
+                    })
                 } else {
                     res.sendStatus(403);
                 };

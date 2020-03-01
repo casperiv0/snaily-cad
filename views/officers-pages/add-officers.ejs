@@ -1,0 +1,23 @@
+<%- include("../partials/header.ejs") %>
+
+
+
+<form class="container mx-auto mt-3" action="" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="form-group">
+
+        <label for="name">Officer Name</label>
+        <input type="text" name="officer_name" value="<%= req.params.first_name %> <%= req.params.last_name %>"
+            class="form-control" id="name" aria-describedby="emailHelp">
+
+    </div>
+    <div class="form-group">
+        <label for="dept">Officer Dept</label>
+        <select type="text" name="dept" class="form-control" id="dept">
+            <option value="BCSO">BCSO</option>
+            <option value="SAHP">SAHP</option>
+            <option value="LSPD">LSPD</option>
+        </select>
+    </div>
+    <a href="/myofficers" class="btn cancel-btn btn-danger">Cancel</a>
+    <button type="submit" class="btn btn-primary">Add Warrant</button>
+</form>

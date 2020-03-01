@@ -16,9 +16,10 @@ module.exports = {
                     req.session.username2 = username;
 
                     try {
-                        connection.query("SELECT * FROM `citizens` WHERE full_name = '" + req.session.username2 + "'", (err, result) => {
+                        connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
                             if (err) {
-                                res.redirect("/citizen/add")
+                                res.sendStatus(500);
+                                console.log(err);
                             }
                             if (!result[0]) {
                                 res.redirect("/citizen/add")
@@ -46,7 +47,7 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect("/login")
         } else {
-            res.render("login-res/change.ejs", {title: "Change name | Equinox CAD",isAdmin: req.session.isAdmin, message: "", req: req  })
+            res.render("login-res/change.ejs", { title: "Change name | Equinox CAD", isAdmin: req.session.isAdmin, message: "", req: req })
         }
     },
     changeUsername: (req, res) => {
@@ -58,7 +59,7 @@ module.exports = {
 
         connection1.query(query, (err, result1) => {
             connection1.query(query2, (err, result2) => {
-                connection.query(query3, (err,result3) => {
+                connection.query(query3, (err, result3) => {
                     console.log(result3);
                     console.log(result1);
                     console.log(result2);
@@ -90,7 +91,7 @@ module.exports = {
             } else {
                 if (username && password) {
                     // req.session.loggedin = true;
-        
+
                     connection1.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
                         if (error) {
                             console.log(error)
@@ -98,18 +99,18 @@ module.exports = {
                         if (results.length > 0) {
                             res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
                         } else {
-        
+
                             res.redirect('/login');
                         }
                         res.end();
                     });
                 } else {
                     res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again" })
-        
+
                     res.end();
                 }
             }
         })
-        
+
     }
 }

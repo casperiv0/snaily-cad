@@ -37,7 +37,7 @@ module.exports = {
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             connection1.query(`${query1}; ${query}`, (err, result) => {
                 if (result[0][0].admin == 'admin') {
-                    res.render("admin-pages/edit-citizens.ejs", { title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].admin })
+                    res.render("admin-pages/edit-citizens.ejs", { title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].admin, })
                 } else {
                     res.sendStatus(403)
                 };

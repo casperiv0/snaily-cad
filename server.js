@@ -26,7 +26,6 @@ const prefix = "?"
 // Admin
 const {
     adminPanel,
-    adminLoginPage,
     usersPage,
     adminEditCitizen,
     adminEditCitizenPage
@@ -91,7 +90,9 @@ const {
     addOffence,
     officerApply,
     addWarrant,
-    addWarrantPage
+    addWarrantPage,
+    addOfficer,
+    addOfficerPage
 } = require("./routes/officers/officer");
 
 const {
@@ -152,8 +153,6 @@ app.get("/", homePage)
 
 // Admin
 app.get("/admin", adminPanel);
-// app.get('/admin/login', adminLoginPage);
-// app.post('/admin/auth', adminLogin);
 app.get("/admin/users", usersPage)
 app.get("/admin/users/edit/:id", adminEditCitizenPage)
 app.post("/admin/users/edit/:id", adminEditCitizen)
@@ -184,6 +183,8 @@ app.post("/dispatch/search/name", disptachNameSearch)
 app.post("/dispatch/search/plate", disptachPlateSearch)
 app.post("/dispatch/search/weapon", disptachWeaponSearch)
 app.post("/dispatch/search/address", disptachAddressSearch)
+
+
 // Officers
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
@@ -198,6 +199,8 @@ app.get("/officers/apply", officerApplyPage);
 app.post("/officers/apply", officerApply);
 app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
 app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
+app.get('/officers/add', addOfficerPage)
+app.post('/officers/add', addOfficer)
 
 // EMS/FD
 app.get('/ems-fd', emsPage);
@@ -319,7 +322,6 @@ async function main() {
     }
 
     handleDisconnect();
-    // 7{aH$mkLP@vfpW-!
     app.listen(port, () => {
 
         console.log(`Running on ${port}`)
