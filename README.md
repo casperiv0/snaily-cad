@@ -10,7 +10,11 @@ ToDO
 - [x] EMS/FD tab
 - [x] better offences system
 - [x] being able to change name
-- [ ] register a company
+- [x] register a company -- still needs some work
+- [ ] suspend license ability
+- [ ] give demerit points
+- [ ] add business search to dispatch to see all workers
+- [ ] add current business to detail citizen page and PD Search
 - [ ] Dispatch System
 - [ ] Add warants
 - [ ] Dark mode
