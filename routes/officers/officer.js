@@ -47,8 +47,7 @@ module.exports = {
                 if (result1[0].leo == 'yes') {
                     let officer_name = req.body.officer_name;
                     let dept = req.body.dept;
-                    let de = ""
-                    let query = "INSERT INTO `officers` ( `officer_name`, `officer_dept`,`officer_rank`,  `linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + de + "','" + req.session.username2 + "')";
+                    let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "')";
 
                     connection.query(query, (err, result) => {
                         if (err) {
