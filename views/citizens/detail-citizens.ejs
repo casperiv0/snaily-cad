@@ -50,6 +50,12 @@
             <li class="list-group-item">Address: <%= citizen[0].address %> </li>
             <li class="list-group-item">Height: <%= citizen[0].height %> </li>
             <li class="list-group-item">Weight: <%= citizen[0].weight %> </li>
+            <% if (citizen[0].business == "") { %>
+            <li class="list-group-item">Employer: Currently is not working</li>
+            <%} else {%>
+            <li class="list-group-item">Employer: <%= citizen[0].business %> </li>
+
+            <%} %>
             <div class="list-group-item list-group-item-action active">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Licences:</h5>

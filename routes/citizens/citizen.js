@@ -31,17 +31,28 @@ module.exports = {
                 let id = req.params.id;
                 let first_name = req.params.first_name;
                 let last_name = req.params.last_name;
-                // let owner = first_name + " " + last_name;
+                let owner2 = first_name + " " + last_name;
                 let owner = req.params.first_name;
+                let isCeo = false;
                 let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
                 let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'"
                 let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'"
-                connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}`, (err, result) => {
+                let ceo = "SELECT business_owner FROM `businesses` WHERE `business_owner` = '" + first_name + "'"
+                connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${ceo}`, (err, result) => {
                     if (err) {
                         return res.status(500).send(err);
                     }
                     if (result[0][0].linked_to == req.session.username2) {
-                        res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: result1[0].admin })
+                        console.log(first_name + "first_nae")
+                        console.log(result[3][0].business_owner)
+                        if (result[3][0].business_owner == first_name) {
+                            isCeo = true
+                        } else {
+                            isCeo = false
+                        }
+                        console.log(isCeo);
+
+                        res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin })
                     } else {
                         res.sendStatus(401)
                     }
