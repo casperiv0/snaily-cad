@@ -9,7 +9,7 @@ ToDO
 - [x] PD apps
 - [x] EMS/FD tab
 - [x] better offences system
+- [x] being able to change name
 - [ ] Dispatch System
 - [ ] Add warants
-- [ ] being able to change name
 - [ ] Dark mode

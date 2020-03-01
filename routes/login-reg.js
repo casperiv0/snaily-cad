@@ -112,5 +112,55 @@ module.exports = {
             }
         })
 
+    },
+    editAccountPage: (req, res) => {
+        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+        connection1.query(query, (err, result1) => {
+            res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "" })
+        });
+    },
+    editAccount: (req, res) => {
+
+        if (req.session.loggedin) {
+            let newUsername = req.body.username;
+            let password = req.body.password;
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+
+            connection1.query(query, (err, result) => {
+
+                if (password !== result[0].password) {
+                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                    connection1.query(query, (err, result1) => {
+                        res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password" })
+                    });
+                } else {
+                    let old_name = req.session.username2;
+                    let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
+                    let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
+
+                    connection.query(query3, async (err1, result) => {
+
+                        connection1.query(`${query2};`, async (err, result1) => {
+
+                            if (err) {
+                                console.log(err);
+                            } else if (err) {
+                                console.log(err1);
+                            } else {
+                                await req.session.destroy();
+                                await res.redirect("/")
+                            }
+                        })
+
+                    })
+                }
+            })
+        } else {
+            res.redirect("/login")
+        }
+
+
+
+
     }
 }

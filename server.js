@@ -117,7 +117,9 @@ const {
     login,
     register,
     changeUsername,
-    changeUsernamePage
+    changeUsernamePage,
+    editAccountPage,
+    editAccount
 } = require("./routes/login-reg");
 
 const {
@@ -150,6 +152,8 @@ app.use(eSession.main(session));
 
 // Home/defualt pages
 app.get("/", homePage)
+app.get("/account/edit", editAccountPage)
+app.post("/account/edit", editAccount)
 
 // Admin
 app.get("/admin", adminPanel);
