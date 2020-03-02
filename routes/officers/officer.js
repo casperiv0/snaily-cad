@@ -154,22 +154,19 @@ module.exports = {
                     let id = req.params.id;
                     let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
                     let getOwner = req.params.owner;
-                    // let owner = getOwner.split(" ");
-                    // let first_name = owner[0];
-                    // let last_name = owner[1];
-
+                    let warrantsQ = "SELECT * FROM `warrants` WHERE `name` = '" + getOwner + "'"
                     let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
 
-                    connection.query(`${query}; ${query2};`, (err, result) => {
+                    connection.query(`${query}; ${query2}; ${warrantsQ};`, (err, result) => {
                         if (err) {
                             return res.status(404).send(err);
                         }
-
                         res.render("officers-pages/plate-results.ejs", {
                             title: "Plate Results | Police Department",
                             isAdmin: result1[0].admin,
                             plates: result[0][0],
-                            name: result[1][0]
+                            name: result[1][0],
+                            warrants: result[2][0]
                         })
                     });
                 } else {
@@ -189,11 +186,12 @@ module.exports = {
                     let first_name = req.params.first_name;
                     let last_name = req.params.last_name;
                     let owner = req.params.first_name;
+                    let owner2 = req.params.first_name + " " + req.params.last_name;
                     let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'";
                     let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'";
                     let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'";
                     let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-                    let warrantsQ = "SELECT * FROM `warrants` WHERE name = '" + owner + "'";
+                    let warrantsQ = "SELECT * FROM `warrants` WHERE name = '" + owner2 + "'";
 
 
                     connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}; ${warrantsQ}`, (err, result) => {

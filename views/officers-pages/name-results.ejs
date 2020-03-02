@@ -16,6 +16,12 @@
         <li class="list-group-item mt-2">Address: <%= result.address %> </li>
         <li class="list-group-item mt-2">Height: <%= result.height %> </li>
         <li class="list-group-item mt-2">Weight: <%= result.weight %> </li>
+        <% if (result.business == "") { %>
+        <li class="list-group-item">Employer: Currently is not working</li>
+        <%} else {%>
+        <li class="list-group-item">Employer: <%= result.business %> </li>
+
+        <%} %>
 
         <div class="list-group-item list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
@@ -131,7 +137,7 @@
         </div>
         <div id="dots5"></div>
         <div id="more5">
-            <% if (!warrants[0]) { %>
+            <% if (!warrants) { %>
             <li class="list-group-item color-black">
                 <p>No warrants out for this person.</p>
             </li>

@@ -4,10 +4,15 @@
     <% if (plates) { %>
     <h1 class="card-title text-center mt-3">Plate: <span class="uppercase"> <%= plates.plate %></span></h1>
     <ul class="list-group">
-        <a href="/officers/dash/search/plate" class="btn btn-primary mb-2 cap">back to plate search</a>
+        <a href="/officers/dash/search/plate" class="btn btn-primary mb-2 cap list-inline">back to plate search</a>
         <li class="list-group-item name"> <span class="bolder">Vehicle Owner:</span>
             <a
                 href="/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %> "><%= plates.owner %></a>
+            <% if(warrants !== undefined) {%>
+            <p class="text-danger list-inline-item float-right">Warning: Person has a warrant!</p>
+            <%} else {%>
+
+            <% } %>
         </li>
         <li class="list-group-item"> <span class="bolder"> Vehicle:</span> <%= plates.vehicle %></li>
         <li class="list-group-item"> <span class="bolder">Vehicle Color:</span> <span
@@ -21,6 +26,7 @@
                     License</button>
             </form>
         </li>
+
     </ul>
     <% } else { %>
     <p class="text-center">Plate Not Found. Go Back <a href="/officers/dash/search/plate">Here</a>.</p>
