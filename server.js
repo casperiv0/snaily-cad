@@ -92,7 +92,9 @@ const {
     addWarrant,
     addWarrantPage,
     addOfficer,
-    addOfficerPage
+    addOfficerPage,
+    suspendLicensePlate,
+    suspendLicenseName
 } = require("./routes/officers/officer");
 
 const {
@@ -211,6 +213,8 @@ app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage
 app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
 app.get('/officers/add', addOfficerPage)
 app.post('/officers/add', addOfficer)
+app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
+app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend", suspendLicenseName)
 
 // EMS/FD
 app.get('/ems-fd', emsPage);

@@ -249,7 +249,6 @@ module.exports = {
                 return res.sendStatus(500);
             } else {
                 res.redirect(`/citizen/company/${joined_business}`)
-                console.log(result1);
 
             }
         })
@@ -266,7 +265,6 @@ module.exports = {
                 return res.sendStatus(500);
             } else {
                 res.redirect(`/citizen/company/${companyName}`)
-                console.log(result1);
 
             }
         })

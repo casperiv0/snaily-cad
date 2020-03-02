@@ -14,6 +14,13 @@
                 id="color"><%= plates.color %></span></li>
         <li class="list-group-item"> <span class="bolder">Insurance Status:</span> <span
                 id="status"><%= plates.in_status %></span> </li>
+        <li class="list-group-item list-inline"> <span class="bolder">Drivers License:</span> <span
+                id="status"><%= name.dmv %></span>
+            <form action="<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>/suspend"
+                class="list-inline-item float-right" method="post"><button type="submit" class="btn btn-danger">Suspend
+                    License</button>
+            </form>
+        </li>
     </ul>
     <% } else { %>
     <p class="text-center">Plate Not Found. Go Back <a href="/officers/dash/search/plate">Here</a>.</p>

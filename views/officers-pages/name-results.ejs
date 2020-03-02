@@ -24,7 +24,13 @@
             <div id="dots3"></div>
             <div id="more3">
                 <p class="mb-1">
-                    <li class="list-group-item color-black">Driver Licence: <%= result.dmv %> </li>
+                    <li class="list-group-item color-black list-inline">Driver Licence: <%= result.dmv %> <form
+                            action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend"
+                            class="list-inline-item float-right" method="post"><button type="submit"
+                                class="btn btn-danger">Suspend
+                                License</button>
+                        </form>
+                    </li>
                     <li class="list-group-item color-black">Pilot Licence: <%= result.pilot_licence %> </li>
                     <li class="list-group-item color-black">Firearms Licence: <%= result.fire_licence %> </li>
                 </p>

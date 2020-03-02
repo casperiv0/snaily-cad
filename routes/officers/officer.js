@@ -354,5 +354,35 @@ module.exports = {
         } else {
             res.redirect("/login")
         }
-    }
+    },
+    suspendLicensePlate: (req, res) => {
+        let id = req.params.id
+        let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
+        let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
+        connection.query(query, (err, result1) => {
+            connection.query(query2, (err, result) => {
+                if (err) {
+                    console.log(err)
+                    return res.sendStatus(500);
+                } else {
+                    res.redirect("/officers/dash/search/plate/")
+                }
+            })
+        })
+    },
+    suspendLicenseName: (req, res) => {
+        let id = req.params.id;
+        let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
+        let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
+        connection.query(query, (err, result1) => {
+            connection.query(query2, (err, result) => {
+                if (err) {
+                    console.log(err)
+                    return res.sendStatus(500);
+                } else {
+                    res.redirect("/officers/dash/search/person-name/")
+                }
+            })
+        })
+    },
 }
