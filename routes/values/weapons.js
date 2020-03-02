@@ -124,36 +124,44 @@ module.exports = {
         }
     },
     regWeaponPage: (req, res) => {
-        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-        connection1.query(query, (err, result1) => {
-            let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
-            let citizens = "SELECT * FROM `citizens`"
-            let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
-            let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
 
-            connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection1.query(query, (err, result1) => {
+                let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
+                let citizens = "SELECT * FROM `citizens`"
+                let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
+                let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+
+                connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
+                    if (err) {
+                        return res.status(500).send(err);
+                    }
+                    res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3] })
+                });
+            });
+        }
+    },
+    regWeapon: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
+            // let owner = req.body.owner;
+            let owner = req.body.owner;
+            let weapon = req.body.weapon;
+            let status = req.body.status;
+            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
+
+
+            connection.query(query, (err, result) => {
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3] })
+                res.redirect("/citizen")
             });
-
-        });
-    },
-    regWeapon: (req, res) => {
-        // let owner = req.body.owner;
-        let owner = req.body.owner;
-        let weapon = req.body.weapon;
-        let status = req.body.status;
-        let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
-
-
-        connection.query(query, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            res.redirect("/citizen")
-        });
+        };
     }
 
 }

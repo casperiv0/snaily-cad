@@ -254,6 +254,7 @@ module.exports = {
         })
     },
     createCompany: (req, res) => {
+
         let companyName = req.body.companyName;
         let owner = req.body.owner;
         let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`) VALUES  ("' + companyName + '", "' + owner + '")';
@@ -270,6 +271,10 @@ module.exports = {
         })
     },
     companyDetailPage: (req, res) => {
-        res.render("company/main.ejs", { title: req.params.company + " | Equinox CAD", isAdmin: "" })
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
+            res.render("company/main.ejs", { title: req.params.company + " | Equinox CAD", isAdmin: "" })
+        }
     }
 }
