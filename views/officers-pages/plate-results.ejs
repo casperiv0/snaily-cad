@@ -20,7 +20,7 @@
         <li class="list-group-item"> <span class="bolder">Insurance Status:</span> <span
                 id="status"><%= plates.in_status %></span> </li>
         <li class="list-group-item list-inline"> <span class="bolder">Drivers License:</span> <span
-                id="status"><%= name.dmv %></span>
+                id="status2"><%= name.dmv %></span>
             <form action="<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>/suspend"
                 class="list-inline-item float-right" method="post"><button type="submit" class="btn btn-danger">Suspend
                     License</button>
@@ -51,6 +51,22 @@
     } else {
         status.style.color = "green"
     }
+
+    let status2 = document.getElementById("status2");
+    if (status2.textContent === "Fake") {
+        status2.style.color = "red"
+    } else if (status2.textContent === "Stolen") {
+        status2.style.color = "red"
+    } else if (status2.textContent === "Invalid") {
+        status2.style.color = "red"
+    } else if (status2.textContent === "Expired") {
+        status2.style.color = "red"
+    } else if (status2.textContent === "Suspended") {
+        status2.style.color = "red"
+    } else {
+        status.style.color = "green"
+    }
+
 
 
 </script>
