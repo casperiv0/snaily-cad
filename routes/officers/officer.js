@@ -241,23 +241,6 @@ module.exports = {
             .addField("**Are you over 16?**", q4)
             .addField("**Do you agree that you will be on duty once a week as a minimal requirement?**", q5)
         bot.channels.get("679712964374167560").send(embed)
-        // .then(async (embedMsg, message) => {
-        //     embedMsg.react("✅").then(r => {
-        //         embedMsg.react("❌")
-        //         let approved = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '✅' && user.id !== bot.user.id);
-        //         let declined = embedMsg.createReactionCollector((reaction, user) => reaction.emoji.name === '❌' && user.id !== bot.user.id);
-
-        //         approved.on('collect', r => {
-        //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
-        //         });
-
-        //         declined.on("collect", r => {
-        //             bot.channels.get("643417616337207296").send(`${dUsername} Was Declined`)
-
-        //         });
-        //     })
-        // })
-        // await message.react("😄")
     },
     addOffencePage: (req, res) => {
 
@@ -383,4 +366,22 @@ module.exports = {
             })
         })
     },
+    statusChange: (req, res) => {
+        let id = req.body.id
+        let status = req.body.status;
+        let status2 = req.body.status2;
+        if (status2 === undefined) {
+            status2 = "----------"
+        }
+        let query1 = "UPDATE `officers` SET `status` = '" + status + "' WHERE `officers`.`id` = '" + id + "'"
+        let query2 = "UPDATE `officers` SET `status2` = '" + status2 + "' WHERE `officers`.`id` = '" + id + "'"
+        connection.query(`${query1}; ${query2};`, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("/myofficers")
+            }
+        })
+    }
 }

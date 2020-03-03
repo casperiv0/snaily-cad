@@ -138,3 +138,9 @@ body::-webkit-scrollbar-thumb {
 .center {
   text-align: center;
 }
+
+.custom {
+  border: none;
+  width: 25px;
+  pointer-events: none;
+}

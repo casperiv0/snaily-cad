@@ -94,7 +94,8 @@ const {
     addOfficer,
     addOfficerPage,
     suspendLicensePlate,
-    suspendLicenseName
+    suspendLicenseName,
+    statusChange
 } = require("./routes/officers/officer");
 
 const {
@@ -215,6 +216,7 @@ app.get('/officers/add', addOfficerPage)
 app.post('/officers/add', addOfficer)
 app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
 app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend", suspendLicenseName)
+app.post("/myofficers/status", statusChange)
 
 // EMS/FD
 app.get('/ems-fd', emsPage);

@@ -12,9 +12,45 @@
 
         <% officers.forEach(value => { %>
         <li class="list-group-item mt-2">
+            <form class="form-inline" action="/myofficers/status" method="post">
+                <input type="text" class="custom" name="id" value="<%= value.id %>"> | <%= value.officer_dept %> |
+                <%= value.officer_name %> |
+                <%= value.officer_rank %>
 
-            <%= value.id %> | <%= value.officer_dept %> | <%= value.officer_name %> | <%= value.officer_rank %>
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref"> &thinsp; Status:</label>
+                <select id="10_41" class="custom-select my-1 mr-sm-2" name="status" id="inlineFormCustomSelectPref">
+                    <option selected value="<%= value.status %>"><%= value.status %></option>
+                    <option value="" disabled>New Status..</option>
+                    <option value="10-41 | 10-8">10-41 | 10-8</option>
+                    <option value="10-42 | 10-7">10-42 | 10-7</option>
+                </select>
+                <select id="status2" disabled class="custom-select my-1 mr-sm-2" name="status2"
+                    id="inlineFormCustomSelectPref">
+                    <option selected value="<%= value.status2 %>"><%= value.status2 %></option>
+                    <option value="" disabled>New Status..</option>
+                    <option value="10-6">10-6</option>
+                    <option value="10-5">10-5</option>
+                    <option value="10-12">10-12</option>
+                    <option value="10-97">10-97</option>
+                    <option value="10-11">10-11</option>
+                    <option value="Signal 11">Signal 11</option>
+                    <option value="Code 5">Code 5</option>
+                </select>
+                <button type="submit" class="btn btn-success">Change Status</button>
+            </form>
+            <p> <span class="bolder"> Current Status:</span> <%= value.status %> <span class="bolder">-</span>
+                <%= value.status2 %></p>
         </li>
         <% }) %>
     </ul>
 </div>
+
+<script type="text/javascript">
+    let id = document.getElementById("10_41");
+    let status2 = document.getElementById("status2")
+    if (id.value === "10-41 | 10-8") {
+        status2.disabled = false;
+    } else {
+        status2.disabled = true;
+    }
+</script>
