@@ -2,12 +2,13 @@
 include("../partials/admin-header.ejs") %>
 
 <div class="container mx-auto">
-  <h1 class="users-title card-title text-center mt-3">User management </h1>
+  <h1 class="users-title card-title text-center mt-3 text-light">User management </h1>
 
-  <input type="text" class=" form-control mt-2" id="myInput" onkeyup="myFunction()" placeholder="Search for users..">
-  <ul class="list-group" id="myUL">
+  <input type="text" class=" form-control mt-2 text-light bg-dark" id="myInput" onkeyup="myFunction()"
+    placeholder="Search for users..">
+  <ul class="list-group " id="myUL">
     <% users.forEach(user => { %>
-    <li class="list-group-item mt-2">
+    <li class="list-group-item mt-1 text-light bg-dark">
 
       <%= user.id %> | <%= user.username %>
       <a href="/admin/users/edit/<%= user.id %>" class="btn btn-success float-right">Edit Permissions</a>

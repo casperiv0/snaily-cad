@@ -2,27 +2,29 @@
 
 
 <div class="container mx-auto">
-    <h1 class="card-title text-center mt-3">Equinox CAD</h1>
+    <h1 class="card-title text-center mt-3 text-light">Equinox CAD</h1>
 
     <ul class="list-group mt-2">
 
         <% if (!loggedin) { %>
-        <a href="/login" class="btn btn-primaryy list-group-item">
+        <a href="/login" class="btn btn-primaryy list-group-item text-light bg-dark border-dark">
             Login in
         </a>
-        <a href="/register" class="btn btn-primaryy list-group-item mt-2">
+        <a href="/register" class="btn btn-primaryy list-group-item mt-2 text-light bg-dark border-dark">
             Register
         </a>
-        <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find
+        <p class="text-light">This CAD is still in development, It's in good shape for production tho. <br> Want to help
+            me find
             bugs,
             typos or errors? DM CasperTheGhost#4546 on discord.</p>
-        <p>Want to become an officer? <a href="/officers/apply">Apply here</a></p>
+        <p class="text-light">Want to become an officer? <a href="/officers/apply">Apply here</a></p>
         <% } else {%>
-        <h3 class="card-title cap text-center">Welcome Back <%= username %> </h3>
-        <a href="/citizen" class="btn btn-primaryy list-group-item">
+        <h3 class="card-title cap text-center text-light">Welcome Back <%= username %> </h3>
+        <a href="/citizen" class="btn btn-primaryy list-group-item text-light bg-dark border-dark">
             Citizen Page
         </a>
-        <p class="">This CAD is still in development, It's in good shape for production tho. <br> Want to help me find
+        <p class="text-light">This CAD is still in development, It's in good shape for production tho. <br> Want to help
+            me find
             bugs,
             typos or errors? DM CasperTheGhost#4546 on discord.</p>
         <%   } %>

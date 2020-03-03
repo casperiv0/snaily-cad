@@ -3,16 +3,17 @@ include("../partials/admin-header.ejs") %>
 
 
 <div class="container">
-  <h1 class="card-title">
+  <h1 class="card-title text-light">
     Vehicles management <a href="/admin/values/cars/add">+</a>
   </h1>
 
   <% if (vehicles.length > 0) {%>
   <ul class="list-group" id="myUL">
-    <input type="text" id="myInput" class="list-group-item" onkeyup="myFunction()" placeholder="Search for Vehicles..">
+    <input type="text" id="myInput" class="list-group-item text-light bg-dark" onkeyup="myFunction()"
+      placeholder="Search for Vehicles..">
 
     <% vehicles.forEach(value => { %>
-    <li class="list-group-item">
+    <li class="list-group-item text-light bg-dark">
 
       <%= value.id %> | <%= value.cname %>
       <a href="/admin/values/cars/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>

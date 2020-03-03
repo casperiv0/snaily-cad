@@ -11,10 +11,9 @@ ToDO
 - [x] better offences system
 - [x] being able to change name
 - [x] register a company -- still needs some work
-- [ ] suspend license ability
+- [x] suspend license ability
+- [x] add current business to detail citizen page and PD Search
+- [x] Dispatch System
+- [x] Add warants
 - [ ] give demerit points
-- [ ] add business search to dispatch to see all workers
-- [ ] add current business to detail citizen page and PD Search
-- [ ] Dispatch System
-- [ ] Add warants
 - [ ] Dark mode

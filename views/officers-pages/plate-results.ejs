@@ -2,10 +2,10 @@
 
 <div class="container">
     <% if (plates) { %>
-    <h1 class="card-title text-center mt-3">Plate: <span class="uppercase"> <%= plates.plate %></span></h1>
+    <h1 class="card-title text-center mt-3 text-light">Plate: <span class="uppercase"> <%= plates.plate %></span></h1>
     <ul class="list-group">
-        <a href="/officers/dash/search/plate" class="btn btn-primary mb-2 cap list-inline">back to plate search</a>
-        <li class="list-group-item name"> <span class="bolder">Vehicle Owner:</span>
+        <a href="/officers/dash/search/plate" class="btn btn-primary mb-2 cap list-inline ">back to plate search</a>
+        <li class="list-group-item name text-light bg-dark"> <span class="bolder">Vehicle Owner:</span>
             <a
                 href="/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %> "><%= plates.owner %></a>
             <% if(warrants !== undefined) {%>
@@ -14,15 +14,16 @@
 
             <% } %>
         </li>
-        <li class="list-group-item"> <span class="bolder"> Vehicle:</span> <%= plates.vehicle %></li>
-        <li class="list-group-item"> <span class="bolder">Vehicle Color:</span> <span
+        <li class="list-group-item text-light bg-dark"> <span class="bolder"> Vehicle:</span> <%= plates.vehicle %></li>
+        <li class="list-group-item text-light bg-dark"> <span class="bolder">Vehicle Color:</span> <span
                 id="color"><%= plates.color %></span></li>
-        <li class="list-group-item"> <span class="bolder">Insurance Status:</span> <span
+        <li class="list-group-item text-light bg-dark"> <span class="bolder">Insurance Status:</span> <span
                 id="status"><%= plates.in_status %></span> </li>
-        <li class="list-group-item list-inline"> <span class="bolder">Drivers License:</span> <span
+        <li class="list-group-item list-inline text-light bg-dark"> <span class="bolder">Drivers License:</span> <span
                 id="status2"><%= name.dmv %></span>
             <form action="<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>/suspend"
-                class="list-inline-item float-right" method="post"><button type="submit" class="btn btn-danger">Suspend
+                class="list-inline-item float-right text-light bg-dark" method="post"><button type="submit"
+                    class="btn btn-danger">Suspend
                     License</button>
             </form>
         </li>

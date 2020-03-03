@@ -85,7 +85,7 @@ module.exports = {
                     let carId = req.params.id;
                     let car_name = req.body.cname;
                     let myear = req.body.myear;
-                    let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '", `myear` = "' + myear + '" WHERE `vehicles`.`id` = "' + carId + '"';
+                    let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '" WHERE `vehicles`.`id` = "' + carId + '"';
 
                     connection.query(query, (err, result) => {
                         if (err) {

@@ -2,7 +2,7 @@
 include("../partials/admin-header.ejs") %>
 
 <div class="container">
-    <h1 class="users-title card-title">
+    <h1 class="users-title card-title text-light">
         Gender management <a href="/admin/values/genders/add">+</a>
     </h1>
     <input class="disabled list-group-item" type="text" name="" id="">
@@ -10,7 +10,7 @@ include("../partials/admin-header.ejs") %>
     <% if (genders.length > 0) {%>
     <ul class="list-group">
         <% genders.forEach(value => { %>
-        <li class="list-group-item">
+        <li class="list-group-item text-light bg-dark">
 
             <%= value.id %> | <%= value.gender %>
             <a href="/admin/values/genders/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>

@@ -3,16 +3,16 @@ include("../partials/admin-header.ejs") %>
 
 
 <div class="container">
-    <h1 class="card-title">
+    <h1 class="card-title text-light">
         Weapon management <a href="/admin/values/weapons/add">+</a>
     </h1>
 
-    <input class="disabled list-group-item" type="text" name="" id="">
+    <input class="disabled list-group-item text-light bg-dark" type="text" name="" id="">
 
     <% if (weapons.length > 0) {%>
     <ul class="list-group">
         <% weapons.forEach(value => { %>
-        <li class="list-group-item">
+        <li class="list-group-item text-light bg-dark">
 
             <%= value.id %> | <%= value.name %>
             <a href="/admin/values/weapons/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>

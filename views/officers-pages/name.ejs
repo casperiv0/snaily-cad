@@ -3,18 +3,20 @@
 
 
 <div class="container">
-    <h1 class="card-title text-center mt-3">Name Search</h1>
+    <h1 class="card-title text-center mt-3 text-light">Name Search</h1>
 
     <ul class="list-group" id="myUL">
-        <a href="/officers/dash" class="btn btn-primary">Police Dashboard</a>
+        <a href="/officers/dash" class="btn btn-primary text-light">Police Dashboard</a>
 
-        <input type="text" id="myInput" class="list-group-item mt-2" onkeyup="myFunction()" placeholder="Search Names">
+        <input type="text" id="myInput" class="list-group-item mt-2 text-light bg-dark" onkeyup="myFunction()"
+            placeholder="Search Names">
 
 
 
 
         <% information.forEach(info => { %>
-        <li class="list-group-item mt-2 cap"><%= info.first_name %> <%= info.last_name %> | <%= info.birth %>
+        <li class="list-group-item mt-2 cap text-light bg-dark"><%= info.first_name %> <%= info.last_name %> |
+            <%= info.birth %>
             <a href="/officers/dash/search/name/<%= info.id %>-<%= info.first_name %>-<%= info.last_name %>"
                 class="btn btn-success float-right ">More info</a>
 

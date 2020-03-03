@@ -3,27 +3,27 @@
 
 
 <div class="container ">
-    <h1 class="card-title cap mt-3 text-center"> <%= result.first_name %> <%= result.last_name %></h1>
+    <h1 class="card-title cap mt-3 text-center text-light"> <%= result.first_name %> <%= result.last_name %></h1>
 
     <ul class="list-group">
         <a href="/officers/dash/search/person-name" class="btn btn-primary cap mt-2">Back to name search</a>
-        <li class="list-group-item mt-2">Full Name: <%= result.full_name %> </li>
-        <li class="list-group-item mt-2">Gender: <%= result.gender %></li>
-        <li class="list-group-item mt-2">Birthday: <%= result.birth %> </li>
-        <li class="list-group-item mt-2">Ethnicity: <%= result.ethnicity %> </li>
-        <li class="list-group-item mt-2">Hair Color: <%= result.hair %> </li>
-        <li class="list-group-item mt-2">Eye Color: <%= result.eyes %> </li>
-        <li class="list-group-item mt-2">Address: <%= result.address %> </li>
-        <li class="list-group-item mt-2">Height: <%= result.height %> </li>
-        <li class="list-group-item mt-2">Weight: <%= result.weight %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Full Name: <%= result.full_name %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Gender: <%= result.gender %></li>
+        <li class="list-group-item text-light bg-dark mt-2">Birthday: <%= result.birth %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Ethnicity: <%= result.ethnicity %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Hair Color: <%= result.hair %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Eye Color: <%= result.eyes %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Address: <%= result.address %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Height: <%= result.height %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Weight: <%= result.weight %> </li>
         <% if (result.business == "") { %>
-        <li class="list-group-item">Employer: Currently is not working</li>
+        <li class="list-group-item text-light bg-dark mt-2">Employer: Currently is not working</li>
         <%} else {%>
-        <li class="list-group-item">Employer: <%= result.business %> </li>
+        <li class="list-group-item text-light bg-dark mt-2">Employer: <%= result.business %> </li>
 
         <%} %>
 
-        <div class="list-group-item list-group-item-action active mt-2">
+        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1 ">Licences:</h5>
             </div>
@@ -47,7 +47,7 @@
 
 
         </div>
-        <div class="list-group-item list-group-item-action active mt-2">
+        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Vehicles:</h5>
             </div>
@@ -66,7 +66,7 @@
 
 
         </div>
-        <div class="list-group-item list-group-item-action active mt-2">
+        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Weapons:</h5>
             </div>
@@ -97,7 +97,7 @@
 
 
         <!-- Charges -->
-        <div class="list-group-item list-group-item-action active mt-2">
+        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">Legal:</h5>
             </div>
@@ -131,7 +131,7 @@
 
             </div>
     </ul>
-    <div class="list-group-item list-group-item-action active mt-2">
+    <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
         <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">Warrants:</h5>
         </div>

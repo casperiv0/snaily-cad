@@ -2,15 +2,15 @@
 include("../partials/admin-header.ejs") %>
 
 <div class="container">
-    <h1 class="users-title card-title">
+    <h1 class="users-title card-title text-light">
         Ethnicities management <a href="/admin/values/ethnicities/add">+</a>
     </h1>
-    <input class="disabled list-group-item" type="text" name="" id="">
+    <input class="disabled list-group-item text-light bg-dark" type="text" name="" id="">
 
     <% if (ethnicities.length > 0) {%>
     <ul class="list-group">
         <% ethnicities.forEach(value => { %>
-        <li class="list-group-item">
+        <li class="list-group-item text-light bg-dark">
 
             <%= value.id %> | <%= value.ethnicity %>
             <a href="/admin/values/ethnicities/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>

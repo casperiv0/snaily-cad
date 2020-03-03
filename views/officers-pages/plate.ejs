@@ -3,16 +3,16 @@
 
 <div class="container">
 
-    <h1 class="card-title text-center mt-3">Equinox Officers</h1>
+    <h1 class="card-title text-center mt-3 text-light">Equinox Officers</h1>
 
     <ul class="list-group" id="searUL">
-        <a href="/officers/dash" class="btn btn-primary mt-2">Police Dashboard</a>
+        <a href="/officers/dash" class="btn btn-primary mt-2 ">Police Dashboard</a>
 
-        <input type="text" id="searhI" class="list-group-item uppercase  mt-2" onkeyup="seardd()"
+        <input type="text" id="searhI" class="list-group-item uppercase text-light bg-dark mt-2" onkeyup="seardd()"
             placeholder="Search Plates">
 
         <% plates.forEach(plate => { %>
-        <li class="list-group-item mt-2"><span class="uppercase"><%= plate.plate %></span>
+        <li class="list-group-item mt-2 text-light bg-dark"><span class="uppercase"><%= plate.plate %></span>
             <a href="/officers/dash/search/plate/<%= plate.id %>-<%= plate.owner %>"
                 class="btn btn-primary float-right">More info</a>
         </li>
