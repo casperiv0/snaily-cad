@@ -62,7 +62,7 @@ module.exports = {
                 if (result[0][0].admin == 'admin') {
                     connection1.query(query2, (err, result1) => {
                         if (err) {
-                            res.sendStatus(500).send(err)
+                            res.sendStatus(500)
                         } else {
                             res.redirect("/admin/users")
                         }
