@@ -17,6 +17,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/57b65d1d2a.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -41,12 +43,24 @@
         <li class="nav-item">
           <a class="nav-link text-light" href="/citizen">Citizens</a>
         </li>
+
         <% if (isAdmin == 'admin' || isAdmin == 'moderator') {%>
         <li class="nav-item">
           <a class="nav-link text-light" href="/admin">Admin </a>
         </li>
         <%} else {%>
         <%} %>
+        <div class="btn-group nav-item">
+          <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            class="btn btn-dark dropdown-toggl">
+            Updates <span class="badge badge-light">2</span>
+          </button>
+          <div class="dropdown-menu">
+            <p class="dropdown-item pn">Added Dark mode(still working on it on some pages.)</p>
+            <p class="dropdown-item pn">Added this update changelog</p>
+            <small class="dropdown-item pn">These messages will disapear after 2days</small>
+          </div>
+        </div>
       </ul>
     </div>
   </nav>
