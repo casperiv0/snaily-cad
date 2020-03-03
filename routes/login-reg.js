@@ -137,9 +137,9 @@ module.exports = {
                     let old_name = req.session.username2;
                     let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
                     let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
+                    let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
 
-                    connection.query(query3, async (err1, result) => {
-
+                    connection.query(`${query3}; ${query4}`, async (err1, result) => {
                         connection1.query(`${query2};`, async (err, result1) => {
 
                             if (err) {

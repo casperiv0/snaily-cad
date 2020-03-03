@@ -134,7 +134,8 @@ const {
     disptachNameSearch,
     disptachPlateSearch,
     disptachWeaponSearch,
-    disptachAddressSearch
+    disptachAddressSearch,
+    statusChangeDispatch
 } = require("./routes/dispatch")
 
 // Middleware
@@ -196,6 +197,7 @@ app.post("/dispatch/search/name", disptachNameSearch)
 app.post("/dispatch/search/plate", disptachPlateSearch)
 app.post("/dispatch/search/weapon", disptachWeaponSearch)
 app.post("/dispatch/search/address", disptachAddressSearch)
+app.post("/dispatch/status", statusChangeDispatch)
 
 
 // Officers

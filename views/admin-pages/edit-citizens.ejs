@@ -25,6 +25,17 @@
     </div>
 
     <div class="form-group">
+        <label for="exampleInputEmail333">Dispatch Access</label>
+        <input type="text" list="dispatch" value="<%= user[0].dispatch %>" class="form-control" name="dispatch"
+            aria-describedby="emailHelp">
+        <datalist id="dispatch">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </datalist>
+
+    </div>
+
+    <div class="form-group">
         <label for="exampleInputEmail333">EMS/FD Access</label>
         <input type="text" list="ems" value="<%= user[0].ems_fd %>" class="form-control" name="ems"
             aria-describedby="emailHelp">

@@ -53,10 +53,11 @@ module.exports = {
             let admin = req.body.admin
             let leo = req.body.leo
             let ems = req.body.ems
+            let dispatch = req.body.dispatch
             console.log(ems, admin, leo);
             let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            let query2 = 'UPDATE `users` SET `admin` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '" WHERE `users`.`id` = "' + id + '"';
+            let query2 = 'UPDATE `users` SET `admin` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
             connection1.query(`${query1}; ${query}`, (err, result) => {
                 if (result[0][0].admin == 'admin') {
                     connection1.query(query2, (err, result1) => {

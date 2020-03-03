@@ -1,6 +1,12 @@
 <%- include("../partials/header.ejs") %>
 
 <div class="container mt-2">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> this page is still ongoing development, please be aware of bugs or incompletions.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="card mt-3" style="width: 18rem;">
         <div class="card-header">
             <span class="">Utility Panel</span>
@@ -146,15 +152,49 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
+
                         </form>
                     </div>
                 </div>
             </div>
-
-
-            <a class="btn btn-primary text-dark  list-group-item">Active Units</a>
         </ul>
     </div>
+    <br><br>
+    <ul class="list-group">
+        <div class="active list-group-item">Active Units</div>
+        <!-- <span class="border-top-0"></span> -->
+        <% officers.forEach(officer => {%>
+        <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
+        <!-- <p>not on duty</p> -->
+        <%} else { %>
+        <li class="list-group-item form-inline">
+            <form action="/dispatch/status" method="post">
+                <input type="text" class="custom" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
+                <%= officer.officer_name %> |
+                <%= officer.status2 %>
+                <select id="10_41" class="custom-select my-1 mr-sm-2" name="status" id="inlineFormCustomSelectPref">
+                    <option selected value="<%= officer.status %>"><%= officer.status %></option>
+                    <option value="" disabled>New Status..</option>
+                    <option value="10-41 | 10-8">10-41 | 10-8</option>
+                    <option value="10-42 | 10-7">10-42 | 10-7</option>
+                </select>
+                <select id="status2" class="custom-select my-1 mr-sm-2" name="status2" id="inlineFormCustomSelectPref">
+                    <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
+                    <option value="" disabled>New Status..</option>
+                    <option value="10-6">10-6</option>
+                    <option value="10-5">10-5</option>
+                    <option value="10-12">10-12</option>
+                    <option value="10-97">10-97</option>
+                    <option value="10-11">10-11</option>
+                    <option value="Signal 11">Signal 11</option>
+                    <option value="Code 5">Code 5</option>
+                </select>
+                <button type="submit" class="btn btn-success">Change Status</button>
+            </form>
+        </li>
+        <%} %>
+        <% })  %>
+    </ul>
 
     <!-- <div class="card mx-auto" style="width: 18rem;">
         <div class="card-header">
