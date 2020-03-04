@@ -1,17 +1,30 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
 
-<form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <input type="text" class="form-control" name="cname" id="first-name" placeholder="Vehicle Name" required>
-        </div>
-        <div class="form-group col-md-4">
-            <input type="text" class="form-control" name="myear" id="first-name" placeholder="Make Year" required>
-        </div>
+<form
+  class="add-player-form"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="first-name" class="text-light"
+        >Vehicle make year and model</label
+      >
+      <input
+        type="text"
+        class="form-control bg-dark border-dark text-light "
+        name="cname"
+        id="first-name"
+        placeholder="Vehicle Name"
+        required
+      />
     </div>
-    <div class="form-row">
-    </div>
-    <button type="submit" class="btn btn-primary float-right">Add Vehicle</button>
-    <a class="btn btn-danger cancel-btn float-right" href="/admin/values/cars">Cancel</a>
+  </div>
+  <div class="form-row"></div>
+  <button type="submit" class="btn btn-primary float-right">Add Vehicle</button>
+  <a class="btn btn-danger cancel-btn float-right" href="/admin/values/cars"
+    >Cancel</a
+  >
 </form>

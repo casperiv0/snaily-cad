@@ -1,11 +1,26 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
 
-<form class="edit-veh-form" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Enter Gender</label>
-        <input name="gender" type="text" class="form-control" placeholder="Gender" value="<%= gender.gender %>" />
-    </div>
-    <button type="submit" class="btn btn-success float-right">Update</button>
-    <a href="/admin/values/genders" class="btn btn-danger float-right margin-right-10">Cancel</a>
+<form
+  class="edit-veh-form"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-group text-light">
+    <label for="exampleInputEmail1">Enter Gender</label>
+    <input
+      name="gender"
+      type="text"
+      class="form-control  text-light bg-dark border-dark "
+      placeholder="Gender"
+      value="<%= gender.gender %>"
+    />
+  </div>
+  <button type="submit" class="btn btn-success float-right">Update</button>
+  <a
+    href="/admin/values/genders"
+    class="btn btn-danger float-right margin-right-10"
+    >Cancel</a
+  >
 </form>

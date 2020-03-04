@@ -1,14 +1,32 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
 
-<form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <input type="text" class="form-control" name="ethnicity" id="first-name" placeholder="ethnicity" required>
-        </div>
+<form
+  class="add-player-form"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="first-name" class=" text-light">Ethnicity</label>
+      <input
+        type="text"
+        class="form-control text-light bg-dark border-dark "
+        name="ethnicity"
+        id="first-name"
+        placeholder="ethnicity"
+        required
+      />
     </div>
-    <div class="form-row">
-    </div>
-    <button type="submit" class="btn btn-primary float-right">Add Ethnicity</button>
-    <a class="btn btn-danger cancel-btn float-right" href="/admin/values/ethnicities">Cancel</a>
+  </div>
+  <div class="form-row"></div>
+  <button type="submit" class="btn btn-primary float-right">
+    Add Ethnicity
+  </button>
+  <a
+    class="btn btn-danger cancel-btn float-right"
+    href="/admin/values/ethnicities"
+    >Cancel</a
+  >
 </form>
