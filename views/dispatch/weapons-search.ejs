@@ -1,35 +1,40 @@
 <%- include("../partials/header.ejs") %>
 
-
-
-<div class="container mt-3">
-    <a href="/dispatch" class="btn text-dark btn-primary cap mb-2 list-group-item">Back to Dispatch</a>
-
+<div class="container mt-3 text-light">
+  <ul class="list-group">
     <% if (weapons.length > 0) {%>
-    <div class="container row mx-auto">
-        <ul class="list-group row">
+    <a href="/dispatch" class="btn btn-primary cap mb-2">Back to Dispatch</a>
 
-            <% weapons.forEach(weapon => {%>
-            <div class="card list-group-item" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><%= weapon.owner %></h5>
-                    <p class="card-text"> <span class="bolder"> Weapon Status:</span> <span class="cap">
-                            <%= weapon.status %>
-                        </span> <br> <span class="bolder">Weapon:</span> <span class="cap"><%= weapon.weapon %></span>
-                    </p>
-                </div>
-            </div>
-            <% }) %>
-        </ul>
+    <div class="container row mx-auto ">
+      <ul class="list-group row">
+        <% weapons.forEach(weapon => {%>
+        <div
+          class="card list-group-item bg-dark border-dark mb-3 mr-3"
+          style="width: 18rem;"
+        >
+          <div class="card-body">
+            <h5 class="card-title"><%= weapon.owner %></h5>
+            <p class="card-text">
+              <span class="bolder"> Weapon Status:</span>
+              <span class="cap">
+                <%= weapon.status %>
+              </span>
+              <br />
+              <span class="bolder">Weapon:</span>
+              <span class="cap"><%= weapon.weapon %></span>
+            </p>
+          </div>
+        </div>
+        <% }) %>
+      </ul>
     </div>
 
-    <%  } else {%>
-    <ul class="list-group">
-        <li class="list-group-item">
-            No one found registered with this weapon
-        </li>
-    </ul>
+    <% } else {%>
+    <a href="/dispatch" class="btn btn-primary cap mb-2">Back to Dispatch</a>
+
+    <li class="list-group-item bg-dark border-dark ">
+      No one found registered with this weapon
+    </li>
     <% } %>
-
-
+  </ul>
 </div>

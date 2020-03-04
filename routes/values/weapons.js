@@ -2,14 +2,14 @@ module.exports = {
     weaponsPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
                     let query = "SELECT * FROM `weapons` ORDER BY id ASC"
                     connection.query(query, (err, result) => {
                         if (err) {
                             res.sendStatus(400)
                         }
-                        res.render("admin-pages/weapons.ejs", { title: 'Admin Panel | Weapons', weapons: result, isAdmin: req.session.isAdmin })
+                        res.render("admin-pages/weapons.ejs", { title: 'Admin Panel | Weapons', weapons: result, isAdmin: result1[0].admin })
                     })
                 } else {
                     res.sendStatus(403)
@@ -45,9 +45,9 @@ module.exports = {
     addWeaponPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                    res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: req.session.isAdmin })
+            connection1.query(query, (err, result1) => {
+                if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                    res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: result1[0].admin })
                 } else {
                     res.sendStatus(403)
                 }
@@ -81,15 +81,15 @@ module.exports = {
     editWeaponPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
                     let genderId = req.params.id;
                     let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
                     connection.query(query, (err, result) => {
                         if (err) {
                             return res.status(500).send(err);
                         }
-                        res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0], isAdmin: req.session.isAdmin })
+                        res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0], isAdmin: result1[0].admin })
                     });
                 } else {
                     res.sendStatus(403)

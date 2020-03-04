@@ -1,14 +1,28 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
 
-<form class="add-player-form" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <input type="text" class="form-control" name="name" id="first-name" placeholder="Weapon" required>
-        </div>
+<form
+  class="add-player-form"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="first-name" class="text-light">Weapon Name</label>
+      <input
+        type="text"
+        class="form-control text-light border-dark bg-dark"
+        name="name"
+        id="first-name"
+        placeholder="Weapon"
+        required
+      />
     </div>
-    <div class="form-row">
-    </div>
-    <button type="submit" class="btn btn-primary float-right">Add Weapon</button>
-    <a class="btn btn-danger cancel-btn float-right" href="/admin/values/weapons">Cancel</a>
+  </div>
+  <div class="form-row"></div>
+  <button type="submit" class="btn btn-primary float-right">Add Weapon</button>
+  <a class="btn btn-danger cancel-btn float-right" href="/admin/values/weapons"
+    >Cancel</a
+  >
 </form>

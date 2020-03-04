@@ -7,9 +7,9 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="card mt-3 border-dark" style="width: 18rem;">
+    <div class="card mt-3 border-dark active" style="width: 18rem;">
         <div class="card-header">
-            <span class="">Utility Panel</span>
+            <span class="active">Utility Panel</span>
         </div>
         <ul class="list-group list-group-flush">
 
@@ -161,7 +161,7 @@
     </div>
     <br><br>
     <ul class="list-group ">
-        <div class="active list-group-item text-light bg-dark border-dark">Active Units</div>
+        <div class="active list-group-item text-light ">Active Units</div>
         <!-- <span class="border-top-0"></span> -->
         <% officers.forEach(officer => {%>
         <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
@@ -196,16 +196,4 @@
         <% })  %>
     </ul>
 
-    <!-- <div class="card mx-auto" style="width: 18rem;">
-        <div class="card-header">
-            <span class="">Utility Panel</span>
-        </div>
-        <ul class="list-group list-group-flush">
-            <a href="/dispatch/search/name" class="btn text-dark  btn-primary list-group-item">Name Search</a>
-            <a href="/dispatch/search/plate" class="btn text-dark  btn-primary list-group-item">Plate Search</a>
-            <a href="/dispatch/search/weapons" class="btn text-dark  btn-primary list-group-item">Weapons Search</a>
-            <a href="/dispatch/search/address" class="btn text-dark  btn-primary list-group-item">Address Search</a>
-            <a href="/dispatch/units" class="btn btn-primary text-dark  list-group-item">Active Units</a>
-        </ul>
-    </div> -->
 </div>

@@ -2,14 +2,14 @@ module.exports = {
     genderPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+            connection1.query(query, (err, result1) => {
+                if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
                     let query = "SELECT * FROM `genders` ORDER BY id ASC"
                     connection.query(query, (err, result) => {
                         if (err) {
                             res.sendStatus(400)
                         }
-                        res.render("admin-pages/gender.ejs", { title: 'Admin Panel | Genders', genders: result, isAdmin: req.session.isAdmin })
+                        res.render("admin-pages/gender.ejs", { title: 'Admin Panel | Genders', genders: result, isAdmin: result1[0].admin })
                     })
                 } else {
                     res.sendStatus(403);
@@ -48,7 +48,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             connection1.query(query, (err, result) => {
                 if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                    res.render("genders/add-gender.ejs", { title: "Add Gender", isAdmin: req.session.isAdmin })
+                    res.render("genders/add-gender.ejs", { title: "Add Gender", isAdmin: result[0].admin })
                 } else {
                     res.sendStatus(403);
                 };
@@ -90,7 +90,7 @@ module.exports = {
                         if (err) {
                             return res.status(500).send(err);
                         };
-                        res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0], isAdmin: req.session.isAdmin });
+                        res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0], isAdmin: result[0].admin });
                     });
                 } else {
                     res.sendStatus(403);

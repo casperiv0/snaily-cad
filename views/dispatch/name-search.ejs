@@ -3,23 +3,23 @@
 <div class="container">
 
     <% if (result) { %>
-    <h1 class="card-title cap"> <%= result.first_name %> <%= result.last_name %></h1>
+    <h1 class="card-title cap text-light"> <%= result.first_name %> <%= result.last_name %></h1>
     <div class="users-list">
 
         <ul class="list-group">
             <a href="/dispatch" class="btn btn-primary cap">Back to Dispatch</a>
-            <li class="list-group-item">Full Name: <%= result.full_name %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Full Name: <%= result.full_name %> </li>
             <!-- <li class="list-group-item">Last Name: <%= result.last_name %></li> -->
-            <li class="list-group-item">Gender: <%= result.gender %></li>
-            <li class="list-group-item">Birthday: <%= result.birth %> </li>
-            <li class="list-group-item">Ethnicity: <%= result.ethnicity %> </li>
-            <li class="list-group-item">Hair Color: <%= result.hair %> </li>
-            <li class="list-group-item">Eye Color: <%= result.eyes %> </li>
-            <li class="list-group-item">Address: <%= result.address %> </li>
-            <li class="list-group-item">Height: <%= result.height %> </li>
-            <li class="list-group-item">Weight: <%= result.weight %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Gender: <%= result.gender %></li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Birthday: <%= result.birth %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Ethnicity: <%= result.ethnicity %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Hair Color: <%= result.hair %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Eye Color: <%= result.eyes %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Address: <%= result.address %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Height: <%= result.height %> </li>
+            <li class="list-group-item bg-dark border-dark mt-1 text-light">Weight: <%= result.weight %> </li>
 
-            <div class="list-group-item list-group-item-action active">
+            <div class="list-group-item list-group-item-action active bg-dark border-dark mt-1 text-light">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Licences:</h5>
                 </div>
@@ -37,7 +37,7 @@
 
 
             </div>
-            <div class="list-group-item list-group-item-action active">
+            <div class="list-group-item list-group-item-action active bg-dark border-dark mt-1 text-light">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Vehicles:</h5>
                 </div>
@@ -56,7 +56,7 @@
 
 
             </div>
-            <div class="list-group-item list-group-item-action active">
+            <div class="list-group-item list-group-item-action active bg-dark border-dark mt-1 text-light">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Weapons:</h5>
                 </div>
@@ -87,7 +87,7 @@
 
 
             <!-- Charges -->
-            <div class="list-group-item list-group-item-action active">
+            <div class="list-group-item list-group-item-action active bg-dark border-dark mt-1 text-light">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Legal:</h5>
                 </div>
@@ -120,9 +120,10 @@
 
                 </div>
         </ul>
+        <div class="mb-4"></div>
     </div>
     <% } else { %>
-    <p class="text-center">Citizen Not Found. Go Back <a href="/dispatch">Here</a>.</p>
+    <p class="text-center text-light">Citizen Not Found. Go Back <a href="/dispatch">Here</a>.</p>
 
     <% } %>
 
