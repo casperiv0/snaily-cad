@@ -150,3 +150,6 @@ body {
 .pn {
   pointer-events: none;
 }
+.border2 {
+  border-bottom: 3px solid grey;
+}

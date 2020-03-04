@@ -1,8 +1,6 @@
 const express = require("express")
 const app = express()
-const {
-    homePage
-} = require("./routes/index")
+
 let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
@@ -18,8 +16,10 @@ const path = require('path');
 // Variables
 let connection;
 let connection1;
+let connection2;
 let db;
 let db2;
+let db3;
 let port = process.env.ENV === "dev" ? 3001 : 80;
 const prefix = "?"
 
@@ -139,6 +139,16 @@ const {
     statusChangeDispatch
 } = require("./routes/dispatch")
 
+const {
+    homePage,
+    cadHomePage,
+    manageAccountPage,
+    loginPageMain,
+    loginMain,
+    registerMain,
+    registerPageMain,
+    accountMainPage
+} = require("./routes/index")
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -156,11 +166,21 @@ app.use(session({
 app.use(favicon(__dirname + '/public/icon.png'));
 app.use(eSession.main(session));
 
+let cadId = "hello"
 
 
+app.get("/", cadHomePage)
+app.get("/account", manageAccountPage)
+app.get("/login", loginPageMain)
+app.post("/login", loginMain)
+app.get("/register", registerPageMain)
+app.post("/register", registerMain)
+
+// Settings
+app.get("/account/settings/account", accountMainPage)
 
 // Home/defualt pages
-app.get("/", homePage)
+app.get(`/cad/${cadId}/`, homePage)
 app.get("/account/edit", editAccountPage)
 app.post("/account/edit", editAccount)
 
@@ -184,11 +204,11 @@ app.post("/citizen/company/create", createCompany)
 app.get("/citizen/company/:company", companyDetailPage)
 
 //  Login : Registration : Logout
-app.get("/login", loginPage);
-app.post("/login", login);
-app.get("/register", registerPage);
-app.post("/register", register);
-app.get("/logout", (req, res) => {
+app.get(`/cad/${cadId}/login`, loginPage);
+app.post(`/cad/${cadId}/login`, login);
+app.get(`/cad/${cadId}/register`, registerPage);
+app.post(`/cad/${cadId}/register`, register);
+app.get(`/cad/${cadId}/logout`, (req, res) => {
     req.session.destroy();
     res.redirect("/")
 })
@@ -299,14 +319,24 @@ async function main() {
         timeout: 0
     }
 
+    db3 = {
+        host: "localhost",
+        user: "root",
+        password: process.env.DBP,
+        database: process.env.DB3,
+        multipleStatements: true,
+        timeout: 0
+    }
 
 
     function handleDisconnect() {
         connection = mysql.createConnection(db); // Recreate the connection, since
         connection1 = mysql.createConnection(db2); // Recreate the connection, since
+        connection2 = mysql.createConnection(db3); // Recreate the connection, since
         // the old one cannot be reused.
         global.connection = connection
         global.connection1 = connection1
+        global.connection2 = connection2
 
         connection.connect(function (err) { // The server is either down
             if (err) { // or restarting (takes a while sometimes).
@@ -331,6 +361,20 @@ async function main() {
             } // to avoid a hot loop, and to allow our node script to
         }); // process asynchronous requests in the meantime.
         connection1.on('error - 2', function (err) {
+            console.log('db error', err);
+            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
+        connection2.connect(function (err) { // The server is either down
+            if (err) { // or restarting (takes a while sometimes).
+                console.log('error when connecting to db2:', err);
+                setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+            } // to avoid a hot loop, and to allow our node script to
+        }); // process asynchronous requests in the meantime.
+        connection2.on('error - 2', function (err) {
             console.log('db error', err);
             if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a

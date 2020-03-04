@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/57b65d1d2a.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo01"
+        aria-controls="navbarTogglerDemo01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <nav class="navbar navbar-light bg-light">
+          <a class="navbar-brand" href="/">SnailyCAD</a>
+        </nav>
+
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active cool">
+            <a class="nav-link" href="#main"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item cool">
+            <a class="nav-link " href="#info">Info</a>
+          </li>
+          <li class="nav-item cool">
+            <a class="nav-link " href="#features">Features</a>
+          </li>
+          <li class="nav-item cool">
+            <a class="nav-link " href="#order">Purchase</a>
+          </li>
+          <li class="nav-item cool">
+            <a class="nav-link " href="/account">Manage Account</a>
+          </li>
+          <li class="nav-item ">
+            <a
+              class="nav-link disabled"
+              href="#"
+              tabindex="-1"
+              aria-disabled="true"
+              >Disabled</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <section id="main"></section>
+    <section id="info"></section>
+    <section id="features"></section>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let navItems = document.querySelectorAll('.cool');
+
+        for (const navItem of navItems) {
+          navItem.addEventListener('mouseenter', function(e) {
+            navItem.classList.add('border2');
+          });
+          navItem.addEventListener('mouseleave', function() {
+            navItem.classList.remove('border2');
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
