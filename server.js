@@ -281,7 +281,6 @@ app.get('*', (req, res) => {
 
 
 async function main() {
-
     db = {
         host: "localhost",
         user: "root",

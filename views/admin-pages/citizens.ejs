@@ -2,37 +2,46 @@
 include("../partials/admin-header.ejs") %>
 
 <div class="container mx-auto">
-  <h1 class="users-title card-title text-center mt-3 text-light">User management </h1>
+  <h1 class="users-title card-title text-center mt-3 text-light">
+    User management
+  </h1>
 
-  <input type="text" class=" form-control mt-2 text-light bg-dark border-dark" id="myInput" onkeyup="myFunction()"
-    placeholder="Search for users..">
+  <input
+    type="text"
+    class=" form-control mt-2 text-light bg-dark border-dark"
+    id="myInput"
+    onkeyup="myFunction()"
+    placeholder="Search for users.."
+  />
   <ul class="list-group " id="myUL">
     <% users.forEach(user => { %>
     <li class="list-group-item mt-1 text-light bg-dark">
-
       <%= user.id %> | <%= user.username %>
-      <a href="/admin/users/edit/<%= user.id %>" class="btn btn-success float-right">Edit Permissions</a>
+      <a
+        href="/admin/users/edit/<%= user.id %>"
+        class="btn btn-success float-right"
+        >Edit Permissions</a
+      >
     </li>
 
     <% }) %>
   </ul>
-
 </div>
 
 <script>
   function myFunction() {
     var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
+    input = document.getElementById('myInput');
     filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName("li");
+    ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
     for (i = 0; i < li.length; i++) {
       a = li[i];
       txtValue = a.textContent || a.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
+        li[i].style.display = '';
       } else {
-        li[i].style.display = "none";
+        li[i].style.display = 'none';
       }
     }
   }
