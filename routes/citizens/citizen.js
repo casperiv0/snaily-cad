@@ -42,7 +42,7 @@ module.exports = {
                     if (err) {
                         return res.status(500).send(err);
                     }
-                    if (result[0][0].linked_to == req.session.username2) {
+                    if (result[0][0].linked_to === req.session.username2) {
                         // console.log(first_name + "first_nae")
                         // console.log(result[3][0].business_owner)
                         // if (result[3][0].business_owner == first_name) {

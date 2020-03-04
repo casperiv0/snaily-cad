@@ -383,5 +383,19 @@ module.exports = {
                 res.redirect("/myofficers")
             }
         })
+    },
+    codesPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result) => {
+                if (result[0].leo == 'yes') {
+                    res.render("officers-pages/codes.ejs", { title: "10 Codes | Equinox CAD", isAdmin: result[0].admin })
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login")
+        }
     }
 }

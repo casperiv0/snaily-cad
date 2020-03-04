@@ -147,7 +147,7 @@ module.exports = {
                             } else if (err) {
                                 console.log(err1);
                             } else {
-                                await req.session.destroy();
+                                req.session.destroy();
                                 await res.redirect("/")
                             }
                         })
