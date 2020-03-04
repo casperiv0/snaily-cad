@@ -1,28 +1,53 @@
 <%- include("../partials/header.ejs") %>
 
-
-
-<form class="container mx-auto mt-3" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-group">
-
-        <label for="name">Full Name</label>
-        <input type="text" name="name" value="<%= req.params.first_name %> <%= req.params.last_name %>"
-            class="form-control" id="name" aria-describedby="emailHelp">
-
-    </div>
-    <div class="form-group">
-        <label for="From">Valid From</label>
-        <input type="text" name="d_from" class="form-control" id="From">
-    </div>
-    <div class="form-group">
-        <label for="To">Valid To</label>
-        <input type="text" name="d_to" class="form-control" id="To">
-    </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Details</label>
-        <input type="text" name="reason" class="form-control" id="exampleInputPassword2">
-    </div>
-    <a href="/officers/dash/search/name/<%= req.params.id %>-<%= req.params.first_name %>-<%= req.params.last_name %>"
-        class="btn cancel-btn btn-danger">Cancel</a>
-    <button type="submit" class="btn btn-primary">Add Warrant</button>
+<form
+  class="container mx-auto mt-3 text-light"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-group">
+    <label for="name">Full Name</label>
+    <input
+      type="text"
+      name="name"
+      value="<%= req.params.first_name %> <%= req.params.last_name %>"
+      class="form-control text-light border-dark bg-dark"
+      id="name"
+      aria-describedby="emailHelp"
+    />
+  </div>
+  <div class="form-group">
+    <label for="From">Valid From</label>
+    <input
+      type="text"
+      name="d_from"
+      class="form-control text-light border-dark bg-dark"
+      id="From"
+    />
+  </div>
+  <div class="form-group">
+    <label for="To">Valid To</label>
+    <input
+      type="text"
+      name="d_to"
+      class="form-control text-light border-dark bg-dark"
+      id="To"
+    />
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Details</label>
+    <input
+      type="text"
+      name="reason"
+      class="form-control text-light border-dark bg-dark"
+      id="exampleInputPassword2"
+    />
+  </div>
+  <a
+    href="/officers/dash/search/name/<%= req.params.id %>-<%= req.params.first_name %>-<%= req.params.last_name %>"
+    class="btn cancel-btn btn-danger"
+    >Cancel</a
+  >
+  <button type="submit" class="btn btn-primary">Add Warrant</button>
 </form>

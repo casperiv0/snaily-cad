@@ -22,7 +22,7 @@
             <a href="/citizen/company" class="btn btn-primary cap mt-1">Join or start a business</a>
 
             <% citizen.forEach(value => { %>
-            <li class="list-group-item mt-2">
+            <li class="list-group-item mt-2 bg-dark text-light">
 
                 <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
                 <a href="/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
@@ -31,5 +31,6 @@
 
             <% }) %>
         </ul>
+        <div class="mb-4"></div>
     </div>
 </div>

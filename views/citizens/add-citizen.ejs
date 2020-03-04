@@ -3,15 +3,17 @@
 <form class="edit-veh-form" action="" method="post" enctype="application/x-www-form-urlencoded">
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Full Name</label>
-        <input name="full_name" type="text" class="form-control bg-dark text-light" placeholder="Full Name" />
+        <input name="full_name" type="text" class="form-control bg-dark text-light border-dark"
+            placeholder="Full Name" />
     </div>
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Birthday</label>
-        <input name="birth" type="text" class="form-control bg-dark text-light" placeholder="Birthday" required />
+        <input name="birth" type="text" class="form-control bg-dark text-light border-dark" placeholder="Birthday"
+            required />
     </div>
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Ethnicity</label>
-        <select name="ethnicity" class="form-control bg-dark text-light">
+        <select name="ethnicity" class="form-control bg-dark text-light border-dark">
             <% ethnicities.forEach(ethnicity => { %>
             <option value="<%= ethnicity.ethnicity %>"><%= ethnicity.ethnicity %></option>
             <% }) %>
@@ -20,7 +22,7 @@
 
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Gender</label>
-        <select name="gender" class="form-control bg-dark text-light">
+        <select name="gender" class="form-control bg-dark text-light border-dark">
             <% genders.forEach(gender => { %>
             <option value="<%= gender.gender %>"><%= gender.gender %></option>
             <% }) %>
@@ -28,31 +30,34 @@
     </div>
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Hair Color</label>
-        <input name="hair" type="text" class="form-control bg-dark text-light" placeholder="Hair Color" required />
+        <input name="hair" type="text" class="form-control bg-dark text-light border-dark" placeholder="Hair Color"
+            required />
     </div>
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Eye Color</label>
-        <input name="eyes" type="text" class="form-control bg-dark text-light" placeholder="Eye Color" required />
+        <input name="eyes" type="text" class="form-control bg-dark text-light border-dark" placeholder="Eye Color"
+            required />
     </div>
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Address</label>
-        <input name="address" type="text" class="form-control bg-dark text-light" placeholder="Address" required />
+        <input name="address" type="text" class="form-control bg-dark text-light border-dark" placeholder="Address"
+            required />
     </div>
 
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Height</label>
-        <input name="height" type="text" class="form-control bg-dark text-light"
+        <input name="height" type="text" class="form-control bg-dark text-light border-dark"
             placeholder="Height, please use 'feet' and 'inches' or you'll get an error " />
     </div>
-    <div class="form-group">
+    <div class="form-group text-light">
         <label for="exampleInputEmail1">Enter Weight</label>
-        <input name="weight" type="text" class="form-control bg-dark text-light" placeholder="Weight" />
+        <input name="weight" type="text" class="form-control bg-dark text-light border-dark" placeholder="Weight" />
     </div>
 
     <!-- Licences -->
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Drivers Licence</label>
-        <select name="dmv" class="form-control bg-dark text-light">
+        <select name="dmv" class="form-control bg-dark text-light border-dark">
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
@@ -62,7 +67,7 @@
 
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Firearms Licence</label>
-        <select name="fire" class="form-control bg-dark text-light">
+        <select name="fire" class="form-control bg-dark text-light border-dark">
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>
@@ -73,7 +78,7 @@
     <div class="form-group text-light">
         <label for="exampleInputEmail1">Pilots Licence</label>
 
-        <select name="pilot" class="form-control  bg-dark text-light">
+        <select name="pilot" class="form-control  bg-dark text-light border-dark">
             <% dmvs.forEach(dmv => { %>
             <option value="<%= dmv.status %>"><%= dmv.status %></option>
             <% }) %>

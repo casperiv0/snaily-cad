@@ -7,14 +7,14 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="card mt-3" style="width: 18rem;">
+    <div class="card mt-3 border-dark" style="width: 18rem;">
         <div class="card-header">
             <span class="">Utility Panel</span>
         </div>
         <ul class="list-group list-group-flush">
 
             <!-- Name Search Modal -->
-            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#nameSearch"
+            <button class="btn  no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#nameSearch"
                 data-toggle="modal">Name Search</button>
 
             <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Plate Search Modal -->
-            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#plateSearch"
+            <button class="btn  no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#plateSearch"
                 data-toggle="modal">Plate Search</button>
 
             <div class="modal fade" id="plateSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -81,7 +81,7 @@
 
 
             <!-- Weapon Search Modal -->
-            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#weaponSearch"
+            <button class="btn no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#weaponSearch"
                 data-toggle="modal">Weapon Search</button>
 
             <div class="modal fade" id="weaponSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -120,7 +120,7 @@
 
 
             <!-- Adress Search Modal -->
-            <button class="btn text-dark no-out btn-primary list-group-item" data-target="#addressSearch"
+            <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item" data-target="#addressSearch"
                 data-toggle="modal">Address Search</button>
 
             <div class="modal fade" id="addressSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -160,25 +160,25 @@
         </ul>
     </div>
     <br><br>
-    <ul class="list-group">
-        <div class="active list-group-item">Active Units</div>
+    <ul class="list-group ">
+        <div class="active list-group-item text-light bg-dark border-dark">Active Units</div>
         <!-- <span class="border-top-0"></span> -->
         <% officers.forEach(officer => {%>
         <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
         <!-- <p>not on duty</p> -->
         <%} else { %>
-        <li class="list-group-item form-inline">
+        <li class="list-group-item form-inline text-light bg-dark">
             <form action="/dispatch/status" method="post">
-                <input type="text" class="custom" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
+                <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
                 <%= officer.officer_name %> |
                 <%= officer.status2 %>
-                <select id="10_41" class="custom-select my-1 mr-sm-2" name="status" id="inlineFormCustomSelectPref">
+                <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
                     <option selected value="<%= officer.status %>"><%= officer.status %></option>
                     <option value="" disabled>New Status..</option>
                     <option value="10-41 | 10-8">10-41 | 10-8</option>
                     <option value="10-42 | 10-7">10-42 | 10-7</option>
                 </select>
-                <select id="status2" class="custom-select my-1 mr-sm-2" name="status2" id="inlineFormCustomSelectPref">
+                <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
                     <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
                     <option value="" disabled>New Status..</option>
                     <option value="10-6">10-6</option>
