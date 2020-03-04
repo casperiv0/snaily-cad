@@ -114,14 +114,23 @@ module.exports = {
 
     },
     editAccountPage: (req, res) => {
-        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-        connection1.query(query, (err, result1) => {
-            res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "" })
-        });
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection1.query(query, (err, result1) => {
+                res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "" })
+            });
+        } else {
+            res.redirect("/login")
+        }
+
     },
     editAccount: (req, res) => {
 
-        if (req.session.loggedin) {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+
+
+        } else {
             let newUsername = req.body.username;
             let password = req.body.password;
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
@@ -155,8 +164,6 @@ module.exports = {
                     })
                 }
             })
-        } else {
-            res.redirect("/login")
         }
 
 
