@@ -8,7 +8,7 @@
     <div class="users-list">
         <ul class="list-group">
             <a class="btn btn-success"
-                href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
+                href="/cad/<%= cadId %>/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-danger top-1" data-toggle="modal" data-target="#exampleModal">
@@ -32,8 +32,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary top-1" data-dismiss="modal">Cancel</button>
-                            <a href="/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>"
-                                class="btn btn-primary">Delete Citizen</a>
+                            <a href="/cad/<%= cadId %>/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>"
+                                class="btn btn-danger">Delete Citizen</a>
                         </div>
                     </div>
                 </div>

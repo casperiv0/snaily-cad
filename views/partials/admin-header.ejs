@@ -1,19 +1,35 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-      aria-haspopup="true" aria-expanded="false">
+    <button
+      class="btn btn-secondary dropdown-toggle"
+      type="button"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
       Values
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="/admin/values/cars">Vehicles</a>
-      <a class="dropdown-item" href="/admin/values/genders">Genders</a>
-      <a class="dropdown-item" href="/admin/values/weapons">Weapons</a>
-      <a class="dropdown-item" href="/admin/values/ethnicities">Ethnicities</a>
+      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/cars"
+        >Vehicles</a
+      >
+      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/genders"
+        >Genders</a
+      >
+      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/weapons"
+        >Weapons</a
+      >
+      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/ethnicities"
+        >Ethnicities</a
+      >
     </div>
   </div>
   <% if (isAdmin == 'admin') { %>
-  <a class="navbar-brand text-light margin-left-10" href="/admin/users">User management</a>
-  <% } else {%>
-  <%} %>
-
+  <a
+    class="navbar-brand text-light margin-left-10"
+    href="/cad/<%= cadId %>/admin/users"
+    >User management</a
+  >
+  <% } else {%> <%} %>
 </nav>

@@ -22,7 +22,9 @@ include("../partials/admin-header.ejs") %>
   </div>
   <div class="form-row"></div>
   <button type="submit" class="btn btn-primary float-right">Add Weapon</button>
-  <a class="btn btn-danger cancel-btn float-right" href="/admin/values/weapons"
+  <a
+    class="btn btn-danger cancel-btn float-right"
+    href="/cad/<%= cadId %>/admin/values/weapons"
     >Cancel</a
   >
 </form>

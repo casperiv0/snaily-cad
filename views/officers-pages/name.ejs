@@ -1,47 +1,49 @@
 <%- include("../partials/header.ejs") %>
 
-
-
 <div class="container">
-    <h1 class="card-title text-center mt-3 text-light">Name Search</h1>
+  <h1 class="card-title text-center mt-3 text-light">Name Search</h1>
 
-    <ul class="list-group" id="myUL">
-        <a href="/officers/dash" class="btn btn-primary text-light">Police Dashboard</a>
+  <ul class="list-group" id="myUL">
+    <a href="/cad/<%= cadId %>/officers/dash" class="btn btn-primary text-light"
+      >Police Dashboard</a
+    >
 
-        <input type="text" id="myInput" class="list-group-item mt-2 text-light bg-dark" onkeyup="myFunction()"
-            placeholder="Search Names">
+    <input
+      type="text"
+      id="myInput"
+      class="list-group-item mt-2 text-light bg-dark"
+      onkeyup="myFunction()"
+      placeholder="Search Names"
+    />
 
-
-
-
-        <% information.forEach(info => { %>
-        <li class="list-group-item mt-2 cap text-light bg-dark"><%= info.first_name %> <%= info.last_name %> |
-            <%= info.birth %>
-            <a href="/officers/dash/search/name/<%= info.id %>-<%= info.first_name %>-<%= info.last_name %>"
-                class="btn btn-success float-right ">More info</a>
-
-        </li>
-        <%   }) %>
-
-    </ul>
+    <% information.forEach(info => { %>
+    <li class="list-group-item mt-2 cap text-light bg-dark">
+      <%= info.first_name %> <%= info.last_name %> | <%= info.birth %>
+      <a
+        href="/cad/<%= cadId %>/officers/dash/search/name/<%= info.id %>-<%= info.first_name %>-<%= info.last_name %>"
+        class="btn btn-success float-right "
+        >More info</a
+      >
+    </li>
+    <% }) %>
+  </ul>
 </div>
 
-
 <script>
-    function myFunction() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            a = li[i];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
+  function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+      a = li[i];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = '';
+      } else {
+        li[i].style.display = 'none';
+      }
     }
+  }
 </script>

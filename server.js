@@ -21,7 +21,6 @@ let db;
 let db2;
 let db3;
 let port = process.env.ENV === "dev" ? 3001 : 80;
-const prefix = "?"
 
 // Admin
 const {
@@ -147,7 +146,9 @@ const {
     loginMain,
     registerMain,
     registerPageMain,
-    accountMainPage
+    accountMainPage,
+    changeUsernameMain,
+    manageAccount
 } = require("./routes/index")
 // Middleware
 app.use(express.static(__dirname + '/public'));
@@ -166,137 +167,156 @@ app.use(session({
 app.use(favicon(__dirname + '/public/icon.png'));
 app.use(eSession.main(session));
 
-let cadId = "hello"
 
-
-app.get("/", cadHomePage)
-app.get("/account", manageAccountPage)
-app.get("/login", loginPageMain)
-app.post("/login", loginMain)
-app.get("/register", registerPageMain)
-app.post("/register", registerMain)
-
-// Settings
-app.get("/account/settings/account", accountMainPage)
-
-// Home/defualt pages
-app.get(`/cad/${cadId}/`, homePage)
-app.get("/account/edit", editAccountPage)
-app.post("/account/edit", editAccount)
-
-// Admin
-app.get("/admin", adminPanel);
-app.get("/admin/users", usersPage)
-app.get("/admin/users/edit/:id", adminEditCitizenPage)
-app.post("/admin/users/edit/:id", adminEditCitizen)
-
-// Citizens
-app.get("/citizen", citizenPage)
-app.get("/citizens/:id-:first_name-:last_name", citizenDetailPage)
-app.get("/citizen/add", addCitizenPage)
-app.post("/citizen/add", addCitizen)
-app.get("/citizen/edit/:id-:first_name-:last_name", editCitizenPage)
-app.post("/citizen/edit/:id-:first_name-:last_name", editCitizen)
-app.get("/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
-app.get("/citizen/company", companyPage)
-app.post("/citizen/company/join", company)
-app.post("/citizen/company/create", createCompany)
-app.get("/citizen/company/:company", companyDetailPage)
-
-//  Login : Registration : Logout
-app.get(`/cad/${cadId}/login`, loginPage);
-app.post(`/cad/${cadId}/login`, login);
-app.get(`/cad/${cadId}/register`, registerPage);
-app.post(`/cad/${cadId}/register`, register);
-app.get(`/cad/${cadId}/logout`, (req, res) => {
+app.get("/", cadHomePage);
+app.get("/account", manageAccountPage);
+app.get("/login", loginPageMain);
+app.post("/login", loginMain);
+app.get("/register", registerPageMain);
+app.post("/register", registerMain);
+app.post("/account/edit-account", manageAccount)
+app.get(`/logout`, (req, res) => {
     req.session.destroy();
+
     res.redirect("/")
 })
 
-app.get("/dispatch", dispatchPage)
-app.post("/dispatch/search/name", disptachNameSearch)
-app.post("/dispatch/search/plate", disptachPlateSearch)
-app.post("/dispatch/search/weapon", disptachWeaponSearch)
-app.post("/dispatch/search/address", disptachAddressSearch)
-app.post("/dispatch/status", statusChangeDispatch)
+// Settings
+app.get("/account/settings/account", accountMainPage);
+app.post("/account/change-username", changeUsernameMain);
+// Home/defualt pages
+app.get(`/cad/:cadID/`, homePage);
+app.get("/cad/:cadID/account/edit", editAccountPage);
+app.post("/cad/:cadID/account/edit", editAccount);
+
+// Admin
+app.get("/cad/:cadID/admin", adminPanel);
+app.get("/cad/:cadID/admin/users", usersPage);
+app.get("/cad/:cadID/admin/users/edit/:id", adminEditCitizenPage);
+app.post("/cad/:cadID/admin/users/edit/:id", adminEditCitizen);
+
+// Citizens
+app.get("/cad/:cadID/citizen", citizenPage);
+app.get("/cad/:cadID/citizens/:id-:first_name-:last_name", citizenDetailPage);
+app.get("/cad/:cadID/citizen/add", addCitizenPage);
+app.post("/cad/:cadID/citizen/add", addCitizen);
+app.get("/cad/:cadID/citizen/edit/:id-:first_name-:last_name", editCitizenPage);
+app.post("/cad/:cadID/citizen/edit/:id-:first_name-:last_name", editCitizen);
+app.get("/cad/:cadID/citizen/delete/:id-:first_name-:last_name", deleteCitizens);
+app.get("/cad/:cadID/citizen/company", companyPage);
+app.post("/cad/:cadID/citizen/company/join", company);
+app.post("/cad/:cadID/citizen/company/create", createCompany);
+app.get("/cad/:cadID/citizen/company/:company", companyDetailPage);
+
+//  Login : Registration : Logout
+app.get(`/cad/:cadID/login`, loginPage);
+app.post(`/cad/:cadID/login`, login);
+app.get(`/cad/:cadID/register`, registerPage);
+app.post(`/cad/:cadID/register`, register);
+app.get(`/cad/:cadID/logout`, (req, res) => {
+    req.session.destroy();
+    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+
+    connection2.query(query2, (err, result2) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        } else {
+            res.redirect(`/cad/${result2[0].cadID}/`)
+        };
+    });
+})
+
+app.get("/cad/:cadID/dispatch", dispatchPage)
+app.post("/cad/:cadID/dispatch/search/name", disptachNameSearch)
+app.post("/cad/:cadID/dispatch/search/plate", disptachPlateSearch)
+app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch)
+app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch)
+app.post("/cad/:cadID/dispatch/status", statusChangeDispatch)
 
 
 // Officers
-app.get("/myofficers", officersPage)
-app.get("/officers/dash", officersDash)
-app.get("/officers/penal-codes", penalCodesPage)
-app.get("/officers/dash/search/plate", searchPlatePage)
-app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
-app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
-app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
-app.get("/officers/dash/search/person-name", searchNamePage)
-app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
-app.get("/officers/apply", officerApplyPage);
-app.post("/officers/apply", officerApply);
-app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
-app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
-app.get('/officers/add', addOfficerPage)
-app.post('/officers/add', addOfficer)
-app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
-app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend", suspendLicenseName)
-app.post("/myofficers/status", statusChange)
-app.get("/officers/dash/codes", codesPage)
+app.get("/cad/:cadID/myofficers", officersPage)
+app.get("/cad/:cadID/officers/dash", officersDash)
+app.get("/cad/:cadID/officers/penal-codes", penalCodesPage)
+app.get("/cad/:cadID/officers/dash/search/plate", searchPlatePage)
+app.get("/cad/:cadID/officers/dash/search/plate/:id-:owner", plateResultsPage)
+app.get("/cad/:cadID/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
+app.post("/cad/:cadID/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
+app.get("/cad/:cadID/officers/dash/search/person-name", searchNamePage)
+app.get("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
+app.get("/cad/:cadID/officers/apply", officerApplyPage);
+app.post("/cad/:cadID/officers/apply", officerApply);
+app.get("/cad/:cadID/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
+app.post("/cad/:cadID/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
+app.get('/cad/:cadID/officers/add', addOfficerPage)
+app.post('/cad/:cadID/officers/add', addOfficer)
+app.post("/cad/:cadID/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
+app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend", suspendLicenseName)
+app.post("/cad/:cadID/myofficers/status", statusChange)
+app.get("/cad/:cadID/officers/dash/codes", codesPage)
 
 // EMS/FD
-app.get('/ems-fd', emsPage);
+app.get('/cad/:cadID/ems-fd', emsPage);
 
 // Cars
-app.get("/admin/values/cars", carValuePage)
-app.get("/admin/values/cars/add", addCarPage)
-app.get("/admin/values/cars/edit/:id", editVehiclePage)
-app.get("/admin/values/cars/delete/:id", deleteVehiclePage)
-app.post("/admin/values/cars/edit/:id", editVehicle)
-app.post("/admin/values/cars/add", addCar)
+app.get("/cad/:cadID/admin/values/cars", carValuePage)
+app.get("/cad/:cadID/admin/values/cars/add", addCarPage)
+app.get("/cad/:cadID/admin/values/cars/edit/:id", editVehiclePage)
+app.get("/cad/:cadID/admin/values/cars/delete/:id", deleteVehiclePage)
+app.post("/cad/:cadID/admin/values/cars/edit/:id", editVehicle)
+app.post("/cad/:cadID/admin/values/cars/add", addCar)
 
 // Car Regestration
-app.get("/cars/register", regVehiclePage)
-app.post("/cars/register", regVehicle)
+app.get("/cad/:cadID/cars/register", regVehiclePage)
+app.post("/cad/:cadID/cars/register", regVehicle)
 
 // Genders 
-app.get("/admin/values/genders", genderPage)
-app.get("/admin/values/genders/add", addGenderPage)
-app.get("/admin/values/genders/delete/:id", deleteGender)
-app.post("/admin/values/genders/add", addGender)
-app.get("/admin/values/genders/edit/:id", editGenderPage)
-app.post("/admin/values/genders/edit/:id", editGender)
+app.get("/cad/:cadID/admin/values/genders", genderPage)
+app.get("/cad/:cadID/admin/values/genders/add", addGenderPage)
+app.get("/cad/:cadID/admin/values/genders/delete/:id", deleteGender)
+app.post("/cad/:cadID/admin/values/genders/add", addGender)
+app.get("/cad/:cadID/admin/values/genders/edit/:id", editGenderPage)
+app.post("/cad/:cadID/admin/values/genders/edit/:id", editGender)
 
 // ethnicities 
-app.get("/admin/values/ethnicities", ethnicitiesPage)
-app.get("/admin/values/ethnicities/add", addethnicityPage)
-app.get("/admin/values/ethnicities/edit/:id", editEthnicityPage)
-app.get("/admin/values/ethnicities/delete/:id", deleteEthnicity)
-app.post("/admin/values/ethnicities/edit/:id", editethnicity)
-app.post("/admin/values/ethnicities/add", addethnicity)
+app.get("/cad/:cadID/admin/values/ethnicities", ethnicitiesPage)
+app.get("/cad/:cadID/admin/values/ethnicities/add", addethnicityPage)
+app.get("/cad/:cadID/admin/values/ethnicities/edit/:id", editEthnicityPage)
+app.get("/cad/:cadID/admin/values/ethnicities/delete/:id", deleteEthnicity)
+app.post("/cad/:cadID/admin/values/ethnicities/edit/:id", editethnicity)
+app.post("/cad/:cadID/admin/values/ethnicities/add", addethnicity)
 
 // Weapons
-app.get("/admin/values/weapons", weaponsPage)
-app.get("/admin/values/weapons/add", addWeaponPage)
-app.get("/admin/values/weapons/delete/:id", deleteWeapon)
-app.post("/admin/values/weapons/add", addWeapon)
-app.get("/admin/values/weapons/edit/:id", editWeaponPage)
-app.post("/admin/values/weapons/edit/:id", editWeapon)
+app.get("/cad/:cadID/admin/values/weapons", weaponsPage)
+app.get("/cad/:cadID/admin/values/weapons/add", addWeaponPage)
+app.get("/cad/:cadID/admin/values/weapons/delete/:id", deleteWeapon)
+app.post("/cad/:cadID/admin/values/weapons/add", addWeapon)
+app.get("/cad/:cadID/admin/values/weapons/edit/:id", editWeaponPage)
+app.post("/cad/:cadID/admin/values/weapons/edit/:id", editWeapon)
 
 // Weapon regestration
-app.get("/weapons/register", regWeaponPage)
-app.post("/weapons/register", regWeapon)
-
-
-
-app.post("/officers/apply", async (req, res) => {
-
-})
+app.get("/cad/:cadID/weapons/register", regWeaponPage)
+app.post("/cad/:cadID/weapons/register", regWeapon)
 
 // 404 page 
 app.get('*', (req, res) => {
-    res.status(404).render("errors/404.ejs", {
-        title: "404 | Equinox CAD",
-        isAdmin: req.session.admin
-    })
+
+    if (req.path.includes("/cad/")) {
+
+        res.status(404).render("errors/404.ejs", {
+            title: "404 | Equinox CAD",
+            isAdmin: req.session.admin,
+            cadId: ""
+        })
+    } else {
+        res.status(404).render("errors/404-main.ejs", {
+            title: "404 | Equinox CAD",
+            isAdmin: req.session.admin,
+            cadId: ""
+        })
+    }
+
 })
 
 

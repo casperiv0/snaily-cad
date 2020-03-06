@@ -9,8 +9,11 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
+      crossorigin="anonymo
+      us"
     />
+    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="js/vendor/modernizr-3.7.1.min.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -30,6 +33,22 @@
       src="https://kit.fontawesome.com/57b65d1d2a.js"
       crossorigin="anonymous"
     ></script>
+    <!--====== Slick CSS ======-->
+    <link rel="stylesheet" href="/css/slick.css" />
+
+    <!--====== Font Awesome CSS ======-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+
+    <!--====== Line Icons CSS ======-->
+    <link rel="stylesheet" href="/css/LineIcons.css" />
+
+    <!--====== Animate CSS ======-->
+    <link rel="stylesheet" href="/css/animate.css" />
+
+    <!--====== Magnific Popup CSS ======-->
+    <link rel="stylesheet" href="css/magnific-popup.css" />
+    <!--====== Default CSS ======-->
+    <link rel="stylesheet" href="/css/default.css" />
   </head>
 
   <body>
@@ -52,21 +71,37 @@
 
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item active cool">
-            <a class="nav-link" href="#main"
+            <a class="nav-link" href="/"
               >Home <span class="sr-only">(current)</span></a
             >
           </li>
           <li class="nav-item cool">
-            <a class="nav-link " href="#info">Info</a>
+            <a class="nav-link " href="/#info">Info</a>
           </li>
           <li class="nav-item cool">
-            <a class="nav-link " href="#features">Features</a>
+            <a class="nav-link " href="/#features">Features</a>
           </li>
           <li class="nav-item cool">
-            <a class="nav-link " href="#order">Purchase</a>
+            <a class="nav-link " href="/#order">Purchase</a>
           </li>
+
           <li class="nav-item cool">
-            <a class="nav-link " href="/account">Manage Account</a>
+            <div class="dropdown nav-link">
+              <a
+                class=" dropdown-toggle pointer"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Account
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/account">Manage Account</a>
+                <a class="dropdown-item" href="/logout">Log out</a>
+              </div>
+            </div>
+            <!-- <a class="nav-link " href="/account">Manage Account</a> -->
           </li>
           <li class="nav-item ">
             <a
@@ -80,9 +115,6 @@
         </ul>
       </div>
     </nav>
-    <section id="main"></section>
-    <section id="info"></section>
-    <section id="features"></section>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {

@@ -1,44 +1,49 @@
 <%- include("../partials/header.ejs") %>
 
-
 <div class="container">
-    <h1 class="card-title text-center mt-3 text-light">Penal Codes</h1>
+  <h1 class="card-title text-center mt-3 text-light">Penal Codes</h1>
 
-    <ul class="list-group mt-2" id="myUL">
-        <a href="/officers/dash" class="btn btn-primary text-light ">Police Dashboard</a>
-        <input type="text" id="myInput" class="list-group-item mt-2 text-light bg-dark" onkeyup="search()"
-            placeholder="Search by Title or Description..">
-        <% penals.forEach(value => { %>
+  <ul class="list-group mt-2" id="myUL">
+    <a
+      href="/cad/<%= cadId %>/officers/dash"
+      class="btn btn-primary text-light "
+      >Police Dashboard</a
+    >
+    <input
+      type="text"
+      id="myInput"
+      class="list-group-item mt-2 text-light bg-dark"
+      onkeyup="search()"
+      placeholder="Search by Title or Description.."
+    />
+    <% penals.forEach(value => { %>
 
-        <li href="#" class="list-group-item mt-2 text-light bg-dark">
-            <div class="d-flex w-100 justify-content-between bolder">
-                <h5 class="bolder"><%= value.title %> </h5>
-            </div>
-            <p class="mb-1"><%= value.des %>
-            </p>
+    <li href="#" class="list-group-item mt-2 text-light bg-dark">
+      <div class="d-flex w-100 justify-content-between bolder">
+        <h5 class="bolder"><%= value.title %></h5>
+      </div>
+      <p class="mb-1"><%= value.des %></p>
+    </li>
 
-        </li>
-
-        <% }) %>
-    </ul>
+    <% }) %>
+  </ul>
 </div>
 
-
 <script>
-    function search() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            a = li[i];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        }
+  function search() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+      a = li[i];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = '';
+      } else {
+        li[i].style.display = 'none';
+      }
     }
+  }
 </script>

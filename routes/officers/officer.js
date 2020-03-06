@@ -2,223 +2,504 @@ const fetch = require("node-fetch")
 module.exports = {
     officersPage: (req, res, next) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "'"
-                    connection.query(qeury, (err, result) => {
-                        if (err) {
-                            console.log("Error" + err)
-                        }
-                        res.render("officers-pages/officers.ejs", {
-                            title: "Equinox Officers",
-                            users: "qsd",
-                            isAdmin: result1[0].admin,
-                            officers: result
-                        });
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    });
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "'"
+                                connection.query(qeury, (err, result) => {
+                                    if (err) {
+                                        console.log("Error" + err)
+                                    }
+                                    res.render("officers-pages/officers.ejs", {
+                                        title: "Equinox Officers",
+                                        users: "qsd",
+                                        isAdmin: result1[0].admin,
+                                        officers: result
+                                        , cadId: result2[0].cadID
+                                    });
+
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login");
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         };
     },
     addOfficerPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    res.render("officers-pages/add-officers.ejs", { title: "Add Officer | Equinox CAD", isAdmin: result1[0].admin, req: req })
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                res.render("officers-pages/add-officers.ejs", { title: "Add Officer | Equinox CAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         } else {
-            res.redirect("/login");
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         };
     },
     addOfficer: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let officer_name = req.body.officer_name;
-                    let dept = req.body.dept;
-                    let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "')";
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    connection.query(query, (err, result) => {
-                        if (err) {
-                            return res.sendStatus(500)
-                        } else {
-                            res.redirect("/myofficers")
-                        }
-                    })
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let officer_name = req.body.officer_name;
+                                let dept = req.body.dept;
+                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "')";
+
+                                connection.query(query, (err, result) => {
+                                    if (err) {
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.redirect(`/cad/${result2[0].cadID}/myofficers`)
+                                    }
+                                })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login");
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         };
     },
     penalCodesPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    const url = "http://95.179.141.103:3000";
-                    fetch(url)
-                        .then(res => res.json())
-                        .then(json => res.render("officers-pages/penal-codes.ejs", {
-                            title: "Penal Codes | Equinox CAD",
-                            penals: json,
-                            isAdmin: result[0].admin
-                        }))
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                const url = "http://95.179.141.103:3000";
+                                fetch(url)
+                                    .then(res => res.json())
+                                    .then(json => res.render("officers-pages/penal-codes.ejs", {
+                                        title: "Penal Codes | Equinox CAD",
+                                        penals: json,
+                                        isAdmin: result[0].admin
+                                        , cadId: result2[0].cadID
+                                    }));
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404); // CAD not found
+                    };
                 };
             });
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     officersDash: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    res.render("officers-pages/officers-dash.ejs", {
-                        title: "Police Department",
-                        isAdmin: result[0].admin
-                    })
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                res.render("officers-pages/officers-dash.ejs", {
+                                    title: "Police Department",
+                                    isAdmin: result[0].admin
+                                    , cadId: result2[0].cadID
+                                })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     searchPlatePage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
-                    connection.query(query, (err, result) => {
-                        res.render("officers-pages/plate.ejs", {
-                            title: "Plate Search | Police Department",
-                            isAdmin: result1[0].admin,
-                            plates: result
-                        })
-                    })
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
+                                connection.query(query, (err, result) => {
+                                    res.render("officers-pages/plate.ejs", {
+                                        title: "Plate Search | Police Department",
+                                        isAdmin: result1[0].admin,
+                                        plates: result
+                                        , cadId: result2[0].cadID
+                                    })
+                                })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     searchNamePage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let query = "SELECT * FROM `citizens` ORDER by id ASC"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    connection.query(query, (err, result) => {
-                        res.render("officers-pages/name.ejs", {
-                            title: "Name Search | Police Department",
-                            isAdmin: result1[0].admin,
-                            information: result
-                        })
-
-                    })
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let query = "SELECT * FROM `citizens` ORDER by id ASC"
+
+                                connection.query(query, (err, result) => {
+                                    res.render("officers-pages/name.ejs", {
+                                        title: "Name Search | Police Department",
+                                        isAdmin: result1[0].admin,
+                                        information: result
+                                        , cadId: result2[0].cadID
+                                    });
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404);
+                    };
                 };
             });
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         };
     },
     plateResultsPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let id = req.params.id;
-                    let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
-                    let getOwner = req.params.owner;
-                    let warrantsQ = "SELECT * FROM `warrants` WHERE `name` = '" + getOwner + "'"
-                    let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    connection.query(`${query}; ${query2}; ${warrantsQ};`, (err, result) => {
-                        if (err) {
-                            return res.status(404).send(err);
-                        }
-                        res.render("officers-pages/plate-results.ejs", {
-                            title: "Plate Results | Police Department",
-                            isAdmin: result1[0].admin,
-                            plates: result[0][0],
-                            name: result[1][0],
-                            warrants: result[2][0]
-                        })
-                    });
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let id = req.params.id;
+                                let query = "SELECT * FROM `registered_cars` WHERE id = '" + id + "' ";
+                                let getOwner = req.params.owner;
+                                let warrantsQ = "SELECT * FROM `warrants` WHERE `name` = '" + getOwner + "'"
+                                let query2 = "SELECT * FROM `citizens` WHERE full_name = '" + getOwner + "'"
+
+                                connection.query(`${query}; ${query2}; ${warrantsQ};`, (err, result) => {
+                                    if (err) {
+                                        return res.status(404).send(err);
+                                    }
+                                    res.render("officers-pages/plate-results.ejs", {
+                                        title: "Plate Results | Police Department",
+                                        isAdmin: result1[0].admin,
+
+                                        plates: result[0][0],
+                                        name: result[1][0],
+                                        warrants: result[2][0]
+                                        , cadId: result2[0].cadID
+                                    })
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(404);
+                    };
                 };
             });
-        } else {
-            res.redirect("/login")
         }
     },
     nameResultsPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result1) => {
-                if (result1[0].leo == 'yes') {
-                    let id = req.params.id;
-                    let first_name = req.params.first_name;
-                    let last_name = req.params.last_name;
-                    let owner = req.params.first_name;
-                    let owner2 = req.params.first_name + " " + req.params.last_name;
-                    let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'";
-                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'";
-                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'";
-                    let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-                    let warrantsQ = "SELECT * FROM `warrants` WHERE name = '" + owner2 + "'";
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-
-                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}; ${warrantsQ}`, (err, result) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        res.render("officers-pages/name-results.ejs", {
-                            title: "Name Results | Police Department",
-                            isAdmin: result1[0].admin,
-                            result: result[0][0],
-                            vehicles: result[1],
-                            weapons: result[2],
-                            charges: result[3],
-                            warrants: result[4]
-                        })
-                    });
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].leo == 'yes') {
+                                let id = req.params.id;
+                                let first_name = req.params.first_name;
+                                let last_name = req.params.last_name;
+                                let owner = req.params.first_name;
+                                let owner2 = req.params.first_name + " " + req.params.last_name;
+                                let chargeQ = "SELECT * FROM `posted_charges` WHERE `name` = '" + owner + "'";
+                                let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'";
+                                let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'";
+                                let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
+                                let warrantsQ = "SELECT * FROM `warrants` WHERE name = '" + owner2 + "'";
+
+
+                                connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${chargeQ}; ${warrantsQ}`, (err, result) => {
+                                    if (err) {
+                                        return res.status(500).send(err);
+                                    }
+                                    res.render("officers-pages/name-results.ejs", {
+                                        title: "Name Results | Police Department",
+                                        isAdmin: result1[0].admin,
+                                        cadId: result2[0].cadID,
+                                        result: result[0][0],
+                                        vehicles: result[1],
+                                        weapons: result[2],
+                                        charges: result[3],
+                                        warrants: result[4]
+                                    })
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login");
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         };
     },
     officerApplyPage: (req, res) => {
         res.render("officers-pages/apply.ejs", {
-            title: "Apply | Equinox CAD",
+            title: "Apply | SnailyCAD",
             isAdmin: req.session.isAdmin
         })
     },
@@ -245,68 +526,161 @@ module.exports = {
     addOffencePage: (req, res) => {
 
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    const url = "http://95.179.141.103:3000";
-                    fetch(url)
-                        .then(res => res.json())
-                        .then(json => res.render("officers-pages/add-offence.ejs", {
-                            title: "Add Offence | Equinox CAD",
-                            penals: json,
-                            isAdmin: result[0].admin,
-                            req: req
-                        }))
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                const url = "http://95.179.141.103:3000";
+                                fetch(url)
+                                    .then(res => res.json())
+                                    .then(json => res.render("officers-pages/add-offence.ejs", {
+                                        title: "Add Offence | Equinox CAD",
+                                        penals: json,
+                                        isAdmin: result[0].admin,
+                                        req: req
+                                        , cadId: result2[0].cadID
+                                    }))
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     addOffence: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    let name = req.body.name;
-                    let offence = req.body.offence;
-                    let date = req.body.date;
-                    let officer_name = req.body.officer_name;
-                    let notes = req.body.notes;
-                    if (notes == "") {
-                        notes = "None"
-                    }
-
-                    let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
-                    connection.query(query, (err, result) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        res.redirect(`/officers/dash/search/person-name`);
-                    });
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+
+                                let name = req.body.name;
+                                let offence = req.body.offence;
+                                let date = req.body.date;
+                                let officer_name = req.body.officer_name;
+                                let notes = req.body.notes;
+                                if (notes == "") {
+                                    notes = "None"
+                                }
+
+                                let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "')";
+                                connection.query(query, (err, result) => {
+                                    if (err) {
+                                        return res.status(500).send(err);
+                                    }
+                                    res.redirect(`/officers/dash/search/person-name`);
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     addWarrantPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    res.render("officers-pages/warrant.ejs", { title: "Add Warrant | Equinox CAD", isAdmin: result[0].admin, req: req })
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                res.render("officers-pages/warrant.ejs", { title: "Add Warrant | SnailyCAD", isAdmin: result[0].admin, req: req, cadId: result2[0].cadID })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     addWarrant: (req, res) => {
@@ -322,10 +696,11 @@ module.exports = {
 
                     connection.query(query, (err, result) => {
                         if (err) {
-                            return res.sendStatus(500).send("Something went wrong in the response."), console.log(err)
+                            console.log(err);
+                            return res.sendStatus(500);
                         } else {
-                            res.redirect(`/officers/dash/search/person-name`)
-                        }
+                            res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/person-name`);
+                        };
 
                     })
                 } else {
@@ -333,69 +708,157 @@ module.exports = {
                 };
             });
         } else {
-            res.redirect("/login")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
+
         }
     },
     suspendLicensePlate: (req, res) => {
-        let id = req.params.id
-        let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
-        let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
-        connection.query(query, (err, result1) => {
-            connection.query(query2, (err, result) => {
-                if (err) {
-                    console.log(err)
-                    return res.sendStatus(500);
-                } else {
-                    res.redirect("/officers/dash/search/plate/")
-                }
-            })
-        })
-    },
-    suspendLicenseName: (req, res) => {
-        let id = req.params.id;
-        let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
-        let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
-        connection.query(query, (err, result1) => {
-            connection.query(query2, (err, result) => {
-                if (err) {
-                    console.log(err)
-                    return res.sendStatus(500);
-                } else {
-                    res.redirect("/officers/dash/search/person-name/")
-                }
-            })
-        })
-    },
-    statusChange: (req, res) => {
-        let id = req.body.id
-        let status = req.body.status;
-        let status2 = req.body.status2;
-        if (status2 === undefined) {
-            status2 = "----------"
-        }
-        let query1 = "UPDATE `officers` SET `status` = '" + status + "' WHERE `officers`.`id` = '" + id + "'"
-        let query2 = "UPDATE `officers` SET `status2` = '" + status2 + "' WHERE `officers`.`id` = '" + id + "'"
-        connection.query(`${query1}; ${query2};`, (err, result) => {
+        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+        connection2.query(query2, (err, result2) => {
             if (err) {
                 console.log(err);
-                return res.sendStatus(500)
+                return res.sendStatus(500);
             } else {
-                res.redirect("/myofficers")
+                if (result2[0]) {
+                    let id = req.params.id
+                    let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
+                    let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
+                    connection.query(query, (err, result1) => {
+                        connection.query(query2, (err, result) => {
+                            if (err) {
+                                console.log(err)
+                                return res.sendStatus(500);
+                            } else {
+                                res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/plate/`)
+                            }
+                        })
+                    })
+                } else {
+                    res.sendStatus(404)
+                }
             }
         })
+
+
+    },
+    suspendLicenseName: (req, res) => {
+        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+        connection2.query(query2, (err, result2) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                if (result2[0]) {
+
+                    let id = req.params.id;
+                    let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
+                    let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
+                    connection.query(query, (err, result1) => {
+                        connection.query(query2, (err, result) => {
+                            if (err) {
+                                console.log(err)
+                                return res.sendStatus(500);
+                            } else {
+                                res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/person-name/`)
+                            };
+                        });
+                    });
+                } else {
+                    res.sendStatus(404);
+                };
+            };
+        });
+    },
+    statusChange: (req, res) => {
+        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+        connection2.query(query2, (err, result2) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                if (result2[0]) {
+                    let id = req.body.id
+                    let status = req.body.status;
+                    let status2 = req.body.status2;
+                    if (status === "10-42 | 10-7") {
+                        status2 = "----------"
+                    }
+                    if (status2 === undefined) {
+                        status2 = "----------"
+                    }
+                    let query1 = "UPDATE `officers` SET `status` = '" + status + "' WHERE `officers`.`id` = '" + id + "'"
+                    let query2 = "UPDATE `officers` SET `status2` = '" + status2 + "' WHERE `officers`.`id` = '" + id + "'"
+                    connection.query(`${query1}; ${query2};`, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            res.redirect(`/cad/${result2[0].cadID}/myofficers`);
+                        };
+                    });
+                } else {
+                    res.sendStatus(404);
+                };
+            };
+        });
     },
     codesPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    res.render("officers-pages/codes.ejs", { title: "10 Codes | Equinox CAD", isAdmin: result[0].admin })
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                res.render("officers-pages/codes.ejs", { title: "10 Codes | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(404);
+                    };
                 };
             });
-        } else {
-            res.redirect("/login")
-        }
+        };
     }
-}
+};

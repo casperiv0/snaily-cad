@@ -1,30 +1,42 @@
 <%- include("../partials/header.ejs") %> <%-
 include("../partials/admin-header.ejs") %>
 
-
 <div class="container">
   <h1 class="card-title text-light">
-    Vehicles management <a href="/admin/values/cars/add">+</a>
+    Vehicles management <a href="/cad/<%= cadId %>/admin/values/cars/add">+</a>
   </h1>
 
   <% if (vehicles.length > 0) {%>
   <ul class="list-group" id="myUL">
-    <input type="text" id="myInput" class="list-group-item text-light bg-dark" onkeyup="myFunction()"
-      placeholder="Search for Vehicles..">
+    <input
+      type="text"
+      id="myInput"
+      class="list-group-item text-light bg-dark"
+      onkeyup="myFunction()"
+      placeholder="Search for Vehicles.."
+    />
 
     <% vehicles.forEach(value => { %>
     <li class="list-group-item text-light bg-dark">
-
       <%= value.id %> | <%= value.cname %>
-      <a href="/admin/values/cars/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>
-      <a href="/admin/values/cars/edit/<%= value.id %>" class="btn btn-success float-right  margin-right-10">Edit</a>
+      <a
+        href="/cad/<%= cadId %>/admin/values/cars/delete/<%= value.id %>"
+        class="btn btn-danger float-right"
+        >Delete</a
+      >
+      <a
+        href="/cad/<%= cadId %>/admin/values/cars/edit/<%= value.id %>"
+        class="btn btn-success float-right  margin-right-10"
+        >Edit</a
+      >
     </li>
 
     <% }) %>
   </ul>
   <% } else { %>
   <p class="alert alert-primary aler">
-    No Vehicles found. Go <a href="/admin/values/cars/add">here</a> to add a vehicle.
+    No Vehicles found. Go
+    <a href="/cad/<%= cadId %>/admin/values/cars/add">here</a> to add vehicles.
   </p>
   <% } %>
 </div>

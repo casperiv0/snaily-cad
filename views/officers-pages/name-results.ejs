@@ -6,7 +6,7 @@
     <h1 class="card-title cap mt-3 text-center text-light"> <%= result.first_name %> <%= result.last_name %></h1>
 
     <ul class="list-group">
-        <a href="/officers/dash/search/person-name" class="btn btn-primary cap mt-2">Back to name search</a>
+        <a href="/cad/<%= cadId %>/officers/dash/search/person-name" class="btn btn-primary cap mt-2">Back to name search</a>
         <li class="list-group-item text-light bg-dark mt-2">Full Name: <%= result.full_name %> </li>
         <li class="list-group-item text-light bg-dark mt-2">Gender: <%= result.gender %></li>
         <li class="list-group-item text-light bg-dark mt-2">Birthday: <%= result.birth %> </li>
@@ -54,12 +54,22 @@
             <div id="dots"></div>
             <div id="more">
                 <p class="mb-1">
-                    <% vehicles.forEach(vehicle => { %>
-                    <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                        <p>Plate: <%= vehicle.plate %> <br> Insurance Status: <%= vehicle.in_status %> </p>
-                    </li>
-
-                    <%  }) %>
+                    <% if (!vehicles[0]) { %>
+                        <li class="list-group-item color-black">
+                            <p>No Weapons registered to this person.</p>
+                        </li>
+                        <% } else  {%>
+                        <p class="mb-1">
+                            <% vehicles.forEach(vehicle => { %>
+                                <li class="list-group-item color-black"> <%= vehicle.vehicle %>
+                                    <p>Plate: <span class="uppercase"><%= vehicle.plate %></span>  <br> Insurance Status: <%= vehicle.in_status %> </p>
+                                </li>
+            
+                                <%  }) %>
+                        </p>
+        
+                        <% } %>
+                    
                 </p>
             </div>
             <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
@@ -72,6 +82,7 @@
             </div>
             <div id="dots2"></div>
             <div id="more2">
+                <p class="mb-1">
                 <% if (!weapons[0]) { %>
                 <li class="list-group-item color-black">
                     <p>No Weapons registered to this person.</p>
@@ -87,6 +98,8 @@
                 </p>
 
                 <% } %>
+                     
+            </p>
             </div>
             <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
             </div>
@@ -108,7 +121,7 @@
                     <p>Clean record.</p>
                 </li>
                 <a class="btn btn-dark text-light"
-                    href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                    href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
                     Offence</a>
                 <% } else  {%>
                 <p class="mb-1">
@@ -122,7 +135,7 @@
                 </p>
 
                 <a class="btn btn-dark text-light"
-                    href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                    href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
                     Offence</a>
                 <% } %>
             </div>
@@ -141,19 +154,19 @@
             <li class="list-group-item color-black">
                 <p>No warrants out for this person.</p>
             </li>
-            <a href="/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
+            <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
                 class="btn btn-dark text-light">Add Warrant</a>
 
             <% } else  {%>
             <p class="mb-1">
                 <% warrants.forEach(war => { %>
                 <li class="list-group-item color-black">
-                    <p><span class="bolder"> Warrant:</span> <%= war.reason %></p>
-                    <p><span class="bolder">Date From, To: <%= war.d_from %>-<%= war.d_to %></span></p>
+                    <p><span class="card-title bolder"> Warrant:</span> <%= war.reason %></p>
+                    <p><span class="card-title bolder">Date From, To: <%= war.d_from %>-<%= war.d_to %></span></p>
                 </li>
                 <%  }) %>
             </p>
-            <a href="/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
+            <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
                 class="btn btn-dark text-light">Add Warrant</a>
             <% } %>
         </div>

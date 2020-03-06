@@ -1,14 +1,32 @@
 module.exports = {
     homePage: (req, res) => {
-        res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2 })
+        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+        connection2.query(query2, (err, result2) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+            }
+        })
+        req
     },
     cadHomePage: (req, res) => {
-        res.render("main/home-page.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2 })
+
+        res.render("main/home-page.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            connection2.query("SELECT * FROM `users` ")
-            res.render("main/manage-account.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2 })
+            connection2.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+
+                    res.render("main/manage-account.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                }
+            })
         } else {
             res.redirect("/login")
 
@@ -16,16 +34,40 @@ module.exports = {
     },
     manageAccount: (req, res) => {
         if (req.session.mainLoggedin) {
+            let username = req.body.username
+            let password = req.body.password;
 
-            // Login Stuff
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.user + "'"
+            let query2 = 'UPDATE `users` SET `username` = "' + username + '" WHERE `users`.`username` = "' + req.session.user + '"';
 
+            connection2.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result[0].password === password) {
+                        connection2.query(query2, async (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                req.session.destroy();
+                                await res.redirect("/account")
+                            }
+                        })
+                    } else {
+                        console.log("not the same");
+
+                    }
+                }
+            })
 
         } else {
             res.redirect("/login")
         }
     },
     loginPageMain: (req, res) => {
-        res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "" })
+        res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "", req: req })
     },
     loginMain: (req, res) => {
         let username = req.body.username;
@@ -39,12 +81,12 @@ module.exports = {
                     req.session.user = username;
                     res.redirect("/account")
                 } else {
-                    res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
+                    res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req })
                 }
                 // res.end();
             });
         } else {
-            res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later." })
+            res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
             res.end();
         }
     },
@@ -61,21 +103,21 @@ module.exports = {
 
 
         if (password !== password2) {
-            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Passwords Are not the same!" })
+            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Passwords Are not the same!", req: req })
         } else {
             connection2.query("SELECT email FROM `users` WHERE email = '" + email + "'", (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else if (result1.length > 0) {
-                    res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Email is already registered!" })
+                    res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Email is already registered!", req: req })
                 } else {
                     connection2.query("SELECT username FROM `users` WHERE username = '" + username + "'", (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
                         } else if (result1.length > 0) {
-                            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username" });
+                            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username", req: req });
                         } else {
                             connection2.query("INSERT INTO `users` (`username`, `email`, `password`) VALUES ('" + username + "', '" + email + "', '" + password + "')", (err, result2) => {
                                 if (err) {
@@ -96,7 +138,36 @@ module.exports = {
     accountMainPage: (req, res) => {
         if (req.session.mainLoggedin) {
             connection2.query("SELECT * FROM `users` ")
-            res.render("main/settings/account.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2 })
+            res.render("main/settings/account.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+        } else {
+            res.redirect("/login")
+
+        }
+    },
+    changeUsernameMain: (req, res) => {
+        if (req.session.mainLoggedin) {
+            let old_username = req.session.user;
+            let new_username = req.body.username;
+            let query = "SELECT * FROM users WHERE username = '" + old_username + "'";
+            let query2 = "UPDATE `users` SET `username` = '" + new_username + "' WHERE `users`.`username` = '" + old_username + "'";
+
+            connection2.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    connection2.query(query2, (err, result1) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            res.redirect("/account");
+                            console.log(result1);
+
+                        }
+                    })
+                }
+            })
         } else {
             res.redirect("/login")
 

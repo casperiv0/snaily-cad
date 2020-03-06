@@ -1,78 +1,99 @@
 module.exports = {
     loginPage: (req, res) => {
         if (req.session.loggedin) {
-            res.redirect("/citizen")
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
+
         } else {
-            res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "" })
+            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection2.query(query, (err, result1) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result1[0]) {
+                        res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID })
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
         }
     },
     login: (req, res) => {
         var username = req.body.username;
         var password = req.body.password;
-        if (username && password) {
-            connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
-                if (results.length > 0) {
-                    req.session.loggedin = true;
-                    req.session.username2 = username;
-
-                    try {
-                        connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        connection2.query(query2, (err, result2) => {
+            if (result2[0]) {
+                if (username && password) {
+                    connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+                        if (results.length > 0) {
+                            req.session.loggedin = true;
+                            req.session.username2 = username;
                             if (err) {
-                                res.sendStatus(500);
                                 console.log(err);
-                            }
-                            if (!result[0]) {
-                                res.redirect("/citizen/add")
-                            }
-                            else {
-                                res.redirect("/citizen")
-                            }
-                        })
-                    } catch {
-                        res.redirect('/citizen/add');
-                    }
+                                return res.sendStatus(500)
+                            } else {
+                                connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+                                    if (err) {
+                                        res.sendStatus(500);
+                                        console.log(err);
+                                    }
+                                    if (!result[0]) {
+                                        res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
+                                    }
+                                    else {
+                                        res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                    }
+                                })
 
+                            }
+                        } else {
+                            res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID })
+                        }
+                        // res.end();
+                    });
                 } else {
-                    res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
+                    res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID })
+                    res.end();
                 }
-                // res.end();
-            });
-        } else {
-            res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again" })
-
-            res.end();
-        }
-    },
-    changeUsernamePage: (req, res) => {
-        if (!req.session.loggedin) {
-            res.redirect("/login")
-        } else {
-            res.render("login-res/change.ejs", { title: "Change name | Equinox CAD", isAdmin: req.session.isAdmin, message: "", req: req })
-        }
-    },
-    changeUsername: (req, res) => {
-        let old_name = req.body.old_name;
-        let new_name = req.body.new_name;
-        let query = "SELECT * FROM `users` WHERE username = '" + old_name + "' ";
-        let query2 = 'UPDATE `users` SET `username` = "' + new_name + '" WHERE `users`.`username` = "' + old_name + '"';
-        let query3 = 'UPDATE `citizens` SET `first_name` = "' + new_name + '", `full_name` = "' + new_name + '"  WHERE `citizens`.`first_name` = "' + new_name + '"';
-
-        connection1.query(query, (err, result1) => {
-            connection1.query(query2, (err, result2) => {
-                connection.query(query3, (err, result3) => {
-                    console.log(result3);
-                    console.log(result1);
-                    console.log(result2);
-                });
-            });
-            res.redirect("/citizen")
-        });
+            } else {
+                res.sendStatus(404)
+            }
+        })
     },
     registerPage: (req, res) => {
         if (req.session.loggedin) {
             res.redirect("/citizen")
         } else {
-            res.render("login-res/reg.ejs", { title: "Register | Equinox CAD", isAdmin: req.session.isAdmin, message: "" })
+            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection2.query(query, (err, result1) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result1[0]) {
+                        res.render("login-res/reg.ejs", { title: "Register | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID })
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
         }
     },
     register: (req, res) => {
@@ -117,53 +138,104 @@ module.exports = {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
-                res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "" })
+                let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                connection2.query(query, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        if (result2[0]) {
+                            res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "", cadId: result2[0].cadID })
+                        } else {
+                            res.sendStatus(404)
+                        }
+                    }
+                })
             });
         } else {
-            res.redirect("/login")
+            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection2.query(query, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
         }
 
     },
     editAccount: (req, res) => {
 
         if (!req.session.loggedin) {
-            res.redirect("/login")
+            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-
-        } else {
-            let newUsername = req.body.username;
-            let password = req.body.password;
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-
-            connection1.query(query, (err, result) => {
-
-                if (password !== result[0].password) {
-                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection1.query(query, (err, result1) => {
-                        res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password" })
-                    });
+            connection2.query(query, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    let old_name = req.session.username2;
-                    let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
-                    let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
-                    let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
-
-                    connection.query(`${query3}; ${query4}`, async (err1, result) => {
-                        connection1.query(`${query2};`, async (err, result1) => {
-
-                            if (err) {
-                                console.log(err);
-                            } else if (err) {
-                                console.log(err1);
-                            } else {
-                                req.session.destroy();
-                                await res.redirect("/")
-                            }
-                        })
-
-                    })
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
                 }
             })
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection2.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result2[0]) {
+
+                        let newUsername = req.body.username;
+                        let password = req.body.password;
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+
+                        connection1.query(query, (err, result) => {
+
+                            if (password !== result[0].password) {
+                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                connection1.query(query, (err, result1) => {
+                                    res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result2[0].cadID })
+                                });
+                            } else {
+                                let old_name = req.session.username2;
+                                let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
+                                let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
+                                let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
+
+                                connection.query(`${query3}; ${query4}`, async (err1, result) => {
+                                    connection1.query(`${query2};`, async (err, result1) => {
+
+                                        if (err) {
+                                            console.log(err);
+                                        } else if (err) {
+                                            console.log(err1);
+                                        } else {
+                                            req.session.destroy();
+                                            await res.redirect(`/cad/${result2[0].cadID}/`)
+                                        }
+                                    })
+
+                                })
+                            }
+                        })
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+
         }
 
 

@@ -1,6 +1,40 @@
 <%- include("../partials/main/header.ejs") %>
 
-<div class="container">
+<div class="container mx-auto">
+
+
+  <form action="/account/edit-account" method="post" enctype="application/x-www-form-urlencoded">
+    <h2 class="card-title bolder" id="settings">Account Settings</h2>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address(Currently disabled)</label>
+      <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="<%= current.email %>" aria-describedby="emailHelp" disabled>
+    </div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" name="username" class="form-control" id="username">
+    </div>
+    <div class="form-group">
+      <label for="password">Confirm your password</label>
+      <input type="password" name="password" class="form-control" id="password">
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+
+  <div class="mt-5">
+    <h2 class="card-title" id="subscriptions"> Manage Subscriptions</h2>
+    <ul class="list-group mt-2" style="width: 20rem;">
+      <% subs.forEach(sub => { %>
+      <li class="list-group-item">Cad ID: <a target="_blank" href="/cad/<%= sub.cadID %>/"> <%= sub.cadID %></a></li>
+      <% }) %>
+    </ul>
+  </div>
+
+  <div class="mb-5"></div>
+
+
+
+
+  <!-- DELETE LATER ON -->
   <ul class="list-group" style="width: 18rem;">
     <li class="list-group-item active">Account Settings</li>
     <button
@@ -53,7 +87,15 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ">
+        <button
+          type="button"
+          class="btn btn-dark bg-dark"
+          data-toggle="modal"
+          data-target="#emailModal"
+        >
+          Change Email
+        </button>
         <button
           type="button"
           class="btn btn-dark bg-dark"
@@ -64,7 +106,15 @@
         </button>
         <button
           type="button"
-          class="btn btn-danger bg-danger"
+          class="btn btn-dark bg-dark"
+          data-toggle="modal"
+          data-target="#changePasswordModal"
+        >
+          Change Password
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger bg-danger mt-2"
           data-toggle="modal"
           data-target="#deleteModal"
         >
@@ -76,6 +126,43 @@
           Close
         </button>
         <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Change Email -->
+<div
+  class="modal fade"
+  id="emailModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Email</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="username">Enter New Email</label>
+          <input type="text" class="form-control" placeholder="New Email" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="button" class="btn btn-primary">Update Email</button>
       </div>
     </div>
   </div>
@@ -93,7 +180,53 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Account Settings</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Change Username</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/account/change-username" method="post">
+          <div class="form-group">
+            <label for="username">Enter New Username</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="New Username"
+              name="username"
+            />
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Update Username</button>
+      </div>
+    </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Edit password -->
+<div
+  class="modal fade"
+  id="changePasswordModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
         <button
           type="button"
           class="close"
@@ -105,15 +238,40 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="username">Enter New Username</label>
-          <input type="text" class="form-control" placeholder="New Username" />
+          <label for="username">Enter Old Password</label>
+          <input
+            type="text"
+            name="old_password"
+            class="form-control"
+            placeholder="Old Password"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="username">Enter New Password</label>
+          <input
+            type="text"
+            name="password"
+            class="form-control"
+            placeholder="New Password"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="username">Confirm New Password</label>
+          <input
+            type="text"
+            name="password2"
+            class="form-control"
+            placeholder="New Password"
+          />
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Close
+          Cancel
         </button>
-        <button type="button" class="btn btn-primary">Update Username</button>
+        <button type="button" class="btn btn-primary">Update Password</button>
       </div>
     </div>
   </div>

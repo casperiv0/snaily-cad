@@ -1,40 +1,71 @@
 <%- include("../partials/header.ejs") %>
 
-<form class="add-player-form text-light" action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Weapon Owner</label>
-            <input list="owner" type="text" class="form-control bg-dark border-dark text-light" name="owner"
-                id="first-name" placeholder="Weapon Owner" required>
-            <datalist id="owner">
-                <% owner.forEach(name => { %>
-                <option value="<%= name.full_name %>"></option>
-                <% }) %>
-            </datalist>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Weapon</label>
-            <input list="weapons" type="text" class="form-control bg-dark border-dark text-light" name="weapon"
-                id="first-name" placeholder="Weapon" required>
-            <datalist id="weapons">
-                <% weapons.forEach(weapon => { %>
-                <option value="<%= weapon.name %>"></option>
-                <% }) %>
-            </datalist>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Weapon Status</label>
-            <input list="statuses" type="text" class="form-control bg-dark border-dark text-light" name="status"
-                id="first-name" placeholder="Weapon status" required>
-            <datalist id="statuses">
-                <% status.forEach(stat => { %>
-                <option value="<%= stat.status %>"></option>
-                <% }) %>
-            </datalist>
-        </div>
+<form
+  class="add-player-form text-light"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="exampleInputEmail1">Weapon Owner</label>
+      <input
+        list="owner"
+        type="text"
+        class="form-control bg-dark border-dark text-light"
+        name="owner"
+        id="first-name"
+        placeholder="Weapon Owner"
+        required
+      />
+      <datalist id="owner">
+        <% owner.forEach(name => { %>
+        <option value="<%= name.full_name %>"></option>
+        <% }) %>
+      </datalist>
     </div>
-    <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="exampleInputEmail1">Weapon</label>
+      <input
+        list="weapons"
+        type="text"
+        class="form-control bg-dark border-dark text-light"
+        name="weapon"
+        id="first-name"
+        placeholder="Weapon"
+        required
+      />
+      <datalist id="weapons">
+        <% weapons.forEach(weapon => { %>
+        <option value="<%= weapon.name %>"></option>
+        <% }) %>
+      </datalist>
     </div>
-    <button type="submit" class="btn btn-primary float-right">Register Weapon</button>
-    <a class="btn btn-danger cancel-btn float-right" href="/citizen">Cancel</a>
+    <div class="form-group col-md-4">
+      <label for="exampleInputEmail1">Weapon Status</label>
+      <input
+        list="statuses"
+        type="text"
+        class="form-control bg-dark border-dark text-light"
+        name="status"
+        id="first-name"
+        placeholder="Weapon status"
+        required
+      />
+      <datalist id="statuses">
+        <% status.forEach(stat => { %>
+        <option value="<%= stat.status %>"></option>
+        <% }) %>
+      </datalist>
+    </div>
+  </div>
+  <div class="form-row"></div>
+  <button type="submit" class="btn btn-primary float-right">
+    Register Weapon
+  </button>
+  <a
+    class="btn btn-danger cancel-btn float-right"
+    href="/cad/<%= cadId %>/citizen"
+    >Cancel</a
+  >
 </form>

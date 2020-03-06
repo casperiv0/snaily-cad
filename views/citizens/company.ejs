@@ -18,7 +18,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="/citizen/company/join" id="modal" method="post">
+                        <form action="/cad/<%= cadId %>/citizen/company/join" id="modal" method="post">
                             <div class="form-group">
                                 <label for="bus">Select Citizen</label>
                                 <select name="citizen_name" id="bus" class="form-control">
@@ -62,7 +62,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="/citizen/company/create" id="modal" class="needs-validation" method="post">
+                        <form action="/cad/<%= cadId %>/citizen/company/create" id="modal" class="needs-validation" method="post">
                             <div class="form-group">
                                 <label for="companyName">Enter Company Name</label>
                                 <input required type="text" name="companyName" class="form-control" id="plate-search"

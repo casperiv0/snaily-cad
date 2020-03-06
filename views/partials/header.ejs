@@ -34,7 +34,7 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-      <a class="navbar-brand text-light" href="/">Equinox CAD</a>
+      <a class="navbar-brand text-light" href="/cad/<%= cadId %>/">SnailyCAD</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -50,30 +50,40 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-light" href="/myofficers">Police Dept.</a>
+            <a class="nav-link text-light" href="/cad/<%= cadId %>/myofficers"
+              >Police Dept.</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/dispatch">Dispatch</a>
+            <a class="nav-link text-light" href="/cad/<%= cadId %>/dispatch"
+              >Dispatch</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/ems-fd">EMS/FD</a>
+            <a class="nav-link text-light" href="/cad/<%= cadId %>/ems-fd"
+              >EMS/FD</a
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/citizen">Citizens</a>
+            <a class="nav-link text-light" href="/cad/<%= cadId %>/citizen"
+              >Citizens</a
+            >
           </li>
 
           <% if (isAdmin == 'admin' || isAdmin == 'moderator') {%>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/admin">Admin </a>
+            <a class="nav-link text-light" href="/cad/<%= cadId %>/admin"
+              >Admin
+            </a>
           </li>
           <%} else {%> <%} %>
-          <div class="btn-group nav-item">
+          <div class="btn-group btn-group-sm nav-item">
             <button
               type="button"
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
-              class="btn btn-dark dropdown-toggl"
+              class="btn btn-dark dropdown-toggle"
             >
               Updates <span class="badge badge-light">2</span>
             </button>

@@ -2,27 +2,35 @@
 include("../partials/admin-header.ejs") %>
 
 <div class="container">
-    <h1 class="users-title card-title text-light">
-        Gender management <a href="/admin/values/genders/add">+</a>
-    </h1>
-    <input class="disabled list-group-item" type="text" name="" id="">
+  <h1 class="users-title card-title text-light">
+    Gender management <a href="/cad/<%= cadId %>/admin/values/genders/add">+</a>
+  </h1>
+  <input class="disabled list-group-item" type="text" name="" id="" />
 
-    <% if (genders.length > 0) {%>
-    <ul class="list-group">
-        <% genders.forEach(value => { %>
-        <li class="list-group-item text-light bg-dark">
+  <% if (genders.length > 0) {%>
+  <ul class="list-group">
+    <% genders.forEach(value => { %>
+    <li class="list-group-item text-light bg-dark">
+      <%= value.id %> | <%= value.gender %>
+      <a
+        href="/cad/<%= cadId %>/admin/values/genders/delete/<%= value.id %>"
+        class="btn btn-danger float-right"
+        >Delete</a
+      >
+      <a
+        href="/cad/<%= cadId %>/admin/values/genders/edit/<%= value.id %>"
+        class="btn btn-success float-right  margin-right-10"
+        >Edit</a
+      >
+    </li>
 
-            <%= value.id %> | <%= value.gender %>
-            <a href="/admin/values/genders/delete/<%= value.id %>" class="btn btn-danger float-right">Delete</a>
-            <a href="/admin/values/genders/edit/<%= value.id %>"
-                class="btn btn-success float-right  margin-right-10">Edit</a>
-        </li>
-
-        <% }) %>
-    </ul>
-    <% } else { %>
-    <p class="alert alert-primary aler">
-        No genders found. Go <a href="/admin/values/genders/add">here</a> to add a gender.
-    </p>
-    <% } %>
+    <% }) %>
+  </ul>
+  <% } else { %>
+  <p class="alert alert-primary aler">
+    No genders found. Go
+    <a href="/cad/<%= cadId %>/admin/values/genders/add">here</a> to add
+    genders.
+  </p>
+  <% } %>
 </div>
