@@ -53,13 +53,14 @@ module.exports = {
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
                                 let name = req.body.cname;
+                                let cadID = req.params.cadID;
 
-                                let query = "INSERT INTO `vehicles` (`cname`) VALUES ('" + name + "')";
+                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`) VALUES ('" + name + "', '" + cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
                                     }
-                                    res.redirect('/admin/values/cars/');
+                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/cars/`);
                                 });
                             } else {
                                 res.sendStatus(403)
@@ -100,14 +101,15 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                                let query = "SELECT * FROM `vehicles` ORDER BY id ASC"
+                        connection1.query(query, (err, result1) => {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                                let query = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        res.sendStatus(400)
+                                        res.sendStatus(500)
+                                    } else {
+                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
                                     }
-                                    res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result[0].admin, cadId: result2[0].cadID })
                                 })
                             } else {
                                 res.sendStatus(403)

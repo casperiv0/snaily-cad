@@ -11,11 +11,11 @@
     </div>
     <div class="form-group">
       <label for="username">Username</label>
-      <input type="text" name="username" class="form-control" id="username">
+      <input type="text" required name="username" value="<%= current.username %>" class="form-control" id="username">
     </div>
     <div class="form-group">
       <label for="password">Confirm your password</label>
-      <input type="password" name="password" class="form-control" id="password">
+      <input type="password" required name="password" class="form-control" id="password">
     </div>
     <button type="submit" class="btn btn-success">Save</button>
   </form>
@@ -33,37 +33,6 @@
 
 
 
-
-  <!-- DELETE LATER ON -->
-  <ul class="list-group" style="width: 18rem;">
-    <li class="list-group-item active">Account Settings</li>
-    <button
-      type="button"
-      class="btn btn-dark bg-dark"
-      data-toggle="modal"
-      data-target="#accountModal"
-    >
-      Account
-    </button>
-    <button
-      type="button"
-      class="btn btn-dark bg-dark"
-      data-toggle="modal"
-      data-target="#subsModal"
-    >
-      Subscriptions
-    </button>
-
-    <button
-      type="button"
-      class="btn btn-dark bg-dark"
-      data-toggle="modal"
-      data-target="#securityModal"
-    >
-      Account
-    </button>
-  </ul>
-</div>
 
 <!-- Modal -->
 <div

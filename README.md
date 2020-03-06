@@ -17,3 +17,9 @@ ToDO
 - [x] Add warants
 - [ ] give demerit points
 - [ ] Dark mode
+
+### Public Branch
+
+- [ ] add change password page
+- [ ] cancel subs
+- [ ] show if no subs => no subs
