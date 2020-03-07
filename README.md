@@ -28,3 +28,4 @@ ToDO
 - [ ] edit citizen CADID!
 - [ ] change to different cad link => relogin otherwise it's broken af
 - [ ] max limit on forms
+- [ ] login in on main page, logged in on CAD <= only if bought something

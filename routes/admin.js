@@ -9,22 +9,33 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                                res.render("admin.ejs", { title: 'Admin Panel | Equinox CAD', isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                res.render("admin.ejs", { title: 'Admin Panel | Equinox CAD', isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
                     } else {
                         res.sendStatus(404)
                     }
                 }
             })
-
-        } else {
-            res.redirect("/login")
         }
     },
     usersPage: (req, res) => {
