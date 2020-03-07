@@ -10,7 +10,7 @@ module.exports = {
                 if (!result2[0]) {
                     res.sendStatus(404)
                 } else {
-                    res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                    res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
                 }
             }
         })
@@ -18,7 +18,7 @@ module.exports = {
     },
     cadHomePage: (req, res) => {
 
-        res.render("main/home-page.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+        res.render("main/home-page.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
@@ -86,12 +86,12 @@ module.exports = {
                     req.session.user = username;
                     res.redirect("/account")
                 } else {
-                    res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req })
+                    res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req })
                 }
                 // res.end();
             });
         } else {
-            res.render("main/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
+            res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
             res.end();
         }
     },
@@ -140,7 +140,7 @@ module.exports = {
     accountMainPage: (req, res) => {
         if (req.session.mainLoggedin) {
             connection1.query("SELECT * FROM `users` ")
-            res.render("main/settings/account.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+            res.render("main/settings/account.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
         } else {
             res.redirect("/login")
 
