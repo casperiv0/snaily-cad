@@ -11,7 +11,7 @@ include("../partials/admin-header.ejs") %>
     <input
       type="text"
       id="myInput"
-      class="list-group-item text-light bg-dark"
+      class="form-control border-dark mb-1 text-light bg-dark"
       onkeyup="myFunction()"
       placeholder="Search for Vehicles.."
     />
@@ -34,7 +34,7 @@ include("../partials/admin-header.ejs") %>
     <% }) %>
   </ul>
   <% } else { %>
-  <p class="alert alert-primary aler">
+  <p class="alert alert-primary">
     No Vehicles found. Go
     <a href="/cad/<%= cadId %>/admin/values/cars/add">here</a> to add vehicles.
   </p>

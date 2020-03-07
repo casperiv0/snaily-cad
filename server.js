@@ -148,8 +148,14 @@ const {
     registerPageMain,
     accountMainPage,
     changeUsernameMain,
-    manageAccount
-} = require("./routes/index")
+    manageAccount,
+    orderPage
+} = require("./routes/index");
+
+const { adminDashboard,
+    usernameAdminPage,
+    usernameAdmin
+} = require("./routes/main-admin")
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -179,8 +185,13 @@ app.get(`/logout`, (req, res) => {
     req.session.destroy();
 
     res.redirect("/")
-})
+});
+app.get("/order", orderPage)
 
+// SnailyCAD Admin Dashboard
+app.get("/admin/dashboard/", adminDashboard)
+app.get("/admin/dashboard/:username", usernameAdminPage)
+app.post("/admin/dashboard/:username", usernameAdmin)
 // Settings
 app.get("/account/settings/account", accountMainPage);
 app.post("/account/change-username", changeUsernameMain);

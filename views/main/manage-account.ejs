@@ -10,12 +10,12 @@
       <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="<%= current.email %>" aria-describedby="emailHelp" disabled>
     </div>
     <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" required name="username" value="<%= current.username %>" class="form-control" id="username">
+      <label for="manage_username">Username</label>
+      <input type="text" required name="manage_username" spellcheck="false" value="<%= current.username %>" class="form-control" id="manage_username">
     </div>
     <div class="form-group">
-      <label for="password">Confirm your password</label>
-      <input type="password" required name="password" class="form-control" id="password">
+      <label for="manage_password">Confirm your password</label>
+      <input type="password" required name="manage_password" class="form-control" id="manage_password">
     </div>
     <button type="submit" class="btn btn-success">Save</button>
   </form>
@@ -23,9 +23,16 @@
   <div class="mt-5">
     <h2 class="card-title" id="subscriptions"> Manage Subscriptions</h2>
     <ul class="list-group mt-2" style="width: 20rem;">
-      <% subs.forEach(sub => { %>
-      <li class="list-group-item">Cad ID: <a target="_blank" href="/cad/<%= sub.cadID %>/"> <%= sub.cadID %></a></li>
-      <% }) %>
+      <%if (subs[0].cadID) { %>
+        <% subs.forEach(sub => { %>
+          <li class="list-group-item">Cad ID: <a target="_blank" href="/cad/<%= sub.cadID %>/"> <%= sub.cadID %></a></li>
+          <a href="https://discord.gg/zArXfg" target="_blank" class="mt-2">Join the discord server on how to buy more</a>
+          <% }) %>
+          <% } else { %>
+        <li class="list-group-item">Cad ID: No subscriptions</li>
+        <a href="https://discord.gg/zArXfg" target="_blank" class="mt-2">Join the discord server on how to buy one</a>
+        <% } %>
+     
     </ul>
   </div>
 

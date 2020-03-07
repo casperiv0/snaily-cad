@@ -1,0 +1,43 @@
+<%- include("../partials/main/header.ejs") %>
+
+<div class="container">
+  <h1 class="card-title border-bottom">Stats</h1>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <h5 class="card-title">Total Signed up users:</h5>
+        <div class="col-sm">
+          <h1 class="card-title"><%= users.length %></h1>
+        </div>
+      </div>
+      <div class="col-sm">
+        <h5 class="card-title">Total CAD's in use:</h5>
+        <div class="col-sm">
+          <h1 class="card-title">/</h1>
+        </div>
+      </div>
+      <div class="col-sm">
+        <h5 class="card-title">/</h5>
+        <div class="col-sm">
+          <h1 class="card-title">/</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <ul class="list-group">
+      <% users.forEach(user => { %>
+      <li class="list-group-item">
+        <%= user.username %> | <%= user.email %>
+        <a
+          class="float-right btn btn-primary"
+          href="/admin/dashboard/<%= user.username %>"
+          >More</a
+        >
+      </li>
+      <%}) %>
+    </ul>
+  </div>
+</div>

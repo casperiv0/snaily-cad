@@ -28,7 +28,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/dispatch/search/name" id="modal" method="post">
+                            <form action="/cad/<%= cadId %>/dispatch/search/name" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="name-search">Search By Name</label>
                                     <input type="text" name="name_search" class="form-control" id="name-search"
@@ -61,7 +61,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/dispatch/search/plate" id="modal" method="post">
+                            <form action="/cad/<%= cadId %>/dispatch/search/plate" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="plate-search">Search By Plate</label>
                                     <input type="text" name="plate_search" class="form-control" id="plate-search"
@@ -95,7 +95,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/dispatch/search/weapon" id="modal" method="post">
+                            <form action="/cad/<%= cadId %>/dispatch/search/weapon" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="weapon-search">Search By Weapon</label>
                                     <select name="weapon_search" id="weapon-search" class="form-control"
@@ -134,7 +134,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/dispatch/search/address" id="modal" method="post">
+                            <form action="/cad/<%= cadId %>/dispatch/search/address" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="address-search">Search By Weapon</label>
                                     <select name="address_search" id="weapon-search" class="form-control"
@@ -168,7 +168,7 @@
         <!-- <p>not on duty</p> -->
         <%} else { %>
         <li class="list-group-item form-inline text-light bg-dark">
-            <form action="/dispatch/status" method="post">
+            <form action="/cad/<%= cadId %>/dispatch/status" method="post">
                 <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
                 <%= officer.officer_name %> |
                 <%= officer.status2 %>

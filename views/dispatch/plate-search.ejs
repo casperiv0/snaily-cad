@@ -7,12 +7,14 @@
   </h1>
   <div class="users-list">
     <ul class="list-group">
-      <a href="/dispatch" class="btn btn-primary cap mb-2">Back to Dispatch</a>
+      <a href="/cad/<%= cadId %>/dispatch" class="btn btn-primary cap mb-2"
+        >Back to Dispatch</a
+      >
 
       <li class="list-group-item name bg-dark border-dark">
         <span class="bolder"> Vehicle Owner:</span>
         <a
-          href="/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>"
+          href="/cad/<%= cadId %>/officers/dash/search/name/<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>"
           ><%= plates.owner %></a
         >
       </li>
@@ -32,7 +34,7 @@
 
   <% } else { %>
   <p class="text-center">
-    Plate Not Found. Go Back <a href="/dispatch">Here</a>.
+    Plate Not Found. Go Back <a href="/cad/<%= cadId %>/dispatch">Here</a>.
   </p>
 
   <% } %>

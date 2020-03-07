@@ -1,0 +1,34 @@
+<%- include("../partials/main/header.ejs") %>
+
+<div class="container">
+  <form action="/admin/dashboard/<%= users.username %>" method="post">
+    <h1 class="card-title">Add CAD to user</h1>
+    <div class="form-group">
+      <label for="exampleInputEmail1">CAD ID</label>
+      <input
+        type="text"
+        name="cadID"
+        class="form-control"
+        id="id"
+        aria-describedby="emailHelp"
+        value="<%= users.cadID %>"
+      />
+    </div>
+    <h4 class="card-title" id="random">Random CAD ID: <%= IDs %></h4>
+
+    <a href="/admin/dashboard" class="btn btn-danger cancel-btn">Cancel</a>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<script>
+  let id = document.getElementById('id');
+  let random = document.getElementById('random');
+  random.style.display = 'none';
+
+  if (id.value.length > 0) {
+    random.style.display = 'none';
+  } else {
+    random.style.display = 'block';
+  }
+</script>

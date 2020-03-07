@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "braintree": "^2.22.0",
+    "chart.js": "^2.9.3",
     "cookie-parser": "^1.4.4",
     "darkmode-js": "^1.5.5",
     "discord.js": "^11.5.1",

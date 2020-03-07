@@ -7,7 +7,7 @@
     <div class="users-list">
 
         <ul class="list-group">
-            <a href="/dispatch" class="btn btn-primary cap">Back to Dispatch</a>
+            <a href="/cad/<%= cadId %>/dispatch" class="btn btn-primary cap">Back to Dispatch</a>
             <li class="list-group-item bg-dark border-dark mt-1 text-light">Full Name: <%= result.full_name %> </li>
             <!-- <li class="list-group-item">Last Name: <%= result.last_name %></li> -->
             <li class="list-group-item bg-dark border-dark mt-1 text-light">Gender: <%= result.gender %></li>
@@ -97,7 +97,7 @@
                     <li class="list-group-item color-black">
                         <p>Clean record.</p>
                         <a class="btn btn-primary"
-                            href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                            href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
                             Offence</a>
                     </li>
                     <% } else  {%>
@@ -111,7 +111,7 @@
                         <%  }) %>
                         </>
                         <a class="btn btn-primary"
-                            href="/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                            href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
                             Offence</a>
                         <% } %>
                 </div>
@@ -123,7 +123,7 @@
         <div class="mb-4"></div>
     </div>
     <% } else { %>
-    <p class="text-center text-light">Citizen Not Found. Go Back <a href="/dispatch">Here</a>.</p>
+    <p class="text-center text-light">Citizen Not Found. Go Back <a href="/cad/<%= cadId %>/dispatch">Here</a>.</p>
 
     <% } %>
 

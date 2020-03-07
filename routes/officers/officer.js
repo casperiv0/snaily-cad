@@ -13,7 +13,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].leo == 'yes') {
-                                let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "'"
+                                let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
                                 connection.query(qeury, (err, result) => {
                                     if (err) {
                                         console.log("Error" + err)
@@ -119,7 +119,8 @@ module.exports = {
                             if (result1[0].leo == 'yes') {
                                 let officer_name = req.body.officer_name;
                                 let dept = req.body.dept;
-                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "')";
+                                let cadID = req.params.cadID
+                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`, `cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "', '" + cadID + "')";
 
                                 connection.query(query, (err, result) => {
                                     if (err) {
@@ -272,7 +273,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].leo == 'yes') {
-                                let query = "SELECT * FROM `registered_cars` ORDER by id ASC"
+                                let query = "SELECT * FROM `registered_cars` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
                                 connection.query(query, (err, result) => {
                                     res.render("officers-pages/plate.ejs", {
                                         title: "Plate Search | Police Department",
@@ -326,7 +327,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].leo == 'yes') {
-                                let query = "SELECT * FROM `citizens` ORDER by id ASC"
+                                let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
 
                                 connection.query(query, (err, result) => {
                                     res.render("officers-pages/name.ejs", {
@@ -359,10 +360,7 @@ module.exports = {
                         res.sendStatus(404)
                     }
                 }
-            })
-
-
-
+            });
         };
     },
     plateResultsPage: (req, res) => {
@@ -606,7 +604,7 @@ module.exports = {
                                     if (err) {
                                         return res.status(500).send(err);
                                     }
-                                    res.redirect(`/officers/dash/search/person-name`);
+                                    res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/person-name`);
                                 });
                             } else {
                                 res.sendStatus(403);

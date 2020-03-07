@@ -30,7 +30,7 @@ module.exports = {
     usersPage: (req, res) => {
         if (req.session.loggedin) {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            let query = "SELECT * FROM `users` ORDER BY id ASC"
+            let query = "SELECT * FROM `users` WHERE cadID = '" + req.params.cadID + "' ORDER BY id ASC"
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
 
             connection2.query(query2, (err, result2) => {

@@ -27,6 +27,7 @@
       class="form-control text-light border-dark bg-dark"
       id="exampleInputEmail1"
       aria-describedby="emailHelp"
+      required
     />
   </div>
   <div class="form-group">
@@ -36,6 +37,11 @@
       name="password"
       class="form-control text-light border-dark bg-dark"
       id="exampleInputPassword1"
+      minlength="6"
+      min="6"
+      maxlength="255"
+      max="255"
+      required
     />
   </div>
   <div class="form-group">
@@ -45,6 +51,7 @@
       name="password2"
       class="form-control text-light border-dark bg-dark"
       id="exampleInputPassword2"
+      required
     />
     <small id="emailHelp" class="form-text text-muted"
       >Never share your password with anyone.</small

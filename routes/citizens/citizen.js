@@ -13,7 +13,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
                             connection1.query("SELECT * FROM `users`", (err, result1) => {
                                 connection.query(query, (err, result) => {
                                     if (err) {
@@ -155,6 +155,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
                 let query;
+                let cadID = req.params.cadID
                 // let first_name = req.body.first_name;
                 let first_name = req.body.full_name;
                 // let last_name = req.body.last_name;
@@ -181,9 +182,9 @@ module.exports = {
                     height = "Unknown"
 
                 } else if (height.includes('"')) {
-                    query = 'INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ("' + first_name + '","' + last_name + '","' + full_name + '","' + linked_to + '","' + birth + '","' + gender + '","' + ethnicity + '","' + hair_color + '","' + eyes_color + '","' + address + '","' + height + '","' + weight + '", "' + dmv + '", "' + fireArms + '" ,"' + pilot + '")';
+                    query = 'INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`cadID`) VALUES ("' + first_name + '","' + last_name + '","' + full_name + '","' + linked_to + '","' + birth + '","' + gender + '","' + ethnicity + '","' + hair_color + '","' + eyes_color + '","' + address + '","' + height + '","' + weight + '", "' + dmv + '", "' + fireArms + '" ,"' + pilot + '", "' + cadID + '")';
                 }
-                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "')";
+                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', '" + cadID + "')";
 
 
                 let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"

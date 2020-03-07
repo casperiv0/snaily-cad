@@ -17,9 +17,11 @@ ToDO
 - [x] Add warants
 - [ ] give demerit points
 - [ ] Dark mode
+- [ ] able to edit registered vehicles and weapons
 
-### Public Branch
+## Public Branch
 
 - [ ] add change password page
 - [ ] cancel subs
 - [ ] show if no subs => no subs
+- [ ] after register page, redirect to order page, show detailed instructions how to buy.

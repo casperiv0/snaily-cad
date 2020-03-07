@@ -2,7 +2,7 @@ module.exports = {
     homePage: (req, res) => {
         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-        connection2.query(query2, (err, result2) => {
+        connection1.query(query2, (err, result2) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
@@ -18,7 +18,7 @@ module.exports = {
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            connection2.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result2) => {
+            connection1.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -34,19 +34,20 @@ module.exports = {
     },
     manageAccount: (req, res) => {
         if (req.session.mainLoggedin) {
-            let username = req.body.username
-            let password = req.body.password;
+            let username = req.body.manage_username
+            let password = req.body.manage_password;
+
 
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.user + "'"
             let query2 = 'UPDATE `users` SET `username` = "' + username + '" WHERE `users`.`username` = "' + req.session.user + '"';
 
-            connection2.query(query, (err, result) => {
+            connection1.query(query, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
                     if (result[0].password === password) {
-                        connection2.query(query2, async (err, result2) => {
+                        connection1.query(query2, async (err, result2) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500)
@@ -73,7 +74,7 @@ module.exports = {
         let username = req.body.username;
         let password = req.body.password;
         if (username && password) {
-            connection2.query('SELECT * FROM `users` WHERE username = "' + username + '" AND password = "' + password + '"', (error, results, fields) => {
+            connection1.query('SELECT * FROM `users` WHERE username = "' + username + '" AND password = "' + password + '"', (error, results, fields) => {
                 if (error) {
                     return console.log(error);
                 } else if (results.length > 0) {
@@ -95,31 +96,28 @@ module.exports = {
     },
     registerMain: (req, res) => {
         let username = req.body.username;
-        let email = req.body.email
+        let email = req.body.email;
         let password = req.body.password;
         let password2 = req.body.password2;
-
-        console.log(email);
-
 
         if (password !== password2) {
             res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Passwords Are not the same!", req: req })
         } else {
-            connection2.query("SELECT email FROM `users` WHERE email = '" + email + "'", (err, result1) => {
+            connection1.query("SELECT email FROM `users` WHERE email = '" + email + "'", (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else if (result1.length > 0) {
                     res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Email is already registered!", req: req })
                 } else {
-                    connection2.query("SELECT username FROM `users` WHERE username = '" + username + "'", (err, result1) => {
+                    connection1.query("SELECT username FROM `users` WHERE username = '" + username + "'", (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
                         } else if (result1.length > 0) {
                             res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username", req: req });
                         } else {
-                            connection2.query("INSERT INTO `users` (`username`, `email`, `password`) VALUES ('" + username + "', '" + email + "', '" + password + "')", (err, result2) => {
+                            connection1.query("INSERT INTO `users` (`username`, `email`, `password`) VALUES ('" + username + "', '" + email + "', '" + password + "')", (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500);
@@ -137,7 +135,7 @@ module.exports = {
     },
     accountMainPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            connection2.query("SELECT * FROM `users` ")
+            connection1.query("SELECT * FROM `users` ")
             res.render("main/settings/account.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
         } else {
             res.redirect("/login")
@@ -151,12 +149,12 @@ module.exports = {
             let query = "SELECT * FROM users WHERE username = '" + old_username + "'";
             let query2 = "UPDATE `users` SET `username` = '" + new_username + "' WHERE `users`.`username` = '" + old_username + "'";
 
-            connection2.query(query, (err, result) => {
+            connection1.query(query, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
-                    connection2.query(query2, (err, result1) => {
+                    connection1.query(query2, (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
@@ -172,6 +170,9 @@ module.exports = {
             res.redirect("/login")
 
         }
+    },
+    orderPage: (req, res) => {
+
     }
 
 }

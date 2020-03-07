@@ -36,11 +36,12 @@ module.exports = {
     login: (req, res) => {
         var username = req.body.username;
         var password = req.body.password;
+        let cadID = req.params.cadID
         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
         connection2.query(query2, (err, result2) => {
             if (result2[0]) {
                 if (username && password) {
-                    connection1.query('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
+                    connection1.query('SELECT * FROM users WHERE username = ? AND password = ? AND cadID = ?', [username, password, cadID], function (error, results, fields) {
                         if (results.length > 0) {
                             req.session.loggedin = true;
                             req.session.username2 = username;
@@ -100,37 +101,60 @@ module.exports = {
         var username = req.body.username;
         var password = req.body.password;
         var password2 = req.body.password2;
-        if (password2 !== password) {
-            return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords are not the same!" })
-            res.end();
-        }
-        let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
-
-        connection1.query(q1, (err, result) => {
-            if (result.length > 0) {
-                res.send("Username Already Exists Please go back and change the username.")
+        let cadID = req.params.cadID;
+        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        connection2.query(query, (err, result2) => {
+            if (password.length > 6) {
+                return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
+            } else if (password2 !== password) {
+                return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords are not the same!", cadId: result2[0].cadID });
             } else {
-                if (username && password) {
-                    // req.session.loggedin = true;
+                let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
 
-                    connection1.query("INSERT INTO users (`username`, `password` ) VALUES ('" + username + "', '" + password + "')", function (error, results, fields) {
-                        if (error) {
-                            console.log(error)
-                        }
-                        if (results.length > 0) {
-                            res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password" })
+                connection1.query(q1, (err, result) => {
+                    if (result.length > 0) {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
                         } else {
-
-                            res.redirect('/login');
+                            if (result2[0]) {
+                                res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Username is already in use, Please change username.", cadId: result2[0].cadID });
+                            } else {
+                                res.sendStatus(404);
+                            };
+                        };
+                    } else {
+                        if (username && password) {
+                            connection1.query("INSERT INTO users (`username`, `password`, `cadID` ) VALUES ('" + username + "', '" + password + "', '" + cadID + "')", function (error, results, fields) {
+                                if (error) {
+                                    console.log(error);
+                                }
+                                if (results.length > 0) {
+                                    res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                } else {
+                                    let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                    connection2.query(query, (err, result2) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500);
+                                        } else {
+                                            if (result2[0]) {
+                                                res.redirect(`/cad/${result2[0].cadID}/login`);
+                                            } else {
+                                                res.sendStatus(404);
+                                            }
+                                        }
+                                    })
+                                }
+                            });
+                        } else {
+                            res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID });
                         }
-                        res.end();
-                    });
-                } else {
-                    res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again" })
-
-                    res.end();
-                }
+                    }
+                });
             }
+
+
         })
 
     },
