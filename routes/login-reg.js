@@ -3,7 +3,7 @@ module.exports = {
         if (req.session.loggedin) {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection2.query(query2, (err, result2) => {
+            connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -27,12 +27,10 @@ module.exports = {
         var password = req.body.password;
         let cadID = req.params.cadID
         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-        connection2.query(query2, (err, result2) => {
-            if (!result2[0]) {
+        connection1.query(query2, (err, result2) => {
+            if (!result2) {
                 res.sendStatus(404)
-
             } else {
-
                 if (username && password) {
                     connection1.query('SELECT * FROM users WHERE username = ? AND password = ? AND cadID = ?', [username, password, cadID], function (error, results, fields) {
                         if (results.length > 0) {
@@ -73,7 +71,7 @@ module.exports = {
             res.redirect("/citizen")
         } else {
             let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection2.query(query, (err, result1) => {
+            connection1.query(query, (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -94,7 +92,7 @@ module.exports = {
         var password2 = req.body.password2;
         let cadID = req.params.cadID;
         let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-        connection2.query(query, (err, result2) => {
+        connection1.query(query, (err, result2) => {
             if (password.length > 6) {
                 return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
             } else if (password2 !== password) {
@@ -124,7 +122,7 @@ module.exports = {
                                     res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID });
                                 } else {
                                     let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                    connection2.query(query, (err, result2) => {
+                                    connection1.query(query, (err, result2) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500);
@@ -154,7 +152,7 @@ module.exports = {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
                 let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                connection2.query(query, (err, result2) => {
+                connection1.query(query, (err, result2) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -170,7 +168,7 @@ module.exports = {
         } else {
             let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection2.query(query, (err, result2) => {
+            connection1.query(query, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -191,7 +189,7 @@ module.exports = {
         if (!req.session.loggedin) {
             let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection2.query(query, (err, result2) => {
+            connection1.query(query, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -205,7 +203,7 @@ module.exports = {
             })
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection2.query(query2, (err, result2) => {
+            connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
