@@ -4,5 +4,5 @@
     "DB2": "accounts",
     "DB": "equinox_cad",
     "DB3": "customers",
-    "ENV": "production"
+    "ENV": "dev"
 }

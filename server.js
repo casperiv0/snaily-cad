@@ -20,7 +20,7 @@ let connection2;
 let db;
 let db2;
 let db3;
-let port = process.env.ENV === "dev" ? 3001 : 80;
+let port = creds.ENV === "dev" ? 3001 : 80;
 
 // Admin
 const {
@@ -434,7 +434,7 @@ async function main() {
         console.log(`Running on ${port}`)
     });
     bot.commands = new Discord.Collection();
-    bot.login(process.env.BOT_TOKEN);
+    bot.login(creds.BOT_TOKEN);
 
     bot.on("ready", () => {
         console.log(`bot up and running ${bot.user.username}`)

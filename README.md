@@ -15,8 +15,8 @@ ToDO
 - [x] add current business to detail citizen page and PD Search
 - [x] Dispatch System
 - [x] Add warants
+- [x] Dark mode
 - [ ] give demerit points
-- [ ] Dark mode
 - [ ] able to edit registered vehicles and weapons
 
 ## Public Branch
