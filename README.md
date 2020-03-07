@@ -25,3 +25,5 @@ ToDO
 - [ ] cancel subs
 - [ ] show if no subs => no subs
 - [ ] after register page, redirect to order page, show detailed instructions how to buy.
+- [ ] edit citizen CADID!
+- [ ] change to different cad link => relogin otherwise it's broken af

@@ -1,0 +1,29 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+<form
+  class="edit-veh-form text-light"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div
+    class="form-group 
+  "
+  >
+    <label for="exampleInputEmail1">Enter Legal Status</label>
+    <input
+      name="status"
+      type="text"
+      class="form-control text-light border-dark bg-dark"
+      placeholder="Legal Status"
+      value="<%= legal.status %>"
+    />
+  </div>
+  <button type="submit" class="btn btn-success float-right">Update</button>
+  <a
+    class="btn btn-danger cancel-btn float-right"
+    href="/cad/<%= cadId %>/admin/values/legal"
+    >Cancel</a
+  >
+</form>

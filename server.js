@@ -152,6 +152,9 @@ const {
     orderPage
 } = require("./routes/index");
 
+const {
+    legalPage, addLegalPage, deleteLegal, addLegal, editLegalPage, editLegal } = require("./routes/values/legal")
+
 const { adminDashboard,
     usernameAdminPage,
     usernameAdmin
@@ -305,6 +308,16 @@ app.get("/cad/:cadID/admin/values/weapons/delete/:id", deleteWeapon)
 app.post("/cad/:cadID/admin/values/weapons/add", addWeapon)
 app.get("/cad/:cadID/admin/values/weapons/edit/:id", editWeaponPage)
 app.post("/cad/:cadID/admin/values/weapons/edit/:id", editWeapon)
+
+
+// Legal 
+app.get("/cad/:cadID/admin/values/legal", legalPage)
+app.get("/cad/:cadID/admin/values/legal/add", addLegalPage)
+app.get("/cad/:cadID/admin/values/legal/delete/:id", deleteLegal)
+app.post("/cad/:cadID/admin/values/legal/add", addLegal)
+app.get("/cad/:cadID/admin/values/legal/edit/:id", editLegalPage)
+app.post("/cad/:cadID/admin/values/legal/edit/:id", editLegal)
+
 
 // Weapon regestration
 app.get("/cad/:cadID/weapons/register", regWeaponPage)

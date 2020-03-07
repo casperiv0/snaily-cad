@@ -1,0 +1,41 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+<div class="container">
+  <h1 class="card-title text-light">
+    Legal management <a href="/cad/<%= cadId %>/admin/values/legal/add">+</a>
+  </h1>
+
+  <input
+    class="disabled list-group-item text-light bg-dark"
+    type="text"
+    name=""
+    id=""
+  />
+
+  <% if (legals.length > 0) {%>
+  <ul class="list-group">
+    <% legals.forEach(value => { %>
+    <li class="list-group-item text-light bg-dark">
+      <%= value.id %> | <%= value.status %>
+      <a
+        href="/cad/<%= cadId %>/admin/values/legal/delete/<%= value.id %>"
+        class="btn btn-danger float-right"
+        >Delete</a
+      >
+      <a
+        href="/cad/<%= cadId %>/admin/values/legal/edit/<%= value.id %>"
+        class="btn btn-success float-right  margin-right-10"
+        >Edit</a
+      >
+    </li>
+
+    <% }) %>
+  </ul>
+  <% } else { %>
+  <p class="alert alert-primary">
+    Nothing found. Go add
+    <a href="/cad/<%= cadId %>/admin/values/legal/add">here</a>.
+  </p>
+  <% } %>
+</div>
