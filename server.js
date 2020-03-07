@@ -5,7 +5,7 @@ let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
 const Discord = require("discord.js")
 const bot = new Discord.Client()
-require('dotenv').config()
+let creds = require("./creds.json")
 const favicon = require('express-favicon');
 const fetch = require("node-fetch")
 const session = require("express-session");
@@ -348,8 +348,8 @@ async function main() {
     db = {
         host: "localhost",
         user: "root",
-        password: process.env.DBP,
-        database: process.env.DB,
+        password: creds.DBP,
+        database: creds.DB,
         multipleStatements: true,
         timeout: 0
     };
@@ -357,8 +357,8 @@ async function main() {
     db2 = {
         host: "localhost",
         user: "root",
-        password: process.env.DBP,
-        database: process.env.DB2,
+        password: creds.DBP,
+        database: creds.DB2,
         multipleStatements: true,
         timeout: 0
     }
@@ -366,8 +366,8 @@ async function main() {
     db3 = {
         host: "localhost",
         user: "root",
-        password: process.env.DBP,
-        database: process.env.DB3,
+        password: creds.DBP,
+        database: creds.DB3,
         multipleStatements: true,
         timeout: 0
     }
