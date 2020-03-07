@@ -57,24 +57,22 @@ module.exports = {
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
                                 let ethnicity = req.body.ethnicity;
-                                let query = "INSERT INTO `ethnicities` (`ethnicity`) VALUES ('" + ethnicity + "')";
+                                let query = "INSERT INTO `ethnicities` (`ethnicity`, `cadID`) VALUES ('" + ethnicity + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
-                                    }
+                                    };
                                     res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
                                 });
                             } else {
                                 res.sendStatus(403);
-                            }
+                            };
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
             res.redirect("/login");
         };

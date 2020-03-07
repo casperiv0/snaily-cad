@@ -13,7 +13,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
-                                let query = "SELECT * FROM `weapons` ORDER BY id ASC"
+                                let query = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC"
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         res.sendStatus(400)
@@ -144,28 +144,26 @@ module.exports = {
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
                                 let name = req.body.name;
+                                let cadId = req.params.cadID
 
-                                let query = "INSERT INTO `weapons` (`name`) VALUES ('" + name + "')";
+                                let query = "INSERT INTO `weapons` (`name`, `cadID`) VALUES ('" + name + "', '" + cadId + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`)
+                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
                                 });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
             connection2.query(query2, (err, result2) => {
                 if (err) {
@@ -173,14 +171,12 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         };
     },
     editWeaponPage: (req, res) => {

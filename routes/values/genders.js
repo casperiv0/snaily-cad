@@ -13,7 +13,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
-                                let query = "SELECT * FROM `genders` ORDER BY id ASC"
+                                let query = "SELECT * FROM `genders` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         res.sendStatus(400)
@@ -160,7 +160,7 @@ module.exports = {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
                                 let gender = req.body.gender;
 
-                                let query = "INSERT INTO `genders` (`gender`) VALUES ('" + gender + "')";
+                                let query = "INSERT INTO `genders` (`gender`, `cadID`) VALUES ('" + gender + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
