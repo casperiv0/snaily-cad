@@ -1021,7 +1021,7 @@ p {
   width: 100%;
 }
 .single-gallery .gallery-icon a {
-  background-color: #f14836;
+  background-color: rgb(0, 123, 255);
   width: 120px;
   height: 120px;
   position: absolute;
@@ -1450,9 +1450,9 @@ p {
   height: 80px;
   line-height: 50px;
   text-align: center;
-  border: 1px dashed #f14836;
+  border: 1px dashed rgb(0, 123, 255);
   font-size: 36px;
-  color: #f14836;
+  color: rgb(0, 123, 255);
   font-weight: bold;
 }
 .single-service-2 .service-content {
@@ -1507,7 +1507,7 @@ p {
   margin-top: 30px;
 }
 .single-service-3 .service-content .more:hover {
-  color: #f14836;
+  color: rgb(0, 123, 255);
 }
 
 /*===========================
@@ -1636,7 +1636,7 @@ p {
 .testimonial-right-content .quota i {
   font-size: 130px;
   line-height: 95px;
-  color: #f14836;
+  color: rgb(0, 123, 255);
 }
 
 .testimonial-content-wrapper {
@@ -1795,7 +1795,7 @@ p {
 }
 .single-blog .blog-content .blog-author .author-content .sub-title {
   font-size: 14px;
-  color: #f14836;
+  color: rgb(0, 123, 255);
   font-weight: 400;
 }
 .single-blog .blog-content .blog-author .author-content .text {
