@@ -1952,7 +1952,7 @@ p {
   transition: all 0.3s ease-out 0s;
 }
 .footer-contact .social li a:hover {
-  color: #f14836;
+  color: rgb(0, 123, 255);
 }
 
 .footer-copyright {
