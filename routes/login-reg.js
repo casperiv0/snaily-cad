@@ -18,19 +18,7 @@ module.exports = {
 
 
         } else {
-            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection2.query(query, (err, result1) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result1[0]) {
-                        res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID })
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
+            res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: "" })
         }
     },
     login: (req, res) => {
