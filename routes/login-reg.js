@@ -18,6 +18,7 @@ module.exports = {
 
 
         } else {
+
             res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: "" })
         }
     },
@@ -27,6 +28,8 @@ module.exports = {
         let cadID = req.params.cadID
         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
         connection2.query(query2, (err, result2) => {
+            console.log(result2);
+
             if (result2[0]) {
                 if (username && password) {
                     connection1.query('SELECT * FROM users WHERE username = ? AND password = ? AND cadID = ?', [username, password, cadID], function (error, results, fields) {

@@ -7,7 +7,11 @@ module.exports = {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                if (!result2[0]) {
+                    res.sendStatus(404)
+                } else {
+                    res.render("index.ejs", { title: "Home | Equinox CAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                }
             }
         })
         req
