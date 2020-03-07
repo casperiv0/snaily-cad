@@ -173,7 +173,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-app.use(favicon(__dirname + '/public/icon.png'));
+app.use(favicon(__dirname + '/public/icon2.png'));
 app.use(eSession.main(session));
 
 
