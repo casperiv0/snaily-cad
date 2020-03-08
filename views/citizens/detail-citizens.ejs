@@ -1,10 +1,9 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container">
+<div class="container mt-3">
 
 
     <% if (citizen[0]) { %>
-    <h1 class="card-title"> <%= citizen.first_name %> <%= citizen.last_name %></h1>
     <div class="users-list">
         <ul class="list-group">
             <a class="btn btn-success"
@@ -85,10 +84,12 @@
 
                     <p class="mb-1">
                         <% vehicles.forEach(vehicle => { %>
-                        <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                            <p>Plate: <span class="uppercase"><%= vehicle.plate %></span> <br> Insurance Status:
-                                <%= vehicle.in_status %>
-                            </p>
+                        <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
+                            <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
+                            <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
+                            <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
+                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success">Edit Vehicle</a>
+                            
                         </li>
 
                         <%  }) %>

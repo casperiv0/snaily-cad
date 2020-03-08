@@ -28,7 +28,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
 
-                    res.render("main/manage-account.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
                 }
             })
         } else {

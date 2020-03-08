@@ -1,0 +1,77 @@
+<%- include("../../partials/header.ejs") %>
+<form
+  class="edit-veh-form"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="text-light">Vehicle Plate</label>
+    <input
+      name="plate"
+      type="text"
+      disabled
+      class="form-control  text-light bg-dark border-dark "
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Vehicle Plate"
+      value="<%= current.plate %>"
+      title="You cannot edit the vehicle plate!"
+    />
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="text-light">Vehicle Owner</label>
+    <input
+      name="owner"
+      type="text"
+      disabled
+      class="form-control  text-light bg-dark border-dark "
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Vehicle Plate"
+      value="<%= current.owner %>"
+      title="You cannot edit the vehicle owner!"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="text-light"
+      >Enter Vehicle Color</label
+    >
+    <input
+      name="color"
+      type="text"
+      class="form-control  text-light bg-dark border-dark "
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Car Name"
+      value="<%= current.color %>"
+    />
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1" class="text-light"
+      >Enter Vehicle Insurance Status</label
+    >
+    <input
+      name="status"
+      type="text"
+      class="form-control  text-light bg-dark border-dark "
+      id="exampleInputEmail1"
+      aria-describedby="emailHelp"
+      placeholder="Insurance Status"
+      value="<%= current.in_status %>"
+      list="status"
+    />
+    <datalist id="status">
+      <% legal.forEach(name => { %>
+      <option value="<%= name.status %>"></option>
+      <% }) %>
+    </datalist>
+  </div>
+  <button type="submit" class="btn btn-success float-right">Update</button>
+  <a
+    href="/cad/<%= cadId %>/citizen/"
+    class="cancel-btn btn btn-danger float-right"
+    >Cancel</a
+  >
+</form>

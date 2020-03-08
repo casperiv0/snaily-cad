@@ -39,7 +39,9 @@ const {
     deleteVehiclePage,
     addCar,
     regVehicle,
-    regVehiclePage
+    regVehiclePage,
+    editVehiclePageCitizen,
+    editVehicleCitizen
 } = require("./routes/values/cars")
 
 // Genders
@@ -280,6 +282,9 @@ app.get("/cad/:cadID/admin/values/cars/edit/:id", editVehiclePage)
 app.get("/cad/:cadID/admin/values/cars/delete/:id", deleteVehiclePage)
 app.post("/cad/:cadID/admin/values/cars/edit/:id", editVehicle)
 app.post("/cad/:cadID/admin/values/cars/add", addCar)
+// Citizen cars
+app.get("/cad/:cadID/citizen/:id/:plate/edit", editVehiclePageCitizen)
+app.post("/cad/:cadID/citizen/:id/:plate/edit", editVehicleCitizen)
 
 // Car Regestration
 app.get("/cad/:cadID/cars/register", regVehiclePage)

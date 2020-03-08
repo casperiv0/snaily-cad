@@ -365,13 +365,124 @@ module.exports = {
                     if (err) {
                         return res.status(500).send(err);
                     }
-                    res.redirect("/citizen")
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                    connection1.query(query2, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            if (result2[0]) {
+                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                            } else {
+                                res.sendStatus(404)
+                            }
+                        }
+                    })
                 });
-            }
-        })
+            };
+        });
+    },
+    editVehiclePageCitizen: (req, res) => {
+        if (req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                    connection1.query(query, (err, result1) => {
+                        let query = "SELECT * FROM `registered_cars` WHERE `plate` = '" + req.params.plate + "'"
+                        let legalQ = "SELECT * FROM `in_statuses`"
+
+                        connection.query(`${query}; ${legalQ}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500)
+                            } else {
+                                res.render("vehicles/citizen/edit-vehicle.ejs", { title: "Edit Vehicle | SnailyCAD", message: '', current: result[0][0], legal: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID })
+                            };
+                        });
+                    });
+
+                }
+            })
 
 
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+        }
+    },
+    editVehicleCitizen: (req, res) => {
+        if (req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                    connection1.query(query, (err, result1) => {
+                        let plate = req.params.plate;
+                        let color = req.body.color;
+                        let status = req.body.status
+                        let query = "UPDATE `registered_cars` SET `color` = '" + color + "', `in_status` ='" + status + "' WHERE `registered_cars`.`plate` = '" + plate + "'";
+
+                        connection.query(`${query};`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.status(500)
+                            } else {
+                                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                                connection1.query(query2, (err, result2) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        if (result2[0]) {
+                                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                        } else {
+                                            res.sendStatus(404)
+                                        }
+                                    }
+                                })
+                            };
+                        });
+                    });
+
+                }
+            })
+
+
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+        }
     }
-
-}
+};

@@ -37,7 +37,20 @@ module.exports = {
     },
     citizenDetailPage: (req, res) => {
         if (!req.session.loggedin) {
-            res.redirect("login");
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 

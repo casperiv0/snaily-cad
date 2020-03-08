@@ -16,11 +16,15 @@ ToDO
 - [x] Dispatch System
 - [x] Add warants
 - [x] Dark mode
+- [x] able to edit registered vehicles and weapons
 - [ ] give demerit points
-- [ ] able to edit registered vehicles and weapons
 
 ## Public Branch
 
+- [x] fix add warrant page cancel
+- [x] fix add offence page cancel
+- [x] show only full name instead of 'unknow'
+- [x] register vehicle redirect fix
 - [ ] add change password page
 - [ ] cancel subs
 - [ ] show if no subs => no subs

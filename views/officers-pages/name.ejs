@@ -18,7 +18,7 @@
 
     <% information.forEach(info => { %>
     <li class="list-group-item mt-2 cap text-light bg-dark">
-      <%= info.first_name %> <%= info.last_name %> | <%= info.birth %>
+      <%= info.full_name %> | <%= info.birth %>
       <a
         href="/cad/<%= cadId %>/officers/dash/search/name/<%= info.id %>-<%= info.first_name %>-<%= info.last_name %>"
         class="btn btn-success float-right "

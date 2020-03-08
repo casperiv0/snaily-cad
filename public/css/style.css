@@ -117,6 +117,10 @@ body::-webkit-scrollbar-thumb {
   visibility: hidden;
 }
 
+#hiddenMore {
+  display: none;
+}
+
 .top-1 {
   margin-top: 2px;
 }
@@ -1854,7 +1858,7 @@ p {
   }
 }
 .contact-wrapper-form .contact-title i {
-  color: #f14836;
+  color: rgb(0, 123, 255);
   margin-right: 8px;
 }
 .contact-wrapper-form .contact-title span {
@@ -1930,7 +1934,6 @@ p {
 .footer-link ul li a:hover {
   color: #222;
 }
-
 .footer-contact .text {
   font-size: 16px;
   padding-top: 15px;
