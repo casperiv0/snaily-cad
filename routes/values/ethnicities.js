@@ -12,7 +12,7 @@ module.exports = {
 
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
@@ -55,7 +55,7 @@ module.exports = {
 
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let ethnicity = req.body.ethnicity;
                                 let query = "INSERT INTO `ethnicities` (`ethnicity`, `cadID`) VALUES ('" + ethnicity + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
@@ -89,8 +89,8 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                                let query = "SELECT * FROM `ethnicities` ORDER BY id ASC";
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
+                                let query = "SELECT * FROM `ethnicities` WHERE `cadID` = '" + req.params.cadID + "'";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         res.sendStatus(400);
@@ -136,14 +136,14 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let ethnicitiesId = req.params.id;
                                 let query = "SELECT * FROM `ethnicities` WHERE id = '" + ethnicitiesId + "' ";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
                                     };
-                                    res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity", ethnicity: result[0], isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
+                                    res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity | SnailyCAD", ethnicity: result[0], isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -184,7 +184,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let carId = req.params.id;
                                 let ethnicity = req.body.ethnicity;
                                 let query = 'UPDATE `ethnicities` SET `ethnicity` = "' + ethnicity + '" WHERE `ethnicities`.`id` = "' + carId + '"';
@@ -238,7 +238,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let playerId = req.params.id;
                                 // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
                                 let deleteUserQuery = 'DELETE FROM ethnicities WHERE id = "' + playerId + '"';

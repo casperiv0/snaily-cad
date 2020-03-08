@@ -149,7 +149,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -157,23 +157,36 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
+                        res.sendStatus(404);
+                    };
+                };
             });
-        }
-
+        };
     },
     disptachWeaponSearch: (req, res) => {
         if (req.session.loggedin) {
-            let searchQ = req.body.weapon_search;
-            let weaponQ = "SELECT * FROM `registered_weapons` WHERE `weapon` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection.query(`${weaponQ}`, (err, result) => {
-                res.render("dispatch/weapons-search.ejs", { title: 'Dispatch | SnailyCAD', isAdmin: "", weapons: result });
-            })
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        let searchQ = req.body.weapon_search;
+                        let weaponQ = "SELECT * FROM `registered_weapons` WHERE `weapon` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
+
+                        connection.query(`${weaponQ}`, (err, result) => {
+                            res.render("dispatch/weapons-search.ejs", { title: 'Dispatch | SnailyCAD', isAdmin: "", weapons: result, cadId: result2[0].cadID });
+                        })
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
@@ -194,16 +207,30 @@ module.exports = {
     },
     disptachAddressSearch: (req, res) => {
         if (req.session.loggedin) {
-            let searchQ = req.body.address_search;
-            let query = "SELECT * FROM citizens WHERE address = '" + searchQ + "'";
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection.query(query, (err, result) => {
+            connection1.query(query2, (err, result2) => {
                 if (err) {
-                    return console.log(err);
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.render("dispatch/address-search.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", users: result });
+                    if (result2[0]) {
+                        let searchQ = req.body.address_search;
+                        let query = "SELECT * FROM citizens WHERE address = '" + searchQ + "'";
+
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                return console.log(err);
+                            } else {
+                                res.render("dispatch/address-search.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", users: result, cadId: result2[0].cadID });
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404);
+                    };
                 };
             });
+
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 

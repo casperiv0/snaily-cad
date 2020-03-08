@@ -2,35 +2,34 @@
 
 <div class="container mt-3 text-light">
   <ul class="list-group">
-    <a href="/dispatch" class="btn btn-primary cap mb-2 mt-2"
+    <a href="/cad/<%= cadId %>/dispatch" class="btn btn-primary cap mb-2 mt-2"
       >Back to Dispatch</a
     >
-
-    <% if (users.length > 0) { %> <% users.forEach(user => {%>
-    <div
-      class="card list-group-item bg-dark border-dark mr-3 mb-3"
-      style="width: 18rem;"
-    >
-      <div class="card-body">
-        <h5 class="card-title"><%= user.full_name %></h5>
-        <p class="card-text">
+    <div class="row container mx-auto ">
+      <% if (users.length > 0) { %> <% users.forEach(user => {%>
+      <div
+        class="card list-group-item bg-dark border-dark mr-3 mb-3"
+        style="width: 18rem;"
+      >
+        <div class="card-body">
+          <h5 class="card-title"><%= user.full_name %></h5>
           <span class="bolder"> Birthday:</span>
           <span class="cap">
             <%= user.birth %>
           </span>
           <br />
           <a
-            href="/officers/dash/search/name/<%= user.id %>-<%= user.first_name %>-<%= user.last_name %>"
+            href="/cad/<%= cadId %>/officers/dash/search/name/<%= user.id %>-<%= user.first_name %>-<%= user.last_name %>"
             class="bolder btn btn-primary"
             >More info</a
           >
-        </p>
+        </div>
       </div>
+      <% }) %> <% } else {%>
+      <li class="list-group-item">
+        No one found living in this area
+      </li>
+      <% }%>
     </div>
-    <% }) %> <% } else {%>
-    <li class="list-group-item">
-      No one found living in this area
-    </li>
-    <% }%>
   </ul>
 </div>

@@ -11,7 +11,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 let query = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC";
                                 connection.query(query, (err, result) => {
                                     if (err) {
@@ -57,7 +57,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 res.render("legal/add-legal.ejs", { title: "Add Legal | SnailyCAD", isAdmin: result1[0].admin, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403)
@@ -102,7 +102,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let legalStatus = req.body.status;
                                 let cadId = req.params.cadID
 
@@ -151,7 +151,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let playerId = req.params.id;
                                 // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
                                 let deleteUserQuery = 'DELETE FROM in_statuses WHERE id = "' + playerId + '"';
@@ -199,7 +199,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 let genderId = req.params.id;
                                 let query = "SELECT * FROM `in_statuses` WHERE id = '" + genderId + "' ";
                                 connection.query(query, (err, result) => {
@@ -245,7 +245,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let genderId = req.params.id;
                                 let name = req.body.status;
                                 let query = 'UPDATE `in_statuses` SET `status` = "' + name + '" WHERE `in_statuses`.`id` = "' + genderId + '"';

@@ -38,7 +38,7 @@ ToDO
 - [x] show password for CAD pages
 - [x] cannot edit own permissions
 - [x] logout fix
-- [ ] Dispatch Page
+- [x] Dispatch Page
 - [ ] add change password page
 - [ ] change to different cad link => relogin otherwise it's broken af
 - [ ] max limit on forms

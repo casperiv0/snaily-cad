@@ -12,7 +12,7 @@ module.exports = {
 
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 let query = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC"
                                 connection.query(query, (err, result) => {
                                     if (err) {
@@ -60,7 +60,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let playerId = req.params.id;
                                 // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
                                 let deleteUserQuery = 'DELETE FROM weapons WHERE id = "' + playerId + '"';
@@ -111,7 +111,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: result1[0].admin, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403)
@@ -156,7 +156,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let name = req.body.name;
                                 let cadId = req.params.cadID
 
@@ -204,7 +204,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 let genderId = req.params.id;
                                 let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
                                 connection.query(query, (err, result) => {
@@ -252,7 +252,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let genderId = req.params.id;
                                 let name = req.body.name;
                                 let query = 'UPDATE `weapons` SET `name` = "' + name + '" WHERE `weapons`.`id` = "' + genderId + '"';
@@ -362,7 +362,7 @@ module.exports = {
             let owner = req.body.owner;
             let weapon = req.body.weapon;
             let status = req.body.status;
-            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "')";
+            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`, `cadID`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "', '" + req.params.cadID + "')";
 
 
             connection.query(query, (err, result) => {

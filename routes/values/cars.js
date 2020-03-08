@@ -10,7 +10,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403)
@@ -51,7 +51,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let name = req.body.cname;
                                 let cadID = req.params.cadID;
 
@@ -102,7 +102,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin') {
+                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
                                 let query = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                 connection.query(query, (err, result) => {
                                     if (err) {
@@ -152,7 +152,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let carId = req.params.id;
                                 let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
                                 connection.query(query, (err, result) => {
@@ -203,7 +203,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let carId = req.params.id;
                                 let car_name = req.body.cname;
                                 let myear = req.body.myear;
@@ -258,7 +258,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
+                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let playerId = req.params.id;
                                 // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
                                 let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
@@ -320,7 +320,7 @@ module.exports = {
                                 return res.status(500).send(err);
                             }
 
-                            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID })
+                            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration | SnailyCAD", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID })
                         });
                     });
 
