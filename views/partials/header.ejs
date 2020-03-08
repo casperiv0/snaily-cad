@@ -70,7 +70,8 @@
             >
           </li>
 
-          <% if (isAdmin === 'admin' || isAdmin === 'moderator') {%>
+          <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin ===
+          'owner') {%>
           <li class="nav-item">
             <a class="nav-link text-light" href="/cad/<%= cadId %>/admin"
               >Admin

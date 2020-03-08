@@ -23,7 +23,7 @@ ToDO
 
 - [x] fix add warrant page cancel
 - [x] fix add offence page cancel
-- [x] show only full name instead of 'unknow'
+- [x] show only full name instead of 'unknown'
 - [x] register vehicle redirect fix
 - [x] edit citizen CADID
 - [x] edit citizen CADID!
@@ -36,6 +36,8 @@ ToDO
 - [x] show password button
 - [x] hashed passwords for CAD pages
 - [x] show password for CAD pages
+- [x] cannot edit own permissions
+- [x] logout fix
 - [ ] Dispatch Page
 - [ ] add change password page
 - [ ] change to different cad link => relogin otherwise it's broken af

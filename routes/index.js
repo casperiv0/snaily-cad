@@ -103,7 +103,11 @@ module.exports = {
         }
     },
     loginPageMain: (req, res) => {
-        res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "", req: req })
+        if (req.session.mainLoggedin) {
+            res.redirect("/account")
+        } else {
+            res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "", req: req })
+        }
     },
     loginMain: (req, res) => {
         let username = req.body.username;

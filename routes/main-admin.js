@@ -67,7 +67,7 @@ module.exports = {
         let CADID = req.body.cadID;
         let username = req.params.username
         let orderID = req.body.orderID;
-        let query = "UPDATE `users` SET `admin` = 'admin', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "', `orderID` = '" + orderID + "' WHERE `users`.`username`= '" + username + "'";
+        let query = "UPDATE `users` SET `admin` = 'owner', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "', `orderID` = '" + orderID + "' WHERE `users`.`username`= '" + username + "'";
 
         connection1.query(query, (err, result) => {
             if (err) {

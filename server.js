@@ -233,11 +233,11 @@ app.get(`/cad/:cadID/login`, loginPage);
 app.post(`/cad/:cadID/login`, login);
 app.get(`/cad/:cadID/register`, registerPage);
 app.post(`/cad/:cadID/register`, register);
-app.get(`/cad/:cadID/logout`, (req, res) => {
-    req.session.destroy();
-    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+app.get(`/cad/:cadID/logout`, async (req, res) => {
 
-    connection2.query(query2, (err, result2) => {
+    req.session.destroy();
+    let query2 = "SELECT `cadID` FROM `users` WHERE `cadID` = '" + req.params.cadID + "'";
+    await connection1.query(query2, (err, result2) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
