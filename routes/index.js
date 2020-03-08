@@ -158,7 +158,6 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    console.log(hash);
                     connection1.query("SELECT email FROM `users` WHERE email = '" + email + "'", (err, result1) => {
                         if (err) {
                             console.log(err);

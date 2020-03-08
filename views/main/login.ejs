@@ -1,11 +1,6 @@
 <%- include("../partials/main/header.ejs") %>
 
-<form
-  class="edit-veh-form"
-  action=""
-  method="post"
-  enctype="application/x-www-form-urlencoded"
->
+<form action="" method="post" enctype="application/x-www-form-urlencoded">
   <% if(message != ''){ %>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <%= message %>
