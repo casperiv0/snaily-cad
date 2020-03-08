@@ -12,7 +12,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin') {
-                                res.render("admin.ejs", { title: 'Admin Panel | Equinox CAD', isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };

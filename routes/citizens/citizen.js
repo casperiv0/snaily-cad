@@ -87,7 +87,7 @@ module.exports = {
                                     // }
                                     // console.log(isCeo);
 
-                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | Equinox CAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                 } else {
                                     res.sendStatus(401);
                                 };
@@ -134,7 +134,7 @@ module.exports = {
                                 if (err) {
                                     return res.status(500).send(err);
                                 }
-                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
 
                             });
                         });
@@ -221,7 +221,7 @@ module.exports = {
                                             if (err) {
                                                 return res.status(500).send(err);
                                             }
-                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
                                         });
                                     });
                                 } else {
@@ -289,7 +289,7 @@ module.exports = {
                                 return res.sendStatus(500)
                             } else {
                                 if (result2[0]) {
-                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3], cadId: result2[0].cadID })
+                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3], cadId: result2[0].cadID })
                                 } else {
                                     res.sendStatus(404)
                                 }
@@ -377,7 +377,7 @@ module.exports = {
                                                 return res.sendStatus(500)
                                             } else {
                                                 if (result2[0]) {
-                                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", message: 'Citizen Name is already in use, please change to anothor one!', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: '', username: result[3], cadId: result2[0].cadID })
+                                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", message: 'Citizen Name is already in use, please change to anothor one!', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: '', username: result[3], cadId: result2[0].cadID })
                                                 } else {
                                                     res.sendStatus(404)
                                                 }
@@ -499,7 +499,7 @@ module.exports = {
                             let citizen = "SELECT * FROM citizens WHERE linked_to = '" + req.session.username2 + "'"
                             connection.query(`${query2}; ${citizen}`, (err, result) => {
 
-                                res.render("citizens/company.ejs", { title: "Edit Citizen | Equinox CAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID })
+                                res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID })
                             })
                         });
                     } else {
@@ -583,7 +583,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     if (result2[0]) {
-                        res.render("company/main.ejs", { title: req.params.company + " | Equinox CAD", isAdmin: "", cadId: result2[0].cadID })
+                        res.render("company/main.ejs", { title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID })
                     } else {
                         res.sendStatus(404)
                     }

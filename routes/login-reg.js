@@ -19,7 +19,7 @@ module.exports = {
 
         } else {
 
-            res.render("login-res/login.ejs", { title: "Login | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: "" })
+            res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: "" })
         }
     },
     login: (req, res) => {
@@ -55,12 +55,12 @@ module.exports = {
 
                             }
                         } else {
-                            res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID })
+                            res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID })
                         }
                         // res.end();
                     });
                 } else {
-                    res.render("login-res/login.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID })
+                    res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID })
                     res.end();
                 }
             }
@@ -77,7 +77,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result1[0]) {
-                        res.render("login-res/reg.ejs", { title: "Register | Equinox CAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID })
+                        res.render("login-res/reg.ejs", { title: "Register | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID })
                     } else {
                         res.sendStatus(404)
                     }
@@ -94,9 +94,9 @@ module.exports = {
         let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
         connection1.query(query, (err, result2) => {
             if (password.length > 6) {
-                return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
+                return res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
             } else if (password2 !== password) {
-                return res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Passwords are not the same!", cadId: result2[0].cadID });
+                return res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Passwords are not the same!", cadId: result2[0].cadID });
             } else {
                 let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
 
@@ -107,7 +107,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Username is already in use, Please change username.", cadId: result2[0].cadID });
+                                res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Username is already in use, Please change username.", cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(404);
                             };
@@ -119,7 +119,7 @@ module.exports = {
                                     console.log(error);
                                 }
                                 if (results.length > 0) {
-                                    res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                    res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", cadId: result2[0].cadID });
                                 } else {
                                     let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
                                     connection1.query(query, (err, result2) => {
@@ -137,7 +137,7 @@ module.exports = {
                                 }
                             });
                         } else {
-                            res.render("login-res/reg.ejs", { title: 'Login | Equinox CAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID });
+                            res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again", cadId: result2[0].cadID });
                         }
                     }
                 });
@@ -158,7 +158,7 @@ module.exports = {
                         return res.sendStatus(500);
                     } else {
                         if (result2[0]) {
-                            res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "", cadId: result2[0].cadID })
+                            res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", cadId: result2[0].cadID })
                         } else {
                             res.sendStatus(404)
                         }
@@ -219,7 +219,7 @@ module.exports = {
                             if (password !== result[0].password) {
                                 let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                                 connection1.query(query, (err, result1) => {
-                                    res.render("edit-account.ejs", { title: 'Edit Account | Equinox CAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result2[0].cadID })
+                                    res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result2[0].cadID })
                                 });
                             } else {
                                 let old_name = req.session.username2;

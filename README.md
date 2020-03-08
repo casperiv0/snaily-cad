@@ -28,11 +28,9 @@ ToDO
 - [x] edit citizen CADID
 - [x] edit citizen CADID!
 - [x] register vehicle default value
-- [ ] License typo 'licence' => License
-- [ ] details citizen clean up
+- [x] License typo 'licence' => License
+- [x] details citizen clean up
+- [x] show if no subs => no subs
 - [ ] add change password page
-- [ ] cancel subs
-- [ ] show if no subs => no subs
 - [ ] change to different cad link => relogin otherwise it's broken af
 - [ ] max limit on forms
-- [ ] login in on main page, logged in on CAD <= only if bought something

@@ -71,7 +71,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result1) => {
                             if (result1[0].leo == 'yes') {
-                                res.render("officers-pages/add-officers.ejs", { title: "Add Officer | Equinox CAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID })
+                                res.render("officers-pages/add-officers.ejs", { title: "Add Officer | SnailyCAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403);
                             };
@@ -177,7 +177,7 @@ module.exports = {
                                 fetch(url)
                                     .then(res => res.json())
                                     .then(json => res.render("officers-pages/penal-codes.ejs", {
-                                        title: "Penal Codes | Equinox CAD",
+                                        title: "Penal Codes | SnailyCAD",
                                         penals: json,
                                         isAdmin: result[0].admin
                                         , cadId: result2[0].cadID
@@ -539,7 +539,7 @@ module.exports = {
                                 fetch(url)
                                     .then(res => res.json())
                                     .then(json => res.render("officers-pages/add-offence.ejs", {
-                                        title: "Add Offence | Equinox CAD",
+                                        title: "Add Offence | SnailyCAD",
                                         penals: json,
                                         isAdmin: result[0].admin,
                                         req: req
@@ -831,7 +831,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].leo == 'yes') {
-                                res.render("officers-pages/codes.ejs", { title: "10 Codes | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                res.render("officers-pages/codes.ejs", { title: "10 Codes | SnailyCAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403);
                             };
