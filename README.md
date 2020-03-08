@@ -25,11 +25,11 @@ ToDO
 - [x] fix add offence page cancel
 - [x] show only full name instead of 'unknow'
 - [x] register vehicle redirect fix
+- [x] edit citizen CADID
+- [x] edit citizen CADID!
 - [ ] add change password page
 - [ ] cancel subs
 - [ ] show if no subs => no subs
-- [ ] after register page, redirect to order page, show detailed instructions how to buy.
-- [ ] edit citizen CADID!
 - [ ] change to different cad link => relogin otherwise it's broken af
 - [ ] max limit on forms
 - [ ] login in on main page, logged in on CAD <= only if bought something

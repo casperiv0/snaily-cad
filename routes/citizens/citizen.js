@@ -134,7 +134,7 @@ module.exports = {
                                 if (err) {
                                     return res.status(500).send(err);
                                 }
-                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
 
                             });
                         });
@@ -199,30 +199,61 @@ module.exports = {
                 }
                 query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', 'none', 'none', 'Currently is not working', '" + cadID + "')";
 
+                let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
 
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                connection1.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500)
-                    } else {
-                        if (result2[0]) {
-                            connection.query(query, (err, result) => {
-                                if (err) {
-                                    return res.status(500).send(err);
+                connection.query(query222, (err, result3) => {
+                    // if (result3[])
+                    if (result3.length > 0) {
+
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result2[0]) {
+                                    connection1.query(query, (err, result1) => {
+                                        let genderQ = "SELECT * FROM `genders`"
+                                        let ethnicityQ = "SELECT * FROM `ethnicities`"
+                                        let dmvQ = "SELECT * FROM `in_statuses`"
+                                        connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
+                                            if (err) {
+                                                return res.status(500).send(err);
+                                            }
+                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | Equinox CAD", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                        });
+                                    });
+                                } else {
+                                    res.sendStatus(404)
                                 }
-                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
 
-                            });
-                        } else {
-                            res.sendStatus(404)
-                        }
-                    }
-                })
+                            }
+                        })
+                    } else {
 
+                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                if (result2[0]) {
+                                    connection.query(query, (err, result) => {
+                                        if (err) {
+                                            return res.status(500).send(err);
+                                        };
+                                        res.redirect(`/cad/${result2[0].cadID}/citizen`);
+                                    });
+                                } else {
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
+                    };
+                });
             });
-
-        }
+        };
     },
     editCitizenPage: (req, res) => {
         if (!req.session.loggedin) {
@@ -249,8 +280,21 @@ module.exports = {
                 let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
 
                 connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
+
                     if (result[3][0].linked_to == req.session.username2) {
-                        res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3] })
+                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result2[0]) {
+                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3], cadId: result2[0].cadID })
+                                } else {
+                                    res.sendStatus(404)
+                                }
+                            }
+                        })
                     } else {
                         res.sendStatus(401)
                     }
@@ -285,7 +329,6 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
 
-
                     let first_name = req.body.full_name;
                     // let last_name = req.body.last_name;
                     let last_name = "Unknown";
@@ -308,19 +351,76 @@ module.exports = {
                     let dmv = req.body.dmv;
                     let fireArms = req.body.fire;
                     let pilot = req.body.pilot
-                    let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
-                    let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
-                    let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
-                    connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
-                        if (err) {
-                            console.log(err)
-                        }
-                        res.redirect(`/citizens/${id}-${first_name}-${last_name}`)
-                    })
-                }
-            })
+                    let cadID = req.params.cadID
 
-        }
+                    let inUse = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
+
+                    connection.query(inUse, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            if (result2.length > 0) {
+                                let genderQ = "SELECT * FROM `genders`"
+                                let ethnicityQ = "SELECT * FROM `ethnicities`"
+                                let dmvQ = "SELECT * FROM `in_statuses`"
+                                let id = req.params.id;
+                                let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
+
+                                connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
+
+                                    if (result[3][0].linked_to == req.session.username2) {
+                                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                                        connection1.query(query2, (err, result2) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                if (result2[0]) {
+                                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | Equinox CAD", message: 'Citizen Name is already in use, please change to anothor one!', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: '', username: result[3], cadId: result2[0].cadID })
+                                                } else {
+                                                    res.sendStatus(404)
+                                                }
+                                            }
+                                        })
+                                    } else {
+                                        res.sendStatus(401)
+                                    }
+                                    if (err) {
+                                        console.log(err)
+                                    }
+                                });
+                            } else {
+                                let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
+                                let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
+                                let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
+
+                                connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                    };
+                                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                    connection1.query(query2, (err, result2) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500);
+                                        } else {
+                                            if (result2[0]) {
+                                                res.redirect(`/cad/${result2[0].cadID}/citizens/${id}-${first_name}-${last_name}`);
+                                            } else {
+                                                res.sendStatus(404);
+                                            };
+                                        };
+                                    });
+                                });
+                            }
+                        };
+                    });
+
+
+                };
+            });
+        };
     },
     deleteCitizens: (req, res) => {
         if (!req.session.loggedin) {
