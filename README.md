@@ -28,6 +28,7 @@ ToDO
 - [x] edit citizen CADID
 - [x] edit citizen CADID!
 - [x] register vehicle default value
+- [ ] License typo 'licence' => License
 - [ ] details citizen clean up
 - [ ] add change password page
 - [ ] cancel subs
