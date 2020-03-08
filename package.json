@@ -12,6 +12,7 @@
   "author": "CasperTheGhost",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "braintree": "^2.22.0",
     "chart.js": "^2.9.3",

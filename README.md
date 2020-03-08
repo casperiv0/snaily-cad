@@ -32,6 +32,9 @@ ToDO
 - [x] details citizen clean up
 - [x] show if no subs => no subs
 - [x] add officer default value fix
+- [x] HASHED PASSWORDS WHOOO
+- [x] show password button
+- [ ] show password for CAD pages
 - [ ] Dispatch Page
 - [ ] add change password page
 - [ ] change to different cad link => relogin otherwise it's broken af

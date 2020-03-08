@@ -26,14 +26,39 @@
   </div>
   <div class="form-group">
     <label for="exampleInputEmail1">Enter Password</label>
-    <input
-      name="password"
-      type="password"
-      class="form-control"
-      placeholder="Password"
-    />
+
+    <div class="input-group mb-2">
+      <input
+        name="password"
+        type="password"
+        class="form-control"
+        placeholder="Password"
+        id="password"
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
   </div>
+
   <button type="submit" class="btn btn-primary float-right">Login</button>
   <a href="/" class="btn btn-danger cancel-btn float-right">Cancel</a>
   <p>Don't have an account? <a href="/register">Register here.</a></p>
 </form>
+
+<script>
+  function showPassword() {
+    let passwordInput = document.getElementById('password');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  }
+</script>
