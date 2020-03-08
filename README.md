@@ -27,6 +27,7 @@ ToDO
 - [x] register vehicle redirect fix
 - [x] edit citizen CADID
 - [x] edit citizen CADID!
+- [x] register vehicle default value
 - [ ] add change password page
 - [ ] cancel subs
 - [ ] show if no subs => no subs

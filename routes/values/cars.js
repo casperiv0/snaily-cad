@@ -358,7 +358,7 @@ module.exports = {
             if (result.length > 0) {
                 res.send("Plate Already Exists Please go back and change the plate.")
             } else {
-                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "')";
+                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`, `cadID`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "')";
 
 
                 connection.query(query, (err, result) => {
