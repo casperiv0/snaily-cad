@@ -120,7 +120,7 @@ module.exports = {
                                 let officer_name = req.body.officer_name;
                                 let dept = req.body.dept;
                                 let cadID = req.params.cadID
-                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`,`cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "', '" + cadID + "')";
+                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`,`status`,`status2`,`cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "','10-42 | 10-7','----------', '" + cadID + "')";
 
                                 connection.query(query, (err, result) => {
                                     if (err) {
