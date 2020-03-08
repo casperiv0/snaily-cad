@@ -30,29 +30,65 @@
       required
     />
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="exampleInputPassword1">Password</label>
-    <input
-      type="password"
-      name="password"
-      class="form-control text-light border-dark bg-dark"
-      id="exampleInputPassword1"
-      minlength="6"
-      min="6"
-      maxlength="255"
-      max="255"
-      required
-    />
+    <input />
+  </div> -->
+  <div class="form-group">
+    <label for="exampleInputEmail1">Enter Password</label>
+
+    <div class="input-group mb-2">
+      <input
+        type="password"
+        name="password"
+        id="password"
+        class="form-control text-light border-dark bg-dark"
+        id="exampleInputPassword1"
+        minlength="6"
+        min="6"
+        maxlength="255"
+        max="255"
+        required
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Confirm Password</label>
-    <input
-      type="password"
-      name="password2"
-      class="form-control text-light border-dark bg-dark"
-      id="exampleInputPassword2"
-      required
-    />
+    <label for="exampleInputEmail1">Confirm Password</label>
+
+    <div class="input-group mb-2">
+      <input
+        type="password"
+        name="password2"
+        id="password2"
+        class="form-control text-light border-dark bg-dark"
+        id="exampleInputPassword1"
+        minlength="6"
+        min="6"
+        maxlength="255"
+        max="255"
+        required
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword2()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
+  </div>
+
     <small id="emailHelp" class="form-text text-muted"
       >Never share your password with anyone.</small
     >
@@ -62,3 +98,22 @@
   </p>
   <button type="submit" class="btn btn-primary">Register</button>
 </form>
+
+<script>
+  function showPassword() {
+    let passwordInput = document.getElementById('password');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  }
+  function showPassword2() {
+    let passwordInput = document.getElementById('password2');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
+    }
+  }
+</script>

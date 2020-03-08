@@ -337,7 +337,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
 
-                    let first_name = req.body.full_name;
+                    let first_name = req.params.first_name;
                     // let last_name = req.body.last_name;
                     let last_name = "Unknown";
                     // let full_name = first_name + " " + last_name;
