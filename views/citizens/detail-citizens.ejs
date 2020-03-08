@@ -81,19 +81,29 @@
                 <div id="dots"></div>
                 <div id="more">
 
+                    <% if (vehicles[0]) { %>
+                        <p class="mb-1">
+                            <% vehicles.forEach(vehicle => { %>
+                            <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
+                                <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
+                                <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
+                                <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
+                                    <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success">Edit Vehicle</a>
+                                
+                            </li>
+    
+                            <%  }) %>
+                        </p>
+                    <% } else {%>
+                        <p class="mb-1">
+                            <li class="list-group-item text-dark">
+                                You don't have any cars registered
+                            </li>
+                        </p>
+                        <%} %>
 
-                    <p class="mb-1">
-                        <% vehicles.forEach(vehicle => { %>
-                        <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
-                            <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
-                            <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
-                            <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
-                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success">Edit Vehicle</a>
-                            
-                        </li>
 
-                        <%  }) %>
-                    </p>
+                   
                 </div>
                 <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
 
@@ -106,14 +116,25 @@
                 </div>
                 <div id="dots2"></div>
                 <div id="more2">
-                    <p class="mb-1">
-                        <% weapons.forEach(weapon => { %>
-                        <li class="list-group-item color-black"> <%= weapon.weapon %>
-                            <p> weapon Status: <%= weapon.status %> </p>
-                        </li>
 
-                        <%  }) %>
-                    </p>
+                    <% if (weapons[0]) {%>
+                        <p class="mb-1">
+                            <% weapons.forEach(weapon => { %>
+                            <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
+                                <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> </>
+                            </li>
+    
+                            <%  }) %>
+                        </p>
+                        <% } else {%>
+                        <p class="mb-1">
+                            <li class="list-group-item text-dark">
+                                You don't have any weapons registered
+                            </li>
+                        </p> 
+                        <%   }%>
+
+                    
                 </div>
                 <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
 
