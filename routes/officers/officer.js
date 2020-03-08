@@ -19,7 +19,7 @@ module.exports = {
                                         console.log("Error" + err)
                                     }
                                     res.render("officers-pages/officers.ejs", {
-                                        title: "Equinox Officers",
+                                        title: "Police Department | SnailyCAD",
                                         users: "qsd",
                                         isAdmin: result1[0].admin,
                                         officers: result
@@ -120,10 +120,11 @@ module.exports = {
                                 let officer_name = req.body.officer_name;
                                 let dept = req.body.dept;
                                 let cadID = req.params.cadID
-                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`, `cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "', '" + cadID + "')";
+                                let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`,`cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "', '" + cadID + "')";
 
                                 connection.query(query, (err, result) => {
                                     if (err) {
+                                        console.log(err);
                                         return res.sendStatus(500)
                                     } else {
                                         res.redirect(`/cad/${result2[0].cadID}/myofficers`)
