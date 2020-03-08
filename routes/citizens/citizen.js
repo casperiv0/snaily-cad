@@ -2,38 +2,46 @@ module.exports = {
     citizenPage: (req, res, next) => {
 
         if (!req.session.loggedin) {
-            res.redirect("login")
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500)
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
+                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
                             connection1.query("SELECT * FROM `users`", (err, result1) => {
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        console.log(err)
-                                    }
-                                    res.render("citizens/citizen.ejs", { title: "Citizens", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID })
-                                })
-                            })
+                                        console.log(err);
+                                    };
+                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID });
+                                });
+                            });
                         });
                     } else {
-                        res.send("CAD not found")
-                    }
-
-                }
-            })
-
-
-        }
-
-
+                        res.send("CAD not found");
+                    };
+                };
+            });
+        };
     },
     citizenDetailPage: (req, res) => {
         if (!req.session.loggedin) {

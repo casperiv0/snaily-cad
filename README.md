@@ -34,6 +34,7 @@ ToDO
 - [x] add officer default value fix
 - [x] HASHED PASSWORDS WHOOO
 - [x] show password button
+- [ ] hashed passwords for CAD pages
 - [ ] show password for CAD pages
 - [ ] Dispatch Page
 - [ ] add change password page
