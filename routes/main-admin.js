@@ -66,14 +66,41 @@ module.exports = {
     usernameAdmin: (req, res) => {
         let CADID = req.body.cadID;
         let username = req.params.username
-        let query = "UPDATE `users` SET `cadID` = '" + CADID + "' WHERE `users`.`username`= '" + username + "'";
+        let orderID = req.body.orderID;
+        let query = "UPDATE `users` SET `admin` = 'admin', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "', `orderID` = '" + orderID + "' WHERE `users`.`username`= '" + username + "'";
 
         connection1.query(query, (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                console.log(result);
+                res.redirect("/admin/dashboard")
+            }
+        })
+    },
+    expireCAD: (req, res) => {
+        let CADID = req.body.cadID;
+        let query = "UPDATE `users` SET `admin` = 'none', `leo` = 'no', `ems_fd` = 'no', `dispatch` = 'no', `cadID` = '" + CADID + "', `expired` = 'yes' WHERE `users`.`cadID`= '" + CADID + "'";
+
+        connection1.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("/admin/dashboard")
+            }
+        })
+    },
+    reactivateCAD: (req, res) => {
+        let CADID = req.body.cadID;
+        let username = req.body.username
+        let query = "UPDATE `users` SET `admin` = 'admin', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "', `expired` = 'no' WHERE `users`.`username`= '" + username + "'";
+
+        connection1.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
                 res.redirect("/admin/dashboard")
             }
         })

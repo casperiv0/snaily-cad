@@ -20,7 +20,7 @@ module.exports = {
                                         console.log("Error" + err)
                                     }
                                     res.render("ems-fd/ems-fd.ejs", {
-                                        title: "EMS/FD | Equinox CAD",
+                                        title: "EMS/FD | SnailyCAD",
                                         users: "qsd",
                                         isAdmin: result1[0].admin,
                                         ems: result,

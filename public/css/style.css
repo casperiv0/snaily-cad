@@ -120,7 +120,12 @@ body::-webkit-scrollbar-thumb {
 #hiddenMore {
   display: none;
 }
-
+.npe {
+  pointer-events: none;
+}
+.fs-20 {
+  font-size: 20px;
+}
 .top-1 {
   margin-top: 2px;
 }

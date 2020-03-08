@@ -4,7 +4,17 @@
   <form action="/admin/dashboard/<%= users.username %>" method="post">
     <h1 class="card-title">Add CAD to user</h1>
     <div class="form-group">
-      <label for="exampleInputEmail1">CAD ID</label>
+      <label for="exampleInputEmail1">OrderID</label>
+      <input
+        type="text"
+        name="orderID"
+        class="form-control"
+        aria-describedby="emailHelp"
+        value="<%= users.orderID %>"
+      />
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Cad ID</label>
       <input
         type="text"
         name="cadID"
@@ -19,6 +29,41 @@
     <a href="/admin/dashboard" class="btn btn-danger cancel-btn">Cancel</a>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
+  <% if (users.expired === 'yes') {%>
+  <form action="/admin/reactivate" class="mt-2 form-inline" method="POST">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <input
+          type="text"
+          class="form-control npe"
+          name="username"
+          value="<%= users.username %>"
+        />
+        <input
+          type="text"
+          class="form-control npe"
+          name="cadID"
+          value="<%= users.cadID %>"
+        />
+        <button type="submit" class="btn btn-success">Reactivate CAD</button>
+      </li>
+    </ul>
+  </form>
+  <%} else {%>
+  <form action="/admin/expired" class="mt-2 form-inline" method="POST">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <input
+          type="text"
+          class="form-control npe"
+          name="cadID"
+          value="<%= users.cadID %>"
+        />
+        <button type="submit" class="btn btn-danger">Expire CAD</button>
+      </li>
+    </ul>
+  </form>
+  <% } %>
 </div>
 
 <script>

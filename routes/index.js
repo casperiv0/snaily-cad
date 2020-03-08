@@ -1,7 +1,6 @@
 module.exports = {
     homePage: (req, res) => {
         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
         connection1.query(query2, (err, result2) => {
             if (err) {
                 console.log(err);
@@ -10,7 +9,19 @@ module.exports = {
                 if (!result2[0]) {
                     res.sendStatus(404)
                 } else {
-                    res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                    let query = "SELECT * FROM `users` WHERE `cadID` = '" + result2[0].cadID + "'"
+                    connection1.query(query, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            if (result[0].expired === 'yes') {
+                                res.render("expired.ejs", { title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
+                            } else {
+                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                            }
+                        }
+                    })
                 }
             }
         })
