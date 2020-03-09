@@ -487,7 +487,7 @@ async function main() {
             if (err) {
                 console.log(err);
             }
-        })
+        }, 10000)
     });
 }
 
