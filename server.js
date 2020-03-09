@@ -1,11 +1,10 @@
-const express = require("express")
-const app = express()
-
+const express = require("express");
+const app = express();
 let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
-const Discord = require("discord.js")
-const bot = new Discord.Client()
-let creds = require("./creds.json")
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+let creds = require("./creds.json");
 const favicon = require('express-favicon');
 const fetch = require("node-fetch")
 const session = require("express-session");
@@ -34,7 +33,7 @@ let db2 = {
     database: creds.DB2,
     multipleStatements: true,
     timeout: 0
-}
+};
 
 let db3 = {
     host: "localhost",
@@ -43,7 +42,7 @@ let db3 = {
     database: creds.DB3,
     multipleStatements: true,
     timeout: 0
-}
+};
 
 
 // Admin
@@ -52,7 +51,7 @@ const {
     usersPage,
     adminEditCitizen,
     adminEditCitizenPage
-} = require("./routes/admin")
+} = require("./routes/admin");
 
 // Vehicles
 const {
@@ -66,7 +65,7 @@ const {
     regVehiclePage,
     editVehiclePageCitizen,
     editVehicleCitizen
-} = require("./routes/values/cars")
+} = require("./routes/values/cars");
 
 // Genders
 const {
@@ -76,8 +75,7 @@ const {
     addGender,
     editGender,
     editGenderPage
-} = require("./routes/values/genders")
-
+} = require("./routes/values/genders");
 // Weapons
 const {
     weaponsPage,
@@ -88,7 +86,7 @@ const {
     editWeaponPage,
     regWeapon,
     regWeaponPage
-} = require("./routes/values/weapons")
+} = require("./routes/values/weapons");
 
 // Ethnicities
 const {
@@ -98,7 +96,7 @@ const {
     editEthnicityPage,
     editethnicity,
     deleteEthnicity
-} = require("./routes/values/ethnicities")
+} = require("./routes/values/ethnicities");
 
 // Officers
 const {
@@ -465,7 +463,6 @@ async function main() {
     };
     handleDisconnect();
     app.listen(port, () => {
-
         console.log(`Running on ${port}`)
     });
     bot.commands = new Discord.Collection();
