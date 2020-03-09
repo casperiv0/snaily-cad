@@ -195,15 +195,6 @@ module.exports = {
 
         };
     },
-    accountMainPage: (req, res) => {
-        if (req.session.mainLoggedin) {
-            connection1.query("SELECT * FROM `users` ")
-            res.render("main/settings/account.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
-        } else {
-            res.redirect("/login")
-
-        }
-    },
     changeUsernameMain: (req, res) => {
         if (req.session.mainLoggedin) {
             let old_username = req.session.user;
@@ -224,17 +215,67 @@ module.exports = {
                             res.redirect("/account");
                             console.log(result1);
 
-                        }
-                    })
-                }
-            })
+                        };
+                    });
+                };
+            });
         } else {
-            res.redirect("/login")
-
-        }
+            res.redirect("/login");
+        };
     },
     orderPage: (req, res) => {
 
-    }
+    },
+    editPasswordPage: (req, res) => {
+        if (req.session.mainLoggedin) {
+            res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: '', isAdmin: '', req: req })
+        }
+    },
+    editPassword: (req, res) => {
+        if (req.session.mainLoggedin) {
+            let username = req.params.username
+            let oldPassword = req.body.oldP;
+            let newPassword = req.body.newP;
+            let newPassword2 = req.body.newP2;
 
-}
+            if (newPassword !== newPassword2) {
+                res.render("main/settings/password.ejs", { title: "Home | SnailyCAD", message: "Passwords Are not the same!", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+            } else {
+                if (oldPassword && newPassword) {
+                    connection1.query('SELECT * FROM `users` WHERE username = "' + username + '"', (error, results, fields) => {
+                        if (error) {
+                            return console.log(error);
+                        } else if (results.length > 0) {
+                            bcrypt.compare(oldPassword, results[0].password, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
+                                } else {
+                                    if (result == true) {
+                                        bcrypt.hash(newPassword, saltRounds, function (err, hash) {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                let query = "UPDATE `users` SET `password`= '" + hash + "' WHERE username = '" + username + "'";
+                                            }
+                                        });
+                                    } else {
+                                        res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req });
+                                    };
+                                };
+                            });
+                        } else {
+                            res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req });
+                        };
+                    });
+                } else {
+                    res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
+                    res.end();
+                };
+            };
+        } else {
+            res.redirect("/login");
+        };
+    }
+};

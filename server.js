@@ -9,18 +9,42 @@ let creds = require("./creds.json")
 const favicon = require('express-favicon');
 const fetch = require("node-fetch")
 const session = require("express-session");
-const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const path = require('path');
-
 // Variables
+let port = creds.ENV === "dev" ? 3001 : 80;
+const mysql = require('mysql');
 let connection;
 let connection1;
 let connection2;
-let db;
-let db2;
-let db3;
-let port = creds.ENV === "dev" ? 3001 : 80;
+
+let db = {
+    host: "localhost",
+    user: "root",
+    password: creds.DBP,
+    database: creds.DB,
+    multipleStatements: true,
+    timeout: 0
+};
+
+let db2 = {
+    host: "localhost",
+    user: "root",
+    password: creds.DBP,
+    database: creds.DB2,
+    multipleStatements: true,
+    timeout: 0
+}
+
+let db3 = {
+    host: "localhost",
+    user: "root",
+    password: creds.DBP,
+    database: creds.DB3,
+    multipleStatements: true,
+    timeout: 0
+}
+
 
 // Admin
 const {
@@ -151,7 +175,9 @@ const {
     accountMainPage,
     changeUsernameMain,
     manageAccount,
-    orderPage
+    orderPage,
+    editPassword,
+    editPasswordPage
 } = require("./routes/index");
 
 const {
@@ -202,8 +228,9 @@ app.post("/admin/dashboard/:username", usernameAdmin)
 app.post("/admin/expired", expireCAD)
 app.post("/admin/reactivate", reactivateCAD)
 // Settings
-app.get("/account/settings/account", accountMainPage);
 app.post("/account/change-username", changeUsernameMain);
+app.get("/account/edit-password-:username", editPasswordPage)
+app.post("/account/edit-password-:username", editPassword)
 // Home/defualt pages
 app.get(`/cad/:cadID/`, homePage);
 app.get("/cad/:cadID/account/edit", editAccountPage);
@@ -354,34 +381,6 @@ app.get('*', (req, res) => {
 
 
 async function main() {
-    db = {
-        host: "localhost",
-        user: "root",
-        password: creds.DBP,
-        database: creds.DB,
-        multipleStatements: true,
-        timeout: 0
-    };
-
-    db2 = {
-        host: "localhost",
-        user: "root",
-        password: creds.DBP,
-        database: creds.DB2,
-        multipleStatements: true,
-        timeout: 0
-    }
-
-    db3 = {
-        host: "localhost",
-        user: "root",
-        password: creds.DBP,
-        database: creds.DB3,
-        multipleStatements: true,
-        timeout: 0
-    }
-
-
     function handleDisconnect() {
         connection = mysql.createConnection(db); // Recreate the connection, since
         connection1 = mysql.createConnection(db2); // Recreate the connection, since
@@ -392,6 +391,7 @@ async function main() {
         global.connection2 = connection2
 
         connection.connect(function (err) { // The server is either down
+            connection.timeout = 0;
             if (err) { // or restarting (takes a while sometimes).
                 console.log('error when connecting to db1:', err);
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
@@ -407,7 +407,17 @@ async function main() {
             }
         });
 
+        connection.on('error', function (err) {
+            console.log('db error - 1', err);
+            if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
+
         connection1.connect(function (err) { // The server is either down
+            connection1.timeout = 0;
             if (err) { // or restarting (takes a while sometimes).
                 console.log('error when connecting to db2:', err);
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
@@ -421,7 +431,16 @@ async function main() {
                 throw err; // server variable configures this)
             }
         });
+        connection1.on('error', function (err) {
+            console.log('db error - 2', err);
+            if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
         connection2.connect(function (err) { // The server is either down
+            connection2.timeout = 0;
             if (err) { // or restarting (takes a while sometimes).
                 console.log('error when connecting to db2:', err);
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
@@ -435,8 +454,15 @@ async function main() {
                 throw err; // server variable configures this)
             }
         });
-    }
-
+        connection2.on('error', function (err) {
+            console.log('db error - 3', err);
+            if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
+                handleDisconnect(); // lost due to either server restart, or a
+            } else { // connnection idle timeout (the wait_timeout
+                throw err; // server variable configures this)
+            }
+        });
+    };
     handleDisconnect();
     app.listen(port, () => {
 
@@ -447,7 +473,25 @@ async function main() {
 
     bot.on("ready", () => {
         console.log(`bot up and running ${bot.user.username}`)
-    })
+    });
+
+    setInterval(function () {
+        connection.query("SELECT 1", (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+        connection1.query("SELECT 1", (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+        connection2.query("SELECT 1", (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+    });
 }
 
 main();
