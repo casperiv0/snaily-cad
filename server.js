@@ -2,8 +2,6 @@ const express = require("express");
 const app = express();
 let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
-const Discord = require("discord.js");
-const bot = new Discord.Client();
 let creds = require("./creds.json");
 const favicon = require('express-favicon');
 const fetch = require("node-fetch")
@@ -465,13 +463,6 @@ async function main() {
     app.listen(port, () => {
         console.log(`Running on ${port}`)
     });
-    bot.commands = new Discord.Collection();
-    bot.login(creds.BOT_TOKEN);
-
-    bot.on("ready", () => {
-        console.log(`bot up and running ${bot.user.username}`)
-    });
-
     setInterval(function () {
         connection.query("SELECT 1", (err, result) => {
             if (err) {

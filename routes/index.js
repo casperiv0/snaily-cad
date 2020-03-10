@@ -41,7 +41,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
 
-                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
                 }
             })
         } else {
@@ -234,18 +234,19 @@ module.exports = {
     editPassword: (req, res) => {
         if (req.session.mainLoggedin) {
             let username = req.params.username
-            let oldPassword = req.body.oldP;
-            let newPassword = req.body.newP;
-            let newPassword2 = req.body.newP2;
+            let oldPassword = req.body.old_password;
+            let newPassword = req.body.password;
+            let newPassword2 = req.body.password2;
 
             if (newPassword !== newPassword2) {
-                res.render("main/settings/password.ejs", { title: "Home | SnailyCAD", message: "Passwords Are not the same!", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+                res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: "Passwords Are not the same!", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
             } else {
                 if (oldPassword && newPassword) {
                     connection1.query('SELECT * FROM `users` WHERE username = "' + username + '"', (error, results, fields) => {
                         if (error) {
                             return console.log(error);
                         } else if (results.length > 0) {
+                            // console.log(results[0].password);
                             bcrypt.compare(oldPassword, results[0].password, function (err, result) {
                                 if (err) {
                                     console.log(err);
@@ -258,19 +259,37 @@ module.exports = {
                                                 return res.sendStatus(500)
                                             } else {
                                                 let query = "UPDATE `users` SET `password`= '" + hash + "' WHERE username = '" + username + "'";
+                                                connection1.query(query, async (err, result) => {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        return res.sendStatus(500)
+                                                    } else {
+                                                        connection1.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", async (err, result2) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                return res.sendStatus(500)
+                                                            } else {
+                                                                req.session.destroy()
+                                                                await res.render("main/manage-account.ejs", { title: 'Manage Account | SnailyCAD', isAdmin: "", message: '', messageG: "Password Updated Successfully", current: result2[0], subs: result2, req: req })
+                                                                // res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                                                            }
+                                                        })
+
+                                                    }
+                                                })
                                             }
                                         });
                                     } else {
-                                        res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req });
+                                        res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req });
                                     };
                                 };
                             });
                         } else {
-                            res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req });
+                            res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req });
                         };
                     });
                 } else {
-                    res.render("main/setting/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
+                    res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
                     res.end();
                 };
             };

@@ -18,6 +18,19 @@
         </button>
       </div>
       <% } %>
+    <% if(messageG != ''){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= messageG %>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
     <div class="form-group">
       <label for="exampleInputEmail1">Email address(Currently disabled)</label>
       <input type="email" name="email" autofocus="false" class="form-control" id="exampleInputEmail1" value="<%= current.email %>" aria-describedby="emailHelp" disabled>

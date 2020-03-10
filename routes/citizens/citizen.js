@@ -361,71 +361,28 @@ module.exports = {
                     let pilot = req.body.pilot
                     let cadID = req.params.cadID
 
-                    let inUse = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
+                    let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
+                    let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
+                    let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
 
-                    connection.query(inUse, (err, result2) => {
+                    connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
                         if (err) {
                             console.log(err);
-                            return res.sendStatus(500)
-                        } else {
-                            if (result2.length > 0) {
-                                let genderQ = "SELECT * FROM `genders`"
-                                let ethnicityQ = "SELECT * FROM `ethnicities`"
-                                let dmvQ = "SELECT * FROM `in_statuses`"
-                                let id = req.params.id;
-                                let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
-
-                                connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
-
-                                    if (result[3][0].linked_to == req.session.username2) {
-                                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                                        connection1.query(query2, (err, result2) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                if (result2[0]) {
-                                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", message: 'Citizen Name is already in use, please change to anothor one!', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: '', username: result[3], cadId: result2[0].cadID })
-                                                } else {
-                                                    res.sendStatus(404)
-                                                }
-                                            }
-                                        })
-                                    } else {
-                                        res.sendStatus(401)
-                                    }
-                                    if (err) {
-                                        console.log(err)
-                                    }
-                                });
-                            } else {
-                                let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '" WHERE `citizens`.`id` = "' + id + '"';
-                                let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
-                                let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
-
-                                connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                    };
-                                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                    connection1.query(query2, (err, result2) => {
-                                        if (err) {
-                                            console.log(err);
-                                            return res.sendStatus(500);
-                                        } else {
-                                            if (result2[0]) {
-                                                res.redirect(`/cad/${result2[0].cadID}/citizens/${id}-${first_name}-${last_name}`);
-                                            } else {
-                                                res.sendStatus(404);
-                                            };
-                                        };
-                                    });
-                                });
-                            }
                         };
+                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                if (result2[0]) {
+                                    res.redirect(`/cad/${result2[0].cadID}/citizens/${id}-${first_name}-${last_name}`);
+                                } else {
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
                     });
-
-
                 };
             });
         };

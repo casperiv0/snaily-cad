@@ -39,6 +39,6 @@ ToDO
 - [x] cannot edit own permissions
 - [x] logout fix
 - [x] Dispatch Page
-- [ ] add change password page
-- [ ] change to different cad link => relogin otherwise it's broken af
+- [x] change to different cad link => relogin otherwise it's broken af
+- [x] add change password page
 - [ ] max limit on forms
