@@ -44,6 +44,7 @@
       <div class="input-group-prepend">
         <button
           type="button"
+          id="passwordBtns"
           class="input-group-text btn btn-primary"
           onclick="showPassword()"
         >
@@ -62,10 +63,13 @@
 <script>
   function showPassword() {
     let passwordInput = document.getElementById('password');
+    let passwordbtn = document.getElementById('passwordBtns');
     if (passwordInput.type === 'password') {
       passwordInput.type = 'text';
+      passwordbtn.textContent = 'Hide Password';
     } else {
       passwordInput.type = 'password';
+      passwordbtn.textContent = 'Show Password';
     }
   }
 </script>
