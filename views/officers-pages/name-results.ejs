@@ -25,20 +25,20 @@
 
         <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 ">Licences:</h5>
+                <h5 class="mb-1 ">Licenses:</h5>
             </div>
             <div id="dots3"></div>
             <div id="more3">
                 <p class="mb-1">
-                    <li class="list-group-item color-black list-inline">Driver Licence: <%= result.dmv %> <form
+                    <li class="list-group-item color-black">Driver License: <%= result.dmv %> <form
                             action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend"
-                            class="list-inline-item float-right" method="post"><button type="submit"
-                                class="btn btn-danger">Suspend
+                            class="float-right" method="post"><button type="submit"
+                                class="btn btn-sm btn-danger">Suspend
                                 License</button>
                         </form>
                     </li>
-                    <li class="list-group-item color-black">Pilot Licence: <%= result.pilot_licence %> </li>
-                    <li class="list-group-item color-black">Firearms Licence: <%= result.fire_licence %> </li>
+                    <li class="list-group-item color-black">Pilot License: <%= result.pilot_licence %> </li>
+                    <li class="list-group-item color-black">Firearms License: <%= result.fire_licence %> </li>
                 </p>
 
             </div>
@@ -101,7 +101,7 @@
                      
             </p>
             </div>
-            <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
+            <div class="btn btn-primary pointer" onclick="wep()" id="weapenBtn">See all</button>
             </div>
 
 
@@ -117,12 +117,13 @@
             <div id="dots4"></div>
             <div id="more4">
                 <% if (!charges[0]) { %>
-                <li class="list-group-item color-black">
-                    <p>Clean record.</p>
-                </li>
-                <a class="btn btn-dark text-light"
-                    href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
-                    Offence</a>
+                        <li class="list-group-item color-black">
+                            <p>Clean record.</p>
+                        </li>
+                        <a class="btn btn-dark text-light mt-1"
+                            href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                            Offence</a>
+
                 <% } else  {%>
                 <p class="mb-1">
                     <% charges.forEach(charge => { %>
@@ -132,14 +133,14 @@
                     </li>
 
                     <%  }) %>
-                </p>
+                </p>                    </p>
 
                 <a class="btn btn-dark text-light"
                     href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
                     Offence</a>
                 <% } %>
             </div>
-            <div class="btn btn-primary" onclick="legal()" id="legalBtn">See all</button>
+            <div class="btn btn-primary mt-1 pointer" onclick="legal()" id="legalBtn">See all</button>
 
 
             </div>
@@ -170,7 +171,7 @@
                 class="btn btn-dark text-light">Add Warrant</a>
             <% } %>
         </div>
-        <div class="btn btn-primary" onclick="war()" id="warB">See all</button>
+        <div class="btn btn-primary pointer" onclick="war()" id="warB">See all</button>
 
         </div>
 

@@ -17,7 +17,10 @@ ToDO
 - [x] Add warants
 - [x] Dark mode
 - [x] able to edit registered vehicles and weapons
+- [x] success msg to add_offence
 - [ ] give demerit points
+- [ ] add success msg to add_warrant, add_citizen, add_officer, ..
+- [ ] change login page, if not logged in res.render() => res.redirect(`/cad/:cadID/req.path`) > something like that
 
 ## Public Branch
 
