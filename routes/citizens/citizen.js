@@ -9,7 +9,8 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
+
 
                     } else {
                         res.sendStatus(404);
@@ -249,9 +250,9 @@ module.exports = {
                                 if (result2[0]) {
                                     connection.query(query, (err, result) => {
                                         if (err) {
-                                            return res.status(500).send(err);
+                                            return res.sendStatus(500)
                                         };
-                                        res.redirect(`/cad/${result2[0].cadID}/citizen`);
+
                                     });
                                 } else {
                                     res.sendStatus(404);

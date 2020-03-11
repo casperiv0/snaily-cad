@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 let db = mysql.createConnection({
-    host: "localhost",
+    host: "95.179.141.103",
     user: "root",
-    password: process.env.DBP,
-    database: process.env.DB
+    password: '7{aH$mkLP@vfpW-!',
+    database: 'equinox_cad'
 });
 
 const cars = [
@@ -506,7 +506,7 @@ const cars = [
     "1984 Toyota Supra"
 ]
 cars.forEach(car => {
-    db.query("INSERT INTO `vehicles` (`cname`) VALUES ('" + car + "')", (err, result) => {
+    db.query("INSERT INTO `vehicles` (`cname`, `cadID`) VALUES ('" + car + "', 'zqvLuWgnf7')", (err, result) => {
         if (err) {
             return console.log(err)
         }

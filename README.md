@@ -20,7 +20,6 @@ ToDO
 - [x] success msg to add_offence
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
-- [ ] change login page, if not logged in res.render() => res.redirect(`/cad/:cadID/req.path`) > something like that
 
 ## Public Branch
 
@@ -45,3 +44,4 @@ ToDO
 - [x] change to different cad link => relogin otherwise it's broken af
 - [x] add change password page
 - [ ] max limit on forms
+- [ ] admin page => add support for adding serveral CAD

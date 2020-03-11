@@ -47,7 +47,8 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: "", message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
+                        // res.redirect(`/cad/${result2[0].cadID}/login`)
                     } else {
                         res.sendStatus(404)
                     }

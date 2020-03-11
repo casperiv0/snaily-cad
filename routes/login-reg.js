@@ -56,6 +56,8 @@ module.exports = {
                                     return res.sendStatus(500)
                                 } else {
                                     if (result == true) {
+                                        console.log(req.path);
+
                                         req.session.loggedin = true;
                                         req.session.username2 = username;
                                         connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
@@ -157,6 +159,7 @@ module.exports = {
                                             }
                                         })
                                     }
+
                                 });
                             } else {
                                 res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: "", message: "Something went wrong! Please try again", cadId: result2[0].cadID });
