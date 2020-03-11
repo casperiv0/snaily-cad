@@ -20,6 +20,7 @@ ToDO
 - [x] success msg to add_offence
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
+- [ ] add legal cancel btn
 
 ## Public Branch
 
