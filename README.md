@@ -18,9 +18,10 @@ ToDO
 - [x] Dark mode
 - [x] able to edit registered vehicles and weapons
 - [x] success msg to add_offence
+- [x] admin edit user
+- [x] add legal cancel btn
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
-- [ ] add legal cancel btn
 
 ## Public Branch
 

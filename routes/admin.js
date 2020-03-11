@@ -129,6 +129,9 @@ module.exports = {
         if (req.session.loggedin) {
             let id = req.params.id
             let admin = req.body.admin
+            if (admin == undefined) {
+                admin = "admin"
+            }
             let leo = req.body.leo
             let ems = req.body.ems
             let dispatch = req.body.dispatch
