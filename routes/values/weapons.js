@@ -323,7 +323,7 @@ module.exports = {
                     connection1.query(query, (err, result1) => {
                         let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
                         let citizens = "SELECT * FROM `citizens`"
-                        let wStatusess = "SELECT * FROM `weaponstatus` ORDER BY id ASC"
+                        let wStatusess = "SELECT * FROM `in_statuses` ORDER BY id ASC"
                         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
 
                         connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {

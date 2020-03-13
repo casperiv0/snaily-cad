@@ -21,6 +21,7 @@ ToDO
 - [x] admin edit user
 - [x] add legal cancel btn
 - [x] edit account fix
+- [x] register weapons fix
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 
