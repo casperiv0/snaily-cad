@@ -8,13 +8,17 @@ include("./partials/admin-header.ejs") %>
     <div class="col-sm">
       <h5 class="card-title">Member Count:</h5>
       <div class="col-sm">
-        <h1 class="card-title"><%= users.length %></h1>
+        <h1 class="card-title counter" data-target="<%= users %>">
+          <%= users.length %>
+        </h1>
       </div>
     </div>
     <div class="col-sm">
       <h5 class="card-title">Citizens Count:</h5>
       <div class="col-sm">
-        <h1 class="card-title"><%= citizens.length %></h1>
+        <h1 class="card-title counter" data-target="<%= citizens %>">
+          <%= citizens.length %>
+        </h1>
       </div>
     </div>
     <div class="col-sm">
@@ -22,4 +26,51 @@ include("./partials/admin-header.ejs") %>
       <h1 class="card-title"><%= cads[0].expire_date %></h1>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm">
+      <h5 class="card-title">Registered Weapon Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= weapons %>">
+          <%= weapons.length %>
+        </h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Registered Vehicle Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= vehicles %>">
+          <%= vehicles.length %>
+        </h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Charges Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= charges %>">
+          <%= charges.length %>
+        </h1>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  const counters = document.querySelectorAll('.counter');
+  const speed = 1000;
+
+  counters.forEach(counter => {
+    const updateCount = () => {
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText;
+      const inc = target / speed;
+
+      if (count < target) {
+        counter.innerText = Math.ceil(count + inc);
+        setTimeout(updateCount, 1);
+      } else {
+        count.innerText = target;
+      }
+    };
+    updateCount();
+  });
+</script>

@@ -13,10 +13,13 @@ module.exports = {
                         let query2 = "SELECT * FROM `users` WHERE cadID = '" + req.params.cadID + "'";
                         let citizenQ = "SELECT * FROM `citizens` WHERE cadID = '" + req.params.cadID + "'";
                         let cadQ = "SELECT * FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        let weaponQ = "SELECT * FROM `registered_weapons` WHERE cadID = '" + req.params.cadID + "'";
+                        let vehiclesQ = "SELECT * FROM `registered_cars` WHERE cadID = '" + req.params.cadID + "'";
+                        let chargesQ = "SELECT * FROM `posted_charges` WHERE cadID = '" + req.params.cadID + "'";
                         connection1.query(`${query}; ${query2}; ${cadQ}`, (err, result) => {
-                            connection.query(`${citizenQ};`, (err, result3) => {
+                            connection.query(`${citizenQ}; ${weaponQ}; ${vehiclesQ}; ${chargesQ}`, (err, result3) => {
                                 if (result[0][0].admin == 'moderator' || result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
-                                    res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0][0].admin, cadId: result2[0].cadID, users: result[1], cads: result[2], citizens: result3 });
+                                    res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0][0].admin, cadId: result2[0].cadID, users: result[1].length, cads: result[2], citizens: result3[0].length, weapons: result3[1].length, vehicles: result3[2].length, charges: result3[3].length });
                                 } else {
                                     res.sendStatus(403);
                                 };
