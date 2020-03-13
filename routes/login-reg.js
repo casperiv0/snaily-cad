@@ -228,56 +228,52 @@ module.exports = {
             })
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result2) => {
+            connection1.query(query2, (err, result3) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-
+                    if (result3[0]) {
                         let newUsername = req.body.username;
                         let password = req.body.password;
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
 
                         connection1.query(query, (err, result) => {
 
-                            if (password !== result[0].password) {
-                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                connection1.query(query, (err, result1) => {
-                                    res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result2[0].cadID })
-                                });
-                            } else {
-                                let old_name = req.session.username2;
-                                let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
-                                let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
-                                let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
+                            bcrypt.compare(password, result[0].password, function (err, result2) {
 
-                                connection.query(`${query3}; ${query4}`, async (err1, result) => {
-                                    connection1.query(`${query2};`, async (err, result1) => {
+                                if (result2 !== true) {
+                                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                    connection1.query(query, (err, result1) => {
+                                        res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result3[0].cadID })
+                                    });
+                                } else {
+                                    let old_name = req.session.username2;
+                                    let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
+                                    let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
+                                    let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
 
-                                        if (err) {
-                                            console.log(err);
-                                        } else if (err) {
-                                            console.log(err1);
-                                        } else {
-                                            req.session.destroy();
-                                            await res.redirect(`/cad/${result2[0].cadID}/`)
-                                        }
-                                    })
+                                    connection.query(`${query3}; ${query4}`, async (err1, result) => {
+                                        connection1.query(`${query2};`, async (err, result1) => {
 
-                                })
-                            }
-                        })
+                                            if (err) {
+                                                console.log(err);
+                                            } else if (err) {
+                                                console.log(err1);
+                                            } else {
+                                                req.session.destroy();
+                                                await res.redirect(`/cad/${result3[0].cadID}/`)
+                                            };
+                                        });
+                                    });
+                                };
+                            });
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-        }
-
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     }
-}
+};

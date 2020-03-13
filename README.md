@@ -20,6 +20,7 @@ ToDO
 - [x] success msg to add_offence
 - [x] admin edit user
 - [x] add legal cancel btn
+- [x] edit account fix
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 
@@ -47,4 +48,6 @@ ToDO
 - [x] add change password page
 - [x] cad table to see all CADs
 - [x] admin page => add support for adding serveral CAD
+- [x] added officers
 - [ ] max limit on forms
+- [ ] manage account fix

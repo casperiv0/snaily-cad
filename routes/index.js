@@ -68,7 +68,8 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    bcrypt.compare(password, result2[0].password, function (err, result) {
+                    let hash = result2[0].password
+                    bcrypt.compare(password, hash, function (err, result) {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
@@ -79,8 +80,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        req.session.destroy();
-                                        await res.redirect("/account")
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: '', messageG: 'Password Successfully changed.', isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
                                     }
                                 })
                             } else {
@@ -90,17 +90,12 @@ module.exports = {
                                         return res.sendStatus(500)
                                     } else {
 
-                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: 'Passwords is incorrect!', isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", messageG: "", message: 'Passwords is incorrect!', isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
                                     }
                                 })
                             };
                         };
                     });
-                    // if (result[0].password === password) {
-
-                    // } else {
-
-                    // }
                 }
             })
 

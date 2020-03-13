@@ -22,6 +22,7 @@
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <%= messageG %>
         <button
+      
           type="button"
           class="close"
           data-dismiss="alert"
@@ -40,7 +41,7 @@
       <input type="text" required name="manage_username" autofocus="false" spellcheck="false" value="<%= current.username %>" class="form-control" id="manage_username">
     </div>
     <div class="form-group">
-      <label for="manage_password">Confirm your password</label>
+      <label for="manage_password">Confirm it's you.</label>
       <div class="form-group">
     
         <div class="input-group mb-2">
@@ -350,12 +351,5 @@
       passwordInput.type = 'password';
       passwordbtn.textContent = 'Show Password';
     }
-  }
-
-  var elelist = document.getElementsByTagName("input");
-  for(var i = 0; i < elelist.length; i++){
-    elelist[i].addEventListener("focus", function(){
-      this.blur();
-    });
   }
 </script>
