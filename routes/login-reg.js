@@ -122,7 +122,8 @@ module.exports = {
                 return res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: "", message: "Passwords are not the same!", cadId: result2[0].cadID });
             } else {
                 bcrypt.hash(password, saltRounds, function (err, hash) {
-                    let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'"
+                    let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'";
+                    let cadID = req.params.cadID
 
                     connection1.query(q1, (err, result) => {
                         if (result.length > 0) {
@@ -138,26 +139,27 @@ module.exports = {
                             };
                         } else {
                             if (username && password) {
-                                connection1.query("INSERT INTO users (`username`, `password`, `cadID` ) VALUES ('" + username + "', '" + hash + "', '" + cadID + "')", function (error, results, fields) {
+                                connection1.query("INSERT INTO users (`username`, `email`, `password`, `cadID` ) VALUES ('" + username + "', '" + username + "@" + cadID + "', '" + hash + "', '" + cadID + "')", function (error, results, fields) {
                                     if (error) {
                                         console.log(error);
-                                    }
-                                    if (results.length > 0) {
-                                        res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
                                     } else {
-                                        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                        connection1.query(query, (err, result2) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500);
-                                            } else {
-                                                if (result2[0]) {
-                                                    res.redirect(`/cad/${result2[0].cadID}/login`);
+                                        if (results.length > 0) {
+                                            res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                        } else {
+                                            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                            connection1.query(query, (err, result2) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return res.sendStatus(500);
                                                 } else {
-                                                    res.sendStatus(404);
+                                                    if (result2[0]) {
+                                                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                                                    } else {
+                                                        res.sendStatus(404);
+                                                    }
                                                 }
-                                            }
-                                        })
+                                            })
+                                        }
                                     }
 
                                 });

@@ -45,5 +45,6 @@ ToDO
 - [x] Dispatch Page
 - [x] change to different cad link => relogin otherwise it's broken af
 - [x] add change password page
+- [x] cad table to see all CADs
+- [x] admin page => add support for adding serveral CAD
 - [ ] max limit on forms
-- [ ] admin page => add support for adding serveral CAD

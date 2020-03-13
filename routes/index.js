@@ -1,12 +1,18 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 15;
 module.exports = {
-    homePage: (req, res) => {
-        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+    homePage: (req, res, next) => {
+        let query2 = "SELECT `cadID` FROM `users` WHERE `cadID` = '" + req.params.cadID + "'"
         connection1.query(query2, (err, result2) => {
             if (err) {
-                console.log(err);
-                return res.sendStatus(500)
+                console.log(err.code);
+                connection1.query("INSERT INTO `errors` (`name`, `description`) VALUES ('" + err.name + "', '" + err.message + "')", (err2, resultError) => {
+                    if (err2) {
+                        console.log("error2" + err2);
+                        // return res.sendStatus(500);
+                    }
+                    return res.sendStatus(500);
+                });
             } else {
                 if (!result2[0]) {
                     res.sendStatus(404)

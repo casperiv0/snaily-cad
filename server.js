@@ -183,7 +183,8 @@ const { adminDashboard,
     usernameAdminPage,
     usernameAdmin,
     expireCAD,
-    reactivateCAD
+    reactivateCAD,
+    addCad
 } = require("./routes/main-admin")
 // Middleware
 app.use(express.static(__dirname + '/public'));
@@ -221,6 +222,7 @@ app.get("/order", orderPage)
 app.get("/admin/dashboard/", adminDashboard)
 app.get("/admin/dashboard/:username", usernameAdminPage)
 app.post("/admin/dashboard/:username", usernameAdmin)
+app.post("/admin/dashboard/:username/add-cad", addCad)
 app.post("/admin/expired", expireCAD)
 app.post("/admin/reactivate", reactivateCAD)
 // Settings

@@ -8,14 +8,14 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     let query2 = "SELECT * FROM `users` ORDER BY id ASC";
-                    let cads = "SELECT `cadID` FROM `users` ORDER BY id ASC";
+                    let cads = "SELECT * FROM `cads` ORDER BY id ASC";
                     connection1.query(`${query2}; ${cads}`, (err, result2) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
                             if (result[0].main_administrator_sM7a6mFOHI == '4d9OOeGOCV6eGOCV4d96') {
-                                res.render("main-admin/dashboard.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1].length });
+                                res.render("main-admin/dashboard.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1] });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -36,7 +36,9 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     let query2 = "SELECT * FROM `users` WHERE username = '" + req.params.username + "'";
-                    connection1.query(`${query2}`, (err, result2) => {
+                    let cads = "SELECT * FROM `cads` WHERE owner = '" + req.params.username + "'";
+                    let findCADID = "SELECT `cadID` FROM `cads` WHERE owner = '" + req.params.username + "'"
+                    connection1.query(`${query2}; ${cads}; ${findCADID};`, (err, result2) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
@@ -51,7 +53,7 @@ module.exports = {
                                     }
                                     return result;
                                 }
-                                res.render("main-admin/username.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], IDs: makeid(10) });
+                                res.render("main-admin/username.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0][0], cads: result2[1], cad2: result2[2][0], IDs: makeid(10) });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -67,9 +69,9 @@ module.exports = {
         let CADID = req.body.cadID;
         let username = req.params.username
         let orderID = req.body.orderID;
-        let query = "UPDATE `users` SET `admin` = 'owner', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "', `orderID` = '" + orderID + "' WHERE `users`.`username`= '" + username + "'";
+        let query = "UPDATE `users` SET `admin` = 'owner', `leo` = 'yes', `ems_fd` = 'yes', `dispatch` = 'yes', `cadID` = '" + CADID + "'  WHERE `users`.`username`= '" + username + "'";
 
-        connection1.query(query, (err, result) => {
+        connection1.query(`${query}; ${cadS}`, (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
@@ -104,5 +106,21 @@ module.exports = {
                 res.redirect("/admin/dashboard")
             }
         })
+    },
+    addCad: (req, res) => {
+        let CADID = req.body.cadID;
+        let username = req.params.username
+        let orderID = req.body.orderID;
+        let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "')";
+        connection1.query(cadS, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("/admin/dashboard")
+            }
+        })
     }
+
 }
+
