@@ -49,5 +49,6 @@ ToDO
 - [x] cad table to see all CADs
 - [x] admin page => add support for adding serveral CAD
 - [x] added officers
+- [x] better admin page
 - [ ] max limit on forms
 - [ ] manage account fix

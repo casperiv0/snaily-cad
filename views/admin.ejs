@@ -2,3 +2,24 @@
 include("./partials/admin-header.ejs") %>
 
 <h1 class="card-title text-center text-light">Admin</h1>
+
+<div class="container text-light mt-2">
+  <div class="row">
+    <div class="col-sm">
+      <h5 class="card-title">Member Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title"><%= users.length %></h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Citizens Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title"><%= citizens.length %></h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Expire Date</h5>
+      <h1 class="card-title"><%= cads[0].expire_date %></h1>
+    </div>
+  </div>
+</div>

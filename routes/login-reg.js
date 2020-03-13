@@ -56,8 +56,6 @@ module.exports = {
                                     return res.sendStatus(500)
                                 } else {
                                     if (result == true) {
-                                        console.log(req.path);
-
                                         req.session.loggedin = true;
                                         req.session.username2 = username;
                                         connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {

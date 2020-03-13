@@ -1,6 +1,5 @@
 module.exports = {
     citizenPage: (req, res, next) => {
-
         if (!req.session.loggedin) {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
@@ -9,7 +8,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
+                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: '', message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
 
 
                     } else {
@@ -205,8 +204,9 @@ module.exports = {
 
                 } else if (height.includes('"')) {
                     query = 'INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ("' + first_name + '","' + last_name + '","' + full_name + '","' + linked_to + '","' + birth + '","' + gender + '","' + ethnicity + '","' + hair_color + '","' + eyes_color + '","' + address + '","' + height + '","' + weight + '", "' + dmv + '", "' + fireArms + '" ,"' + pilot + '","none","none","Currently is not working", "' + cadID + '")';
-                }
-                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', 'none', 'none', 'Currently is not working', '" + cadID + "')";
+                } else {
+                    query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', 'none', 'none', 'Currently is not working', '" + cadID + "')";
+                };
 
                 let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
 
@@ -235,12 +235,10 @@ module.exports = {
                                     });
                                 } else {
                                     res.sendStatus(404)
-                                }
-
-                            }
-                        })
+                                };
+                            };
+                        });
                     } else {
-
                         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
                         connection1.query(query2, (err, result2) => {
                             if (err) {
@@ -250,9 +248,8 @@ module.exports = {
                                 if (result2[0]) {
                                     connection.query(query, (err, result) => {
                                         if (err) {
-                                            return res.sendStatus(500)
+                                            res.redirect(`/cad/${result[0].cadID}/citizen`)
                                         };
-
                                     });
                                 } else {
                                     res.sendStatus(404);

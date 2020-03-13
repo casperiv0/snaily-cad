@@ -10,12 +10,19 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0].admin, cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(403);
-                            };
+                        let query2 = "SELECT * FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                        let citizenQ = "SELECT * FROM `citizens` WHERE cadID = '" + req.params.cadID + "'";
+                        let cadQ = "SELECT * FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        connection1.query(`${query}; ${query2}; ${cadQ}`, (err, result) => {
+                            connection.query(`${citizenQ};`, (err, result3) => {
+                                if (result[0][0].admin == 'moderator' || result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
+                                    res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0][0].admin, cadId: result2[0].cadID, users: result[1], cads: result[2], citizens: result3 });
+                                } else {
+                                    res.sendStatus(403);
+                                };
+                            })
+
+
                         });
                     } else {
                         res.sendStatus(404);
