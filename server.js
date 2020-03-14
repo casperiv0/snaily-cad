@@ -203,7 +203,6 @@ app.use(session({
     secret: 'secret',
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 6000 }
 }));
 app.use(favicon(__dirname + '/public/icon2.png'));
 
