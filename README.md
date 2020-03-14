@@ -31,8 +31,8 @@ ToDO
 - [x] weapon serial number
 - [x] vin number
 - [x] nearest postal for tickets
+- [x] AOP editor
 - [ ] able to delete vehicels/weapons
-- [ ] AOP editor
 - [ ] bolos
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
@@ -69,7 +69,7 @@ ToDO
 - [x] staff able to unban a user
 - [x] default value for cad_name make cad
 - [x] default value for banned register
-- [ ] expire date, add cad
+- [x] expire date, add cad
+- [x] higher ups can't ban higher ups
 - [ ] max limit on forms
 - [ ] manage account fix
-- [ ] higher ups can't ban higher ups

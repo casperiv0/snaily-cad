@@ -76,29 +76,39 @@
   <div class="pb-2"></div>
 </form>
 
-<% if (user[0].banned === 'true') { %>
-<form action="/cad/<%= cadId %>/admin/unban-<%= user[0].id %>" method="post">
-  <div class="container mx-auto mt-2 card bg-secondary text-light">
-    <div class="card-title bolder fs-20 pt-2">Unban this user</div>
-    <div class="form-group"></div>
-    <button type="submit" class="btn btn-success mb-2">Revoke Ban</button>
-  </div>
-</form>
-<%} else { %>
-<form action="/cad/<%= cadId %>/admin/ban-<%= user[0].id %>" method="post">
-  <div class="container mx-auto mt-2 card bg-secondary text-light">
-    <div class="card-title bolder fs-20 pt-2">Use The Ban Hammer</div>
-    <div class="form-group">
-      <label for="reason" class="text-light">Enter Ban Reason</label>
-      <input
-        type="text"
-        name="reason"
-        placeholder="Reason"
-        class="form-control bg-dark border-dark text-light"
-      />
-    </div>
-    <button type="submit" class="btn btn-danger mb-2">ban user</button>
-  </div>
-</form>
+  <form action="/cad/<%= cadId %>/admin/ban-<%= user[0].id %>" method="post">
+    <div class="container mx-auto mt-2 card bg-secondary text-light">
+      <div class="card-title bolder fs-20 pt-2">Use The Ban Hammer</div>
+  <% if (req.session.username2 === user[0].username) {%>
+    <span class="text-light pb-3">You cannot ban yourself</span> 
+    <%} else if (user[0].admin == 'owner') { %>
+    <span class="text-light  pb-3">You cannot ban the head admin of this CAD</span>
+    <% } else { %>
+      <% if (user[0].banned === 'true') { %>
+        <form action="/cad/<%= cadId %>/admin/unban-<%= user[0].id %>" method="post">
+          <div class="container mx-auto mt-2 card bg-secondary text-light">
+            <div class="card-title bolder fs-20 pt-2">Unban this user</div>
+            <div class="form-group"></div>
+            <button type="submit" class="btn btn-success mb-2">Revoke Ban</button>
+          </div>
+        </form>
+        <%} else { %>
+  
+            
+            <div class="form-group">
+              <label for="reason" class="text-light">Enter Ban Reason</label>
+              <input
+                type="text"
+                name="reason"
+                placeholder="Reason"
+                class="form-control bg-dark border-dark text-light"
+              />
+            </div>
+            <button type="submit" class="btn btn-danger mb-2">ban user</button>
+          </div>
+        </form>
+        
+        <%} %>
+    <% } %>
 
-<%} %>
+
