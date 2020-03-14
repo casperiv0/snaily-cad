@@ -50,31 +50,35 @@ module.exports = {
                         if (error) {
                             return console.log(error);
                         } else if (results.length > 0) {
-                            bcrypt.compare(password, results[0].password, function (err, result) {
-                                if (err) {
-                                    console.log(err);
-                                    return res.sendStatus(500)
-                                } else {
-                                    if (result == true) {
-                                        req.session.loggedin = true;
-                                        req.session.username2 = username;
-                                        connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                                            if (err) {
-                                                res.sendStatus(500);
-                                                console.log(err);
-                                            }
-                                            if (!result[0]) {
-                                                res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
-                                            }
-                                            else {
-                                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                                            }
-                                        })
+                            if (results[0].banned === 'true') {
+                                res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: "You're banned for this server on this CAD.", cadId: result2[0].cadID })
+                            } else {
+                                bcrypt.compare(password, results[0].password, function (err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
                                     } else {
-                                        res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
+                                        if (result == true) {
+                                            req.session.loggedin = true;
+                                            req.session.username2 = username;
+                                            connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+                                                if (err) {
+                                                    res.sendStatus(500);
+                                                    console.log(err);
+                                                }
+                                                if (!result[0]) {
+                                                    res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
+                                                }
+                                                else {
+                                                    res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                                }
+                                            })
+                                        } else {
+                                            res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
+                                        };
                                     };
-                                };
-                            });
+                                });
+                            }
                         } else {
                             res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
                         }

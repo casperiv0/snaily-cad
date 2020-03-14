@@ -1,108 +1,104 @@
 <%- include("../partials/header.ejs") %>
+<h1 class="card-title cap text-center text-light mt-2">
+  Edit <%= user[0].username %>
+</h1>
 
-<form action="" class="container mx-auto mt-2" method="POST">
-  <h1 class="card-title cap text-center text-light">
-    Edit <%= user[0].username %>
-  </h1>
+<% if(messageG != ''){ %>
+<div
+  class="container alert alert-success alert-dismissible fade show"
+  role="alert"
+>
+  <%= messageG %>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+<form
+  action=""
+  class="container card bg-secondary text-light mx-auto mt-2"
+  method="POST"
+>
+  <div class="p-2"></div>
   <% if (req.session.username2 === user[0].username) {%>
   <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
   <br />
-  <!-- <input
-    disabled
-    type="text"
-    list="admin"
-    class="form-control"
-    value="/"
-    name="admin"
-    aria-describedby="emailHelp"
-  /> -->
   <span class="text-light">You cannot edit your CAD Permisions</span> <br />
   <%} else if (user[0].admin == 'owner') { %>
   <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
   <br />
-  <!-- <input
-    disabled
-    type="text"
-    list="admin"
-    class="form-control"
-    value="/"
-    name="admin"
-    aria-describedby="emailHelp"
-  /> -->
   <span class="text-light">You cannot edit the head admin of this CAD</span>
   <% } else { %>
   <div class="form-group">
     <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
-    <input
-      type="text"
-      list="admin"
-      class="form-control"
-      value="<%= user[0].admin %>"
-      name="admin"
-      aria-describedby="emailHelp"
-    />
-    <datalist id="admin">
-      <option value="moderator">Moderator</option>
-      <option value="admin">Admin</option>
-    </datalist>
+    <select name="admin" class="form-control bg-dark border-dark text-light">
+      <option value="<%= user[0].admin %>"><%= user[0].admin %></option>
+      <option disabled value="">--------</option>
+      <option value="yes">Yes</option>
+      <option value="yes">No</option>
+    </select>
   </div>
   <% } %>
 
   <div class="form-group">
     <label for="exampleInputEmail333" class="text-light">LEO Access</label>
-    <input
-      type="text"
-      list="leo"
-      value="<%= user[0].leo %>"
-      class="form-control"
-      name="leo"
-      aria-describedby="emailHelp"
-    />
-    <datalist id="leo">
+    <select name="leo" class="form-control bg-dark border-dark text-light">
+      <option value="<%= user[0].leo %>"><%= user[0].leo %></option>
+      <option disabled value="">--------</option>
       <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </datalist>
+      <option value="yes">No</option>
+    </select>
   </div>
 
   <div class="form-group">
     <label for="exampleInputEmail333" class="text-light">Dispatch Access</label>
-    <input
-      type="text"
-      list="dispatch"
-      value="<%= user[0].dispatch %>"
-      class="form-control"
-      name="dispatch"
-      aria-describedby="emailHelp"
-      min="1"
-      max="255"
-      minlength="1"
-      maxlength="255"
-    />
-    <datalist id="dispatch">
+    <select name="dispatch" class="form-control bg-dark border-dark text-light">
+      <option value="<%= user[0].dispatch %>"><%= user[0].dispatch %></option>
+      <option disabled value="">--------</option>
       <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </datalist>
+      <option value="yes">No</option>
+    </select>
   </div>
 
   <div class="form-group">
     <label for="exampleInputEmail333" class="text-light">EMS/FD Access</label>
-    <input
-      type="text"
-      list="ems"
-      value="<%= user[0].ems_fd %>"
-      class="form-control"
-      name="ems"
-      aria-describedby="emailHelp"
-    />
-    <datalist id="ems">
+    <select name="ems" class="form-control bg-dark border-dark text-light">
+      <option value="<%= user[0].ems_fd %>"><%= user[0].ems_fd %></option>
+      <option disabled value="">--------</option>
       <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </datalist>
+      <option value="yes">No</option>
+    </select>
   </div>
 
   <!-- <a href="/ems-fd/apply" class="btn btn-success">Apply for PD</a> -->
-  <a href="/cad/<%= cadId %>/admin/users" class="btn btn-danger cancel-btn"
-    >Cancel</a
-  >
-  <button type="submit" class="btn btn-primary">Update</button>
+  <a href="/cad/<%= cadId %>/admin/users" class="btn btn-danger ">Cancel</a>
+  <button type="submit" class="btn btn-success mt-2">Update</button>
+  <div class="pb-2"></div>
 </form>
+
+<% if (user[0].banned === 'true') { %>
+<form action="/cad/<%= cadId %>/admin/unban-<%= user[0].id %>" method="post">
+  <div class="container mx-auto mt-2 card bg-secondary text-light">
+    <div class="card-title bolder fs-20 pt-2">Unban this user</div>
+    <div class="form-group"></div>
+    <button type="submit" class="btn btn-success mb-2">Revoke Ban</button>
+  </div>
+</form>
+<%} else { %>
+<form action="/cad/<%= cadId %>/admin/ban-<%= user[0].id %>" method="post">
+  <div class="container mx-auto mt-2 card bg-secondary text-light">
+    <div class="card-title bolder fs-20 pt-2">Use The Ban Hammer</div>
+    <div class="form-group">
+      <label for="reason" class="text-light">Enter Ban Reason</label>
+      <input
+        type="text"
+        name="reason"
+        placeholder="Reason"
+        class="form-control bg-dark border-dark text-light"
+      />
+    </div>
+    <button type="submit" class="btn btn-danger mb-2">ban user</button>
+  </div>
+</form>
+
+<%} %>

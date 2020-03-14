@@ -26,8 +26,15 @@ ToDO
 - [x] better citizen details page
 - [x] 403 page for police
 - [x] change session time (idek if this works;)
+- [ ] company page
+- [ ] weapon serial number
+- [ ] AOP editor
+- [ ] bolos
+- [ ] vin number
+- [ ] nearest postal for tickets
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
+- [ ] current list in edit user
 
 ## Public Branch
 
@@ -55,5 +62,8 @@ ToDO
 - [x] admin page => add support for adding serveral CAD
 - [x] added officers
 - [x] better admin page
+- [x] add server name
+- [x] staff able to ban a user
+- [x] staff able to unban a user
 - [ ] max limit on forms
 - [ ] manage account fix

@@ -1,0 +1,52 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+<div class="container-fluid mt-2">
+  <% if(messageG != ''){ %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= messageG %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+  <h1 class="card-title text-light">CAD Settings</h1>
+
+  <form action="" method="post" class="card bg-secondary">
+    <h4 class="card-title text-light p-2">General Settings</h4>
+    <div class="ml-2 mr-2 form-group">
+      <label for="name" class="text-light">CAD Name</label>
+      <input
+        type="text"
+        id="name"
+        name="cad_name"
+        class="form-control bg-dark border-dark text-light"
+      />
+    </div>
+    <button type="submit" class=" btn btn-success ml-2 mb-2 mr-2">
+      Update
+    </button>
+  </form>
+
+  <form
+    action="/cad/<%= cadId %>/admin/delete-citizens"
+    method="post"
+    class="card bg-secondary mt-3"
+  >
+    <h4 class="card-title text-light p-2">Site Actions</h4>
+    <div
+      class="alert alert-danger mr-2 ml-2 alert-dismissible fade show"
+      role="alert"
+    >
+      <span class="bolder">Note:</span> Anything that gets deleted can NOT be
+      undone!
+
+      </button>
+    </div>
+    <div class="ml-2 form-group">
+      <button type="submit" class="btn btn-danger cancel-btn">
+        Delete All Citizens
+      </button>
+    </div>
+  </form>
+</div>

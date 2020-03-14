@@ -35,5 +35,11 @@
     href="/cad/<%= cadId %>/admin/users"
     >Member management</a
   >
+  <% } else {%> <%} %> <% if (isAdmin == 'owner') { %>
+  <a
+    class="navbar-brand text-light margin-left-10"
+    href="/cad/<%= cadId %>/admin/edit-cad"
+    >CAD settings</a
+  >
   <% } else {%> <%} %>
 </nav>
