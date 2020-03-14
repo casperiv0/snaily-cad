@@ -28,7 +28,7 @@ module.exports = {
 
                                 });
                             } else {
-                                res.sendStatus(403);
+                                res.render("officers-pages/403.ejs", { title: "unauthorized", isAdmin: "", cadId: result2[0].cadID })
                             };
                         });
                     } else {

@@ -202,9 +202,11 @@ app.set("view engine", "ejs")
 app.use(session({
     secret: 'secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge: 6000 }
 }));
 app.use(favicon(__dirname + '/public/icon2.png'));
+
 app.use(eSession.main(session));
 
 
@@ -368,23 +370,25 @@ app.post("/cad/:cadID/weapons/register", regWeapon)
 
 // 404 page 
 app.get('*', (req, res) => {
-
+    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
     if (req.path.includes("/cad/")) {
 
         res.status(404).render("errors/404.ejs", {
             title: "404 | Equinox CAD",
             isAdmin: req.session.admin,
-            cadId: ""
+            cadId: req.params.cadID
         })
     } else {
         res.status(404).render("errors/404-main.ejs", {
             title: "404 | Equinox CAD",
             isAdmin: req.session.admin,
-            cadId: ""
-        })
-    }
+            cadId: ''
+        });
+    };
+});
 
-})
+
+
 
 
 async function main() {

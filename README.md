@@ -24,9 +24,10 @@ ToDO
 - [x] register weapons fix
 - [x] delete account option
 - [x] better citizen details page
+- [x] 403 page for police
+- [x] change session time (idek if this works;)
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
-- [ ] 403 page
 
 ## Public Branch
 
