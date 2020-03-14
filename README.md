@@ -65,5 +65,8 @@ ToDO
 - [x] add server name
 - [x] staff able to ban a user
 - [x] staff able to unban a user
+- [x] default value for cad_name make cad
+- [x] default value for banned register
+- [ ] expire date, add cad
 - [ ] max limit on forms
 - [ ] manage account fix

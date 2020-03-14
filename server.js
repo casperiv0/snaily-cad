@@ -52,7 +52,8 @@ const {
     editCADPage,
     deleteAllCitizens,
     banUser,
-    unBanUser
+    unBanUser,
+    editCAD
 } = require("./routes/admin");
 
 // Vehicles
@@ -250,6 +251,7 @@ app.get("/cad/:cadID/admin/users", usersPage);
 app.get("/cad/:cadID/admin/users/edit/:id", adminEditCitizenPage);
 app.post("/cad/:cadID/admin/users/edit/:id", adminEditCitizen);
 app.get("/cad/:cadID/admin/edit-cad", editCADPage)
+app.post("/cad/:cadID/admin/edit-cad", editCAD)
 app.post("/cad/:cadID/admin/delete-citizens", deleteAllCitizens)
 app.post("/cad/:cadID/admin/ban-:id", banUser)
 app.post("/cad/:cadID/admin/unban-:id", unBanUser)

@@ -111,7 +111,7 @@ module.exports = {
         let CADID = req.body.cadID;
         let username = req.params.username
         let orderID = req.body.orderID;
-        let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "')";
+        let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `expire_date`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "', '', '')";
         connection1.query(cadS, (err, result) => {
             if (err) {
                 console.log(err);

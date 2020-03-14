@@ -2492,3 +2492,9 @@ p {
   overflow: visible;
   pointer-events: none;
 }
+
+.current-cad {
+  position: fixed;
+  left: 50%;
+  bottom: 0%;
+}

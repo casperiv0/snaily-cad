@@ -229,7 +229,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                res.render("admin-pages/cad-settings.ejs", { messageG: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                res.render("admin-pages/cad-settings.ejs", { messageG: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(404);
                             };
@@ -254,6 +254,39 @@ module.exports = {
                 }
             })
         }
+    },
+    editCAD: (req, res) => {
+        let cad_name = req.body.cad_name
+        let query4 = "UPDATE `cads` SET `cad_name` = '" + cad_name + "' WHERE `cadID` = '" + req.params.cadID + "'";
+
+        let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+        connection1.query(`${query}`, (err, result) => {
+
+            if (result[0].admin == 'owner') {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        if (result2[0]) {
+                            connection1.query(query4, (err, result5) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
+                                } else {
+                                    res.render("admin-pages/cad-settings.ejs", { messageG: 'Changes Successfully Saved', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                };
+                            });
+                        } else {
+                            res.sendStatus(404);
+                        };
+                    };
+                });
+            } else {
+                res.sendStatus(403)
+            };
+        });
     },
     deleteAllCitizens: (req, res) => {
         let cadID = req.params.cadID;
