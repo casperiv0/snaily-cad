@@ -352,13 +352,14 @@ module.exports = {
         let vehicle = req.body.vehicle;
         let in_status = req.body.in_status;
         let color = req.body.color;
+        let linked_to = req.session.username2
         let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '" + plate + "'"
 
         connection.query(q1, (err, result) => {
             if (result.length > 0) {
                 res.send("Plate Already Exists Please go back and change the plate.")
             } else {
-                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`, `cadID`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "')";
+                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "')";
 
 
                 connection.query(query, (err, result) => {

@@ -237,22 +237,17 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
 
                         connection1.query(query, (err, result) => {
-
                             bcrypt.compare(password, result[0].password, function (err, result2) {
-
-                                if (result2 !== true) {
-                                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                    connection1.query(query, (err, result1) => {
-                                        res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result3[0].cadID })
-                                    });
-                                } else {
+                                if (result2 === true) {
                                     let old_name = req.session.username2;
                                     let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
+                                    let query5 = 'UPDATE `cads` SET `owner` = "' + newUsername + '" WHERE `cads`.`owner` = "' + old_name + '"';
                                     let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
                                     let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
 
+
                                     connection.query(`${query3}; ${query4}`, async (err1, result) => {
-                                        connection1.query(`${query2};`, async (err, result1) => {
+                                        connection1.query(`${query2}; ${query5};`, async (err, result1) => {
 
                                             if (err) {
                                                 console.log(err);
@@ -264,6 +259,12 @@ module.exports = {
                                             };
                                         });
                                     });
+                                } else {
+                                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                    connection1.query(query, (err, result1) => {
+                                        res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", cadId: result3[0].cadID })
+                                    });
+
                                 };
                             });
                         });
@@ -273,5 +274,45 @@ module.exports = {
                 };
             });
         };
+    },
+    deleteAccount: (req, res) => {
+        let username = req.body.username;
+        let query = "DELETE FROM `users` WHERE username = '" + username + "'";
+        let query2 = "DELETE FROM `citizens` WHERE `linked_to` = '" + username + "'";
+        let query3 = "DELETE FROM `registered_weapons` WHERE `linked_to` = '" + username + "'";
+        let query4 = "DELETE FROM `registered_cars` WHERE `linked_to` = '" + username + "'";
+        let query5 = "DELETE FROM `officers` WHERE `linked_to` = '" + username + "'";
+        let query6 = "DELETE FROM `posted_charges` WHERE `name` = '" + username + "'";
+
+        connection.query(`${query2}; ${query3}; ${query4}; ${query5}; ${query6}`, (err, result1) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                connection1.query(query, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+                        connection1.query(query, async (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                if (result2[0]) {
+                                    await req.session.destroy()
+                                    await res.redirect(`/cad/${result2[0].cadID}/`)
+                                } else {
+                                    res.sendStatus(404)
+                                }
+                            }
+                        })
+
+                    }
+                })
+            }
+        })
     }
 };

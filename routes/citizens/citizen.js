@@ -78,9 +78,9 @@ module.exports = {
                             let owner = req.params.first_name;
                             let isCeo = false;
                             let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-                            let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "'";
-                            let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'";
-                            let ceo = "SELECT business_owner FROM `businesses` WHERE `business_owner` = '" + first_name + "'";
+                            let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "' AND `linked_to` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'";
+                            let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + first_name + "'  AND `linked_to` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'";
+                            let ceo = "SELECT business_owner FROM `businesses` WHERE `business_owner` = '" + first_name + "' AND `linked_to` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'";
                             connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${ceo}`, (err, result) => {
                                 if (err) {
                                     return res.status(500).send(err);
@@ -175,7 +175,7 @@ module.exports = {
         } else {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
-                let query;
+                let query
                 let cadID = req.params.cadID
                 // let first_name = req.body.first_name;
                 let first_name = req.body.full_name;
@@ -204,9 +204,9 @@ module.exports = {
 
                 } else if (height.includes('"')) {
                     query = 'INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ("' + first_name + '","' + last_name + '","' + full_name + '","' + linked_to + '","' + birth + '","' + gender + '","' + ethnicity + '","' + hair_color + '","' + eyes_color + '","' + address + '","' + height + '","' + weight + '", "' + dmv + '", "' + fireArms + '" ,"' + pilot + '","none","none","Currently is not working", "' + cadID + '")';
-                } else {
-                    query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', 'none', 'none', 'Currently is not working', '" + cadID + "')";
-                };
+                }
+                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', 'none', 'none', 'Currently is not working', '" + cadID + "')";
+
 
                 let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
 
@@ -248,8 +248,11 @@ module.exports = {
                                 if (result2[0]) {
                                     connection.query(query, (err, result) => {
                                         if (err) {
-                                            res.redirect(`/cad/${result[0].cadID}/citizen`)
-                                        };
+                                            console.log(err);
+                                            return res.status(500).send("Something went wrong")
+                                        } else {
+                                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                        }
                                     });
                                 } else {
                                     res.sendStatus(404);

@@ -362,7 +362,7 @@ module.exports = {
             let owner = req.body.owner;
             let weapon = req.body.weapon;
             let status = req.body.status;
-            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`, `cadID`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "', '" + req.params.cadID + "')";
+            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "', '" + req.params.cadID + "', '" + req.session.username2 + "')";
 
 
             connection.query(query, (err, result) => {
