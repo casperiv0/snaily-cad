@@ -137,7 +137,7 @@ module.exports = {
                             };
                         } else {
                             if (username && password) {
-                                connection1.query("INSERT INTO users (`username`, `email`, `password`, `cadID` ) VALUES ('" + username + "', '" + username + "@" + cadID + "', '" + hash + "', '" + cadID + "')", function (error, results, fields) {
+                                connection1.query("INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`) VALUES ('" + username + "', '" + username + "@" + cadID + "', '" + hash + "', 'no', 'no', 'no', 'no', '" + cadID + "', 'pi75PugYho', '', 'no')", function (error, results, fields) {
                                     if (error) {
                                         console.log(error);
                                     } else {
