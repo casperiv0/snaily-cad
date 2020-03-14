@@ -122,6 +122,7 @@ const {
 
 const {
     emsPage,
+    statusChangeEMS,
 } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
@@ -158,7 +159,8 @@ const {
     disptachPlateSearch,
     disptachWeaponSearch,
     disptachAddressSearch,
-    statusChangeDispatch
+    statusChangeDispatch,
+    statusChangeDispatchEMS,
 } = require("./routes/dispatch")
 
 const {
@@ -280,6 +282,7 @@ app.post("/cad/:cadID/dispatch/search/plate", disptachPlateSearch)
 app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch)
 app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch)
 app.post("/cad/:cadID/dispatch/status", statusChangeDispatch)
+app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS)
 
 
 // Officers
@@ -305,6 +308,7 @@ app.get("/cad/:cadID/officers/dash/codes", codesPage)
 
 // EMS/FD
 app.get('/cad/:cadID/ems-fd', emsPage);
+app.post("/cad/:cadID/ems-fd/status", statusChangeEMS)
 
 // Cars
 app.get("/cad/:cadID/admin/values/cars", carValuePage)

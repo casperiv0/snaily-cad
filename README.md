@@ -26,6 +26,7 @@ ToDO
 - [x] better citizen details page
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
+- [ ] 403 page
 
 ## Public Branch
 

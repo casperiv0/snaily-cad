@@ -156,6 +156,7 @@
     <br><br>
     <ul class="list-group ">
         <div class="active list-group-item text-light ">Active Units</div>
+        
         <!-- <span class="border-top-0"></span> -->
         <% officers.forEach(officer => {%>
         <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
@@ -188,6 +189,38 @@
         </li>
         <%} %>
         <% })  %>
+        <div class="active list-group-item text-light ">Active EMS</div>
+        <% ems.forEach(ems => {%>
+            <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
+            <!-- <p>not on duty</p> -->
+            <%} else { %>
+            <li class="list-group-item form-inline text-light bg-dark">
+                <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
+                    <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
+                    <%= ems.name %> |
+                   Currently:  <%= ems.status2 %> | 
+                    <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                        <option selected value="<%= ems.status %>"><%= ems.status %></option>
+                        <option value="" disabled>New Status..</option>
+                        <option value="10-41 | 10-8">10-41 | 10-8</option>
+                        <option value="10-42 | 10-7">10-42 | 10-7</option>
+                    </select>
+                    <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                        <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
+                        <option value="" disabled>New Status..</option>
+                        <option value="10-6">10-6</option>
+                        <option value="10-5">10-5</option>
+                        <option value="10-12">10-12</option>
+                        <option value="10-97">10-97</option>
+                        <option value="10-11">10-11</option>
+                        <option value="Signal 11">Signal 11</option>
+                        <option value="Code 5">Code 5</option>
+                    </select>
+                    <button type="submit" class="btn btn-success">Change Status</button>
+                </form>
+            </li>
+            <%} %>
+            <% })  %>
     </ul>
 
 </div>
