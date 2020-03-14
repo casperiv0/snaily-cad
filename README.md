@@ -31,6 +31,7 @@ ToDO
 - [x] weapon serial number
 - [x] vin number
 - [x] nearest postal for tickets
+- [ ] able to delete vehicels/weapons
 - [ ] AOP editor
 - [ ] bolos
 - [ ] give demerit points

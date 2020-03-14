@@ -167,6 +167,7 @@ const {
     disptachAddressSearch,
     statusChangeDispatch,
     statusChangeDispatchEMS,
+    editAOP
 } = require("./routes/dispatch")
 
 const {
@@ -295,6 +296,7 @@ app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch)
 app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch)
 app.post("/cad/:cadID/dispatch/status", statusChangeDispatch)
 app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS)
+app.post("/cad/:cadID/dispatch/aop", editAOP)
 
 
 // Officers

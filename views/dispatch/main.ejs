@@ -1,15 +1,29 @@
 <%- include("../partials/header.ejs") %>
 
 <div class="container mt-2">
-    <div class="card mt-3 border-dark active" style="width: 18rem;">
-        <div class="card-header">
-            <span class="active">Utility Panel</span>
+
+    <h2 class="card-title text-light">AOP: <%= cad.AOP %></h2>
+    <div class="card bg-secondary ">
+        <div class="card-header text-light bolder">
+            Utility Panel
         </div>
-        <ul class="list-group list-group-flush">
+        <div class="card-body row">
+            <button class="btn btn-primary list-group-item text-light btn-dark bg-dark" data-target="#nameSearch"
+            data-toggle="modal">Name Search</button>
+
+            <button class="btn btn-primary list-group-item text-light btn-dark bg-dark ml-2" data-target="#plateSearch"
+            data-toggle="modal">Plate Search</button>
+
+            <button class="btn no-out btn-primary list-group-item text-light btn-dark bg-dark ml-2" data-target="#weaponSearch"
+                data-toggle="modal">Weapon Search</button>
+
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2" data-target="#addressSearch"
+                data-toggle="modal">Address Search</button>
+        </div>
+    </div>        <ul class="list-group list-group-flush ">
 
             <!-- Name Search Modal -->
-            <button class="btn  no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#nameSearch"
-                data-toggle="modal">Name Search</button>
+            
 
             <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -41,9 +55,7 @@
             </div>
 
             <!-- Plate Search Modal -->
-            <button class="btn  no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#plateSearch"
-                data-toggle="modal">Plate Search</button>
-
+           
             <div class="modal fade" id="plateSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -75,8 +87,7 @@
 
 
             <!-- Weapon Search Modal -->
-            <button class="btn no-out btn-primary list-group-item text-light btn-dark bg-dark" data-target="#weaponSearch"
-                data-toggle="modal">Weapon Search</button>
+            
 
             <div class="modal fade" id="weaponSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -114,8 +125,7 @@
 
 
             <!-- Adress Search Modal -->
-            <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item" data-target="#addressSearch"
-                data-toggle="modal">Address Search</button>
+            
 
             <div class="modal fade" id="addressSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
@@ -150,63 +160,31 @@
                         </form>
                     </div>
                 </div>
-            </div>
         </ul>
     </div>
     <br><br>
-    <ul class="list-group ">
-        <div class="active list-group-item text-light ">Active Units</div>
-        
-        <!-- <span class="border-top-0"></span> -->
-        <% officers.forEach(officer => {%>
-        <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
-        <!-- <p>not on duty</p> -->
-        <%} else { %>
-        <li class="list-group-item form-inline text-light bg-dark">
-            <form action="/cad/<%= cadId %>/dispatch/status" method="post">
-                <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
-                <%= officer.officer_name %> |
-                <%= officer.status2 %>
-                <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                    <option selected value="<%= officer.status %>"><%= officer.status %></option>
-                    <option value="" disabled>New Status..</option>
-                    <option value="10-41 | 10-8">10-41 | 10-8</option>
-                    <option value="10-42 | 10-7">10-42 | 10-7</option>
-                </select>
-                <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                    <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
-                    <option value="" disabled>New Status..</option>
-                    <option value="10-6">10-6</option>
-                    <option value="10-5">10-5</option>
-                    <option value="10-12">10-12</option>
-                    <option value="10-97">10-97</option>
-                    <option value="10-11">10-11</option>
-                    <option value="Signal 11">Signal 11</option>
-                    <option value="Code 5">Code 5</option>
-                </select>
-                <button type="submit" class="btn btn-success">Change Status</button>
-            </form>
-        </li>
-        <%} %>
-        <% })  %>
-        <div class="active list-group-item text-light ">Active EMS</div>
-        <% ems.forEach(ems => {%>
-            <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
+    <div class="container">
+        <ul class="list-group">
+            <div class="active list-group-item text-light ">Active Units</div>
+            
+            <!-- <span class="border-top-0"></span> -->
+            <% officers.forEach(officer => {%>
+            <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
             <!-- <p>not on duty</p> -->
             <%} else { %>
             <li class="list-group-item form-inline text-light bg-dark">
-                <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
-                    <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
-                    <%= ems.name %> |
-                   Currently:  <%= ems.status2 %> | 
+                <form action="/cad/<%= cadId %>/dispatch/status" method="post">
+                    <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
+                    <%= officer.officer_name %> |
+                    <%= officer.status2 %>
                     <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                        <option selected value="<%= ems.status %>"><%= ems.status %></option>
+                        <option selected value="<%= officer.status %>"><%= officer.status %></option>
                         <option value="" disabled>New Status..</option>
                         <option value="10-41 | 10-8">10-41 | 10-8</option>
                         <option value="10-42 | 10-7">10-42 | 10-7</option>
                     </select>
                     <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                        <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
+                        <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
                         <option value="" disabled>New Status..</option>
                         <option value="10-6">10-6</option>
                         <option value="10-5">10-5</option>
@@ -221,6 +199,49 @@
             </li>
             <%} %>
             <% })  %>
-    </ul>
+            <div class="active list-group-item text-light ">Active EMS</div>
+            <% ems.forEach(ems => {%>
+                <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
+                <!-- <p>not on duty</p> -->
+                <%} else { %>
+                <li class="list-group-item form-inline text-light bg-dark">
+                    <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
+                        <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
+                        <%= ems.name %> |
+                       Currently:  <%= ems.status2 %> | 
+                        <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                            <option selected value="<%= ems.status %>"><%= ems.status %></option>
+                            <option value="" disabled>New Status..</option>
+                            <option value="10-41 | 10-8">10-41 | 10-8</option>
+                            <option value="10-42 | 10-7">10-42 | 10-7</option>
+                        </select>
+                        <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                            <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
+                            <option value="" disabled>New Status..</option>
+                            <option value="10-6">10-6</option>
+                            <option value="10-5">10-5</option>
+                            <option value="10-12">10-12</option>
+                            <option value="10-97">10-97</option>
+                            <option value="10-11">10-11</option>
+                            <option value="Signal 11">Signal 11</option>
+                            <option value="Code 5">Code 5</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Change Status</button>
+                    </form>
+                </li>
+                <%} %>
+                <% })  %>
+            </ul>
+                <ul class="list-group mt-3" >
+                    <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
+                        <h3 class="card-title">Edit AOP</h3>
+                        <div class="form-group">
+                            <label for="input">New AOP</label>
+                            <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
+                        </div>
+                        <button type="submit" class="container btn btn-success">Update AOP</button>
+                    </form>
+                </ul>
+    </div>
 
 </div>

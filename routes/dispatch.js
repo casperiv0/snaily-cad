@@ -13,15 +13,24 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].dispatch == 'yes') {
-                                let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'"
-                                let addressess = "SELECT `address` FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
-                                let officersQ = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "'"
-                                let EMSS = "SELECT * FROM `ems-fd` WHERE `cadID` = '" + req.params.cadID + "'"
-                                connection.query(`${weapons}; ${addressess}; ${officersQ}; ${EMSS}`, (err, result) => {
+
+                                let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
+                                connection1.query(cads, (err, result43) => {
                                     if (err) {
                                         return console.log(err)
                                     } else {
-                                        res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3] })
+                                        let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'"
+                                        let addressess = "SELECT `address` FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
+                                        let officersQ = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "'"
+                                        let EMSS = "SELECT * FROM `ems-fd` WHERE `cadID` = '" + req.params.cadID + "'";
+                                        connection.query(`${weapons}; ${addressess}; ${officersQ}; ${EMSS}`, (err, result) => {
+                                            if (err) {
+                                                console.log(err)
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", weapons: result[0], address: result[0], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0] })
+                                            };
+                                        });
                                     }
                                 });
                             } else {
@@ -329,6 +338,49 @@ module.exports = {
 
                 }
             })
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
+    },
+    editAOP: (req, res) => {
+        if (req.session.loggedin) {
+            let cadID = req.params.cadID;
+            let newAOP = req.body.aop
+
+            let query1 = "UPDATE `cads` SET `AOP` = '" + newAOP + "' WHERE `cads`.`cadID` = '" + cadID + "'"
+            connection1.query(`${query1};`, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+
+                    connection1.query(query2, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            if (result2[0]) {
+                                res.redirect(`/cad/${result2[0].cadID}/dispatch`);
+                            } else {
+                                res.sendStatus(404);
+                            };
+                        };
+                    });
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {

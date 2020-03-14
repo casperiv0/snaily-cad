@@ -11,26 +11,34 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].leo == 'yes') {
-                                let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
-                                connection.query(qeury, (err, result) => {
+                        let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
+                                connection1.query(cads, (err, result43) => {
                                     if (err) {
-                                        console.log("Error" + err)
+                                        return console.log(err)
+                                    } else {
+                                        connection1.query(query, (err, result1) => {
+                                            if (result1[0].leo == 'yes') {
+                                                let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
+                                                connection.query(qeury, (err, result) => {
+                                                    if (err) {
+                                                        console.log("Error" + err)
+                                                    }
+                                                    res.render("officers-pages/officers.ejs", {
+                                                        title: "Police Department | SnailyCAD",
+                                                        users: "qsd",
+                                                        isAdmin: result1[0].admin,
+                                                        officers: result,
+                                                        cadId: result2[0].cadID,
+                                                        cad: result43[0]
+                                                    });
+                
+                                                });
+                                            } else {
+                                                res.render("officers-pages/403.ejs", { title: "unauthorized", isAdmin: "", cadId: result2[0].cadID })
+                                            };
+                                        });
                                     }
-                                    res.render("officers-pages/officers.ejs", {
-                                        title: "Police Department | SnailyCAD",
-                                        users: "qsd",
-                                        isAdmin: result1[0].admin,
-                                        officers: result
-                                        , cadId: result2[0].cadID
-                                    });
-
                                 });
-                            } else {
-                                res.render("officers-pages/403.ejs", { title: "unauthorized", isAdmin: "", cadId: result2[0].cadID })
-                            };
-                        });
                     } else {
                         res.sendStatus(404)
                     }
