@@ -358,11 +358,22 @@ module.exports = {
 
 
         } else {
+            function makeid(length) {
+                var result = '';
+                var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                var charactersLength = characters.length;
+                for (var i = 0; i < length; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
+            }
             // let owner = req.body.owner;
             let owner = req.body.owner;
             let weapon = req.body.weapon;
             let status = req.body.status;
-            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `status`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + weapon + "', '" + status + "', '" + req.params.cadID + "', '" + req.session.username2 + "')";
+            let serial_number = makeid(10)
+
+            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `serial_number`, `status`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + weapon + "', '" + serial_number + "', '" + status + "', '" + req.params.cadID + "', '" + req.session.username2 + "')";
 
 
             connection.query(query, (err, result) => {

@@ -597,12 +597,13 @@ module.exports = {
                                 let offence = req.body.offence;
                                 let date = req.body.date;
                                 let officer_name = req.body.officer_name;
+                                let postal = req.body.postal;
                                 let notes = req.body.notes;
                                 if (notes == "") {
-                                    notes = "None"
-                                }
+                                    notes = "None";
+                                };
 
-                                let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`, `cadID`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "', '" + req.params.cadID + "')";
+                                let query = "INSERT INTO `posted_charges` ( `name`, `charge`, `notes`, `officer_name`, `date`, `postal`, `cadID`) VALUES ('" + name + "','" + offence + "','" + notes + "','" + officer_name + "','" + date + "', '" + postal + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);

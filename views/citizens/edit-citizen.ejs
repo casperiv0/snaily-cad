@@ -45,8 +45,12 @@
     <select
       name="ethnicity"
       class="form-control bg-dark border-dark text-light"
-      slot="<%= current.ethnicity %> "
+      slot="<%= current.ethnicity %>"
     >
+      <option selected value="<%= current[0].ethnicity %>"
+        ><%= current[0].ethnicity %></option
+      >
+      <option disabled value="---------">---------</option>
       <% ethnicities.forEach(ethnicity => { %>
       <option value="<%= ethnicity.ethnicity %>"
         ><%= ethnicity.ethnicity %></option
@@ -62,6 +66,10 @@
       class="form-control bg-dark border-dark text-light"
       r="<%= current.gender %> "
     >
+      <option selected value="<%= current[0].gender %>"
+        ><%= current[0].gender %></option
+      >
+      <option disabled value="---------">---------</option>
       <% genders.forEach(gender => { %>
       <option value="<%= gender.gender %>"><%= gender.gender %></option>
       <% }) %>
@@ -76,7 +84,7 @@
       class="form-control bg-dark border-dark text-light"
       placeholder="Hair Color"
       required
-      value="<%= current[0].hair %> "
+      value="<%= current[0].hair %>"
       minlength="1"
       maxlength="255"
     />
@@ -89,7 +97,7 @@
       class="form-control bg-dark border-dark text-light"
       placeholder="Eye Color"
       required
-      value="<%= current[0].eyes %> "
+      value="<%= current[0].eyes %>"
       minlength="1"
       maxlength="255"
     />
@@ -102,7 +110,7 @@
       class="form-control bg-dark border-dark text-light"
       placeholder="Address"
       required
-      value="<%= current[0].address %> "
+      value="<%= current[0].address %>"
       minlength="1"
       maxlength="255"
     />
@@ -115,7 +123,7 @@
       type="text"
       class="form-control bg-dark border-dark text-light"
       placeholder="Height"
-      value="<%= current[0].height %> "
+      value="<%= current[0].height %>"
       minlength="1"
       maxlength="255"
     />
@@ -127,7 +135,7 @@
       type="text"
       class="form-control bg-dark border-dark text-light"
       placeholder="Weight"
-      value="<%= current[0].weight %> "
+      value="<%= current[0].weight %>"
       minlength="1"
       maxlength="255"
     />
@@ -135,8 +143,12 @@
 
   <!-- Licences -->
   <div class="form-group">
-    <label for="exampleInputEmail1">Drivers Licence</label>
+    <label for="exampleInputEmail1">Drivers License</label>
     <select name="dmv" class="form-control bg-dark border-dark text-light">
+      <option selected value="<%= current[0].dmv %>"
+        ><%= current[0].dmv %></option
+      >
+      <option disabled value="---------">---------</option>
       <% dmvs.forEach(dmv => { %>
       <option value="<%= dmv.status %>"><%= dmv.status %></option>
       <% }) %>
@@ -145,8 +157,12 @@
   </div>
 
   <div class="form-group">
-    <label for="exampleInputEmail1">Firearms Licence</label>
+    <label for="exampleInputEmail1">Firearms License</label>
     <select name="fire" class="form-control bg-dark border-dark text-light">
+      <option selected value="<%= current[0].fire_licence %>"
+        ><%= current[0].fire_licence %></option
+      >
+      <option disabled value="---------">---------</option>
       <% dmvs.forEach(dmv => { %>
       <option value="<%= dmv.status %>"><%= dmv.status %></option>
       <% }) %>
@@ -155,17 +171,18 @@
   </div>
 
   <div class="form-group">
-    <label for="exampleInputEmail1">Pilots Licence</label>
+    <label for="exampleInputEmail1">Pilots License</label>
     <select name="pilot" class="form-control bg-dark border-dark text-light">
+      <option selected value="<%= current[0].pilot_licence %>"
+        ><%= current[0].pilot_licence %></option
+      >
+      <option disabled value="---------">---------</option>
       <% dmvs.forEach(dmv => { %>
       <option value="<%= dmv.status %>"><%= dmv.status %></option>
       <% }) %>
       <option value="none">None</option>
     </select>
   </div>
-  <p>
-    Before you edit make sure you reselected the licences, gender and ethnicity
-  </p>
   <button type="submit" class="btn btn-primary float-right margin-right-10">
     Edit Citizen
   </button>

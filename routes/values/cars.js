@@ -347,9 +347,21 @@ module.exports = {
 
     },
     regVehicle: (req, res) => {
+
+        function makeid(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
         let plate = req.body.plate;
         let owner = req.body.owner;
         let vehicle = req.body.vehicle;
+        let vin_number = makeid(17)
         let in_status = req.body.in_status;
         let color = req.body.color;
         let linked_to = req.session.username2
@@ -359,7 +371,7 @@ module.exports = {
             if (result.length > 0) {
                 res.send("Plate Already Exists Please go back and change the plate.")
             } else {
-                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `in_status`, `plate`, `color`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + vehicle + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "')";
+                let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + vehicle + "', '" + vin_number + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "')";
 
 
                 connection.query(query, (err, result) => {

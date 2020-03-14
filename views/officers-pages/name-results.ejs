@@ -125,15 +125,15 @@
                             Offence</a>
 
                 <% } else  {%>
-                <p class="mb-1">
+                <div class="mb-1">
                     <% charges.forEach(charge => { %>
-                    <li class="list-group-item color-black"> <%= charge.charge %>
-                        <p> Notes: <%= charge.notes %> <br> Given on: <%= charge.date %></p>
+                    <li class="list-group-item color-black"> <%= charge.charge %> <br>
+                        <span class="bolder">Notes: </span> <%= charge.notes %> <br> <span class="bolder">Given on:</span>  <%= charge.date %> <br> <span class="bolder">Nearest Postal: </span> <%= charge.postal %>
 
                     </li>
 
                     <%  }) %>
-                </p>                    </p>
+                </div>                    </>
 
                 <a class="btn btn-dark text-light"
                     href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
