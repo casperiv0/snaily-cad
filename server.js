@@ -122,7 +122,8 @@ const {
 
 const {
     emsPage,
-    statusChangeEMS,
+    statusChangeEMS, addEMSPage,
+    addEMS
 } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
@@ -309,6 +310,8 @@ app.get("/cad/:cadID/officers/dash/codes", codesPage)
 // EMS/FD
 app.get('/cad/:cadID/ems-fd', emsPage);
 app.post("/cad/:cadID/ems-fd/status", statusChangeEMS)
+app.get("/cad/:cadID/ems-fd/add", addEMSPage)
+app.post("/cad/:cadID/ems-fd/add", addEMS)
 
 // Cars
 app.get("/cad/:cadID/admin/values/cars", carValuePage)

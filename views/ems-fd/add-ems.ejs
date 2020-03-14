@@ -1,0 +1,24 @@
+<%- include("../partials/header.ejs") %>
+
+<form
+  class="container mx-auto mt-3 text-light"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <div class="form-group">
+    <label for="name">EMS/FD Deputy Name</label>
+    <input
+      type="text"
+      name="name"
+      placeholder="EG. [E-03] Casper"
+      class="form-control text-light border-dark bg-dark"
+      id="name"
+      aria-describedby="emailHelp"
+    />
+  </div>
+  <a href="/cad/<%= cadId %>/ems-fd" class="btn cancel-btn btn-danger"
+    >Cancel</a
+  >
+  <button type="submit" class="btn btn-primary">Add Deputy</button>
+</form>
