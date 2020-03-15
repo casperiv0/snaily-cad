@@ -62,10 +62,10 @@
                 <div id="dots3"></div>
                 <div id="more3">
                     <p class="mb-1">
-                        <li class="list-group-item color-black">Driver License: <%= citizen[0].dmv %> </li>
-                        <li class="list-group-item color-black">Pilot License: <%= citizen[0].pilot_licence %> </li>
-                        <li class="list-group-item color-black">Firearms License: <%= citizen[0].fire_licence %> </li>
-                        <!-- <li class="list-group-item color-black">Driver Licence: <%= citizen[0].dmv %> </li> -->
+                        <li class="list-group-item color-black"><span class="bolder">Driver License:</span>  <%= citizen[0].dmv %> </li>
+                        <li class="list-group-item color-black"><span class="bolder">Pilot License: </span> <%= citizen[0].pilot_licence %> </li>
+                        <li class="list-group-item color-black"><span class="bolder"> Firearms License: </span> <%= citizen[0].fire_licence %> </li>
+                        <li class="list-group-item color-black"><span class="bolder"> CCW License:</span> <%= citizen[0].ccw %> </li>
                     </p>
 
                 </div>
@@ -89,8 +89,9 @@
                                 <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
                                 <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
                                 <span class="font-weight-bold">VIN:</span>  <span class="cap"> <%= vehicle.vin_number %></span> <br>
-                                    <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success">Edit Vehicle</a>
                                 
+                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
+                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
                             </li>
     
                             <%  }) %>

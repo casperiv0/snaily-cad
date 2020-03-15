@@ -497,5 +497,41 @@ module.exports = {
                 }
             })
         }
+    },
+    deleteVehicleCitizen: (req, res) => {
+        let cadID = req.params.cadID;
+        let plate = req.params.plate;
+
+        let query = "DELETE FROM `registered_cars` WHERE `plate` = '" + plate + "' AND `cadID` = '" + cadID + "'";
+
+        connection.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                let q1 = "SELECT * FROM `citizens` WHERE `id` = '" + req.params.id + "'"
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        connection.query(q1, (err, result3) => {
+                            if (result2[0]) {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
+                                } else {
+                                    res.redirect(`/cad/${result2[0].cadID}/citizens/${result3[0].id}-${result3[0].first_name}-${result3[0].last_name}`);
+                                }
+                            } else {
+                                res.sendStatus(404);
+                            };
+                        })
+
+                    }
+                });
+            }
+        })
     }
 };

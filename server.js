@@ -67,7 +67,8 @@ const {
     regVehicle,
     regVehiclePage,
     editVehiclePageCitizen,
-    editVehicleCitizen
+    editVehicleCitizen,
+    deleteVehicleCitizen
 } = require("./routes/values/cars");
 
 // Genders
@@ -167,7 +168,8 @@ const {
     disptachAddressSearch,
     statusChangeDispatch,
     statusChangeDispatchEMS,
-    editAOP
+    editAOP,
+    createBolo
 } = require("./routes/dispatch")
 
 const {
@@ -297,6 +299,7 @@ app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch)
 app.post("/cad/:cadID/dispatch/status", statusChangeDispatch)
 app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS)
 app.post("/cad/:cadID/dispatch/aop", editAOP)
+app.post("/cad/:cadID/dispatch/bolo", createBolo)
 
 
 // Officers
@@ -333,10 +336,11 @@ app.get("/cad/:cadID/admin/values/cars/edit/:id", editVehiclePage)
 app.get("/cad/:cadID/admin/values/cars/delete/:id", deleteVehiclePage)
 app.post("/cad/:cadID/admin/values/cars/edit/:id", editVehicle)
 app.post("/cad/:cadID/admin/values/cars/add", addCar)
+
 // Citizen cars
 app.get("/cad/:cadID/citizen/:id/:plate/edit", editVehiclePageCitizen)
 app.post("/cad/:cadID/citizen/:id/:plate/edit", editVehicleCitizen)
-
+app.get("/cad/:cadID/citizen/:id/:plate/delete", deleteVehicleCitizen)
 // Car Regestration
 app.get("/cad/:cadID/cars/register", regVehiclePage)
 app.post("/cad/:cadID/cars/register", regVehicle)

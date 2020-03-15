@@ -51,7 +51,7 @@ module.exports = {
                             return console.log(error);
                         } else if (results.length > 0) {
                             if (results[0].banned === 'true') {
-                                res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: "You're banned for this server on this CAD.", cadId: result2[0].cadID })
+                                res.render("login-res/login.ejs", { title: 'Login | SnailyCAD', isAdmin: '', message: `You're banned for this server on this CAD. Reason: ${results[0].ban_reason}`, cadId: result2[0].cadID })
                             } else {
                                 bcrypt.compare(password, results[0].password, function (err, result) {
                                     if (err) {

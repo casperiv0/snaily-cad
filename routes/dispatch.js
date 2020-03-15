@@ -12,7 +12,7 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
-                            if (result[0].dispatch == 'yes') {
+                            if (result[0].dispatch == 'yes' || result[0].admin == 'owner' || result[0].admin == 'admin') {
 
                                 let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
                                 connection1.query(cads, (err, result43) => {
@@ -23,12 +23,13 @@ module.exports = {
                                         let addressess = "SELECT `address` FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
                                         let officersQ = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "'"
                                         let EMSS = "SELECT * FROM `ems-fd` WHERE `cadID` = '" + req.params.cadID + "'";
-                                        connection.query(`${weapons}; ${addressess}; ${officersQ}; ${EMSS}`, (err, result) => {
+                                        let bolosQ = "SELECT * FROM `bolos` WHERE `cadID` = '" + req.params.cadID + "'";
+                                        connection.query(`${weapons}; ${addressess}; ${officersQ}; ${EMSS}; ${bolosQ}`, (err, result) => {
                                             if (err) {
                                                 console.log(err)
-                                                return res.sendStatus(500)
+                                                return res.sendStatus(500);
                                             } else {
-                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", weapons: result[0], address: result[0], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0] })
+                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", weapons: result[0], address: result[0], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
                                             };
                                         });
                                     }
@@ -396,5 +397,31 @@ module.exports = {
                 };
             });
         };
+    },
+    createBolo: (req, res) => {
+        let boloDesc = req.body.bolo_desc;
+        let cadID = req.params.cadID;
+
+        let query = "INSERT INTO `bolos` (`description`, `cadID`) VALUES ('" + boloDesc + "', '" + cadID + "')"
+        connection.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        if (result2[0]) {
+                            res.redirect(`/cad/${result2[0].cadID}/dispatch`);
+                        } else {
+                            res.sendStatus(404);
+                        };
+                    };
+                });
+            }
+        })
     }
 };

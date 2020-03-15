@@ -32,11 +32,13 @@ ToDO
 - [x] vin number
 - [x] nearest postal for tickets
 - [x] AOP editor
-- [ ] able to delete vehicels/weapons
-- [ ] bolos
+- [x] bolos
+- [x] able to delete vehicels/weapons
+- [x] CCW 
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] company page
+- [ ] able to delete registered weapons
 
 ## Public Branch
 
@@ -71,5 +73,6 @@ ToDO
 - [x] default value for banned register
 - [x] expire date, add cad
 - [x] higher ups can't ban higher ups
-- [ ] max limit on forms
+- [x] backend not able to ban themself
+- [x] max limit on forms(not all yet)
 - [ ] manage account fix

@@ -108,7 +108,7 @@ module.exports = {
                         connection1.query(`${query1}; ${query}`, (err, result) => {
                             if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
 
-                                res.render("admin-pages/edit-citizens.ejs", { messageG: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, req: req })
+                                res.render("admin-pages/edit-citizens.ejs", { messageG: '', message: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, req: req })
                             } else {
                                 res.sendStatus(403)
                             };
@@ -177,7 +177,7 @@ module.exports = {
                                                     connection1.query(`${query1}; ${query}`, (err, result) => {
                                                         if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
 
-                                                            res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, req: req })
+                                                            res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, req: req })
                                                         } else {
                                                             res.sendStatus(403)
                                                         };
@@ -229,7 +229,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                res.render("admin-pages/cad-settings.ejs", { messageG: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                res.render("admin-pages/cad-settings.ejs", { messageG: '', message: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(404);
                             };
@@ -324,40 +324,73 @@ module.exports = {
     banUser: (req, res) => {
         let cadID = req.params.cadID;
         let userID = req.params.id;
-        let query = "UPDATE `users` SET `banned` = 'true' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
+        let banReason = req.body.reason
 
-        connection1.query(query, (err, result) => {
+        let query4 = "SELECT * FROM `users` WHERE `cadID` = '" + cadID + "' AND `id` = '" + userID + "'";
+        connection1.query(query4, (err, result4) => {
             if (err) {
                 console.log(err);
-                return res.sendStatus(500);
+                return res.sendStatus(500)
             } else {
-                let id = req.params.id;
-                let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
-                let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                if (req.session.username2 === result4[0].username) {
+                    let id = req.params.id;
+                    let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
+                    let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
-                connection1.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    } else {
-                        if (result2[0]) {
-                            connection1.query(`${query1}; ${query};`, (err, result) => {
-                                res.render("admin-pages/edit-citizens.ejs", { messageG: 'User was successfully banned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
-
-                            });
+                    connection1.query(query2, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
                         } else {
-                            res.sendStatus(404);
+                            if (result2[0]) {
+                                connection1.query(`${query1}; ${query};`, (err, result) => {
+                                    res.render("admin-pages/edit-citizens.ejs", { message: 'You are not able to ban yourself.', messageG: '', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+
+                                });
+                            } else {
+                                res.sendStatus(404);
+                            };
                         };
-                    };
-                });
+                    });
+                } else {
+                    let query = "UPDATE `users` SET `banned` = 'true', `ban_reason` = '" + banReason + "' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
+
+                    connection1.query(query, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            let id = req.params.id;
+                            let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
+                            let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+
+                            connection1.query(query2, (err, result2) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
+                                } else {
+                                    if (result2[0]) {
+                                        connection1.query(`${query1}; ${query};`, (err, result) => {
+                                            res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+
+                                        });
+                                    } else {
+                                        res.sendStatus(404);
+                                    };
+                                };
+                            });
+                        };
+                    });
+                };
             };
         });
     },
     unBanUser: (req, res) => {
         let cadID = req.params.cadID;
         let userID = req.params.id;
-        let query = "UPDATE `users` SET `banned` = 'false' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
+        let query = "UPDATE `users` SET `banned` = 'false', `ban_reason` = '' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
 
         connection1.query(query, (err, result) => {
             if (err) {
@@ -376,7 +409,7 @@ module.exports = {
                     } else {
                         if (result2[0]) {
                             connection1.query(`${query1}; ${query};`, (err, result) => {
-                                res.render("admin-pages/edit-citizens.ejs", { messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
 
                             });
                         } else {

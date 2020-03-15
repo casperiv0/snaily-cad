@@ -19,6 +19,9 @@
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2" data-target="#addressSearch"
                 data-toggle="modal">Address Search</button>
+
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2" data-target="#bolo"
+                data-toggle="modal">Create Bolo</button>
         </div>
     </div>        <ul class="list-group list-group-flush ">
 
@@ -123,6 +126,34 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="bolo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create Bolo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/cad/<%= cadId %>/dispatch/bolo" id="modal" method="post">
+                                <div class="form-group">
+                                    <label for="bolo">Bolo Description</label>
+                                    <textarea name="bolo_desc" id="bolo" cols="30" rows="5" maxlength="1800" minlength="10" class="form-control" placeholder="Bolo Description, Min Length of 10 characters"></textarea>
+                                </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Bolo</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Adress Search Modal -->
             
@@ -160,6 +191,8 @@
                         </form>
                     </div>
                 </div>
+
+                
         </ul>
     </div>
     <br><br>
@@ -233,14 +266,23 @@
                 <% })  %>
             </ul>
                 <ul class="list-group mt-3" >
+                    <div class="active list-group-item text-light ">Edit AOP</div>
                     <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
-                        <h3 class="card-title">Edit AOP</h3>
                         <div class="form-group">
                             <label for="input">New AOP</label>
                             <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
                         </div>
                         <button type="submit" class="container btn btn-success">Update AOP</button>
                     </form>
+                </ul>
+                <ul class="list-group mt-3" >
+                    <div class="active list-group-item text-light ">Active Bolos</div>
+                    <% bolos.forEach(bolo => { %>
+                        <li class="list-group-item bg-dark text-light">
+                            <%= bolo.id %> | <%= bolo.description %>
+                        </li>
+                    <%}) %>
+                   
                 </ul>
     </div>
 
