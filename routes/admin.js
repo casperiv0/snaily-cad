@@ -16,14 +16,22 @@ module.exports = {
                         let weaponQ = "SELECT * FROM `registered_weapons` WHERE cadID = '" + req.params.cadID + "'";
                         let vehiclesQ = "SELECT * FROM `registered_cars` WHERE cadID = '" + req.params.cadID + "'";
                         let chargesQ = "SELECT * FROM `posted_charges` WHERE cadID = '" + req.params.cadID + "'";
+                        let company = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'";
+                        let postQ = "SELECT * FROM `posts` WHERE `cadID` = '" + req.params.cadID + "'";
+                        let bolosQ = "SELECT * FROM `bolos` WHERE `cadID` = '" + req.params.cadID + "'";
                         connection1.query(`${query}; ${query2}; ${cadQ}`, (err, result) => {
-                            connection.query(`${citizenQ}; ${weaponQ}; ${vehiclesQ}; ${chargesQ}`, (err, result3) => {
-                                if (result[0][0].admin == 'moderator' || result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
-                                    res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0][0].admin, cadId: result2[0].cadID, users: result[1].length, cads: result[2], citizens: result3[0].length, weapons: result3[1].length, vehicles: result3[2].length, charges: result3[3].length });
-                                } else {
-                                    res.sendStatus(403);
-                                };
-                            })
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                connection.query(`${citizenQ}; ${weaponQ}; ${vehiclesQ}; ${chargesQ}; ${company}; ${postQ}; ${bolosQ}`, (err, result3) => {
+                                    if (result[0][0].admin == 'moderator' || result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
+                                        res.render("admin.ejs", { title: 'Admin Panel | SnailyCAD', isAdmin: result[0][0].admin, cadId: result2[0].cadID, users: result[1].length, cads: result[2], citizens: result3[0].length, weapons: result3[1].length, vehicles: result3[2].length, charges: result3[3].length, companies: result3[4].length, posts: result3[5].length, bolos: result3[6].length });
+                                    } else {
+                                        res.sendStatus(403);
+                                    };
+                                })
+                            }
 
 
                         });

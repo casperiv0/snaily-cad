@@ -1,3 +1,5 @@
+const d = new Date()
+
 module.exports = {
     citizenPage: (req, res, next) => {
         if (!req.session.loggedin) {
@@ -550,13 +552,13 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
-                        
+
                         connection.query(postss, (err, result) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("company/main.ejs", { title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
+                                res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
                             };
                         });
                     } else {
@@ -567,6 +569,111 @@ module.exports = {
         };
     },
     createCompanyPostPage: (req, res) => {
-        res.send("Coming Very Soon")
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/cad/${result2[0].cadID}/login`)
+                }
+            })
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result2[0]) {
+                        res.render("company/add.ejs", { messageG: '', message: '', title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
+    },
+    createCompanyPost: (req, res) => {
+        if (req.session.loggedin) {
+            let title = req.body.title;
+            let desc = req.body.description;
+            let cadID = req.params.cadID;
+            let uploadedBy = req.session.username2;
+            let uploadedAt = d.toLocaleDateString();
+
+            if (title.includes("'")) {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        if (result2[0]) {
+                            res.render("company/add.ejs", { messageG: '', message: "Error: Please Remove any ' from the title", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                        } else {
+                            res.sendStatus(404);
+                        };
+                    };
+                });
+            } else if (desc.includes("'")) {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        if (result2[0]) {
+                            res.render("company/add.ejs", { messageG: '', message: "Error: Please Remove any ' from the discription", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                        } else {
+                            res.sendStatus(404);
+                        };
+                    };
+                });
+            } else {
+                let query = "INSERT INTO `posts` (`linked_to_bus`,`title`,`description`,`cadID`,`uploadedBy`,`uploadedAt`) VALUES ('" + req.params.company + "', '" + title + "', '" + desc + "', '" + cadID + "', '" + uploadedBy + "', '" + uploadedAt + "')"
+                connection.query(query, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus((500))
+                    } else {
+                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result2[0]) {
+                                    let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
+
+                                    connection.query(postss, (err, result) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500)
+                                        } else {
+                                            res.render("company/main.ejs", { messageG: "Post successfully created", message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
+                                            res.end();
+                                        };
+                                    });
+                                } else {
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
+                    };
+                });
+            };
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/cad/${result2[0].cadID}/login`);
+                };
+            });
+        };
     }
 };

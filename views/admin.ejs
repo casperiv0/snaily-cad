@@ -9,7 +9,11 @@ include("./partials/admin-header.ejs") %>
       <h5 class="card-title">Member Count:</h5>
       <div class="col-sm">
         <h1 class="card-title counter" data-target="<%= users %>">
-          <%= users.length %>
+          <% if(users.length < 0) { %>
+            <%= users.length %>
+            <% } else {%>
+              0
+          <%} %>
         </h1>
       </div>
     </div>
@@ -17,7 +21,11 @@ include("./partials/admin-header.ejs") %>
       <h5 class="card-title">Citizens Count:</h5>
       <div class="col-sm">
         <h1 class="card-title counter" data-target="<%= citizens %>">
-          <%= citizens.length %>
+          <% if(citizens.length < 0) { %>
+            <%= citizens.length %>
+            <% } else {%>
+              0
+          <%} %>
         </h1>
       </div>
     </div>
@@ -31,7 +39,11 @@ include("./partials/admin-header.ejs") %>
       <h5 class="card-title">Registered Weapon Count:</h5>
       <div class="col-sm">
         <h1 class="card-title counter" data-target="<%= weapons %>">
-          <%= weapons.length %>
+          <% if(weapons.length < 0) { %>
+            <%= weapons.length %>
+            <% } else {%>
+              0
+            <%} %>
         </h1>
       </div>
     </div>
@@ -39,7 +51,11 @@ include("./partials/admin-header.ejs") %>
       <h5 class="card-title">Registered Vehicle Count:</h5>
       <div class="col-sm">
         <h1 class="card-title counter" data-target="<%= vehicles %>">
-          <%= vehicles.length %>
+          <% if(vehicles.length < 0) { %>
+            <%= vehicles.length %>
+            <% } else {%>
+              0
+          <%} %>
         </h1>
       </div>
     </div>
@@ -47,11 +63,54 @@ include("./partials/admin-header.ejs") %>
       <h5 class="card-title">Charges Count:</h5>
       <div class="col-sm">
         <h1 class="card-title counter" data-target="<%= charges %>">
-          <%= charges.length %>
+          <% if(charges.length < 0) { %>
+            <%= charges.length %>
+            <% } else {%>
+              0
+            <%} %>
         </h1>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-sm">
+      <h5 class="card-title">Bolos Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= bolos %>">
+          <% if(bolos.length < 0) { %>
+            <%= bolos.length %>
+            <% } else {%>
+              0
+          <%} %>
+        </h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Companies Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= companies %>">
+          <% if(companies.length < 0) { %>
+            <%= companies.length %>
+            <% } else {%>
+              0
+          <%} %>
+        </h1>
+      </div>
+    </div>
+    <div class="col-sm">
+      <h5 class="card-title">Company Posts Count:</h5>
+      <div class="col-sm">
+        <h1 class="card-title counter" data-target="<%= posts %>">
+          <% if(posts.length < 0) { %>
+            <%= posts.length %>
+            <% } else {%>
+              0
+          <%} %>
+        </h1>
+      </div>
+    </div>
+  </div>
+      
 </div>
 
 <script>

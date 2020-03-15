@@ -147,7 +147,9 @@ const {
     companyPage,
     company,
     createCompany,
-    companyDetailPage,createCompanyPostPage
+    companyDetailPage,
+    createCompanyPostPage,
+    createCompanyPost
 } = require("./routes/citizens/citizen");
 
 // Registration - Login
@@ -276,6 +278,7 @@ app.post("/cad/:cadID/citizen/company/join", company);
 app.post("/cad/:cadID/citizen/company/create", createCompany);
 app.get("/cad/:cadID/citizen/company/:company", companyDetailPage);
 app.get("/cad/:cadID/citizen/company/:company/create-post", createCompanyPostPage)
+app.post("/cad/:cadID/citizen/company/:company", createCompanyPost)
 
 //  Login : Registration : Logout
 app.get(`/cad/:cadID/login`, loginPage);

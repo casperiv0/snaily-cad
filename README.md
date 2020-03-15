@@ -44,6 +44,7 @@ ToDO
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] company page
 - [ ] link to company page in citizen details
+- [ ] action logs
 
 ## Public Branch
 
