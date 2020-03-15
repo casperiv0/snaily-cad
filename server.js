@@ -264,6 +264,9 @@ app.post("/cad/:cadID/admin/edit-cad", editCAD)
 app.post("/cad/:cadID/admin/delete-citizens", deleteAllCitizens)
 app.post("/cad/:cadID/admin/ban-:id", banUser)
 app.post("/cad/:cadID/admin/unban-:id", unBanUser)
+app.get("/cad/:cadID/admin/action-log", (req, res) => {
+    res.send("coming soon")
+})
 
 // Citizens
 app.get("/cad/:cadID/citizen", citizenPage);
