@@ -43,6 +43,7 @@ ToDO
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] company page
+- [ ] link to company page in citizen details
 
 ## Public Branch
 

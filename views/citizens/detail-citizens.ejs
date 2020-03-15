@@ -52,7 +52,7 @@
             <% if (citizen[0].business == "") { %>
             <li class="list-group-item bg-dark text-light  mt-1">Employer: Currently is not working</li>
             <%} else {%>
-            <li class="list-group-item bg-dark text-light  mt-1">Employer: <%= citizen[0].business %> </li>
+            <li class="list-group-item bg-dark text-light  mt-1">Employer: <a href="/cad/<%= cadId %>/citizen/company/<%= citizen[0].business %>"> <%= citizen[0].business %></a> </li>
 
             <%} %>
             <div class="list-group-item list-group-item-action active bg-dark text-light border-dark mt-1">
