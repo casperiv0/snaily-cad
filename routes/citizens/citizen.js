@@ -508,7 +508,7 @@ module.exports = {
 
         let companyName = req.body.companyName;
         let owner = req.body.owner;
-        let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`) VALUES  ("' + companyName + '", "' + owner + '")';
+        let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`, `linked_to`, `cadID`) VALUES  ("' + companyName + '", "' + owner + '", "'+req.session.username2+'", "'+req.params.cadID+'")';
         let query2 = 'UPDATE `citizens` SET `business` = "' + companyName + '" WHERE `citizens`.`full_name` = "' + owner + '"';
         let query3 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
