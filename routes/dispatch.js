@@ -423,5 +423,31 @@ module.exports = {
                 });
             }
         })
+    },
+    removeBolo: (req, res) => {
+        let boloId = req.body.boloID;
+        let cadID = req.params.cadID;
+
+        let query = "DELETE FROM `bolos` WHERE `id` = '" + boloId + "' AND `cadID` = '" + cadID + "' "
+        connection.query(query, (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        if (result2[0]) {
+                            res.redirect(`/cad/${result2[0].cadID}/dispatch`);
+                        } else {
+                            res.sendStatus(404);
+                        };
+                    };
+                });
+            }
+        })
     }
 };

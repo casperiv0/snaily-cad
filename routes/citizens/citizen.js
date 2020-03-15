@@ -9,8 +9,6 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: '', message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
-
-
                     } else {
                         res.sendStatus(404);
                     };
@@ -29,12 +27,13 @@ module.exports = {
                             let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
                             let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
                             let query3 = "SELECT * FROM `users`";
-                            connection1.query(`${query3}; ${query2}`, (err, result4) => {
+                            let query4 = "SELECT * FROM `cads` WHERE `cadID` = '"+req.params.cadID+"'"
+                            connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
                                 connection.query(`${query}`, (err, result) => {
                                     if (err) {
                                         console.log(err);
                                     };
-                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name });
+                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
                                 });
                             });
                         });

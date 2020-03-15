@@ -2,7 +2,7 @@
 
 <div class="container mt-2">
 
-    <h2 class="card-title text-light">AOP: <%= cad.AOP %></h2>
+    <h2 class="card-title text-light">Dispatch - AOP: <%= cad.AOP %></h2>
     <div class="card bg-secondary ">
         <div class="card-header text-light bolder">
             Utility Panel
@@ -201,69 +201,79 @@
             <div class="active list-group-item text-light ">Active Units</div>
             
             <!-- <span class="border-top-0"></span> -->
-            <% officers.forEach(officer => {%>
-            <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
-            <!-- <p>not on duty</p> -->
-            <%} else { %>
-            <li class="list-group-item form-inline text-light bg-dark">
-                <form action="/cad/<%= cadId %>/dispatch/status" method="post">
-                    <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
-                    <%= officer.officer_name %> |
-                    <%= officer.status2 %>
-                    <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                        <option selected value="<%= officer.status %>"><%= officer.status %></option>
-                        <option value="" disabled>New Status..</option>
-                        <option value="10-41 | 10-8">10-41 | 10-8</option>
-                        <option value="10-42 | 10-7">10-42 | 10-7</option>
-                    </select>
-                    <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                        <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
-                        <option value="" disabled>New Status..</option>
-                        <option value="10-6">10-6</option>
-                        <option value="10-5">10-5</option>
-                        <option value="10-12">10-12</option>
-                        <option value="10-97">10-97</option>
-                        <option value="10-11">10-11</option>
-                        <option value="Signal 11">Signal 11</option>
-                        <option value="Code 5">Code 5</option>
-                    </select>
-                    <button type="submit" class="btn btn-success">Change Status</button>
-                </form>
-            </li>
-            <%} %>
-            <% })  %>
+                <% officers.forEach(officer => {%>
+                    <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
+                    <!-- <p>not on duty</p> -->
+                    <%} else { %>
+                    <li class="list-group-item form-inline text-light bg-dark">
+                        <form action="/cad/<%= cadId %>/dispatch/status" method="post">
+                            <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
+                            <%= officer.officer_name %> |
+                            <%= officer.status2 %>
+                            <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                                <option selected value="<%= officer.status %>"><%= officer.status %></option>
+                                <option value="" disabled>New Status..</option>
+                                <option value="10-41 | 10-8">10-41 | 10-8</option>
+                                <option value="10-42 | 10-7">10-42 | 10-7</option>
+                            </select>
+                            <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                                <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
+                                <option value="" disabled>New Status..</option>
+                                <option value="10-6">10-6</option>
+                                <option value="10-5">10-5</option>
+                                <option value="10-12">10-12</option>
+                                <option value="10-97">10-97</option>
+                                <option value="10-11">10-11</option>
+                                <option value="Signal 11">Signal 11</option>
+                                <option value="Code 5">Code 5</option>
+                            </select>
+                            <button type="submit" class="btn btn-success">Change Status</button>
+                        </form>
+                    </li>
+                    <%} %>
+                    <% })  %>
+                
+            
+
             <div class="active list-group-item text-light ">Active EMS</div>
-            <% ems.forEach(ems => {%>
-                <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
-                <!-- <p>not on duty</p> -->
-                <%} else { %>
-                <li class="list-group-item form-inline text-light bg-dark">
-                    <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
-                        <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
-                        <%= ems.name %> |
-                       Currently:  <%= ems.status2 %> | 
-                        <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                            <option selected value="<%= ems.status %>"><%= ems.status %></option>
-                            <option value="" disabled>New Status..</option>
-                            <option value="10-41 | 10-8">10-41 | 10-8</option>
-                            <option value="10-42 | 10-7">10-42 | 10-7</option>
-                        </select>
-                        <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                            <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
-                            <option value="" disabled>New Status..</option>
-                            <option value="10-6">10-6</option>
-                            <option value="10-5">10-5</option>
-                            <option value="10-12">10-12</option>
-                            <option value="10-97">10-97</option>
-                            <option value="10-11">10-11</option>
-                            <option value="Signal 11">Signal 11</option>
-                            <option value="Code 5">Code 5</option>
-                        </select>
-                        <button type="submit" class="btn btn-success">Change Status</button>
-                    </form>
+            <% if (ems.length > 0) { %>
+                <% ems.forEach(ems => {%>
+                    <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
+                    <!-- <p>not on duty</p> -->
+                    <%} else { %>
+                    <li class="list-group-item form-inline text-light bg-dark">
+                        <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
+                            <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
+                            <%= ems.name %> |
+                           Currently:  <%= ems.status2 %> | 
+                            <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                                <option selected value="<%= ems.status %>"><%= ems.status %></option>
+                                <option value="" disabled>New Status..</option>
+                                <option value="10-41 | 10-8">10-41 | 10-8</option>
+                                <option value="10-42 | 10-7">10-42 | 10-7</option>
+                            </select>
+                            <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                                <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
+                                <option value="" disabled>New Status..</option>
+                                <option value="10-6">10-6</option>
+                                <option value="10-5">10-5</option>
+                                <option value="10-12">10-12</option>
+                                <option value="10-97">10-97</option>
+                                <option value="10-11">10-11</option>
+                                <option value="Signal 11">Signal 11</option>
+                                <option value="Code 5">Code 5</option>
+                            </select>
+                            <button type="submit" class="btn btn-success">Change Status</button>
+                        </form>
+                    </li>
+                    <%} %>
+                <% }) %>
+            <%} else { %>
+                <li class="list-group-item bg-dark text-light">
+                    No Active EMS/FD Deputies
                 </li>
-                <%} %>
-                <% })  %>
+            <%} %>
+            
             </ul>
                 <ul class="list-group mt-3" >
                     <div class="active list-group-item text-light ">Edit AOP</div>
@@ -277,13 +287,27 @@
                 </ul>
                 <ul class="list-group mt-3" >
                     <div class="active list-group-item text-light ">Active Bolos</div>
-                    <% bolos.forEach(bolo => { %>
+                    <% if (bolos.length > 0) {%>
+                        <% bolos.forEach(bolo => { %>
+                            <li class="list-group-item bg-dark text-light">
+                                <form action="/cad/<%= cadId %>/dispatch/remove-bolo" method="POST">
+                                    <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
+                                      <div class="float-right">
+                                        <button type="submit" class="btn btn-danger">Remove Bolo</a>
+                                      </div>
+                                  </form>
+                            </li>
+                        <%}) %>
+                    <%} else {%>
                         <li class="list-group-item bg-dark text-light">
-                            <%= bolo.id %> | <%= bolo.description %>
+                            No Active Bolos
                         </li>
-                    <%}) %>
+                    <%}%>
+                    
                    
                 </ul>
     </div>
 
 </div>
+
+<div class="mb-4"></div>

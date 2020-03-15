@@ -33,8 +33,12 @@ ToDO
 - [x] nearest postal for tickets
 - [x] AOP editor
 - [x] bolos
-- [x] able to delete vehicels/weapons
-- [x] CCW 
+- [x] able to delete vehicles
+- [x] CCW
+- [x] citizen AOP
+- [x] police bolos
+- [x] suspend other licenses too; pilot, weapon..
+- [ ] able to delete weapons
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] company page

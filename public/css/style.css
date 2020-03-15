@@ -2493,6 +2493,15 @@ p {
   pointer-events: none;
 }
 
+.removeBolo {
+  border: none;
+  background: none;
+  width: 20px;
+  overflow: visible;
+  pointer-events: none;
+  color: white;
+}
+
 .current-cad {
   position: fixed;
   left: 50%;

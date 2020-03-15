@@ -123,7 +123,9 @@ const {
     suspendLicensePlate,
     suspendLicenseName,
     statusChange,
-    codesPage
+    codesPage,
+    officerBolo,
+    removeOfficerBolo
 } = require("./routes/officers/officer");
 
 const {
@@ -169,7 +171,8 @@ const {
     statusChangeDispatch,
     statusChangeDispatchEMS,
     editAOP,
-    createBolo
+    createBolo,
+    removeBolo
 } = require("./routes/dispatch")
 
 const {
@@ -289,17 +292,18 @@ app.get(`/cad/:cadID/logout`, async (req, res) => {
             res.redirect(`/cad/${result2[0].cadID}/`)
         };
     });
-})
+});
 
-app.get("/cad/:cadID/dispatch", dispatchPage)
-app.post("/cad/:cadID/dispatch/search/name", disptachNameSearch)
-app.post("/cad/:cadID/dispatch/search/plate", disptachPlateSearch)
-app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch)
-app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch)
-app.post("/cad/:cadID/dispatch/status", statusChangeDispatch)
-app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS)
-app.post("/cad/:cadID/dispatch/aop", editAOP)
-app.post("/cad/:cadID/dispatch/bolo", createBolo)
+app.get("/cad/:cadID/dispatch", dispatchPage);
+app.post("/cad/:cadID/dispatch/search/name", disptachNameSearch);
+app.post("/cad/:cadID/dispatch/search/plate", disptachPlateSearch);
+app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch);
+app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch);
+app.post("/cad/:cadID/dispatch/status", statusChangeDispatch);
+app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS);
+app.post("/cad/:cadID/dispatch/aop", editAOP);
+app.post("/cad/:cadID/dispatch/bolo", createBolo);
+app.post("/cad/:cadID/dispatch/remove-bolo", removeBolo);
 
 
 // Officers
@@ -319,9 +323,14 @@ app.post("/cad/:cadID/officers/dash/warrants/add/:id-:first_name-:last_name", ad
 app.get('/cad/:cadID/officers/add', addOfficerPage)
 app.post('/cad/:cadID/officers/add', addOfficer)
 app.post("/cad/:cadID/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
-app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend", suspendLicenseName)
 app.post("/cad/:cadID/myofficers/status", statusChange)
 app.get("/cad/:cadID/officers/dash/codes", codesPage)
+app.post("/cad/:cadID/officers/bolo", officerBolo)
+app.post("/cad/:cadID/officers/remove-bolo", removeOfficerBolo)
+app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/dmv", suspendLicenseName)
+app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/pilot", suspendLicenseName)
+app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/fire", suspendLicenseName)
+app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", suspendLicenseName)
 
 // EMS/FD
 app.get('/cad/:cadID/ems-fd', emsPage);
