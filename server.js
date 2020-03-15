@@ -89,7 +89,8 @@ const {
     editWeapon,
     editWeaponPage,
     regWeapon,
-    regWeaponPage
+    regWeaponPage,
+    citizenDeleteWeapon
 } = require("./routes/values/weapons");
 
 // Ethnicities
@@ -146,7 +147,7 @@ const {
     companyPage,
     company,
     createCompany,
-    companyDetailPage
+    companyDetailPage,createCompanyPostPage
 } = require("./routes/citizens/citizen");
 
 // Registration - Login
@@ -274,6 +275,7 @@ app.get("/cad/:cadID/citizen/company", companyPage);
 app.post("/cad/:cadID/citizen/company/join", company);
 app.post("/cad/:cadID/citizen/company/create", createCompany);
 app.get("/cad/:cadID/citizen/company/:company", companyDetailPage);
+app.get("/cad/:cadID/citizen/company/:company/create-post", createCompanyPostPage)
 
 //  Login : Registration : Logout
 app.get(`/cad/:cadID/login`, loginPage);
@@ -377,7 +379,12 @@ app.get("/cad/:cadID/admin/values/weapons/delete/:id", deleteWeapon)
 app.post("/cad/:cadID/admin/values/weapons/add", addWeapon)
 app.get("/cad/:cadID/admin/values/weapons/edit/:id", editWeaponPage)
 app.post("/cad/:cadID/admin/values/weapons/edit/:id", editWeapon)
+// citizen weapons
 
+app.get("/cad/:cadID/weapon/:id/:weapon/delete", citizenDeleteWeapon)
+// Weapon regestration
+app.get("/cad/:cadID/weapons/register", regWeaponPage)
+app.post("/cad/:cadID/weapons/register", regWeapon)
 
 // Legal 
 app.get("/cad/:cadID/admin/values/legal", legalPage)
@@ -388,9 +395,7 @@ app.get("/cad/:cadID/admin/values/legal/edit/:id", editLegalPage)
 app.post("/cad/:cadID/admin/values/legal/edit/:id", editLegal)
 
 
-// Weapon regestration
-app.get("/cad/:cadID/weapons/register", regWeaponPage)
-app.post("/cad/:cadID/weapons/register", regWeapon)
+
 
 // 404 page 
 app.get('*', (req, res) => {

@@ -27,7 +27,7 @@ module.exports = {
                             let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
                             let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
                             let query3 = "SELECT * FROM `users`";
-                            let query4 = "SELECT * FROM `cads` WHERE `cadID` = '"+req.params.cadID+"'"
+                            let query4 = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
                             connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
                                 connection.query(`${query}`, (err, result) => {
                                     if (err) {
@@ -461,23 +461,21 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "' ";
                         connection1.query(query, (err, result1) => {
-                            let query2 = "SELECT * FROM businesses";
-                            let citizen = "SELECT * FROM citizens WHERE linked_to = '" + req.session.username2 + "'"
+                            let query2 = "SELECT * FROM businesses WHERE cadID = '" + req.params.cadID + "'";
+                            let citizen = "SELECT * FROM citizens WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
                             connection.query(`${query2}; ${citizen}`, (err, result) => {
 
-                                res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID })
+                                res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, })
                             })
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     company: (req, res) => {
         let joined_business = req.body.join_business;
@@ -551,12 +549,24 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     if (result2[0]) {
-                        res.render("company/main.ejs", { title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID })
+                        let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
+                        
+                        connection.query(postss, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                res.render("company/main.ejs", { title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
+    },
+    createCompanyPostPage: (req, res) => {
+        res.send("Coming Very Soon")
     }
-}
+};

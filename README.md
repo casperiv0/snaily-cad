@@ -38,11 +38,11 @@ ToDO
 - [x] citizen AOP
 - [x] police bolos
 - [x] suspend other licenses too; pilot, weapon..
-- [ ] able to delete weapons
+- [x] able to delete registered weapons
+- [x] able to delete weapons
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] company page
-- [ ] able to delete registered weapons
 
 ## Public Branch
 

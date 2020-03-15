@@ -397,6 +397,75 @@ module.exports = {
                 })
             });
         };
+    },
+    citizenDeleteWeapon: (req, res) => {
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        } else {
+            let carID = req.params.weapon;
+            let query = "DELETE FROM `registered_weapons` WHERE id = '" + carID + "' AND `cadID` = '" + req.params.cadID + "' ";
+
+            connection.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500)
+                } else {
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                    connection1.query(query2, (err, result2) => {
+
+
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            if (result2[0]) {
+                                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                connection1.query(query2, (err, result2) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        if (result2[0]) {
+                                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                            connection1.query(query, (err, result1) => {
+                                                let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
+                                                let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
+                                                let query3 = "SELECT * FROM `users`";
+                                                let query4 = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
+                                                connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
+                                                    connection.query(`${query}`, (err, result) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                        };
+                                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "Weapon Successfully removed", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                                    });
+                                                });
+                                            });
+                                        } else {
+                                            res.send("CAD not found");
+                                        };
+                                    };
+                                });
+                            } else {
+                                res.sendStatus(404);
+                            };
+                        };
+                    });
+                };
+            });
+        };
     }
 
 }

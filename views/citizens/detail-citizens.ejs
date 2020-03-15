@@ -124,7 +124,8 @@
                             <% weapons.forEach(weapon => { %>
                             <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
                                 <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
-                                <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> </>
+                                <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
+                                <a href="/cad/<%= cadId %>/weapon/<%= citizen[0].id %>/<%= weapon.id %>/delete" class="btn btn-danger mt-2">Delete Weapon</a>
                             </li>
                             <%  }) %>
                         </p>

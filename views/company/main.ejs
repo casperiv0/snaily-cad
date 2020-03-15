@@ -1,7 +1,24 @@
 <%- include("../partials/header.ejs") %>
 
+<div class="container mt-2 text-light">
+    <h1 class="card-title "><%= req.params.company %> <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>/create-post" class="float-right btn btn-primary">Create a post</a> </h1>
 
+    <h4 class="card-title">Posts(<%= posts.length %>)</h4>
 
-<div class="container">
-    <h1 class="card-title text-center">More To Come Soon!</h1>
+    <ul class="list-group">
+        <% posts.forEach(post => {%>
+            <div class="card bg-dark border-dark mt-2">
+                <div class="card-header">
+                    <h3 class="card-title"><%= post.title %></h3>
+                </div>
+                <div class="card-body">
+                    <%= post.description %>
+                </div>
+                <div class="card-footer">
+                    <h6 class="card-title"><span class="bolder"> Uploaded by: </span> <%= post.uploadedBy %> <span class="bolder"> on </span> <%= post.uploadedAt %></h6>
+                </div>
+                
+            </div>
+        <%}) %>
+    </ul>
 </div>
