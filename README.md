@@ -45,6 +45,7 @@ ToDO
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] action logs
+- [ ] default value for ban_reason
 
 ## Public Branch
 
