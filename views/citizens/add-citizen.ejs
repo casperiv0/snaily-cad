@@ -148,6 +148,16 @@
       <option value="none">None</option>
     </select>
   </div>
+  <div class="form-group text-light">
+    <label for="exampleInputEmail1">CCW Licence</label>
+
+    <select name="ccw" class="form-control bg-dark text-light border-dark">
+      <% dmvs.forEach(dmv => { %>
+      <option value="<%= dmv.status %>"><%= dmv.status %></option>
+      <% }) %>
+      <option value="none">None</option>
+    </select>
+  </div>
   <button type="submit" class="btn btn-primary float-right margin-right-10">
     Add Citizen
   </button>

@@ -47,7 +47,8 @@ ToDO
 - [x] make warrants look better
 - [x] officer deparment values
 - [x] success msg to add citizen
-- [ ] give demerit points
+- [x] add citizen ccw
+- [x] officers page
 - [ ] add success msg to add_warrant, add_officer, ..
 - [ ] edit officers rank supervisor and such
 
