@@ -1,11 +1,12 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container mt-2">
+<div class="container-fluid mt-2">
 
     <h2 class="card-title text-light">Dispatch - AOP: <%= cad.AOP %></h2>
-    <div class="card bg-secondary container mx-auto">
+    <div class="card bg-secondary  mx-auto mb-4">
         <div class="card-header text-light bolder">
             Utility Panel
+            <span class="float-right" id="date"></span>
         </div>
         <div class="card-body row ">
             <button class="btn btn-primary list-group-item text-light btn-dark bg-dark mt-2" data-target="#nameSearch"
@@ -172,7 +173,7 @@
                             <form action="/cad/<%= cadId %>/dispatch/search/address" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="address-search">Search By Weapon</label>
-                                    <select name="address_search" id="weapon-search" class="form-control"
+                                    <select name="address_search" id="weapon-search" class="form-control text-dark"
                                         placeholder="Search By address">
                                         <% address.forEach(add => {%>
                                         <option value="<%= add.address %>"><%= add.address %></option>
@@ -195,119 +196,162 @@
                 
         </ul>
     </div>
+
+
+
+
+    <div class="container-fluid mx-auto">
+        <div class="row">
+          <div class="col-8 mb-4">
+            <ul class="list-group">
+                <div class="active list-group-item text-light ">Active Units</div>
+                
+                <!-- <span class="border-top-0"></span> -->
+                    <% officers.forEach(officer => {%>
+                        <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
+                        <!-- <p>not on duty</p> -->
+                        <%} else { %>
+                        <li class="list-group-item form-inline text-light bg-dark">
+                            <form action="/cad/<%= cadId %>/dispatch/status" method="post">
+                                <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
+                                <%= officer.officer_name %> |
+                                <%= officer.status2 %>
+                                <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                                    <option selected value="<%= officer.status %>"><%= officer.status %></option>
+                                    <option value="" disabled>New Status..</option>
+                                    <option value="10-41 | 10-8">10-41 | 10-8</option>
+                                    <option value="10-42 | 10-7">10-42 | 10-7</option>
+                                </select>
+                                <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                                    <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
+                                    <option value="" disabled>New Status..</option>
+                                    <option value="10-6">10-6</option>
+                                    <option value="10-5">10-5</option>
+                                    <option value="10-12">10-12</option>
+                                    <option value="10-97">10-97</option>
+                                    <option value="10-11">10-11</option>
+                                    <option value="Signal 11">Signal 11</option>
+                                    <option value="Code 5">Code 5</option>
+                                </select>
+                                <button type="submit" class="btn btn-success">Change Status</button>
+                            </form>
+                        </li>
+                        <%} %>
+                        <% })  %>
+                    
+                
+    
+                <div class="active list-group-item text-light">Active EMS</div>
+                <% if (ems.length > 0) { %>
+                    <% ems.forEach(ems => {%>
+                        <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
+                        <!-- <p>not on duty</p> -->
+                        <%} else { %>
+                        <li class="list-group-item form-inline text-light bg-dark">
+                            <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
+                                <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
+                                <%= ems.name %> |
+                               Currently:  <%= ems.status2 %> | 
+                                <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
+                                    <option selected value="<%= ems.status %>"><%= ems.status %></option>
+                                    <option value="" disabled>New Status..</option>
+                                    <option value="10-41 | 10-8">10-41 | 10-8</option>
+                                    <option value="10-42 | 10-7">10-42 | 10-7</option>
+                                </select>
+                                <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
+                                    <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
+                                    <option value="" disabled>New Status..</option>
+                                    <option value="10-6">10-6</option>
+                                    <option value="10-5">10-5</option>
+                                    <option value="10-12">10-12</option>
+                                    <option value="10-97">10-97</option>
+                                    <option value="10-11">10-11</option>
+                                    <option value="Signal 11">Signal 11</option>
+                                    <option value="Code 5">Code 5</option>
+                                </select>
+                                <button type="submit" class="btn btn-success">Change Status</button>
+                            </form>
+                        </li>
+                        <%} %>
+                    <% }) %>
+                <%} else { %>
+                    <li class="list-group-item bg-dark text-light">
+                        No Active EMS/FD Deputies
+                    </li>
+                <%} %>
+                
+                </ul>
+          </div>
+          <div class="col ">
+            <ul class="list-group mb-4" >
+                <div class="active list-group-item text-light ">Edit AOP</div>
+                <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
+                    <div class="form-group">
+                        <label for="input">New AOP</label>
+                        <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
+                    </div>
+                    <button type="submit" class="container btn btn-success">Update AOP</button>
+                </form>
+            </ul>
+            <!-- <ul class="list-group" >
+                <div class="active list-group-item text-light ">Quick Warrant</div>
+                <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
+                    <div class="form-group">
+                        <label for="input">New AOP</label>
+                        <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
+                    </div>
+                    <button type="submit" class="container btn btn-success">Update AOP</button>
+                </form>
+            </ul> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul class="list-group mt-3" >
+                <div class="active list-group-item text-light ">Active Bolos</div>
+                <% if (bolos.length > 0) {%>
+                    <% bolos.forEach(bolo => { %>
+                        <li class="list-group-item bg-dark text-light">
+                            <form action="/cad/<%= cadId %>/dispatch/remove-bolo" method="POST">
+                                <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
+                                  <div class="float-right">
+                                    <button type="submit" class="btn btn-danger">Remove Bolo</a>
+                                  </div>
+                              </form>
+                        </li>
+                    <%}) %>
+                <%} else {%>
+                    <li class="list-group-item bg-dark text-light">
+                        No Active Bolos
+                    </li>
+                <%}%>                 
+            </ul>
+          </div>
+          <!-- <div class="col-6">
+            2 of 3
+          </div> -->
+        </div>
+      </div>
+
     <br><br>
     <div class="container">
-        <ul class="list-group">
-            <div class="active list-group-item text-light ">Active Units</div>
-            
-            <!-- <span class="border-top-0"></span> -->
-                <% officers.forEach(officer => {%>
-                    <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
-                    <!-- <p>not on duty</p> -->
-                    <%} else { %>
-                    <li class="list-group-item form-inline text-light bg-dark">
-                        <form action="/cad/<%= cadId %>/dispatch/status" method="post">
-                            <input type="text" class="custom text-light bg-dark" name="id" value="<%= officer.id %>"> | <%= officer.officer_dept %> |
-                            <%= officer.officer_name %> |
-                            <%= officer.status2 %>
-                            <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                                <option selected value="<%= officer.status %>"><%= officer.status %></option>
-                                <option value="" disabled>New Status..</option>
-                                <option value="10-41 | 10-8">10-41 | 10-8</option>
-                                <option value="10-42 | 10-7">10-42 | 10-7</option>
-                            </select>
-                            <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                                <option selected value="<%= officer.status2 %>"><%= officer.status2 %></option>
-                                <option value="" disabled>New Status..</option>
-                                <option value="10-6">10-6</option>
-                                <option value="10-5">10-5</option>
-                                <option value="10-12">10-12</option>
-                                <option value="10-97">10-97</option>
-                                <option value="10-11">10-11</option>
-                                <option value="Signal 11">Signal 11</option>
-                                <option value="Code 5">Code 5</option>
-                            </select>
-                            <button type="submit" class="btn btn-success">Change Status</button>
-                        </form>
-                    </li>
-                    <%} %>
-                    <% })  %>
+        
                 
-            
-
-            <div class="active list-group-item text-light ">Active EMS</div>
-            <% if (ems.length > 0) { %>
-                <% ems.forEach(ems => {%>
-                    <% if(ems.status == "10-42 | 10-7" || ems.status == "") {%>
-                    <!-- <p>not on duty</p> -->
-                    <%} else { %>
-                    <li class="list-group-item form-inline text-light bg-dark">
-                        <form action="/cad/<%= cadId %>/dispatch/status-ems" method="post">
-                            <input type="text" class="custom text-light bg-dark" name="id" value="<%= ems.id %>"> |
-                            <%= ems.name %> |
-                           Currently:  <%= ems.status2 %> | 
-                            <select id="10_41" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status" id="inlineFormCustomSelectPref">
-                                <option selected value="<%= ems.status %>"><%= ems.status %></option>
-                                <option value="" disabled>New Status..</option>
-                                <option value="10-41 | 10-8">10-41 | 10-8</option>
-                                <option value="10-42 | 10-7">10-42 | 10-7</option>
-                            </select>
-                            <select id="status2" class="custom-select my-1 mr-sm-2 text-light bg-dark" name="status2" id="inlineFormCustomSelectPref">
-                                <option selected value="<%= ems.status2 %>"><%= ems.status2 %></option>
-                                <option value="" disabled>New Status..</option>
-                                <option value="10-6">10-6</option>
-                                <option value="10-5">10-5</option>
-                                <option value="10-12">10-12</option>
-                                <option value="10-97">10-97</option>
-                                <option value="10-11">10-11</option>
-                                <option value="Signal 11">Signal 11</option>
-                                <option value="Code 5">Code 5</option>
-                            </select>
-                            <button type="submit" class="btn btn-success">Change Status</button>
-                        </form>
-                    </li>
-                    <%} %>
-                <% }) %>
-            <%} else { %>
-                <li class="list-group-item bg-dark text-light">
-                    No Active EMS/FD Deputies
-                </li>
-            <%} %>
-            
-            </ul>
-                <ul class="list-group mt-3" >
-                    <div class="active list-group-item text-light ">Edit AOP</div>
-                    <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
-                        <div class="form-group">
-                            <label for="input">New AOP</label>
-                            <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
-                        </div>
-                        <button type="submit" class="container btn btn-success">Update AOP</button>
-                    </form>
-                </ul>
-                <ul class="list-group mt-3" >
-                    <div class="active list-group-item text-light ">Active Bolos</div>
-                    <% if (bolos.length > 0) {%>
-                        <% bolos.forEach(bolo => { %>
-                            <li class="list-group-item bg-dark text-light">
-                                <form action="/cad/<%= cadId %>/dispatch/remove-bolo" method="POST">
-                                    <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
-                                      <div class="float-right">
-                                        <button type="submit" class="btn btn-danger">Remove Bolo</a>
-                                      </div>
-                                  </form>
-                            </li>
-                        <%}) %>
-                    <%} else {%>
-                        <li class="list-group-item bg-dark text-light">
-                            No Active Bolos
-                        </li>
-                    <%}%>
-                    
-                   
-                </ul>
+                
     </div>
 
 </div>
 
 <div class="mb-4"></div>
+
+
+
+<script>
+    setInterval(function() {
+        let date = document.getElementById("date")
+        let d = new Date()
+        let currenttime = d.toLocaleTimeString()
+        let currentDate = d.toLocaleDateString()
+        date.textContent = currenttime + " - " + currentDate;
+    }, 100)
+</script>
