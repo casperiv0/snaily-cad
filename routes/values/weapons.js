@@ -68,8 +68,21 @@ module.exports = {
                                 connection.query(deleteUserQuery, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `A weapon was deleted by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`)
+                                            };
+                                        });
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`)
                                 });
                             } else {
                                 res.sendStatus(403)
@@ -109,22 +122,19 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: result1[0].admin, cadId: result2[0].cadID })
+                                res.render("weapons/add-weapons.ejs", { title: "Add Weapon", isAdmin: result1[0].admin, cadId: result2[0].cadID });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
@@ -164,8 +174,21 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Weapon "${name}" was added by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
+                                            };
+                                        });
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -261,8 +284,21 @@ module.exports = {
                                     if (err) {
                                         console.log(err)
                                         return res.status(500).send(err);
-                                    };
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Weapon "${name}" was edited by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
+                                            };
+                                        });
+                                    }
                                 });
                             } else {
                                 res.sendStatus(403);

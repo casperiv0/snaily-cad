@@ -166,6 +166,8 @@ const {
     deleteAccount
 } = require("./routes/login-reg");
 
+const { addDept, addDeptPage, editDept, deleteDept, editDeptPage, deptPage } = require("./routes/values/depts")
+
 const {
     dispatchPage,
     disptachNameSearch,
@@ -384,6 +386,14 @@ app.get("/cad/:cadID/admin/values/weapons/delete/:id", deleteWeapon)
 app.post("/cad/:cadID/admin/values/weapons/add", addWeapon)
 app.get("/cad/:cadID/admin/values/weapons/edit/:id", editWeaponPage)
 app.post("/cad/:cadID/admin/values/weapons/edit/:id", editWeapon)
+
+// Departments
+app.get("/cad/:cadID/admin/values/depts", deptPage)
+app.get("/cad/:cadID/admin/values/depts/add", addDeptPage)
+app.get("/cad/:cadID/admin/values/depts/edit/:id", editDeptPage)
+app.get("/cad/:cadID/admin/values/depts/delete/:id", deleteDept)
+app.post("/cad/:cadID/admin/values/depts/edit/:id", editDept)
+app.post("/cad/:cadID/admin/values/depts/add", addDept)
 // citizen weapons
 
 app.get("/cad/:cadID/weapon/:id/:weapon/delete", citizenDeleteWeapon)

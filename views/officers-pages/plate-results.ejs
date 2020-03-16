@@ -36,7 +36,7 @@
     </li>
     <li class="list-group-item list-inline text-light bg-dark">
       <span class="bolder">Drivers License:</span>
-      <span id="status2"><%= name.dmv %></span>
+      <span id="dmv"><%= name.dmv %></span>
       <form
         action="<%= name.id %>-<%= name.first_name %>-<%= name.last_name %>/suspend"
         class="list-inline-item float-right text-light bg-dark"
@@ -71,7 +71,7 @@
     status.style.color = 'green';
   }
 
-  let status2 = document.getElementById('status2');
+  let status2 = document.getElementById('dmv');
   if (status2.textContent === 'Fake') {
     status2.style.color = 'red';
   } else if (status2.textContent === 'Stolen') {

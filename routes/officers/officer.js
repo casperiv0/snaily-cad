@@ -19,7 +19,8 @@ module.exports = {
                                 connection1.query(query, (err, result1) => {
                                     if (result1[0].leo == 'yes') {
                                         let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
-                                        connection.query(`${qeury};`, (err, result) => {
+                                        let q1 = "SELECT * FROM `officers` WHERE `cadID` = '"+req.params.cadID+"'"
+                                        connection.query(`${qeury}; ${q1}`, (err, result) => {
                                             if (err) {
                                                 console.log("Error" + err)
                                             }
@@ -27,7 +28,8 @@ module.exports = {
                                                 title: "Police Department | SnailyCAD",
                                                 users: "qsd",
                                                 isAdmin: result1[0].admin,
-                                                officers: result,
+                                                officers: result[0],
+                                                allofficers: result[1],
                                                 cadId: result2[0].cadID,
                                                 cad: result43[0]
                                             });
