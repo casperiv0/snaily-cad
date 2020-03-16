@@ -162,10 +162,13 @@ module.exports = {
                 if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
                     connection1.query(query2, (err, result1) => {
                         if (err) {
-                            res.sendStatus(500)
+                            console.log(err);
+                            return res.sendStatus(500);
                         } else {
-                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                            connection1.query(query2, (err, result2) => {
+                            console.log(result1);
+                            
+                            let query23 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                            connection1.query(query23, (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500);
@@ -173,22 +176,32 @@ module.exports = {
                                     if (result2[0]) {
                                         let id = req.params.id
                                         let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
-                                        let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                                        let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "' AND cadID = '"+req.params.cadID+"'"
+                                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Updated Permissions for ${result[1][0].username} by ${req.session.username2}.`
+                        
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
 
-                                        connection1.query(query2, (err, result2) => {
+                                        connection1.query(`${query2}; ${actionLog}`, (err, result2) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.sendStatus(500);
                                             } else {
                                                 if (result2[0]) {
                                                     connection1.query(`${query1}; ${query}`, (err, result) => {
-                                                        if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
-
-                                                            res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, req: req })
+                                                        if (err) {
+                                                            console.log(err);
+                                                            return res.sendStatus(500)
                                                         } else {
-                                                            res.sendStatus(403)
-                                                        };
+                                                            if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
+    
+                                                                res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0][0].cadID, req: req })
+                                                            } else {
+                                                                res.sendStatus(403)
+                                                            };
+                                                        }
                                                     });
                                                 } else {
                                                     res.sendStatus(404)
@@ -267,7 +280,7 @@ module.exports = {
         let cad_name = req.body.cad_name
         let query4 = "UPDATE `cads` SET `cad_name` = '" + cad_name + "' WHERE `cadID` = '" + req.params.cadID + "'";
 
-        let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+        let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'";
         connection1.query(`${query}`, (err, result) => {
 
             if (result[0].admin == 'owner') {
@@ -278,7 +291,12 @@ module.exports = {
                         return res.sendStatus(500);
                     } else {
                         if (result2[0]) {
-                            connection1.query(query4, (err, result5) => {
+                            let date = new Date()
+                            let currentD = date.toLocaleString();
+                            let action_title = `CAD name was edited to "${cad_name}".`
+            
+                            let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                            connection1.query(`${query4}; ${actionLog}`, (err, result5) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500);
@@ -307,24 +325,35 @@ module.exports = {
             } else {
                 let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
 
-                connection1.query(`${query}`, (err, result) => {
-                    if (result[0].admin == 'owner') {
-                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                        connection1.query(query2, (err, result2) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500);
-                            } else {
-                                if (result2[0]) {
-                                    res.render("admin-pages/cad-settings.ejs", { messageG: 'All Citizens Were Successfully Deleted.', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                let date = new Date()
+                let currentD = date.toLocaleString();
+                let action_title = `All Citizens were deleted by ${req.session.username2}.`
+
+                let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
+
+                connection1.query(`${query}; ${actionLog}`, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else { 
+                        if (result[0][0].admin == 'owner') {
+                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                            connection1.query(query2, (err, result2) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
                                 } else {
-                                    res.sendStatus(404);
+                                    if (result2[0]) {
+                                        res.render("admin-pages/cad-settings.ejs", { messageG: 'All Citizens Were Successfully Deleted.', title: "CAD Settings | Equinox CAD", isAdmin: result[0][0].admin, cadId: result2[0].cadID })
+                                    } else {
+                                        res.sendStatus(404);
+                                    };
                                 };
-                            };
-                        });
-                    } else {
-                        res.sendStatus(403)
-                    };
+                            });
+                        } else {
+                            res.sendStatus(403)
+                        };
+                    }
                 });
             }
         })
@@ -380,9 +409,21 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     if (result2[0]) {
-                                        connection1.query(`${query1}; ${query};`, (err, result) => {
-                                            res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let name = result4[0].username
+                                        let action_title = `User ${name} was banned.`
 
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
+                                        connection1.query(`${query1}; ${query};`, (err, result) => {
+                                            connection1.query(actionLog, (err, resultt) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return resS.sendStatus(500)
+                                                } else {
+                                                    res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                                };
+                                            });
                                         });
                                     } else {
                                         res.sendStatus(404);
@@ -417,8 +458,20 @@ module.exports = {
                     } else {
                         if (result2[0]) {
                             connection1.query(`${query1}; ${query};`, (err, result) => {
-                                res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let name = result[1][0].username
+                                let action_title = `User ${name} was unbanned.`
 
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
+                                connection1.query(actionLog, (err, result22) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                    };
+                                });
                             });
                         } else {
                             res.sendStatus(404);
@@ -427,5 +480,44 @@ module.exports = {
                 });
             };
         });
-    }
+    },
+    actionLogPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+            connection1.query(`${query}`, (err, result) => {
+                if (result[0].admin == 'owner' || result[0].admin == 'admin' || result[0].admin == 'moderator') {
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                    let query = "SELECT * FROM `action_logs` WHERE cadID = '" + req.params.cadID + "'"
+                    connection1.query(`${query2}; ${query}`, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            if (result2[0]) {
+                                res.render("admin-pages/action-logs.ejs", { messageG: '', message: '', title: "Action Logs | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0][0].cadID, actions: result2[1] });
+                            } else {
+                                res.sendStatus(404);
+                            };
+                        };
+                    });
+                } else {
+                    res.sendStatus(403)
+                };
+            });
+        } else {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
+    },
 };

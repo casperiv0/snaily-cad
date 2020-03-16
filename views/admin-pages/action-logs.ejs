@@ -1,0 +1,22 @@
+<%- include("../partials/header.ejs") %> <%-
+include("../partials/admin-header.ejs") %>
+
+  <h1 class="card-title text-light">Action Logs</h1>
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Action ID</th>
+        <th scope="col">Action</th>
+        <th scope="col">Date and Time of action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% actions.forEach(action => { %>
+      <tr>
+        <th scope="row"><%= action.id %></th>
+        <td><%= action.action_title %></td>
+        <td><%= action.date %></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
