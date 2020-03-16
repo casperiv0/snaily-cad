@@ -1,11 +1,21 @@
 <%- include("partials/header.ejs") %>
 
-<form
-  class="add-player-form text-light "
-  action=""
+<% if(messageG != ''){ %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <%= messageG %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <% } %>
+<div class="container row mt-3">
+  <form
+  class="text-light ml-4 mt-3"
+  action="/cad/<%= cadId %>/account/edit/username"
   method="post"
   enctype="application/x-www-form-urlencoded"
 >
+<h3 class="card-title">Edit Username</h3>
   <div class="form-group">
     <% if(message != ''){ %>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -28,6 +38,7 @@
       class="form-control text-light bg-dark border-dark"
       id="exampleInputEmail1"
       aria-describedby="emailHelp"
+      required
     />
   </div>
   <div class="form-group">
@@ -38,6 +49,7 @@
       class="form-control text-light bg-dark border-dark"
       id="exampleInputPassword1"
       placeholder="Password"
+      required
     />
   </div>
 
@@ -52,8 +64,74 @@
   >
     Delete Account
   </button>
-  <button type="submit" class="btn btn-success">Update</button>
+  <button type="submit" class="btn btn-success">Edit Username</button>
 </form>
+
+<!-- Password -->
+<form
+class="text-light ml-4 mt-3"
+action="/cad/<%= cadId %>/account/edit/password"
+method="post"
+enctype="application/x-www-form-urlencoded"
+style="width: 20rem;"
+>
+<div class="form-group">
+  <h3 class="card-title">Edit Password</h3>
+  <% if(message2 != ''){ %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= message2 %>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="alert"
+      aria-label="Close"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+  <label for="exampleInputEmail1">Enter Old Password</label>
+  <input
+    type="password"
+    name="old_password"
+    class="form-control text-light bg-dark border-dark"
+    id="exampleInputEmail1"
+    aria-describedby="emailHelp"
+    required
+    placeholder="Old Password"
+  />
+</div>
+<div class="form-group">
+  <label for="exampleInputPassword1">Enter New Password</label>
+  <input
+    type="password"
+    name="password"
+    class="form-control text-light bg-dark border-dark"
+    id="exampleInputPassword1"
+    placeholder="New Password"
+    required
+  />
+</div>
+<div class="form-group">
+  <label for="exampleInputPassword1">Confirm New Password</label>
+  <input
+    type="password"
+    name="password2"
+    class="form-control text-light bg-dark border-dark"
+    id="exampleInputPassword1"
+    placeholder="Confirm New Password"
+    required
+  />
+</div>
+
+<a href="/cad/<%= cadId %>/citizen" class="btn canel-btn btn-danger"
+  >Cancel</a
+>
+<button type="submit" class="btn btn-success">Edit Password</button>
+</form>
+</div>
+</div>
+
 
 <div
   class="modal fade"

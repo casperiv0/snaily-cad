@@ -45,10 +45,10 @@ ToDO
 - [x] default value for ban_reason
 - [x] action logs
 - [x] make warrants look better
+- [x] officer deparment values
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
 - [ ] edit officers rank supervisor and such
-- [ ] officer deparment values
 
 ## Public Branch
 

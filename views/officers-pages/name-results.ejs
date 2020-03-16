@@ -80,15 +80,15 @@
                         <% } else  {%>
                         <p class="mb-1">
                             <% vehicles.forEach(vehicle => { %>
-                                <li class="list-group-item color-black"> <%= vehicle.vehicle %>
-                                    <p>Plate: <span class="uppercase"><%= vehicle.plate %></span>  <br> Insurance Status: <%= vehicle.in_status %> </p>
+                                <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
+                                    <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
+                                    <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
+                                    <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
+                                    <span class="font-weight-bold">VIN:</span>  <span class="cap"> <%= vehicle.vin_number %></span> <br>
                                 </li>
-            
                                 <%  }) %>
                         </p>
-        
                         <% } %>
-                    
                 </p>
             </div>
             <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
@@ -109,10 +109,10 @@
                 <% } else  {%>
                 <p class="mb-1">
                     <% weapons.forEach(weapon => { %>
-                    <li class="list-group-item color-black"> <%= weapon.weapon %>
-                        <p> weapon Status: <%= weapon.status %> </p>
-                    </li>
-
+                        <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
+                            <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
+                            <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
+                        </li>
                     <%  }) %>
                 </p>
 

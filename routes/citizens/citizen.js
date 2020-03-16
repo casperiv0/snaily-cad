@@ -34,8 +34,9 @@ module.exports = {
                                 connection.query(`${query}`, (err, result) => {
                                     if (err) {
                                         console.log(err);
-                                    };
-                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                    } else {
+                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                    }
                                 });
                             });
                         });

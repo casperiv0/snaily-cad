@@ -19,7 +19,7 @@ module.exports = {
                                 connection1.query(query, (err, result1) => {
                                     if (result1[0].leo == 'yes') {
                                         let qeury = "SELECT * FROM `officers` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
-                                        let q1 = "SELECT * FROM `officers` WHERE `cadID` = '"+req.params.cadID+"'"
+                                        let q1 = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "'"
                                         connection.query(`${qeury}; ${q1}`, (err, result) => {
                                             if (err) {
                                                 console.log("Error" + err)
@@ -79,12 +79,25 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            if (result1[0].leo == 'yes') {
-                                res.render("officers-pages/add-officers.ejs", { title: "Add Officer | SnailyCAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID })
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
                             } else {
-                                res.sendStatus(403);
+                                let query = "SELECT * FROM `deptartments` WHERE `cadID` = '" + req.params.cadID + "'";
+                                connection.query(query, (err, results) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        if (result1[0].leo == 'yes') {
+                                            res.render("officers-pages/add-officers.ejs", { title: "Add Officer | SnailyCAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID, depts: results });
+                                        } else {
+                                            res.sendStatus(403);
+                                        };
+                                    };
+                                });
                             };
                         });
                     } else {
@@ -617,10 +630,10 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].leo == 'yes') {
-
+                                let d = new Date()
                                 let name = req.body.name;
                                 let offence = req.body.offence;
-                                let date = req.body.date;
+                                let date = d.toLocaleString();
                                 let officer_name = req.body.officer_name;
                                 let postal = req.body.postal;
                                 let notes = req.body.notes;
@@ -745,7 +758,7 @@ module.exports = {
                                 let d_to = req.body.d_to;
                                 let reason = req.body.reason
                                 let query = "INSERT INTO `warrants` ( `name`, `reason`, `d_from`, `d_to`, `cadID`) VALUES ('" + name + "','" + reason + "','" + d_from + "','" + d_to + "', '" + req.params.cadID + "')";
-            
+
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err);
@@ -763,7 +776,7 @@ module.exports = {
                     }
                 }
             })
-           
+
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
@@ -833,7 +846,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-    
+
                         let id = req.params.id;
                         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
                         let query2 = "UPDATE `citizens` SET `dmv` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
@@ -844,7 +857,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
-    
+
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
                                             title: "Name Search | Police Department",
@@ -869,7 +882,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-    
+
                         let id = req.params.id;
                         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
                         let query2 = "UPDATE `citizens` SET `pilot_licence` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
@@ -880,7 +893,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
-    
+
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
                                             title: "Name Search | Police Department",
@@ -905,7 +918,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-    
+
                         let id = req.params.id;
                         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
                         let query2 = "UPDATE `citizens` SET `fire_licence` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
@@ -916,7 +929,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
-    
+
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
                                             title: "Name Search | Police Department",
@@ -941,7 +954,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-    
+
                         let id = req.params.id;
                         let query = "SELECT * FROM `citizens` WHERE id = '" + id + "'";
                         let query2 = "UPDATE `citizens` SET `ccw` = 'Suspended' WHERE `citizens`.`id` = '" + id + "'"
@@ -952,7 +965,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
-    
+
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
                                             title: "Name Search | Police Department",

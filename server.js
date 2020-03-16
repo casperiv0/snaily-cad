@@ -162,7 +162,8 @@ const {
     changeUsername,
     changeUsernamePage,
     editAccountPage,
-    editAccount,
+    editAccountUsername,
+    editAccountPassword,
     deleteAccount
 } = require("./routes/login-reg");
 
@@ -254,7 +255,8 @@ app.post("/account/edit-password-:username", editPassword)
 // Home/defualt pages
 app.get(`/cad/:cadID/`, homePage);
 app.get("/cad/:cadID/account/edit", editAccountPage);
-app.post("/cad/:cadID/account/edit", editAccount);
+app.post("/cad/:cadID/account/edit/username", editAccountUsername);
+app.post("/cad/:cadID/account/edit/password", editAccountPassword);
 app.post("/cad/:cadID/delete-account", deleteAccount)
 
 // Admin

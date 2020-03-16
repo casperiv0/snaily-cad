@@ -25,9 +25,9 @@
       class="form-control text-light border-dark bg-dark"
       id="dept"
     >
-      <option value="BCSO">BCSO</option>
-      <option value="SAHP">SAHP</option>
-      <option value="LSPD">LSPD</option>
+      <% depts.forEach(dept => { %>
+        <option value="<%= dept.name %>"><%= dept.name %></option>
+     <% }) %>
     </select>
   </div>
   <a href="/cad/<%= cadId %>/myofficers" class="btn cancel-btn btn-danger"
