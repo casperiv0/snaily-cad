@@ -46,8 +46,9 @@ ToDO
 - [x] action logs
 - [x] make warrants look better
 - [x] officer deparment values
+- [x] success msg to add citizen
 - [ ] give demerit points
-- [ ] add success msg to add_warrant, add_citizen, add_officer, ..
+- [ ] add success msg to add_warrant, add_officer, ..
 - [ ] edit officers rank supervisor and such
 
 ## Public Branch

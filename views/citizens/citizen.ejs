@@ -21,6 +21,22 @@
       </button>
     </div>
     <% } %>
+    <% if(messageG != ''){ %>
+    <div
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+    >
+      <%= messageG %>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <% } %>
 
     <ul class="list-group" id="myUL">
       <a class="btn btn-danger  mt-1" href="/cad/<%= cadId %>/logout">Logout</a>

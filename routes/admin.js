@@ -76,12 +76,10 @@ module.exports = {
                             };
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
@@ -146,25 +144,26 @@ module.exports = {
     },
     adminEditCitizen: (req, res) => {
         if (req.session.loggedin) {
+            let query2;
             let id = req.params.id
-            let admin = req.body.admin
-            if (admin == undefined) {
-                admin = "admin"
-            }
+            let admin = req.body.admin;
             let leo = req.body.leo
             let ems = req.body.ems
             let dispatch = req.body.dispatch
-
+            if (admin == undefined) {
+                query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
+            } else {
+                query2 = 'UPDATE `users` SET `admin` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
+            }
             let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            let query2 = 'UPDATE `users` SET `admin` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
-            connection1.query(`${query1}; ${query}`, (err, result) => {
-                if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
+            connection1.query(`${query1}; ${query}`, (err, result5) => {
+                if (result5[0][0].admin == 'admin' || result5[0][0].admin == 'owner') {
                     connection1.query(query2, (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
-                        } else {                            
+                        } else {
                             let query23 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query23, (err, result2) => {
                                 if (err) {
@@ -174,12 +173,12 @@ module.exports = {
                                     if (result2[0]) {
                                         let id = req.params.id
                                         let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
-                                        let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "' AND cadID = '"+req.params.cadID+"'"
+                                        let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
                                         let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
-                                        let action_title = `Updated Permissions for ${result[1][0].username} by ${req.session.username2}.`
-                        
+                                        let action_title = `Updated Permissions for ${result5[1][0].username} by ${req.session.username2}.`
+
                                         let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
 
                                         connection1.query(`${query2}; ${actionLog}`, (err, result2) => {
@@ -194,8 +193,7 @@ module.exports = {
                                                             return res.sendStatus(500)
                                                         } else {
                                                             if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
-    
-                                                                res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result[0][0].admin, cadId: result2[0][0].cadID, req: req })
+                                                                res.render("admin-pages/edit-citizens.ejs", { messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result5[0][0].admin, cadId: result2[0][0].cadID, req: req })
                                                             } else {
                                                                 res.sendStatus(403)
                                                             };
@@ -292,7 +290,7 @@ module.exports = {
                             let date = new Date()
                             let currentD = date.toLocaleString();
                             let action_title = `CAD name was edited to "${cad_name}".`
-            
+
                             let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
                             connection1.query(`${query4}; ${actionLog}`, (err, result5) => {
                                 if (err) {
@@ -333,7 +331,7 @@ module.exports = {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500)
-                    } else { 
+                    } else {
                         if (result[0][0].admin == 'owner') {
                             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query2, (err, result2) => {
@@ -357,40 +355,148 @@ module.exports = {
         })
     },
     banUser: (req, res) => {
-        let cadID = req.params.cadID;
-        let userID = req.params.id;
-        let banReason = req.body.reason
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+        } else {
+            let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
 
-        let query4 = "SELECT * FROM `users` WHERE `cadID` = '" + cadID + "' AND `id` = '" + userID + "'";
-        connection1.query(query4, (err, result4) => {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500)
-            } else {
-                if (req.session.username2 === result4[0].username) {
-                    let id = req.params.id;
-                    let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
-                    let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
+            connection1.query(`${query};`, (err, result55) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                     connection1.query(query2, (err, result2) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                connection1.query(`${query1}; ${query};`, (err, result) => {
-                                    res.render("admin-pages/edit-citizens.ejs", { message: 'You are not able to ban yourself.', messageG: '', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
-
+                                let cadID = req.params.cadID;
+                                let userID = req.params.id;
+                                let banReason = req.body.reason;
+                                if (banReason === '') {
+                                    banReason = "None specified";
+                                };
+    
+                                let query4 = "SELECT * FROM `users` WHERE `cadID` = '" + cadID + "' AND `id` = '" + userID + "'";
+                                connection1.query(query4, (err, result4) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        if (req.session.username2 === result4[0].username) {
+                                            let id = req.params.id;
+                                            let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
+                                            let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+    
+                                            connection1.query(query2, (err, result2) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return res.sendStatus(500);
+                                                } else {
+                                                    if (result2[0]) {
+                                                        connection1.query(`${query1}; ${query};`, (err, result) => {
+                                                            res.render("admin-pages/edit-citizens.ejs", { message: 'You are not able to ban yourself.', messageG: '', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].admin, cadId: result2[0].cadID, req: req });
+                                                        });
+                                                    } else {
+                                                        res.sendStatus(404);
+                                                    };
+                                                };
+                                            });
+                                        } else {
+                                            let query = "UPDATE `users` SET `banned` = 'true', `ban_reason` = '" + banReason + "' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
+    
+                                            connection1.query(query, (err, result) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return res.sendStatus(500);
+                                                } else {
+                                                    let id = req.params.id;
+                                                    let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
+                                                    let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+    
+                                                    connection1.query(query2, (err, result2) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                            return res.sendStatus(500);
+                                                        } else {
+                                                            if (result2[0]) {
+                                                                let date = new Date()
+                                                                let currentD = date.toLocaleString();
+                                                                let name = result4[0].username
+                                                                let action_title = `User ${name} was banned by ${req.session.username2}. Reason: ${banReason}`
+    
+                                                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
+                                                                connection1.query(`${query1}; ${query};`, (err, result) => {
+                                                                    connection1.query(actionLog, (err, resultt) => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            return resS.sendStatus(500)
+                                                                        } else {
+                                                                            res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].admin, cadId: result2[0].cadID, req: req });
+                                                                        };
+                                                                    });
+                                                                });
+                                                            } else {
+                                                                res.sendStatus(404);
+                                                            };
+                                                        };
+                                                    });
+                                                };
+                                            });
+                                        };
+                                    };
                                 });
                             } else {
                                 res.sendStatus(404);
                             };
                         };
                     });
+                }
+            });
+        }; 
+    },
+    unBanUser: (req, res) => {
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    let query = "UPDATE `users` SET `banned` = 'true', `ban_reason` = '" + banReason + "' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
-
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+        } else {
+            let query3 = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+            connection1.query(`${query3};`, (err, result55) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let cadID = req.params.cadID;
+                    let userID = req.params.id;
+                    let query = "UPDATE `users` SET `banned` = 'false', `ban_reason` = '' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
+            
                     connection1.query(query, (err, result) => {
                         if (err) {
                             console.log(err);
@@ -400,26 +506,26 @@ module.exports = {
                             let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
                             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
+            
                             connection1.query(query2, (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500);
                                 } else {
                                     if (result2[0]) {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let name = result4[0].username
-                                        let action_title = `User ${name} was banned.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
                                         connection1.query(`${query1}; ${query};`, (err, result) => {
-                                            connection1.query(actionLog, (err, resultt) => {
+                                            let date = new Date()
+                                            let currentD = date.toLocaleString();
+                                            let name = result[1][0].username
+                                            let action_title = `User ${name} was unbanned by ${req.session.username2}.`
+            
+                                            let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
+                                            connection1.query(actionLog, (err, result22) => {
                                                 if (err) {
                                                     console.log(err);
-                                                    return resS.sendStatus(500)
+                                                    return res.sendStatus(500)
                                                 } else {
-                                                    res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
+                                                    res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].admin, cadId: result2[0].cadID, req: req });
                                                 };
                                             });
                                         });
@@ -431,53 +537,8 @@ module.exports = {
                         };
                     });
                 };
-            };
-        });
-    },
-    unBanUser: (req, res) => {
-        let cadID = req.params.cadID;
-        let userID = req.params.id;
-        let query = "UPDATE `users` SET `banned` = 'false', `ban_reason` = '' WHERE `users`.`id` = '" + userID + "' AND `users`.`cadID` = '" + cadID + "'";
-
-        connection1.query(query, (err, result) => {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            } else {
-                let id = req.params.id;
-                let query = "SELECT * FROM `users` WHERE id = '" + id + "'";
-                let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
-                connection1.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    } else {
-                        if (result2[0]) {
-                            connection1.query(`${query1}; ${query};`, (err, result) => {
-                                let date = new Date()
-                                let currentD = date.toLocaleString();
-                                let name = result[1][0].username
-                                let action_title = `User ${name} was unbanned.`
-
-                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + cadID + "', '" + currentD + "')"
-                                connection1.query(actionLog, (err, result22) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500)
-                                    } else {
-                                        res.render("admin-pages/edit-citizens.ejs", { message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result[0].admin, cadId: result2[0].cadID, req: req });
-                                    };
-                                });
-                            });
-                        } else {
-                            res.sendStatus(404);
-                        };
-                    };
-                });
-            };
-        });
+            });
+        }
     },
     actionLogPage: (req, res) => {
         if (req.session.loggedin) {

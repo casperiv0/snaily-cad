@@ -11,19 +11,18 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -31,13 +30,13 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     addCar: (req, res) => {
         if (req.session.loggedin) {
@@ -59,19 +58,31 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Vehicle ${name} was added by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars/`);
+                                            };
+                                        });
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/cars/`);
                                 });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
@@ -100,29 +111,26 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let query = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                let query = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        res.sendStatus(500)
+                                        res.sendStatus(500);
                                     } else {
-                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
-                                    }
-                                })
+                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                    };
+                                });
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                res.sendStatus(403);
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
@@ -213,8 +221,21 @@ module.exports = {
                                     if (err) {
                                         console.log(err)
                                         return res.status(500).send(err);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Vehicle ${car_name} was edited by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
+                                            };
+                                        });
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
                                 });
                             } else {
                                 res.sendStatus(403)
@@ -266,22 +287,31 @@ module.exports = {
                                 connection.query(deleteUserQuery, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
-                                    }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `A vehicle was deleted by ${req.session.username2}.`
 
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
+                                            };
+                                        });
+                                    };
                                 });
                             } else {
                                 res.sendStatus(403)
-                            }
-                        })
+                            };
+                        });
                     } else {
                         res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                    };
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 

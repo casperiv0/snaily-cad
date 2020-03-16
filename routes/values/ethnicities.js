@@ -24,7 +24,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -32,14 +32,12 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         };
     },
     addethnicity: (req, res) => {
@@ -52,8 +50,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let ethnicity = req.body.ethnicity;
@@ -61,8 +58,21 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         return res.status(500).send(err);
+                                    } else {
+                                        let date = new Date();
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Ethnicity ${ethnicity} was added by ${req.session.username2}.`;
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')";
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500);
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
+                                            };
+                                        });
                                     };
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -191,10 +201,23 @@ module.exports = {
 
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        console.log(err)
-                                        return res.status(500).send(err);
-                                    };
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
+                                        console.log(err);
+                                        return res.statusStaus(500);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `Ethnicity ${ethnicity} was edited by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
+                                            };
+                                        });
+                                    }
                                 });
                             } else {
                                 res.sendStatus(403)
@@ -244,11 +267,23 @@ module.exports = {
                                 let deleteUserQuery = 'DELETE FROM ethnicities WHERE id = "' + playerId + '"';
 
                                 connection.query(deleteUserQuery, (err, result) => {
-
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        let date = new Date()
+                                        let currentD = date.toLocaleString();
+                                        let action_title = `An Ethnicity was deleted by ${req.session.username2}.`
+
+                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                        connection1.query(actionLog, (err, result3) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
+                                            };
+                                        });
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/ethnicities/`);
                                 });
                             } else {
                                 res.sendStatus(403);
