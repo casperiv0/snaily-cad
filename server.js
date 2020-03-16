@@ -195,7 +195,8 @@ const {
     manageAccount,
     orderPage,
     editPassword,
-    editPasswordPage
+    editPasswordPage,
+    allScreensPage
 } = require("./routes/index");
 
 const {
@@ -228,6 +229,7 @@ app.use(eSession.main(session));
 
 
 app.get("/", cadHomePage);
+app.get("/screenshots", allScreensPage);
 app.get("/account", manageAccountPage);
 app.get("/login", loginPageMain);
 app.post("/login", loginMain);

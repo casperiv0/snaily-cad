@@ -184,7 +184,7 @@ module.exports = {
                                         } else {
                                             req.session.mainLoggedin = true;
                                             req.session.user = username;
-                                            res.redirect("/");
+                                            res.redirect("/order");
                                         };
                                     });
                                 };
@@ -225,12 +225,18 @@ module.exports = {
         };
     },
     orderPage: (req, res) => {
-
+        if (req.session.mainLoggedin) {
+            res.render("main/order.ejs", {title: "Order | SnailyCAD", message: "", messageG: "", req: req});
+        } else {
+            res.redirect("/login");
+        };
     },
     editPasswordPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: '', isAdmin: '', req: req })
-        }
+            res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: '', isAdmin: '', req: req });
+        } else {
+            res.redirect("/login");
+        };
     },
     editPassword: (req, res) => {
         if (req.session.mainLoggedin) {
@@ -297,5 +303,8 @@ module.exports = {
         } else {
             res.redirect("/login");
         };
+    },
+    allScreensPage: (req, res) => {
+        res.render("main/all-screens.ejs", { title: "Screenshots | SnailyCAD", req: req })
     }
 };
