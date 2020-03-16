@@ -727,28 +727,41 @@ module.exports = {
     },
     addWarrant: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection1.query(query, (err, result) => {
-                if (result[0].leo == 'yes') {
-                    let name = req.body.name;
-                    let d_from = req.body.d_from;
-                    let d_to = req.body.d_to;
-                    let reason = req.body.reason
-                    let query = "INSERT INTO `warrants` ( `name`, `reason`, `d_from`, `d_to`, `cadID`) VALUES ('" + name + "','" + reason + "','" + d_from + "','" + d_to + "', '" + req.params.cadID + "')";
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                    connection.query(query, (err, result) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/person-name`);
-                        };
-
-                    })
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
                 } else {
-                    res.sendStatus(403);
-                };
-            });
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        connection1.query(query, (err, result) => {
+                            if (result[0].leo == 'yes') {
+                                let name = req.body.name;
+                                let d_from = req.body.d_from;
+                                let d_to = req.body.d_to;
+                                let reason = req.body.reason
+                                let query = "INSERT INTO `warrants` ( `name`, `reason`, `d_from`, `d_to`, `cadID`) VALUES ('" + name + "','" + reason + "','" + d_from + "','" + d_to + "', '" + req.params.cadID + "')";
+            
+                                connection.query(query, (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        res.redirect(`/cad/${result2[0].cadID}/officers/dash/search/person-name`);
+                                    };
+                                });
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        });
+                    } else {
+                        res.sendStatus(404)
+                    }
+                }
+            })
+           
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 

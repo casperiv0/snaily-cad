@@ -42,10 +42,11 @@ ToDO
 - [x] able to delete weapons
 - [x] link to company page in citizen details
 - [x] company page
+- [x] default value for ban_reason
+- [x] action logs
+- [x] make warrants look better
 - [ ] give demerit points
 - [ ] add success msg to add_warrant, add_citizen, add_officer, ..
-- [ ] action logs
-- [ ] default value for ban_reason
 
 ## Public Branch
 

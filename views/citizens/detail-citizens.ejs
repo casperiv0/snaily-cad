@@ -49,7 +49,7 @@
             <li class="list-group-item bg-dark text-light  mt-1">Address: <%= citizen[0].address %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Height: <%= citizen[0].height %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Weight: <%= citizen[0].weight %> </li>
-            <% if (citizen[0].business == "") { %>
+            <% if (citizen[0].business === "Currently is not working") { %>
             <li class="list-group-item bg-dark text-light  mt-1">Employer: Currently is not working</li>
             <%} else {%>
             <li class="list-group-item bg-dark text-light  mt-1">Employer: <a href="/cad/<%= cadId %>/citizen/company/<%= citizen[0].business %>"> <%= citizen[0].business %></a> </li>

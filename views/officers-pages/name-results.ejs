@@ -181,8 +181,8 @@
             <p class="mb-1">
                 <% warrants.forEach(war => { %>
                 <li class="list-group-item color-black">
-                    <p><span class="card-title bolder"> Warrant:</span> <%= war.reason %></p>
-                    <p><span class="card-title bolder">Date From, To: <%= war.d_from %>-<%= war.d_to %></span></p>
+                    <span class="card-title bolder"> Warrant: </span> <%= war.reason %> <br>
+                    <span class="card-title bolder">Date From, To: </span> <%= war.d_from %>-<%= war.d_to %>
                 </li>
                 <%  }) %>
             </p>

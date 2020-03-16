@@ -164,9 +164,7 @@ module.exports = {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
-                        } else {
-                            console.log(result1);
-                            
+                        } else {                            
                             let query23 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query23, (err, result2) => {
                                 if (err) {
