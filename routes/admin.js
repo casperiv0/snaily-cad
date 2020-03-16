@@ -485,7 +485,7 @@ module.exports = {
             connection1.query(`${query}`, (err, result) => {
                 if (result[0].admin == 'owner' || result[0].admin == 'admin' || result[0].admin == 'moderator') {
                     let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                    let query = "SELECT * FROM `action_logs` WHERE cadID = '" + req.params.cadID + "'"
+                    let query = "SELECT * FROM `action_logs` WHERE cadID = '" + req.params.cadID + "' ORDER BY `date` DESC"
                     connection1.query(`${query2}; ${query}`, (err, result2) => {
                         if (err) {
                             console.log(err);
