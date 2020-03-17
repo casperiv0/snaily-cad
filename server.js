@@ -417,22 +417,29 @@ app.post("/cad/:cadID/admin/values/legal/edit/:id", editLegal)
 
 
 // 404 page 
-app.get('*', (req, res) => {
-    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-    if (req.path.includes("/cad/")) {
+app.get('/cad/:cadID/*', (req, res) => {
+    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+    connection1.query(query2, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (req.path.includes("/cad/")) {
+                res.status(404).render("errors/404.ejs", {
+                    title: "404 | Equinox CAD",
+                    isAdmin: req.session.admin,
+                    cadId: result[0].cadID
+                });
+            }
+        }
+    })
 
-        res.status(404).render("errors/404.ejs", {
-            title: "404 | Equinox CAD",
-            isAdmin: req.session.admin,
-            cadId: req.params.cadID
-        })
-    } else {
-        res.status(404).render("errors/404-main.ejs", {
-            title: "404 | Equinox CAD",
-            isAdmin: req.session.admin,
-            cadId: ''
-        });
-    };
+});
+app.get('/*', (req, res) => {
+    res.status(404).render("errors/404-main.ejs", {
+        title: "404 | Equinox CAD",
+    });
+
 });
 
 

@@ -94,15 +94,6 @@ module.exports = {
                                         res.sendStatus(404)
                                     } else {
                                         if (result[0][0].linked_to === req.session.username2) {
-                                            // console.log(first_name + "first_nae")
-                                            // console.log(result[3][0].business_owner)
-                                            // if (result[3][0].business_owner == first_name) {
-                                            //     isCeo = true
-                                            // } else {
-                                            //     isCeo = false
-                                            // }
-                                            // console.log(isCeo);
-
                                             res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                         } else {
                                             res.sendStatus(401);
@@ -574,20 +565,16 @@ module.exports = {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-
                 connection.query(`${query}; ${query2}`, (err, result1) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
                     } else {
-                        res.redirect(`/cad/${result2[0].cadID}/citizen/company/${companyName}`)
-
-                    }
-                })
-            }
-        })
-
-
+                        res.redirect(`/cad/${result2[0].cadID}/citizen/company/${companyName}`);
+                    };
+                });
+            };
+        });
     },
     companyDetailPage: (req, res) => {
         if (!req.session.loggedin) {
@@ -601,26 +588,34 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result2) => {
-                if (err) {
+            let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "'"
+            connection1.query(query, (err, result5) => {
+                if(err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
-                        let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' AND `business` = '" + req.params.company + "'"
-                        connection.query(`${postss}; ${totalEmployees}`, (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500)
+                    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                    connection1.query(query2, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            if (result2[0]) {
+                                let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
+                                let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' AND `business` = '" + req.params.company + "'"
+                                connection.query(`${postss}; ${totalEmployees}`, (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
+                                    };
+                                });
                             } else {
-                                res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
+                                res.sendStatus(404);
                             };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
+                        };
+                    });
                 };
             });
         };
