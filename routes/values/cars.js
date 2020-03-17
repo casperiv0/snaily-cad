@@ -53,8 +53,7 @@ module.exports = {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let name = req.body.cname;
                                 let cadID = req.params.cadID;
-
-                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`, ``default_car`) VALUES ('" + name + "', '" + cadID + "', 'false')";
+                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`, `default_car`) VALUES ('" + name + "', '" + cadID + "', 'false')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err);

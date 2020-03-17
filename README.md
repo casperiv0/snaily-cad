@@ -2,6 +2,11 @@
 
 Simple CAD for a awesome server
 
+BUGS
+
+- [ ] no offcers > show no officers
+- [ ] no bolos > no bolos
+
 ToDO
 
 - [x] Multiple citizens
@@ -56,6 +61,8 @@ ToDO
 - [x] department page admin header
 - [x] ethnicity page admin header
 - [ ] edit officers rank supervisor and such
+
+
 
 ## Public Branch
 

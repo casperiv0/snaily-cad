@@ -4,7 +4,7 @@ const saltRounds = 15;
 module.exports = {
     loginPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -19,7 +19,7 @@ module.exports = {
                 }
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -40,7 +40,7 @@ module.exports = {
         var username = req.body.username;
         var password = req.body.password;
         let cadID = req.params.cadID
-        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
         connection1.query(query2, (err, result2) => {
             if (!result2) {
                 res.sendStatus(404)
@@ -95,7 +95,7 @@ module.exports = {
         if (req.session.loggedin) {
             res.redirect("/citizen")
         } else {
-            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query, (err, result1) => {
                 if (err) {
                     console.log(err);
@@ -116,7 +116,7 @@ module.exports = {
         var password = req.body.password;
         var password2 = req.body.password2;
         let cadID = req.params.cadID;
-        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
         connection1.query(query, (err, result2) => {
             if (password.length < 6) {
                 return res.render("login-res/reg.ejs", { title: 'Login | SnailyCAD', isAdmin: "", message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
@@ -178,7 +178,7 @@ module.exports = {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
-                let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                 connection1.query(query, (err, result2) => {
                     if (err) {
                         console.log(err);
@@ -193,7 +193,7 @@ module.exports = {
                 })
             });
         } else {
-            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query, (err, result2) => {
                 if (err) {
@@ -213,7 +213,7 @@ module.exports = {
     },
     editAccountUsername: (req, res) => {
         if (!req.session.loggedin) {
-            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query, (err, result2) => {
                 if (err) {
@@ -228,7 +228,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result3) => {
                 if (err) {
                     console.log(err);
@@ -278,7 +278,7 @@ module.exports = {
     },
     editAccountPassword: (req, res) => {
         if (!req.session.loggedin) {
-            let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query, (err, result2) => {
                 if (err) {
@@ -293,7 +293,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result3) => {
                 if (err) {
                     console.log(err);
@@ -307,7 +307,7 @@ module.exports = {
                         if (password !== password2) {
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                             connection1.query(query, (err, result1) => {
-                                let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                                let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                                 connection1.query(query, (err, result2) => {
                                     if (err) {
                                         console.log(err);
@@ -405,7 +405,7 @@ module.exports = {
                         console.log(err);
                         return res.sendStatus(500)
                     } else {
-                        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
                         connection1.query(query, async (err, result2) => {
                             if (err) {

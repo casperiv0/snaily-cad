@@ -3,7 +3,7 @@ const d = new Date()
 module.exports = {
     citizenPage: (req, res, next) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -17,7 +17,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -49,7 +49,7 @@ module.exports = {
     },
     citizenDetailPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -64,7 +64,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -121,7 +121,7 @@ module.exports = {
     },
     addCitizenPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -137,7 +137,7 @@ module.exports = {
             })
         } else {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -165,7 +165,7 @@ module.exports = {
     },
     addCitizen: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -246,7 +246,7 @@ module.exports = {
                         if (result3.length > 0) {
 
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query2, (err, result2) => {
                                 if (err) {
                                     console.log(err);
@@ -271,7 +271,7 @@ module.exports = {
                                 };
                             });
                         } else {
-                            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
                             connection1.query(query2, (err, result2) => {
                                 if (err) {
                                     console.log(err);
@@ -283,7 +283,7 @@ module.exports = {
                                                 console.log(err);
                                                 return res.status(500).send("Something went wrong")
                                             } else {
-                                                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                                let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
                                                 connection1.query(query2, (err, result2) => {
                                                     if (err) {
                                                         console.log(err);
@@ -326,7 +326,7 @@ module.exports = {
     },
     editCitizenPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -351,7 +351,7 @@ module.exports = {
                 connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, (err, result) => {
 
                     if (result[3][0].linked_to == req.session.username2) {
-                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                         connection1.query(query2, (err, result2) => {
                             if (err) {
                                 console.log(err);
@@ -377,7 +377,7 @@ module.exports = {
     },
     editCitizen: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -431,7 +431,7 @@ module.exports = {
                         if (err) {
                             console.log(err);
                         };
-                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
                         connection1.query(query2, (err, result2) => {
                             if (err) {
                                 console.log(err);
@@ -451,7 +451,7 @@ module.exports = {
     },
     deleteCitizens: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -465,7 +465,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -497,7 +497,7 @@ module.exports = {
     },
     companyPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -511,7 +511,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
 
             connection1.query(query2, (err, result2) => {
@@ -540,7 +540,7 @@ module.exports = {
         let joined_business = req.body.join_business;
         let citizen_name = req.body.citizen_name;
         let query = 'UPDATE `citizens` SET `business` = "' + joined_business + '" WHERE `citizens`.`full_name` = "' + citizen_name + '"';
-        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
         connection1.query(query2, (err, result2) => {
             if (err) {
@@ -567,7 +567,7 @@ module.exports = {
         let owner = req.body.owner;
         let query = 'INSERT INTO `businesses` (`business_name`, `business_owner`, `linked_to`, `cadID`) VALUES  ("' + companyName + '", "' + owner + '", "' + req.session.username2 + '", "' + req.params.cadID + '")';
         let query2 = 'UPDATE `citizens` SET `business` = "' + companyName + '" WHERE `citizens`.`full_name` = "' + owner + '"';
-        let query3 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+        let query3 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
         connection1.query(query3, (err, result2) => {
             if (err) {
@@ -591,7 +591,7 @@ module.exports = {
     },
     companyDetailPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -601,7 +601,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -627,7 +627,7 @@ module.exports = {
     },
     createCompanyPostPage: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -637,7 +637,7 @@ module.exports = {
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -661,7 +661,7 @@ module.exports = {
             let uploadedAt = d.toLocaleDateString();
 
             if (title.includes("'")) {
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                 connection1.query(query2, (err, result2) => {
                     if (err) {
                         console.log(err);
@@ -675,7 +675,7 @@ module.exports = {
                     };
                 });
             } else if (desc.includes("'")) {
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                 connection1.query(query2, (err, result2) => {
                     if (err) {
                         console.log(err);
@@ -695,7 +695,7 @@ module.exports = {
                         console.log(err);
                         return res.sendStatus((500))
                     } else {
-                        let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                         connection1.query(query2, (err, result2) => {
                             if (err) {
                                 console.log(err);
@@ -722,7 +722,7 @@ module.exports = {
                 });
             };
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);

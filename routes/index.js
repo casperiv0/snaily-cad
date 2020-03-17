@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 15;
+const d = new Date()
 module.exports = {
     homePage: (req, res, next) => {
-        let query2 = "SELECT `cadID` FROM `users` WHERE `cadID` = '" + req.params.cadID + "'"
+        let query2 = "SELECT `cadID` FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
         connection1.query(query2, (err, result2) => {
             if (err) {
-                console.log(err.code);
                 connection1.query("INSERT INTO `errors` (`name`, `description`) VALUES ('" + err.name + "', '" + err.message + "')", (err2, resultError) => {
                     if (err2) {
                         console.log("error2" + err2);
@@ -17,13 +17,14 @@ module.exports = {
                 if (!result2[0]) {
                     res.sendStatus(404)
                 } else {
-                    let query = "SELECT * FROM `users` WHERE `cadID` = '" + result2[0].cadID + "'"
+                    let query = "SELECT * FROM `cads` WHERE `cadID` = '" + result2[0].cadID + "'"
                     connection1.query(query, (err, result) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
-                            if (result[0].expired === 'yes') {
+                            let expire_date = d.toLocaleDateString()
+                            if (result[0].expire_date === expire_date) {
                                 res.render("expired.ejs", { title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
                             } else {
                                 res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });

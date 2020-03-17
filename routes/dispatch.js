@@ -4,7 +4,7 @@ module.exports = {
     dispatchPage: (req, res) => {
 
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -13,8 +13,8 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].dispatch == 'yes' || result[0].admin == 'owner' || result[0].admin == 'admin') {
+                        connection1.query(query, (err, result22) => {
+                            if (result22[0].dispatch == 'yes') {
 
                                 let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
                                 connection1.query(cads, (err, result43) => {
@@ -31,13 +31,13 @@ module.exports = {
                                                 console.log(err)
                                                 return res.sendStatus(500);
                                             } else {
-                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
+                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: result22[0].admin, weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
                                             };
                                         });
                                     }
                                 });
                             } else {
-                                res.sendStatus(403);
+                                res.render("dispatch/403.ejs", { title: "Unauthorized | SnailyCAD", isAdmin: result22[0].admin, cadId: result2[0].cadID });
                             };
                         });
                     } else {
