@@ -54,8 +54,8 @@ ToDO
 - [x] register car for default cars
 - [x] default cars for CADS foldable
 - [x] department page admin header
+- [x] ethnicity page admin header
 - [ ] edit officers rank supervisor and such
-- [ ] ethnicity page admin header
 
 ## Public Branch
 

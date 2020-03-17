@@ -54,7 +54,7 @@ module.exports = {
                                 let name = req.body.cname;
                                 let cadID = req.params.cadID;
 
-                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`) VALUES ('" + name + "', '" + cadID + "')";
+                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`, ``default_car`) VALUES ('" + name + "', '" + cadID + "', 'false')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err);
@@ -85,7 +85,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -93,14 +93,13 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     carValuePage: (req, res) => {
         if (req.session.loggedin) {
