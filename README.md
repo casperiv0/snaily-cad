@@ -49,6 +49,8 @@ ToDO
 - [x] success msg to add citizen
 - [x] add citizen ccw
 - [x] officers page
+- [x] if no car/weapons registered show reg link
+- [x] show total ppl working somewhere on company page
 - [ ] add success msg to add_warrant, add_officer, ..
 - [ ] edit officers rank supervisor and such
 

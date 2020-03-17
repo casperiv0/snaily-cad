@@ -615,13 +615,13 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
-
-                        connection.query(postss, (err, result) => {
+                        let totalEmployees  = "SELECT * FROM `citizens` WHERE `cadID` = '"+req.params.cadID+"' AND `business` = '"+req.params.company+"'"
+                        connection.query(`${postss}; ${totalEmployees}`, (err, result) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
+                                res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
                             };
                         });
                     } else {

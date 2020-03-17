@@ -3,6 +3,7 @@
 <div class="container mt-2 text-light">
     <h1 class="card-title "><%= req.params.company %> <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>/create-post" class="float-right btn btn-primary">Create a post</a> </h1>
     <h4 class="card-title">Posts(<%= posts.length %>)</h4>
+    <h5 class="card-title">Employees(<%= employees.length %>)</h5>
     <% if(messageG != ''){ %>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <%= messageG %>
