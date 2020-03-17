@@ -112,7 +112,8 @@ module.exports = {
         let username = req.params.username
         let orderID = req.body.orderID;
         let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `AOP`, `expire_date`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "', '', 'N/A', '')";
-        connection1.query(cadS, (err, result) => {
+        let userQ = "UPDATE `users` SET `admin` = 'owner' WHERE `username` = '" + username + "'"
+        connection1.query(`${cadS}; ${userQ}`, (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
