@@ -248,7 +248,7 @@ app.get("/admin/dashboard/", adminDashboard)
 app.get("/admin/dashboard/:username", usernameAdminPage)
 app.post("/admin/dashboard/:username", usernameAdmin)
 app.post("/admin/dashboard/:username/add-cad", addCad)
-app.post("/admin/expired", expireCAD)
+app.get("/admin/expire-cad/:cadID", expireCAD)
 app.post("/admin/reactivate", reactivateCAD)
 // Settings
 app.post("/account/change-username", changeUsernameMain);

@@ -6,6 +6,7 @@
     <% cads.forEach(cad => { %>
     <li class="list-group-item text-dark">
       <a href="/cad/<%= cad.cadID %>/"><%= cad.orderID %> | <%= cad.cadID %></a>
+      <a href="/admin/expire-cad/<%= cad.cadID %>" class="btn btn-danger float-right">Expire CAD</a>
     </li>
     <%}) %>
   </ul>
@@ -67,6 +68,17 @@
               />
             </div>
             <h4 class="card-title" id="random">Random CAD ID: <%= IDs %></h4>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Expire Date</label>
+              <input
+              required
+                type="text"
+                name="expire_date"
+                class="form-control"
+                placeholder="EG: 3/17/2020"
+                aria-describedby="emailHelp"
+              />
+            </div>
 
         </div>
         <div class="modal-footer">

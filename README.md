@@ -6,6 +6,7 @@ BUGS
 
 - [ ] no offcers > show no officers
 - [ ] no bolos > no bolos
+- [ ] expire CAD page for all pages
 
 ToDO
 

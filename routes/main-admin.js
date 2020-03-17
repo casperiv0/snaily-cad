@@ -81,8 +81,9 @@ module.exports = {
         })
     },
     expireCAD: (req, res) => {
-        let CADID = req.body.cadID;
-        let query = "UPDATE `users` SET `admin` = 'none', `leo` = 'no', `ems_fd` = 'no', `dispatch` = 'no', `cadID` = '" + CADID + "', `expired` = 'yes' WHERE `users`.`cadID`= '" + CADID + "'";
+        let CADID = req.params.cadID;
+        let d = new Date()
+        let query = "UPDATE `cads` SET `expire_date` = '" + d.toLocaleDateString() + "' WHERE `cads`.`cadID` = '"+CADID+"'"
 
         connection1.query(query, (err, result) => {
             if (err) {
@@ -111,8 +112,8 @@ module.exports = {
         let CADID = req.body.cadID;
         let username = req.params.username
         let orderID = req.body.orderID;
-        const d = new Date()
-        let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `AOP`, `expire_date`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "', '', 'N/A', '"+d.toLocaleString()+"')";
+        let expire_date = req.body.expire_date;
+        let cadS = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `AOP`, `expire_date`) VALUES ('" + CADID + "', '" + orderID + "', '" + username + "', '', 'N/A', '" + expire_date + "')";
         let userQ = "UPDATE `users` SET `admin` = 'owner' WHERE `username` = '" + username + "'"
         connection1.query(`${cadS}; ${userQ}`, (err, result) => {
             if (err) {
