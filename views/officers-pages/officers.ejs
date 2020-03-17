@@ -100,6 +100,7 @@
         </tr>
       </thead>
         <tbody>
+          <% if (allofficers.length > 0) { %>
             <% allofficers.forEach(officer => { %>
               <tr>
                 <th scope="row"><%= officer.id %></th>
@@ -108,6 +109,13 @@
                 <td><%= officer.status %></td>
               </tr>
             <%}) %>
+            <%} else {%>
+            <tr>
+            <th scope="row">0</th>
+            <td>/</td>
+            <td>There are no police officers</td>
+            <td>/</td>
+          </tr><%}%>
         </tbody>
     </table>
   </ul>

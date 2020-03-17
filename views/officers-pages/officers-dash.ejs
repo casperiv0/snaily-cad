@@ -39,16 +39,23 @@
   </ul>
   <ul class="list-group mt-3" >
     <div class="active list-group-item text-light ">Active Bolos</div>
-    <% bolos.forEach(bolo => { %>
+    <% if (bolos.length > 0) { %>
+      <% bolos.forEach(bolo => { %>
+        <li class="list-group-item bg-dark text-light">
+          <form action="/cad/<%= cadId %>/officers/remove-bolo" method="POST">
+            <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
+              <div class="float-right">
+                <button type="submit" class="btn btn-danger">Remove Bolo</a>
+              </div>
+          </form>
+        </li>
+    <%}) %>
+    <% } else { %>
       <li class="list-group-item bg-dark text-light">
-        <form action="/cad/<%= cadId %>/officers/remove-bolo" method="POST">
-          <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
-            <div class="float-right">
-              <button type="submit" class="btn btn-danger">Remove Bolo</a>
-            </div>
-        </form>
+        There're no active bolos.
       </li>
-  <%}) %>
+      <% } %>
+  
     
     <div class="modal fade" id="bolo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">

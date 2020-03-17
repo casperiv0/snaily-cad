@@ -2,10 +2,6 @@
 
 Simple CAD for a awesome server
 
-BUGS
-
-- [ ] no offcers > show no officers
-- [ ] no bolos > no bolos
 - [ ] expire CAD page for all pages
 
 ToDO
@@ -61,9 +57,9 @@ ToDO
 - [x] default cars for CADS foldable
 - [x] department page admin header
 - [x] ethnicity page admin header
+- [x] no offcers > show no officers
+- [x] no bolos > no bolos
 - [ ] edit officers rank supervisor and such
-
-
 
 ## Public Branch
 
