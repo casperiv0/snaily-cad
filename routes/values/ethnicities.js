@@ -13,7 +13,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
+                                res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -57,7 +57,8 @@ module.exports = {
                                 let query = "INSERT INTO `ethnicities` (`ethnicity`, `cadID`) VALUES ('" + ethnicity + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     } else {
                                         let date = new Date();
                                         let currentD = date.toLocaleString();
@@ -101,11 +102,12 @@ module.exports = {
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let query = "SELECT * FROM `ethnicities` WHERE `cadID` = '" + req.params.cadID + "'";
-                                connection.query(query, (err, result) => {
+                                connection.query(query, (err, result1) => {
                                     if (err) {
                                         res.sendStatus(400);
-                                    };
-                                    res.render("admin-pages/ethnicities.ejs", { title: 'Admin Panel | Values', ethnicities: result, isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
+                                    } else {
+                                        res.render("admin-pages/ethnicities.ejs", { title: 'Admin Panel | Values', ethnicities: result1, isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                    }
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -149,11 +151,13 @@ module.exports = {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
                                 let ethnicitiesId = req.params.id;
                                 let query = "SELECT * FROM `ethnicities` WHERE id = '" + ethnicitiesId + "' ";
-                                connection.query(query, (err, result) => {
+                                connection.query(query, (err, result1) => {
                                     if (err) {
-                                        return res.status(500).send(err);
-                                    };
-                                    res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity | SnailyCAD", ethnicity: result[0], isAdmin: req.session.isAdmin, cadId: result2[0].cadID });
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity | SnailyCAD", ethnicity: result1[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                    }
                                 });
                             } else {
                                 res.sendStatus(403);

@@ -103,7 +103,8 @@ module.exports = {
                                 let query = "INSERT INTO `in_statuses` (`status`, `cadID`) VALUES ('" + legalStatus + "', '" + cadId + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return res.console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -165,7 +166,8 @@ module.exports = {
 
                                 connection.query(deleteUserQuery, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return res.console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -224,7 +226,8 @@ module.exports = {
                                 let query = "SELECT * FROM `in_statuses` WHERE id = '" + genderId + "' ";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return res.console.log(err);
+                                        return res.sendStatus(500);;
                                     }
                                     res.render("legal/edit-legal.ejs", { title: "Edit Legal | SnailyCAD", legal: result[0], isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                 });
@@ -273,7 +276,8 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err)
-                                        return res.status(500).send(err);
+                                        res.console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();

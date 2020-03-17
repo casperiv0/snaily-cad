@@ -57,7 +57,8 @@ module.exports = {
                                 let query = "INSERT INTO `vehicles` (`cname`, `cadID`) VALUES ('" + name + "', '" + cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -165,7 +166,8 @@ module.exports = {
                                 let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     }
                                     res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID })
                                 });
@@ -220,7 +222,8 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err)
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -286,7 +289,8 @@ module.exports = {
 
                                 connection.query(deleteUserQuery, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -342,7 +346,7 @@ module.exports = {
                     connection1.query(query, (err, result1) => {
                         let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                        let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'" 
+                        let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
                         let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
 
@@ -405,7 +409,8 @@ module.exports = {
 
                 connection.query(query, (err, result) => {
                     if (err) {
-                        return res.status(500).send(err);
+                        console.log(err);
+                        return res.sendStatus(500);
                     }
                     let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                     connection1.query(query2, (err, result2) => {

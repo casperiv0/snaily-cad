@@ -67,7 +67,8 @@ module.exports = {
 
                                 connection.query(deleteUserQuery, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -173,7 +174,8 @@ module.exports = {
                                 let query = "INSERT INTO `weapons` (`name`, `cadID`) VALUES ('" + name + "', '" + cadId + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -232,7 +234,8 @@ module.exports = {
                                 let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        return console.log(err);
+                                        return res.sendStatus(500);;
                                     }
                                     res.render("weapons/edit-weapon.ejs", { title: "Edit Gender", weapon: result[0], isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                 });
@@ -283,7 +286,8 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     if (err) {
                                         console.log(err)
-                                        return res.status(500).send(err);
+                                        return console.log(err);
+                                        return res.sendStatus(500);;
                                     } else {
                                         let date = new Date()
                                         let currentD = date.toLocaleString();
@@ -361,7 +365,8 @@ module.exports = {
 
                         connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
                             if (err) {
-                                return res.status(500).send(err);
+                                console.log(err);
+                                return res.sendStatus(500);;
                             }
                             res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3], cadId: result2[0].cadID })
                         });
@@ -411,7 +416,8 @@ module.exports = {
 
             connection.query(query, (err, result) => {
                 if (err) {
-                    return res.status(500).send(err);
+                    console.log(err);
+                    return res.sendStatus(500);;
                 }
 
                 let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"

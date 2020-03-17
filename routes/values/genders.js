@@ -68,11 +68,12 @@ module.exports = {
                                 let deleteUserQuery = 'DELETE FROM genders WHERE id = "' + playerId + '"';
 
                                 connection.query(deleteUserQuery, (err, result) => {
-
                                     if (err) {
-                                        return res.status(500).send(err);
-                                    }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`);
+                                    };
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -163,9 +164,11 @@ module.exports = {
                                 let query = "INSERT INTO `genders` (`gender`, `cadID`) VALUES ('" + gender + "', '" + req.params.cadID + "')";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
+                                    } else {
+                                        res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
                                     }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -214,7 +217,8 @@ module.exports = {
                                 let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     };
                                     res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
                                 });
@@ -269,8 +273,8 @@ module.exports = {
 
                                 connection.query(query, (err, result) => {
                                     if (err) {
-                                        console.log(err)
-                                        return res.status(500).send(err);
+                                        console.log(err);
+                                        return res.sendStatus(500);
                                     }
                                     res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
                                 });

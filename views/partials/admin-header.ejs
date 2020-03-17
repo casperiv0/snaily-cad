@@ -36,13 +36,13 @@
   href="/cad/<%= cadId %>/admin/action-log"
   >Action Log</a
 >
-  <% if (isAdmin == 'admin' || isAdmin == 'owner') { %>
+  <% if (isAdmin === 'admin' || isAdmin === 'owner') { %>
   <a
     class="navbar-brand text-light margin-left-10"
     href="/cad/<%= cadId %>/admin/users"
     >Member management</a
   >
-  <% } else {%> <%} %> <% if (isAdmin == 'owner') { %>
+  <% } else {%> <%} %> <% if (isAdmin === 'owner') { %>
   <a
     class="navbar-brand text-light"
     href="/cad/<%= cadId %>/admin/edit-cad"
