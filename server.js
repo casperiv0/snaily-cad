@@ -422,7 +422,7 @@ app.get('/cad/:cadID/*', (req, res) => {
     connection1.query(query2, (err, result) => {
         if (err) {
             console.log(err);
-            return res.sendStatus(500)
+            return res.sendStatus(500);
         } else {
             if (req.path.includes("/cad/")) {
                 res.status(404).render("errors/404.ejs", {
@@ -430,21 +430,15 @@ app.get('/cad/:cadID/*', (req, res) => {
                     isAdmin: req.session.admin,
                     cadId: result[0].cadID
                 });
-            }
-        }
-    })
-
+            };
+        };
+    });
 });
 app.get('/*', (req, res) => {
     res.status(404).render("errors/404-main.ejs", {
         title: "404 | Equinox CAD",
     });
-
 });
-
-
-
-
 
 async function main() {
     function handleDisconnect() {
