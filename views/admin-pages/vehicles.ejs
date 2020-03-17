@@ -6,7 +6,22 @@ include("../partials/admin-header.ejs") %>
     Vehicles management <a href="/cad/<%= cadId %>/admin/values/cars/add">+</a>
   </h1>
 
+  <h3 class="card-title text-light mt-2">Default Story Mode Vehicles</h3>
 
+  <button class="container btn btn-primary mb-4" id="showAll" onclick="showAll()">
+    Show All
+  </button>
+  <div id="dots2"></div>
+  <ul class="list-group" id="hiddenMore">
+    <% defaults.forEach(value => { %>
+      <li class="list-group-item text-light bg-dark">
+        <%= value.id %> | <%= value.cname %>
+      </li>
+  
+      <% }) %>
+  </ul>
+
+  <h3 class="card-title text-light mt-2">Custom Added Vehicles</h3>
   <% if (vehicles.length > 0) {%>
     <input
       type="text"
@@ -40,20 +55,7 @@ include("../partials/admin-header.ejs") %>
   </p>
   <% } %>
 
-  <h3 class="card-title text-light mt-2">Default Story Mode Vehicles</h3>
 
-  <button class="container btn btn-primary mb-4" id="showAll" onclick="showAll()">
-    Show All
-  </button>
-  <div id="dots2"></div>
-  <ul class="list-group" id="hiddenMore">
-    <% defaults.forEach(value => { %>
-      <li class="list-group-item text-light bg-dark">
-        <%= value.id %> | <%= value.cname %>
-      </li>
-  
-      <% }) %>
-  </ul>
 </div>
 
 <div class="mb-4"></div>

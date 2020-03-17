@@ -354,10 +354,10 @@ module.exports = {
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                     connection1.query(query, (err, result1) => {
-                        let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
-                        let citizens = "SELECT * FROM `citizens`"
-                        let wStatusess = "SELECT * FROM `in_statuses` ORDER BY id ASC"
-                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+                        let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                        let citizens = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
+                        let wStatusess = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC"
+                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
 
                         connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
                             if (err) {

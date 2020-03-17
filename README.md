@@ -51,13 +51,13 @@ ToDO
 - [x] officers page
 - [x] if no car/weapons registered show reg link
 - [x] show total ppl working somewhere on company page
+- [x] register car for default cars
 - [ ] add success msg to add_warrant, add_officer, ..
 - [ ] edit officers rank supervisor and such
 - [ ] department page admin header
 - [ ] ethnicity page admin header
 - [ ] department page admin header
 - [ ] default cars for CADS foldable
-- [ ] register car for default cars
 
 ## Public Branch
 

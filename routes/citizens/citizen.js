@@ -145,27 +145,23 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         connection1.query(query, (err, result1) => {
-                            let genderQ = "SELECT * FROM `genders`"
-                            let ethnicityQ = "SELECT * FROM `ethnicities`"
-                            let dmvQ = "SELECT * FROM `in_statuses`"
+                            let genderQ = "SELECT * FROM `genders` WHERE `cadID` = '" + req.params.cadID + "'"
+                            let ethnicityQ = "SELECT * FROM `ethnicities` WHERE `cadID` = '" + req.params.cadID + "'"
+                            let dmvQ = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'"
                             connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
                                 if (err) {
                                     return res.status(500).send(err);
-                                }
-                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
-
+                                } else {
+                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                };
                             });
                         });
                     } else {
                         res.sendStatus(404)
-                    }
-
-                }
-            })
-
-
-
-        }
+                    };
+                };
+            });
+        };
     },
     addCitizen: (req, res) => {
         if (!req.session.loggedin) {
@@ -213,7 +209,7 @@ module.exports = {
                 if (height == "") {
                     height = "Unknown"
 
-                } 
+                }
                 if (height.includes("'") || height.includes('"')) {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                     let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
@@ -244,11 +240,11 @@ module.exports = {
                 } else {
                     query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', '" + ccw + "', 'none', 'Currently is not working', '" + cadID + "')";
                     let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
-    
+
                     connection.query(query222, (err, result3) => {
                         // if (result3[])
                         if (result3.length > 0) {
-    
+
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query2, (err, result2) => {
@@ -325,8 +321,6 @@ module.exports = {
                         };
                     });
                 };
-
-
             });
         };
     },
@@ -615,7 +609,7 @@ module.exports = {
                 } else {
                     if (result2[0]) {
                         let postss = "SELECT * FROM `posts` WHERE cadID = '" + req.params.cadID + "' AND `linked_to_bus` = '" + req.params.company + "'";
-                        let totalEmployees  = "SELECT * FROM `citizens` WHERE `cadID` = '"+req.params.cadID+"' AND `business` = '"+req.params.company+"'"
+                        let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' AND `business` = '" + req.params.company + "'"
                         connection.query(`${postss}; ${totalEmployees}`, (err, result) => {
                             if (err) {
                                 console.log(err);
