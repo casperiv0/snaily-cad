@@ -46,6 +46,9 @@
         <% vehicles.forEach(vehicle => { %>
         <option value="<%= vehicle.cname %>"></option>
         <% }) %>
+        <% defaults.forEach(vehicle => { %>
+        <option value="<%= vehicle.cname %>"></option>
+        <% }) %>
       </datalist>
     </div>
     <div class="form-group col-md-4">

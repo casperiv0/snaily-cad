@@ -6,16 +6,16 @@ include("../partials/admin-header.ejs") %>
     Vehicles management <a href="/cad/<%= cadId %>/admin/values/cars/add">+</a>
   </h1>
 
+
   <% if (vehicles.length > 0) {%>
-  <ul class="list-group" id="myUL">
     <input
       type="text"
       id="myInput"
-      class="form-control border-dark mb-1 text-light bg-dark"
+      class="form-control border-dark mb-2 text-light bg-dark"
       onkeyup="myFunction()"
       placeholder="Search for Vehicles.."
     />
-
+  <ul class="list-group" id="myUL">
     <% vehicles.forEach(value => { %>
     <li class="list-group-item text-light bg-dark">
       <%= value.id %> | <%= value.cname %>
@@ -39,4 +39,39 @@ include("../partials/admin-header.ejs") %>
     <a href="/cad/<%= cadId %>/admin/values/cars/add">here</a> to add vehicles.
   </p>
   <% } %>
+
+  <h3 class="card-title text-light mt-2">Default Story Mode Vehicles</h3>
+
+  <button class="container btn btn-primary mb-4" id="showAll" onclick="showAll()">
+    Show All
+  </button>
+  <div id="dots2"></div>
+  <ul class="list-group" id="hiddenMore">
+    <% defaults.forEach(value => { %>
+      <li class="list-group-item text-light bg-dark">
+        <%= value.id %> | <%= value.cname %>
+      </li>
+  
+      <% }) %>
+  </ul>
 </div>
+
+<div class="mb-4"></div>
+
+<script>
+    function showAll() {
+        let dots = document.getElementById("dots2");
+        let moreText = document.getElementById("hiddenMore");
+        let showAll = document.getElementById("showAll")
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            moreText.style.display = "none";
+            showAll.textContent = "Show All"
+        } else {
+            dots.style.display = "none";
+            moreText.style.display = "inline";
+            showAll.textContent = "Show Less"
+        }
+    }
+</script>

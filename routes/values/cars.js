@@ -104,7 +104,6 @@ module.exports = {
     carValuePage: (req, res) => {
         if (req.session.loggedin) {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -114,12 +113,14 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let query = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC";
-                                connection.query(query, (err, result) => {
+                                let query2 = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC";
+                                let querys = "SELECT * FROM `vehicles` WHERE `default_car` = 'true' ";
+                                connection.query(`${query2}; ${querys}`, (err, result) => {
                                     if (err) {
+                                        console.log(err);
                                         res.sendStatus(500);
                                     } else {
-                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result, isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result[0], defaults: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                     };
                                 });
                             } else {
@@ -132,21 +133,20 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
+            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     editVehiclePage: (req, res) => {
         if (req.session.loggedin) {
@@ -340,24 +340,23 @@ module.exports = {
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                     connection1.query(query, (err, result1) => {
-                        let query = "SELECT * FROM `citizens` ORDER BY id ASC"
-                        let carQ = "SELECT * FROM `vehicles` ORDER BY id ASC"
-                        let in_s = "SELECT * FROM `in_statuses` ORDER BY id ASC"
-                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                        let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                        let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'" 
+                        let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
 
-                        connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}`, (err, result) => {
+                        connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}`, (err, result) => {
                             if (err) {
-                                return res.status(500).send(err);
-                            }
-
-                            res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration | SnailyCAD", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID })
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration | SnailyCAD", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4] });
+                            };
                         });
                     });
-
-                }
-            })
-
-
+                };
+            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
