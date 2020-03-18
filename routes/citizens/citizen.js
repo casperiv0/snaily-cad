@@ -183,7 +183,13 @@ module.exports = {
                 let linked_to = req.session.username2;
                 let birth = req.body.birth;
                 let gender = req.body.gender;
+                if (gender === undefined) {
+                    gender = "Unknown"
+                }
                 let ethnicity = req.body.ethnicity;
+                if (ethnicity === undefined) {
+                    ethnicity = "Unknown"
+                }
                 let hair_color = req.body.hair;
                 let eyes_color = req.body.eyes;
                 let address = req.body.address;
@@ -194,8 +200,17 @@ module.exports = {
                     weight = "Unknown"
                 }
                 let dmv = req.body.dmv;
+                if (dmv === undefined) {
+                    dmv = "Unknown"
+                }
                 let fireArms = req.body.fire;
+                if (fireArms === undefined) {
+                    fireArms = "Unknown"
+                }
                 let pilot = req.body.pilot;
+                if (pilot === undefined) {
+                    pilot = "Unknown"
+                }
                 let height = req.body.height;
                 if (height == "") {
                     height = "Unknown"
