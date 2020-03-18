@@ -96,4 +96,4 @@ ToDO
 - [x] higher ups can't ban higher ups
 - [x] backend not able to ban themself
 - [x] max limit on forms(not all yet)
-- [ ] manage account fix
+- [x] manage account fix

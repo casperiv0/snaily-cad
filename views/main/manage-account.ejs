@@ -73,11 +73,11 @@
   <div class="mt-5">
     <h2 class="card-title" id="subscriptions"> Manage Subscriptions</h2>
     <ul class="list-group mt-2" style="width: 20rem;">
-      <%if (subs[0].orderID) { %>
+      <%if (subs[0]) { %>
         <% subs.forEach(sub => { %>
           <li class="list-group-item">Order ID: <a target="_blank" href="/cad/<%= sub.cadID %>/"> <%= sub.orderID %> | <%= sub.cadID %></a></li>
-          <a href="https://discord.gg/37dK6rM" target="_blank" class="mt-2 fs-20">Join the discord server on how to buy more</a>
           <% }) %>
+          <a href="https://discord.gg/37dK6rM" target="_blank" class="mt-2 fs-20">Join the discord server on how to buy more</a>
           <% } else { %>
         <li class="list-group-item">Cad ID: No subscriptions</li>
         <a href="https://discord.gg/37dK6rM" target="_blank" class="mt-2 fs-20">Join the discord server on how to buy one</a>
@@ -86,10 +86,8 @@
     </ul>
   </div>
 
+
   <div class="mb-5"></div>
-
-
-
 
 <!-- Modal -->
 <div

@@ -42,13 +42,14 @@ module.exports = {
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            connection1.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.user + "'";
+            let que3 = "SELECT * FROM `cads` WHERE owner = '" + req.session.user + "'";
+            connection1.query(`${query}; ${que3}`, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-
-                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2[1], req: req })
                 }
             })
         } else {
@@ -58,7 +59,7 @@ module.exports = {
     manageAccount: (req, res) => {
         if (req.session.mainLoggedin) {
             let username = req.body.manage_username
-            let password = req.body.manage_password;
+            let password = req.body.password;
 
 
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.user + "'"
@@ -76,22 +77,21 @@ module.exports = {
                             return res.sendStatus(500)
                         } else {
                             if (result == true) {
-                                connection1.query(query2, async (err, result2) => {
+                                connection1.query(`${query2};`, async (err, result3) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: '', messageG: 'Password Successfully changed.', isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: '', messageG: 'Username Successfully changed.', loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
                                     }
                                 })
                             } else {
-                                connection1.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result2) => {
+                                connection1.query("SELECT * FROM `users` WHERE username = '" + req.session.user + "'", (err, result4) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-
-                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", messageG: "", message: 'Passwords is incorrect!', isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", messageG: "", message: 'Passwords is incorrect!', loggedin: req.session.loggedin, username: req.session.username2, current: result4[0], subs: result4, req: req })
                                     }
                                 })
                             };
@@ -227,7 +227,7 @@ module.exports = {
     },
     orderPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            res.render("main/order.ejs", {title: "Order | SnailyCAD", message: "", messageG: "", req: req});
+            res.render("main/order.ejs", { title: "Order | SnailyCAD", message: "", messageG: "", req: req });
         } else {
             res.redirect("/login");
         };
