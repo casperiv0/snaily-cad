@@ -1,0 +1,41 @@
+<%- include("../partials/main/header.ejs") %>
+
+<div class="container-fluid mt-3">
+  <h1 class="card-title">
+    SnailyCAD Support
+  </h1>
+
+  <a href="/support/create-ticket" class="btn btn-primary">
+    Open a new Ticket
+  </a>
+
+  <div class="mt-5">
+    <h2 class="card-title">Your Tickets</h2>
+    <ul class="list-group">
+      <% if (tickets.length > 0) {%>
+      <table class="table ">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% tickets.forEach(ticket => {%>
+          <tr>
+            <th scope="row"><%= ticket.id %></th>
+            <td><a href="/support/ticket/<%= ticket.ticket_id %>-<%= ticket.title %>"><%= ticket.title %></a></td>
+            <td><%= ticket.status %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } else {%>
+      <li class="list-group-item">
+        No Tickets created yet
+      </li>
+      <% }%>
+    </ul>
+  </div>
+</div>

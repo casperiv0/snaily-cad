@@ -94,7 +94,7 @@ module.exports = {
                                         res.sendStatus(404)
                                     } else {
                                         if (result[0][0].linked_to === req.session.username2) {
-                                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID , desc: "See All the information about your current citizen."});
+                                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID, desc: "See All the information about your current citizen." });
                                         } else {
                                             res.sendStatus(401);
                                         };
@@ -201,38 +201,14 @@ module.exports = {
                     height = "Unknown"
 
                 }
-                if (height.includes("'") || height.includes('"')) {
-                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500)
-                        } else {
-                            if (result2[0]) {
-                                connection1.query(query, (err, result1) => {
-                                    let genderQ = "SELECT * FROM `genders`"
-                                    let ethnicityQ = "SELECT * FROM `ethnicities`"
-                                    let dmvQ = "SELECT * FROM `in_statuses`"
-                                    connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
-                                        if (err) {
-                                            return res.status(500).send(err);
-                                        } else {
-                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Please Remove any ' or \" from the height, try using inch or feet", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID });
-                                        }
+                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
 
-                                    });
-                                });
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
-                } else {
-                    query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES ('" + first_name + "','" + last_name + "','" + full_name + "','" + linked_to + "','" + birth + "','" + gender + "','" + ethnicity + "','" + hair_color + "','" + eyes_color + "','" + address + "','" + height + "','" + weight + "', '" + dmv + "', '" + fireArms + "' ,'" + pilot + "', '" + ccw + "', 'none', 'Currently is not working', '" + cadID + "')";
-                    let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
-
-                    connection.query(query222, (err, result3) => {
+                connection.query(query222, (err, result3) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
                         // if (result3[])
                         if (result3.length > 0) {
 
@@ -245,16 +221,21 @@ module.exports = {
                                 } else {
                                     if (result2[0]) {
                                         connection1.query(query, (err, result1) => {
-                                            let genderQ = "SELECT * FROM `genders`"
-                                            let ethnicityQ = "SELECT * FROM `ethnicities`"
-                                            let dmvQ = "SELECT * FROM `in_statuses`"
-                                            connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
-                                                if (err) {
-                                                    return res.status(500).send(err);
-                                                } else {
-                                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
-                                                }
-                                            });
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                let genderQ = "SELECT * FROM `genders`"
+                                                let ethnicityQ = "SELECT * FROM `ethnicities`"
+                                                let dmvQ = "SELECT * FROM `in_statuses`"
+                                                connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
+                                                    if (err) {
+                                                        return res.status(500).send(err);
+                                                    } else {
+                                                        res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                                    }
+                                                });
+                                            }
                                         });
                                     } else {
                                         res.sendStatus(404)
@@ -269,7 +250,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     if (result2[0]) {
-                                        connection.query(query, (err, result) => {
+                                        connection.query(query, [first_name, last_name, full_name, linked_to, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'none', 'Currently not working', cadID],(err, result) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.status(500).send("Something went wrong")
@@ -310,8 +291,8 @@ module.exports = {
                                 };
                             });
                         };
-                    });
-                };
+                    }
+                });
             });
         };
     },
@@ -414,11 +395,11 @@ module.exports = {
                     let ccw = req.body.ccw
                     let cadID = req.params.cadID
 
-                    let query = 'UPDATE `citizens` SET `first_name` = "' + first_name + '", `last_name` = "' + last_name + '", `full_name` = "' + full_name + '", `birth` = "' + birth + '", `gender` = "' + gender + '", `ethnicity` = "' + ethnicity + '", `hair` = "' + hair_color + '", `eyes` = "' + eyes_color + '", `address` = "' + address + '", `height` = "' + height + '", `weight` = "' + weight + '", `dmv` = "' + dmv + '", `fire_licence` = "' + fireArms + '", `pilot_licence` = "' + pilot + '", `ccw` = "' + ccw + '" WHERE `citizens`.`id` = "' + id + '"';
+                    let query = 'UPDATE `citizens` SET `first_name` = ?, `last_name` = ?, `full_name` = ?, `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair` = ?, `eyes` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_licence` = ?, `pilot_licence` = ?, `ccw` = ? WHERE `citizens`.`id` = "' + id + '"';
                     let query2 = 'UPDATE `registered_cars` SET `owner` = "' + full_name + '" WHERE `registered_cars`.`owner` = "' + citiZn[0].full_name + '"';
                     let weapons = 'UPDATE `registered_weapons` SET `owner` = "' + full_name + '" WHERE `registered_weapons`.`owner` = "' + citiZn[0].full_name + '"';
 
-                    connection.query(`${query}; ${query2}; ${weapons}`, (err, result) => {
+                    connection.query(`${query}; ${query2}; ${weapons}`, [first_name, last_name, full_name, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'none', 'Currently not working', cadID], (err, result) => {
                         if (err) {
                             console.log(err);
                         };
@@ -590,7 +571,7 @@ module.exports = {
         } else {
             let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "'"
             connection1.query(query, (err, result5) => {
-                if(err) {
+                if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
@@ -663,7 +644,7 @@ module.exports = {
                         return res.sendStatus(500)
                     } else {
                         if (result2[0]) {
-                            res.render("company/add.ejs", { messageG: '',  desc: "",message: "Error: Please Remove any ' from the title", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                            res.render("company/add.ejs", { messageG: '', desc: "", message: "Error: Please Remove any ' from the title", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
                         } else {
                             res.sendStatus(404);
                         };
@@ -677,7 +658,7 @@ module.exports = {
                         return res.sendStatus(500)
                     } else {
                         if (result2[0]) {
-                            res.render("company/add.ejs", { messageG: '',  desc: "",message: "Error: Please Remove any ' from the discription", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                            res.render("company/add.ejs", { messageG: '', desc: "", message: "Error: Please Remove any ' from the discription", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
                         } else {
                             res.sendStatus(404);
                         };

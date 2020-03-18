@@ -209,6 +209,8 @@ const { adminDashboard,
     reactivateCAD,
     addCad
 } = require("./routes/main-admin")
+
+const { supportPage,createTicketPage, createTicket, ticketPage, replyToPost } = require('./routes/support')
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -242,6 +244,13 @@ app.get(`/logout`, (req, res) => {
     res.redirect("/")
 });
 app.get("/order", orderPage)
+
+// Support 
+app.get("/support", supportPage)
+app.get("/support/create-ticket", createTicketPage)
+app.post("/support", createTicket)
+app.get("/support/ticket/:ticket_id-:title", ticketPage)
+app.post("/support/ticket/:ticket_id-:title", replyToPost)
 
 // SnailyCAD Admin Dashboard
 app.get("/admin/dashboard/", adminDashboard)
