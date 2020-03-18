@@ -368,7 +368,7 @@ module.exports = {
                                 console.log(err);
                                 return res.sendStatus(500);;
                             }
-                            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3], cadId: result2[0].cadID })
+                            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3], cadId: result2[0].cadID, desc:  "" })
                         });
                     });
                 }
