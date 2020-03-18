@@ -210,7 +210,7 @@ const { adminDashboard,
     addCad
 } = require("./routes/main-admin")
 
-const { supportPage,createTicketPage, createTicket, ticketPage, replyToPost, cadPage } = require('./routes/support')
+const { supportPage,createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support')
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -260,6 +260,7 @@ app.post("/admin/dashboard/:username/add-cad", addCad)
 app.get("/admin/expire-cad/:cadID", expireCAD)
 app.post("/admin/reactivate", reactivateCAD)
 app.get("/admin/cad/:cadID", cadPage)
+app.get("/admin/ticket/close/:id", closeTicket)
 // Settings
 app.post("/account/change-username", changeUsernameMain);
 app.get("/account/edit-password-:username", editPasswordPage)

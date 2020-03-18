@@ -7,12 +7,12 @@ module.exports = {
             res.redirect("/login")
         } else {
             let query = "SELECT * FROM `tickets` WHERE `creator` = '" + req.session.user + "'"
-            connection1.query(query, (err, result) => {
+            connection1.query(`${query}; ${admin}`, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("support/support.ejs", { title: "Support | SnailyCAD", desc: "", tickets: result })
+                    res.render("support/support.ejs", { title: "Support | SnailyCAD", desc: "", tickets: result[0]})
                 }
             })
         }
@@ -60,12 +60,13 @@ module.exports = {
         } else {
             let query = "SELECT * FROM `tickets` WHERE `creator` = '" + req.session.user + "' AND `ticket_id` = '" + req.params.ticket_id + "' ";
             let query2 = "SELECT * FROM `ticket_message` WHERE `ticket_id` = '" + req.params.ticket_id + "' ORDER BY `ticket_message`.`time` DESC";
-            connection1.query(`${query}; ${query2}`, (err, result) => {
+            let admin = "SELECT * FROM `users` WHERE `username` = '" + req.session.user + "'"
+            connection1.query(`${query}; ${query2}; ${admin}`, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
-                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0], messages: result[1] });
+                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0], messages: result[1], isAdmin: result[2][0].main_administrator_sM7a6mFOHI  });
                 };
             });
         };
@@ -96,8 +97,23 @@ module.exports = {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
-                } else { 
-                    res.render("support/cad.ejs", {title: "CAD info", desc: "", cad: result[0]})
+                } else {
+                    res.render("support/cad.ejs", { title: "CAD info", desc: "", cad: result[0] })
+                }
+            })
+        };
+    },
+    closeTicket: (req, res) => {
+        if (!req.session.mainLoggedin) {
+            res.redirect("/login")
+        } else {
+            let ticketID = req.params.id;
+            connection1.query("UPDATE `tickets` SET `status` = 'closed' WHERE `tickets`.`id` = '" + ticketID + "' ", (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect("/admin/dashboard")
                 }
             })
         };
