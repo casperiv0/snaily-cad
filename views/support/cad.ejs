@@ -1,0 +1,16 @@
+<%- include("../partials/main/header.ejs") %>
+
+
+<div class="container">
+    <h1 class="card-title">
+        <%= cad.cadID %>
+    </h1>
+    <h6 class="text-secondary">OrderID: <%= cad.orderID %></h6>
+
+    <ul class="list-group">
+        <li class="list-group-item active">CAD Information</li>
+        <li class="list-group-item"><%= cad.cad_name %></li>
+        <li class="list-group-item"><%= cad.owner %></li>
+        <li class="list-group-item"><%= cad.expire_date %></li>
+    </ul>
+</div>

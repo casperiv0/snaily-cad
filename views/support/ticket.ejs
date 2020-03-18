@@ -2,15 +2,15 @@
 
 
 <div class="container">
-    <h1 class="card-title"><%= ticket[0].title %></h1>
-    <span class="text-secondary"><span class="bolder">Created:</span>     <%= ticket[0].date %> <span class="bolder">Status:</span>   <%= ticket[0].status %> </span>
+    <h1 class="card-title"><%= ticket.title %></h1>
+    <span class="text-secondary"><span class="bolder">Created:</span>     <%= ticket.date %> <span class="bolder">Status:</span>   <%= ticket.status %> </span>
 
 
 
     <h2 class="card-title mt-5">Messages</h2>
 
     <ul class="list-group">
-        <form action="/support/ticket/<%= ticket[0].ticket_id %>-<%= ticket[0].title %>" method="POST">
+        <form action="/support/ticket/<%= ticket.ticket_id %>-<%= ticket.title %>" method="POST">
             <div class="form-group card">
               <label for="exampleInputEmail1" class="card-header">Reply</label>
               <div class="card-body">
@@ -34,12 +34,12 @@
             </li>
         <% }) %>
         <li class="list-group-item">
-            <span class="bolder"><%= ticket[0].creator %></span>
+            <span class="bolder"><%= ticket.creator %></span>
             <br>
             <br>
 
             <p class="text-dark">
-                <%= ticket[0].description %>
+                <%= ticket.description %>
             </p>
         </li>
     </ul>

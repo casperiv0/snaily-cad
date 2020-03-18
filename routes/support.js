@@ -85,5 +85,21 @@ module.exports = {
                 res.redirect(`/support/ticket/${ticket_id}-${ticket_title}`)
             }
         })
+    },
+    cadPage: (req, res) => {
+        if (!req.session.mainLoggedin) {
+            res.redirect("/login")
+        } else {
+            let cadID = req.params.cadID;
+
+            connection1.query("SELECT * FROM `cads` WHERE `id` = ?", [cadID], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else { 
+                    res.render("support/cad.ejs", {title: "CAD info", desc: "", cad: result[0]})
+                }
+            })
+        };
     }
 }

@@ -9,13 +9,14 @@ module.exports = {
                 } else {
                     let query2 = "SELECT * FROM `users` ORDER BY id ASC";
                     let cads = "SELECT * FROM `cads` ORDER BY id ASC";
-                    connection1.query(`${query2}; ${cads}`, (err, result2) => {
+                    let ticket = "SELECT * FROM `tickets` ORDER BY id ASC"
+                    connection1.query(`${query2}; ${cads}; ${ticket}`, (err, result2) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
                             if (result[0].main_administrator_sM7a6mFOHI == '4d9OOeGOCV6eGOCV4d96') {
-                                res.render("main-admin/dashboard.ejs", { desc: "", title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1] });
+                                res.render("main-admin/dashboard.ejs", { desc: "", title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1], tickets: result2[2] });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -25,7 +26,7 @@ module.exports = {
             });
         } else {
             res.redirect("/login");
-        }
+        };
     },
     usernameAdminPage: (req, res) => {
         if (req.session.mainLoggedin) {
