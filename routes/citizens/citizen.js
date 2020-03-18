@@ -93,7 +93,7 @@ module.exports = {
                                     if (!result[0][0]) {
                                         res.sendStatus(404)
                                     } else {
-                                        if (result[0][0].linked_to === req.session.username2) {
+                                        if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
                                             res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID, desc: "See All the information about your current citizen." });
                                         } else {
                                             res.sendStatus(401);

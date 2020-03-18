@@ -62,6 +62,7 @@ ToDO
 - [ ] edit officers rank supervisor and such
 - [x] support
 - [ ] add CAD, put register account for cad to
+- [ ] see all citizens
 
 ## Public Branch
 
