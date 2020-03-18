@@ -1,0 +1,7 @@
+Sitemap: https://snaily-cad.ga/screenshots/
+Sitemap: https://snaily-cad.ga/login
+Sitemap: https://snaily-cad.ga/account
+Sitemap: https://snaily-cad.ga/register
+Sitemap: https://snaily-cad.ga/#info
+Sitemap: https://snaily-cad.ga/#features
+Sitemap: https://snaily-cad.ga/#order
