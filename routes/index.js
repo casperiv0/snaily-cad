@@ -48,7 +48,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2[1], req: req, desc: "see all your subscriptions or change your username or password."  })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0][0], subs: result2[1], req: req, desc: "see all your subscriptions or change your username or password."  })
                 }
             })
         } else {
