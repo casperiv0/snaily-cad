@@ -10,7 +10,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: '', message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
+                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: '', message: "Session Expired. Please log back in.", cadId: result2[0].cadID, desc: "" })
                     } else {
                         res.sendStatus(404);
                     };
@@ -35,7 +35,7 @@ module.exports = {
                                     if (err) {
                                         console.log(err);
                                     } else {
-                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", messageG: '', username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].admin, message: "", messageG: '', username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
                                     }
                                 });
                             });
@@ -94,7 +94,7 @@ module.exports = {
                                         res.sendStatus(404)
                                     } else {
                                         if (result[0][0].linked_to === req.session.username2) {
-                                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, cadId: result2[0].cadID , desc: "See All the information about your current citizen."});
                                         } else {
                                             res.sendStatus(401);
                                         };
@@ -143,7 +143,7 @@ module.exports = {
                                 if (err) {
                                     return res.status(500).send(err);
                                 } else {
-                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", desc: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
                                 };
                             });
                         });
@@ -218,7 +218,7 @@ module.exports = {
                                         if (err) {
                                             return res.status(500).send(err);
                                         } else {
-                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "Please Remove any ' or \" from the height, try using inch or feet", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID });
+                                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Please Remove any ' or \" from the height, try using inch or feet", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID });
                                         }
 
                                     });
@@ -252,7 +252,7 @@ module.exports = {
                                                 if (err) {
                                                     return res.status(500).send(err);
                                                 } else {
-                                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
+                                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
                                                 }
                                             });
                                         });
@@ -292,7 +292,7 @@ module.exports = {
                                                                         if (err) {
                                                                             console.log(err);
                                                                         } else {
-                                                                            res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                                                            res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].admin, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
                                                                         };
                                                                     });
                                                                 });
@@ -349,7 +349,7 @@ module.exports = {
                                 return res.sendStatus(500)
                             } else {
                                 if (result2[0]) {
-                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3], cadId: result2[0].cadID })
+                                    res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", desc: "", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3], cadId: result2[0].cadID })
                                 } else {
                                     res.sendStatus(404)
                                 }
@@ -517,7 +517,7 @@ module.exports = {
                             let citizen = "SELECT * FROM citizens WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'"
                             connection.query(`${query2}; ${citizen}`, (err, result) => {
 
-                                res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, })
+                                res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", desc: "", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, })
                             })
                         });
                     } else {
@@ -608,7 +608,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("company/main.ejs", { messageG: '', message: '', title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
+                                        res.render("company/main.ejs", { messageG: '', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
                                     };
                                 });
                             } else {
@@ -639,7 +639,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     if (result2[0]) {
-                        res.render("company/add.ejs", { messageG: '', message: '', title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                        res.render("company/add.ejs", { messageG: '', message: '', desc: "", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
                     } else {
                         res.sendStatus(404);
                     };
@@ -663,7 +663,7 @@ module.exports = {
                         return res.sendStatus(500)
                     } else {
                         if (result2[0]) {
-                            res.render("company/add.ejs", { messageG: '', message: "Error: Please Remove any ' from the title", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                            res.render("company/add.ejs", { messageG: '',  desc: "",message: "Error: Please Remove any ' from the title", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
                         } else {
                             res.sendStatus(404);
                         };
@@ -677,7 +677,7 @@ module.exports = {
                         return res.sendStatus(500)
                     } else {
                         if (result2[0]) {
-                            res.render("company/add.ejs", { messageG: '', message: "Error: Please Remove any ' from the discription", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                            res.render("company/add.ejs", { messageG: '',  desc: "",message: "Error: Please Remove any ' from the discription", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
                         } else {
                             res.sendStatus(404);
                         };
@@ -704,7 +704,7 @@ module.exports = {
                                             console.log(err);
                                             return res.sendStatus(500)
                                         } else {
-                                            res.render("company/main.ejs", { messageG: "Post successfully created", message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
+                                            res.render("company/main.ejs", { desc: "", messageG: "Post successfully created", message: '', title: req.params.company + " | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req, posts: result });
                                             res.end();
                                         };
                                     });

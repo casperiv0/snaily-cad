@@ -11,7 +11,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("vehicles/add-vehicle.ejs", { title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                res.render("vehicles/add-vehicle.ejs", {  desc: "",title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -119,7 +119,7 @@ module.exports = {
                                         console.log(err);
                                         res.sendStatus(500);
                                     } else {
-                                        res.render("admin-pages/vehicles.ejs", { title: 'Admin Panel | Values', vehicles: result[0], defaults: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                        res.render("admin-pages/vehicles.ejs", {  desc: "",title: 'Admin Panel | Values', vehicles: result[0], defaults: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                     };
                                 });
                             } else {
@@ -167,7 +167,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500);
                                     }
-                                    res.render("vehicles/edit-vehicle.ejs", { title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                    res.render("vehicles/edit-vehicle.ejs", {  desc: "",title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID })
                                 });
                             } else {
                                 res.sendStatus(403)
@@ -353,7 +353,7 @@ module.exports = {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("vehicles/reg-vehicle.ejs", { title: "Vehicle Registration | SnailyCAD", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4] });
+                                res.render("vehicles/reg-vehicle.ejs", {  desc: "",title: "Vehicle Registration | SnailyCAD", message: '', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4] });
                             };
                         });
                     });
@@ -446,7 +446,7 @@ module.exports = {
                                 console.log(err);
                                 return res.status(500)
                             } else {
-                                res.render("vehicles/citizen/edit-vehicle.ejs", { title: "Edit Vehicle | SnailyCAD", message: '', current: result[0][0], legal: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID })
+                                res.render("vehicles/citizen/edit-vehicle.ejs", {  desc: "",title: "Edit Vehicle | SnailyCAD", message: '', current: result[0][0], legal: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID })
                             };
                         });
                     });

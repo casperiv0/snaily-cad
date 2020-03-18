@@ -16,7 +16,7 @@ module.exports = {
                                 return res.sendStatus(500)
                             } else {
                                 if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                    res.render("depts/add-dept.ejs", { title: "Add Department | SnailyCAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                    res.render("depts/add-dept.ejs", {  desc: "",title: "Add Department | SnailyCAD", isAdmin: result[0].admin, cadId: result2[0].cadID });
                                 } else {
                                     res.sendStatus(403);
                                 };
@@ -114,7 +114,7 @@ module.exports = {
                                         if (err) {
                                             res.sendStatus(500);
                                         };
-                                        res.render("admin-pages/depts.ejs", { title: 'Departments | SnailyCAD', depts: result1, isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                        res.render("admin-pages/depts.ejs", {  desc: "",title: 'Departments | SnailyCAD', depts: result1, isAdmin: result[0].admin, cadId: result2[0].cadID });
                                     });
                                 } else {
                                     res.sendStatus(403);
@@ -167,7 +167,7 @@ module.exports = {
                                             console.log(err);
                                             return res.sendStatus(500);
                                         } else {
-                                            res.render("depts/edit-dept.ejs", { title: "Edit Department | SnailyCAD", depts: result1[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                            res.render("depts/edit-dept.ejs", { desc: "", title: "Edit Department | SnailyCAD", depts: result1[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
                                         }
                                     });
                                 } else {

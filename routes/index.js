@@ -27,7 +27,7 @@ module.exports = {
                             if (result[0].expire_date === expire_date) {
                                 res.render("expired.ejs", { title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
                             } else {
-                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req });
+                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req, desc: "" });
                             }
                         }
                     })
@@ -37,8 +37,7 @@ module.exports = {
         req
     },
     cadHomePage: (req, res) => {
-
-        res.render("main/home-page.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+        res.render("main/home-page.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req, desc: "" })
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
@@ -49,7 +48,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2[1], req: req })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2[1], req: req, desc: "see all your subscriptions or change your username or password."  })
                 }
             })
         } else {
@@ -82,7 +81,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: '', messageG: 'Username Successfully changed.', loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: '', messageG: 'Username Successfully changed.', loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req, desc: "" })
                                     }
                                 })
                             } else {
@@ -91,7 +90,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", messageG: "", message: 'Passwords is incorrect!', loggedin: req.session.loggedin, username: req.session.username2, current: result4[0], subs: result4, req: req })
+                                        res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", messageG: "", message: 'Passwords is incorrect!', loggedin: req.session.loggedin, username: req.session.username2, current: result4[0], subs: result4, req: req, desc: "" })
                                     }
                                 })
                             };
@@ -108,7 +107,7 @@ module.exports = {
         if (req.session.mainLoggedin) {
             res.redirect("/account")
         } else {
-            res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "", req: req })
+            res.render("main/login.ejs", { title: "Login In | SnailyCAD", message: "", req: req, desc: "Login to manage your account, see all your subscriptions and more." })
         }
     },
     loginMain: (req, res) => {
@@ -131,22 +130,22 @@ module.exports = {
                                 req.session.user = username;
                                 res.redirect("/account");
                             } else {
-                                res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req });
+                                res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req, desc: "" });
                             };
                         };
                     });
                 } else {
-                    res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req })
+                    res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Wrong Username or Password", req: req, desc: "" })
                 }
                 // res.end();
             });
         } else {
-            res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
+            res.render("main/login.ejs", { title: 'Login | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req, desc: "" })
             res.end();
         }
     },
     registerPageMain: (req, res) => {
-        res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "" })
+        res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "", desc: "" })
     },
     registerMain: (req, res) => {
         let username = req.body.username;
@@ -157,7 +156,7 @@ module.exports = {
 
 
         if (passwordInput !== password2Input) {
-            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Passwords Are not the same!", req: req })
+            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Passwords Are not the same!", req: req, desc: "" })
         } else {
             bcrypt.hash(passwordInput, saltRounds, function (err, hash) {
                 if (err) {
@@ -169,14 +168,14 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500)
                         } else if (result1.length > 0) {
-                            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Email is already registered!", req: req })
+                            res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Email is already registered!", req: req, desc: "" })
                         } else {
                             connection1.query("SELECT username FROM `users` WHERE username = '" + username + "'", (err, result1) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500);
                                 } else if (result1.length > 0) {
-                                    res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username", req: req });
+                                    res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username", req: req, desc: "" });
                                 } else {
                                     connection1.query("INSERT INTO `users` (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`, `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`) VALUES ('" + username + "', '" + email + "', '" + hash + "', 'no', 'no', 'no', 'no', '', 'pi75PugYho', '', 'no', 'false')", (err, result2) => {
                                         if (err) {
@@ -215,8 +214,6 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             res.redirect("/account");
-                            console.log(result1);
-
                         };
                     });
                 };
@@ -227,14 +224,14 @@ module.exports = {
     },
     orderPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            res.render("main/order.ejs", { title: "Order | SnailyCAD", message: "", messageG: "", req: req });
+            res.render("main/order.ejs", { title: "Order | SnailyCAD", message: "", messageG: "", req: req, desc: ""});
         } else {
             res.redirect("/login");
         };
     },
     editPasswordPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: '', isAdmin: '', req: req });
+            res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: '', isAdmin: '', req: req, desc: "" });
         } else {
             res.redirect("/login");
         };
@@ -247,7 +244,7 @@ module.exports = {
             let newPassword2 = req.body.password2;
 
             if (newPassword !== newPassword2) {
-                res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: "Passwords Are not the same!", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req })
+                res.render("main/settings/password.ejs", { title: "Edit Password | SnailyCAD", message: "Passwords Are not the same!", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req, desc: "" })
             } else {
                 if (oldPassword && newPassword) {
                     connection1.query('SELECT * FROM `users` WHERE username = "' + username + '"', (error, results, fields) => {
@@ -278,9 +275,7 @@ module.exports = {
                                                                 return res.sendStatus(500)
                                                             } else {
                                                                 req.session.destroy()
-                                                                await res.render("main/manage-account.ejs", { title: 'Manage Account | SnailyCAD', isAdmin: "", message: '', messageG: "Password Updated Successfully", current: result2[0], subs: result2, req: req })
-                                                                // res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0], subs: result2, req: req })
-                                                            }
+                                                                await res.render("main/manage-account.ejs", { title: 'Manage Account | SnailyCAD', isAdmin: "", message: '', messageG: "Password Updated Successfully", current: result2[0], subs: result2, req: req, desc: "" })                                                            }
                                                         })
 
                                                     }
@@ -288,16 +283,16 @@ module.exports = {
                                             }
                                         });
                                     } else {
-                                        res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req });
+                                        res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req, desc: "" });
                                     };
                                 };
                             });
                         } else {
-                            res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req });
+                            res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Password doesn't match account", req: req, desc: "" });
                         };
                     });
                 } else {
-                    res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req })
+                    res.render("main/settings/password.ejs", { title: 'Edit Password | SnailyCAD', isAdmin: req.session.admin, message: "Something went wrong! Please try again later.", req: req, desc: "" })
                     res.end();
                 };
             };
@@ -306,6 +301,6 @@ module.exports = {
         };
     },
     allScreensPage: (req, res) => {
-        res.render("main/all-screens.ejs", { title: "Screenshots | SnailyCAD", req: req })
+        res.render("main/all-screens.ejs", { title: "Screenshots | SnailyCAD", req: req, desc: "" })
     }
 };

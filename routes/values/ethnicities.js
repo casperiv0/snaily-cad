@@ -13,7 +13,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("ethnicities/add-ethnicities.ejs", { title: "Add Ethnicities", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                res.render("ethnicities/add-ethnicities.ejs", {  desc: "",title: "Add Ethnicities", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -106,7 +106,7 @@ module.exports = {
                                     if (err) {
                                         res.sendStatus(400);
                                     } else {
-                                        res.render("admin-pages/ethnicities.ejs", { title: 'Admin Panel | Values', ethnicities: result1, isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                        res.render("admin-pages/ethnicities.ejs", { desc: "", title: 'Admin Panel | Values', ethnicities: result1, isAdmin: result[0].admin, cadId: result2[0].cadID });
                                     }
                                 });
                             } else {
@@ -156,7 +156,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("ethnicities/edit-ethnicities.ejs", { title: "Edit ethnicity | SnailyCAD", ethnicity: result1[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                        res.render("ethnicities/edit-ethnicities.ejs", { desc: "", title: "Edit ethnicity | SnailyCAD", ethnicity: result1[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
                                     }
                                 });
                             } else {

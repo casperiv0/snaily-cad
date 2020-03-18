@@ -27,6 +27,7 @@ module.exports = {
                                             res.render("officers-pages/officers.ejs", {
                                                 title: "Police Department | SnailyCAD",
                                                 users: "qsd",
+                                                desc: "",
                                                 isAdmin: result1[0].admin,
                                                 officers: result[0],
                                                 allofficers: result[1],
@@ -36,7 +37,7 @@ module.exports = {
 
                                         });
                                     } else {
-                                        res.render("officers-pages/403.ejs", { title: "unauthorized | SnailyCAD", isAdmin: "", cadId: result2[0].cadID })
+                                        res.render("officers-pages/403.ejs", { desc: "",title: "unauthorized | SnailyCAD", isAdmin: "", cadId: result2[0].cadID })
                                     };
                                 });
                             }
@@ -57,7 +58,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: "", message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
+                        res.render("login-res/login.ejs", {  desc: "",title: "Login | SnailyCAD", isAdmin: "", message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
                         // res.redirect(`/cad/${result2[0].cadID}/login`)
                     } else {
                         res.sendStatus(404)
@@ -92,7 +93,7 @@ module.exports = {
                                         return res.sendStatus(500);
                                     } else {
                                         if (result1[0].leo == 'yes') {
-                                            res.render("officers-pages/add-officers.ejs", { title: "Add Officer | SnailyCAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID, depts: results });
+                                            res.render("officers-pages/add-officers.ejs", { desc: "",title: "Add Officer | SnailyCAD", isAdmin: result1[0].admin, req: req, cadId: result2[0].cadID, depts: results });
                                         } else {
                                             res.sendStatus(403);
                                         };
@@ -200,6 +201,7 @@ module.exports = {
                                     .then(res => res.json())
                                     .then(json => res.render("officers-pages/penal-codes.ejs", {
                                         title: "Penal Codes | SnailyCAD",
+                                        desc: "",
                                         penals: json,
                                         isAdmin: result[0].admin
                                         , cadId: result2[0].cadID
@@ -258,8 +260,9 @@ module.exports = {
                                         if (result[0].leo == 'yes') {
                                             res.render("officers-pages/officers-dash.ejs", {
                                                 title: "Police Department",
-                                                isAdmin: result[0].admin
-                                                , cadId: result2[0].cadID,
+                                                isAdmin: result[0].admin,
+                                                desc: "",
+                                                 cadId: result2[0].cadID,
                                                 bolos: result5
                                             })
                                         } else {
@@ -313,6 +316,7 @@ module.exports = {
                                 let query = "SELECT * FROM `registered_cars` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
                                 connection.query(query, (err, result) => {
                                     res.render("officers-pages/plate.ejs", {
+                                        desc: "",
                                         title: "Plate Search | Police Department",
                                         isAdmin: result1[0].admin,
                                         plates: result
@@ -369,6 +373,7 @@ module.exports = {
 
                                 connection.query(query2, (err, result) => {
                                     res.render("officers-pages/name.ejs", {
+                                        desc: "",
                                         title: "Name Search | Police Department",
                                         isAdmin: result1[0].admin,
                                         information: result,
@@ -426,6 +431,7 @@ module.exports = {
                                         return res.status(404).send(err);
                                     }
                                     res.render("officers-pages/plate-results.ejs", {
+                                        desc: "",
                                         title: "Plate Results | Police Department",
                                         isAdmin: result1[0].admin,
                                         plates: result[0][0],
@@ -492,6 +498,7 @@ module.exports = {
                                         return res.status(500).send(err);
                                     }
                                     res.render("officers-pages/name-results.ejs", {
+                                        desc: "",
                                         title: "Name Results | Police Department",
                                         isAdmin: result1[0].admin,
                                         cadId: result2[0].cadID,
@@ -536,6 +543,7 @@ module.exports = {
     officerApplyPage: (req, res) => {
         res.render("officers-pages/apply.ejs", {
             title: "Apply | SnailyCAD",
+            desc: "",
             isAdmin: req.session.isAdmin
         })
     },
@@ -577,6 +585,7 @@ module.exports = {
                                 fetch(url)
                                     .then(res => res.json())
                                     .then(json => res.render("officers-pages/add-offence.ejs", {
+                                        desc: "",
                                         title: "Add Offence | SnailyCAD",
                                         penals: json,
                                         isAdmin: result[0].admin,
@@ -649,6 +658,7 @@ module.exports = {
                                             let query2 = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER by id ASC"
                                             connection.query(query2, async (err, result5) => {
                                                 res.render("officers-pages/name.ejs", {
+                                                    desc: "",
                                                     title: "Name Search | Police Department",
                                                     isAdmin: result1[0].admin,
                                                     information: result5,
@@ -705,7 +715,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].leo == 'yes') {
-                                res.render("officers-pages/warrant.ejs", { title: "Add Warrant | SnailyCAD", isAdmin: result[0].admin, req: req, cadId: result2[0].cadID })
+                                res.render("officers-pages/warrant.ejs", { desc: "", title: "Add Warrant | SnailyCAD", isAdmin: result[0].admin, req: req, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403);
                             };
@@ -816,6 +826,7 @@ module.exports = {
                                 connection.query(query, (err, result) => {
                                     res.render("officers-pages/plate.ejs", {
                                         title: "Plate Search | Police Department",
+                                        desc: "",
                                         isAdmin: result1[0].admin,
                                         plates: result
                                         , cadId: result2[0].cadID,
@@ -857,6 +868,7 @@ module.exports = {
 
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
+                                            desc: "",
                                             title: "Name Search | Police Department",
                                             isAdmin: result1[0].admin,
                                             information: result,
@@ -894,6 +906,7 @@ module.exports = {
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
                                             title: "Name Search | Police Department",
+                                            desc: "",
                                             isAdmin: result1[0].admin,
                                             information: result,
                                             cadId: result2[0].cadID,
@@ -929,6 +942,7 @@ module.exports = {
 
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
+                                            desc: "",
                                             title: "Name Search | Police Department",
                                             isAdmin: result1[0].admin,
                                             information: result,
@@ -965,6 +979,7 @@ module.exports = {
 
                                     connection.query(query, (err, result) => {
                                         res.render("officers-pages/name.ejs", {
+                                            desc: "",
                                             title: "Name Search | Police Department",
                                             isAdmin: result1[0].admin,
                                             information: result,
@@ -1029,7 +1044,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].leo == 'yes') {
-                                res.render("officers-pages/codes.ejs", { title: "10 Codes | SnailyCAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
+                                res.render("officers-pages/codes.ejs", {  desc: "All the 10 codes you should know when going on duty",title: "10 Codes | SnailyCAD", isAdmin: result[0].admin, cadId: result2[0].cadID })
                             } else {
                                 res.sendStatus(403);
                             };

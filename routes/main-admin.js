@@ -15,7 +15,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result[0].main_administrator_sM7a6mFOHI == '4d9OOeGOCV6eGOCV4d96') {
-                                res.render("main-admin/dashboard.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1] });
+                                res.render("main-admin/dashboard.ejs", { desc: "", title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1] });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -53,7 +53,7 @@ module.exports = {
                                     }
                                     return result;
                                 }
-                                res.render("main-admin/username.ejs", { title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0][0], cads: result2[1], cad2: result2[2][0], IDs: makeid(10) });
+                                res.render("main-admin/username.ejs", {  desc: "",title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0][0], cads: result2[1], cad2: result2[2][0], IDs: makeid(10) });
                             } else {
                                 res.sendStatus(403);
                             };

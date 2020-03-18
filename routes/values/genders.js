@@ -18,7 +18,7 @@ module.exports = {
                                     if (err) {
                                         res.sendStatus(400)
                                     }
-                                    res.render("admin-pages/gender.ejs", { title: 'Admin Panel | Genders', genders: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
+                                    res.render("admin-pages/gender.ejs", { desc: "", title: 'Admin Panel | Genders', genders: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
                                 })
                             } else {
                                 res.sendStatus(403);
@@ -118,7 +118,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         connection1.query(query, (err, result) => {
                             if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("genders/add-gender.ejs", { title: "Add Gender", isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                res.render("genders/add-gender.ejs", { desc: "", title: "Add Gender", isAdmin: result[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -220,7 +220,7 @@ module.exports = {
                                         console.log(err);
                                         return res.sendStatus(500);
                                     };
-                                    res.render("genders/edit-gender.ejs", { title: "Edit Gender", gender: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
+                                    res.render("genders/edit-gender.ejs", {  desc: "",title: "Edit Gender", gender: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
                                 });
                             } else {
                                 res.sendStatus(403);

@@ -428,7 +428,8 @@ app.get('/cad/:cadID/*', (req, res) => {
                 res.status(404).render("errors/404.ejs", {
                     title: "404 | Equinox CAD",
                     isAdmin: req.session.admin,
-                    cadId: result[0].cadID
+                    cadId: result[0].cadID,
+                    desc: "",
                 });
             };
         };
@@ -437,6 +438,7 @@ app.get('/cad/:cadID/*', (req, res) => {
 app.get('/*', (req, res) => {
     res.status(404).render("errors/404-main.ejs", {
         title: "404 | Equinox CAD",
+        desc: ""
     });
 });
 

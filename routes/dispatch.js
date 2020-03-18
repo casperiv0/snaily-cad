@@ -31,13 +31,13 @@ module.exports = {
                                                 console.log(err)
                                                 return res.sendStatus(500);
                                             } else {
-                                                res.render("dispatch/main.ejs", { title: "Dispatch | SnailyCAD", isAdmin: result22[0].admin, weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
+                                                res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: result22[0].admin, weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
                                             };
                                         });
                                     }
                                 });
                             } else {
-                                res.render("dispatch/403.ejs", { title: "Unauthorized | SnailyCAD", isAdmin: result22[0].admin, cadId: result2[0].cadID });
+                                res.render("dispatch/403.ejs", { desc: "", title: "Unauthorized | SnailyCAD", isAdmin: result22[0].admin, cadId: result2[0].cadID });
                             };
                         });
                     } else {
@@ -87,7 +87,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                res.render("dispatch/name-search.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", result: result[0][0], vehicles: result[1], weapons: result[2], charges: result[3], cadId: result2[0].cadID });
+                                res.render("dispatch/name-search.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", result: result[0][0], vehicles: result[1], weapons: result[2], charges: result[3], cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(404);
                             };
@@ -130,7 +130,7 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-                                res.render("dispatch/plate-not-found.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", cadId: result2[0].cadID });
+                                res.render("dispatch/plate-not-found.ejs", {  desc: "",title: "Dispatch | SnailyCAD", isAdmin: "", cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(404);
                             };
@@ -148,7 +148,7 @@ module.exports = {
                                 let citizen = "SELECT * FROM `citizens` WHERE `full_name` = '" + result1[0].owner + "' AND `cadID` = '" + req.params.cadID + "'";
                                 connection.query(citizen, (err, result) => {
 
-                                    res.render("dispatch/plate-search.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", plates: result1[0], name: result[0], cadId: result2[0].cadID });
+                                    res.render("dispatch/plate-search.ejs", {  desc: "",title: "Dispatch | SnailyCAD", isAdmin: "", plates: result1[0], name: result[0], cadId: result2[0].cadID });
                                 });
                             } else {
                                 res.sendStatus(404)
@@ -190,7 +190,7 @@ module.exports = {
                         let weaponQ = "SELECT * FROM `registered_weapons` WHERE `weapon` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
 
                         connection.query(`${weaponQ}`, (err, result) => {
-                            res.render("dispatch/weapons-search.ejs", { title: 'Dispatch | SnailyCAD', isAdmin: "", weapons: result, cadId: result2[0].cadID });
+                            res.render("dispatch/weapons-search.ejs", {  desc: "",title: 'Dispatch | SnailyCAD', isAdmin: "", weapons: result, cadId: result2[0].cadID });
                         })
                     } else {
                         res.sendStatus(404);
@@ -233,7 +233,7 @@ module.exports = {
                             if (err) {
                                 return console.log(err);
                             } else {
-                                res.render("dispatch/address-search.ejs", { title: "Dispatch | SnailyCAD", isAdmin: "", users: result, cadId: result2[0].cadID });
+                                res.render("dispatch/address-search.ejs", {  desc: "",title: "Dispatch | SnailyCAD", isAdmin: "", users: result, cadId: result2[0].cadID });
                             };
                         });
                     } else {

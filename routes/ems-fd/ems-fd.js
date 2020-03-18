@@ -23,7 +23,9 @@ module.exports = {
                                             users: "qsd",
                                             isAdmin: result1[0].admin,
                                             ems: result,
+                                            desc: "",
                                             cadId: result2[0].cadID
+                                            
                                         });
                                     }
                                 });
@@ -97,7 +99,7 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("ems-fd/add-ems.ejs", { title: "Add EMS/FD Deputy | SnailyCAD", cadId: result2[0].cadID, isAdmin: '' })
+                        res.render("ems-fd/add-ems.ejs", {  desc: "",title: "Add EMS/FD Deputy | SnailyCAD", cadId: result2[0].cadID, isAdmin: '' })
                     } else {
                         res.sendStatus(404);
                     };

@@ -17,7 +17,7 @@ module.exports = {
                                     if (err) {
                                         res.sendStatus(400)
                                     };
-                                    res.render("admin-pages/legal.ejs", { title: 'Legal | SnailyCAD', legals: result, isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                    res.render("admin-pages/legal.ejs", {  desc: "",title: 'Legal | SnailyCAD', legals: result, isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                 });
                             } else {
                                 res.sendStatus(403);
@@ -57,7 +57,7 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
                             if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                res.render("legal/add-legal.ejs", { title: "Add Legal | SnailyCAD", isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                res.render("legal/add-legal.ejs", {  desc: "",title: "Add Legal | SnailyCAD", isAdmin: result1[0].admin, cadId: result2[0].cadID });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -229,7 +229,7 @@ module.exports = {
                                         return res.console.log(err);
                                         return res.sendStatus(500);;
                                     }
-                                    res.render("legal/edit-legal.ejs", { title: "Edit Legal | SnailyCAD", legal: result[0], isAdmin: result1[0].admin, cadId: result2[0].cadID });
+                                    res.render("legal/edit-legal.ejs", {  desc: "",title: "Edit Legal | SnailyCAD", legal: result[0], isAdmin: result1[0].admin, cadId: result2[0].cadID });
                                 });
                             } else {
                                 res.sendStatus(403);
