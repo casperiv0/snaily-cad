@@ -1,7 +1,8 @@
-Sitemap: https://snaily-cad.ga/screenshots/
-Sitemap: https://snaily-cad.ga/login
-Sitemap: https://snaily-cad.ga/account
-Sitemap: https://snaily-cad.ga/register
-Sitemap: https://snaily-cad.ga/#info
-Sitemap: https://snaily-cad.ga/#features
-Sitemap: https://snaily-cad.ga/#order
+Allow: https://snaily-cad.ga/screenshots/
+Allow: https://snaily-cad.ga/login
+Allow: https://snaily-cad.ga/account
+Allow: https://snaily-cad.ga/register
+Allow: https://snaily-cad.ga/#info
+Allow: https://snaily-cad.ga/#order
+Allow: https://snaily-cad.ga/#features
+Noindex: /
