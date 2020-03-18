@@ -1,5 +1,4 @@
 const slugify = require('slugify')
-const d = new Date()
 
 module.exports = {
     supportPage: (req, res) => {
@@ -40,6 +39,7 @@ module.exports = {
 
             let subject = slugify(req.body.subject);
             let desc = req.body.desc;
+            const d = new Date()
             let date = d.toLocaleDateString();
             let ticket_id = makeid(4)
             let query = "INSERT INTO `tickets` (`title`, `ticket_id`, `description`, `status`, `creator`, `date`) VALUES (?,?,?,?,?,?)"
@@ -66,7 +66,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
-                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0], messages: result[1], isAdmin: result[2][0].main_administrator_sM7a6mFOHI  });
+                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0][0], messages: result[1], isAdmin: result[2][0].main_administrator_sM7a6mFOHI  });
                 };
             });
         };
@@ -74,6 +74,7 @@ module.exports = {
     replyToPost: (req, res) => {
         let ticket_title = req.params.title
         let message = req.body.message;
+        const d = new Date()
         let time = d.toLocaleTimeString()
         let name = req.session.user;
         let ticket_id = req.params.ticket_id;
