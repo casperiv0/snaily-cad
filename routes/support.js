@@ -12,7 +12,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("support/support.ejs", { title: "Support | SnailyCAD", desc: "", tickets: result[0]})
+                    res.render("support/support.ejs", { title: "Support | SnailyCAD", desc: "", tickets: result})
                 }
             })
         }
