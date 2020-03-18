@@ -7,7 +7,7 @@ module.exports = {
             res.redirect("/login")
         } else {
             let query = "SELECT * FROM `tickets` WHERE `creator` = '" + req.session.user + "'"
-            connection1.query(`${query}; ${admin}`, (err, result) => {
+            connection1.query(`${query}; `, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
