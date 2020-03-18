@@ -61,6 +61,7 @@ ToDO
 - [x] no bolos > no bolos
 - [ ] edit officers rank supervisor and such
 - [x] support
+- [ ] add CAD, put register account for cad to
 
 ## Public Branch
 

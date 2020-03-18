@@ -15,7 +15,7 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
-                            if (result[0].main_administrator_sM7a6mFOHI == '4d9OOeGOCV6eGOCV4d96') {
+                            if (result[0].main_administrator_sM7a6mFOHI === '4d9OOeGOCV6eGOCV4d96') {
                                 res.render("main-admin/dashboard.ejs", { desc: "", title: "Admin | SnailyCAD", cadId: '', isAdmin: "", users: result2[0], cads: result2[1], tickets: result2[2] });
                             } else {
                                 res.sendStatus(403);
@@ -44,7 +44,7 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
-                            if (result[0].main_administrator_sM7a6mFOHI == '4d9OOeGOCV6eGOCV4d96') {
+                            if (result[0].main_administrator_sM7a6mFOHI === '4d9OOeGOCV6eGOCV4d96') {
                                 function makeid(length) {
                                     var result = '';
                                     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

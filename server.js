@@ -238,6 +238,10 @@ app.post("/login", loginMain);
 app.get("/register", registerPageMain);
 app.post("/register", registerMain);
 app.post("/account/edit-account", manageAccount)
+app.get("/cad/", (req, res) => {
+    res.redirect("/account")
+})
+
 app.get(`/logout`, (req, res) => {
     req.session.destroy();
 
