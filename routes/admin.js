@@ -544,23 +544,27 @@ module.exports = {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
             connection1.query(`${query}`, (err, result) => {
-                if (result[0].admin == 'owner' || result[0].admin == 'admin' || result[0].admin == 'moderator') {
-                    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                    let query = "SELECT * FROM `action_logs` WHERE cadID = '" + req.params.cadID + "' ORDER BY `date` DESC"
-                    connection1.query(`${query2}; ${query}`, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                res.render("admin-pages/action-logs.ejs", {  desc: "",messageG: '', message: '', title: "Action Logs | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0][0].cadID, actions: result2[1] });
+                if (result[0]) {
+                    if (result[0].admin == 'owner' || result[0].admin == 'admin' || result[0].admin == 'moderator') {
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        let query = "SELECT * FROM `action_logs` WHERE cadID = '" + req.params.cadID + "' ORDER BY `date` DESC"
+                        connection1.query(`${query2}; ${query}`, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
                             } else {
-                                res.sendStatus(404);
+                                if (result2[0]) {
+                                    res.render("admin-pages/action-logs.ejs", {  desc: "",messageG: '', message: '', title: "Action Logs | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0][0].cadID, actions: result2[1] });
+                                } else {
+                                    res.sendStatus(404);
+                                };
                             };
-                        };
-                    });
+                        });
+                    } else {
+                        res.sendStatus(403)
+                    };
                 } else {
-                    res.sendStatus(403)
+                    res.status(500).send("something went wrong! Please report this bug at Discord DM's CasperTheGhost#4546 ");
                 };
             });
         } else {
