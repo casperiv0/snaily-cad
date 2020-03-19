@@ -93,15 +93,29 @@ module.exports = {
             res.redirect("/login")
         } else {
             let cadID = req.params.cadID;
-
-            connection1.query("SELECT * FROM `cads` WHERE `id` = ?", [cadID], (err, result) => {
+            let query  = "SELECT * FROM `cads` WHERE `id` = ?"
+            connection1.query(`${query};`, [cadID], (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("support/cad.ejs", { title: "CAD info", desc: "", cad: result[0] })
-                }
-            })
+                    let citizenQ = "SELECT * FROM `citizens` WHERE cadID = '" + result[0].cadID + "'";
+                    let weaponQ = "SELECT * FROM `registered_weapons` WHERE cadID = '" + result[0].cadID + "'";
+                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE cadID = '" + result[0].cadID + "'";
+                    let chargesQ = "SELECT * FROM `posted_charges` WHERE cadID = '" + result[0].cadID + "'";
+                    let company = "SELECT * FROM `businesses` WHERE `cadID` = '" + result[0].cadID + "'";
+                    let postQ = "SELECT * FROM `posts` WHERE `cadID` = '" + result[0].cadID + "'";
+                    let bolosQ = "SELECT * FROM `bolos` WHERE `cadID` = '" + result[0].cadID + "'";
+                    connection.query(`${citizenQ}; ${weaponQ}; ${vehiclesQ}; ${chargesQ}; ${company}; ${postQ}; ${bolosQ}`, (err, result3) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            res.render("support/cad.ejs", { title: "CAD info | SnailyCAD", desc: "", cad: result[0], citizens: result3[0].length, weapons: result3[1].length, vehicles: result3[2].length, charges: result3[3].length, companies: result3[4].length, posts: result3[5].length, bolos: result3[6].length })                            
+                        };
+                    });
+                };
+            });
         };
     },
     closeTicket: (req, res) => {
