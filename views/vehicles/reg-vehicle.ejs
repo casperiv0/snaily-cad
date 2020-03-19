@@ -86,6 +86,22 @@
         <% }) %>
       </datalist>
     </div>
+    <div class="form-group col-md-4">
+      <label for="exampleInputEmail1">(Only if selected company) Select Company</label>
+      <input
+        list="companies"
+        type="text"
+        class="form-control bg-dark border-dark text-light"
+        name="companies"
+        id="first-name"
+        placeholder="Company Name"
+      />
+      <datalist id="companies">
+        <% companies.forEach(company => { %>
+        <option value="<%= company.business_name %>"></option>
+        <% }) %>
+      </datalist>
+    </div>
   </div>
   <div class="form-row"></div>
   <button type="submit" class="btn btn-primary float-right">

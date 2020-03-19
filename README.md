@@ -59,11 +59,11 @@ ToDO
 - [x] ethnicity page admin header
 - [x] no offcers > show no officers
 - [x] no bolos > no bolos
+- [x] register vehicle company
 - [ ] edit officers rank supervisor and such
 - [x] support
 - [ ] add CAD, put register account for cad to
 - [ ] see all citizens
-- [ ] register vehicle company
 
 ## Public Branch
 

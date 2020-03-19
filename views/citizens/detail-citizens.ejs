@@ -87,6 +87,11 @@
                                 <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
                                 <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
                                 <span class="font-weight-bold">VIN:</span>  <span class="cap"> <%= vehicle.vin_number %></span> <br>
+                                <% if (vehicle.company === '' ) { %>
+                                <span class="font-weight-bold">Company Vehicle: </span>  <span class="cap"> No</span> <br>
+                                <%} else {%>
+                                <span class="font-weight-bold">Company Vehicle: </span>  <span class="cap"> Yes, <%= vehicle.company %></span> <br>
+                                <% }%>
                                 
                                 <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
                                 <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.plate %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
