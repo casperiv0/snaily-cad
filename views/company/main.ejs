@@ -2,6 +2,17 @@
 
 <div class="container mt-2 text-light">
     <h1 class="card-title "><%= req.params.company %> <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>/create-post" class="float-right btn btn-primary">Create a post</a> </h1>
+    <div class="float-right">
+      <%if (owner[0]) {%>
+        <% if (owner[0].business_owner === result5[0].full_name) { %>
+          <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>/edit-company" class="btn btn-success">Edit Company</a>
+        <% } else {%>
+  
+          <% } %>
+          <%} else {%>
+
+            <%}%>
+    </div>
     <h4 class="card-title">Posts(<%= posts.length %>)</h4>
     <h5 class="card-title">Employees(<%= employees.length %>)</h5>
     <% if(messageG != ''){ %>

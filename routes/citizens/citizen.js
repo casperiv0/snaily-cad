@@ -499,8 +499,6 @@ module.exports = {
             })
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
@@ -635,14 +633,25 @@ module.exports = {
                             if (result2[0]) {
                                 // '" + req.params.cadID + "'
                                 // '" + req.params.company + "'
-                                let postss = "SELECT * FROM `posts` WHERE cadID = ? AND `linked_to_bus` = ?";
-                                let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?"
-                                connection.query(`${postss}; ${totalEmployees}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company], (err, result) => {
-                                    if (err) {
+                               
+                                let getCitizen = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?" 
+                                connection.query(getCitizen, [req.params.cadID, req.params.id], (err, result5) => {
+                                    if(err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        res.render("company/main.ejs", { messageG: '', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
+                                        let postss = "SELECT * FROM `posts` WHERE cadID = ? AND `linked_to_bus` = ?";
+                                        let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?"
+                                        let ownerQ = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `business_owner` = ?"
+                                        connection.query(`${postss}; ${totalEmployees}; ${ownerQ}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company, req.params.cadID, result5[0].full_name], (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                console.log(result[2]);
+                                                res.render("company/main.ejs", { messageG: '', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1], owner: result[2], result5: result5 });
+                                            };
+                                        });
                                     };
                                 });
                             } else {
@@ -741,6 +750,21 @@ module.exports = {
                     res.redirect(`/cad/${result2[0].cadID}/login`);
                 };
             });
+        };
+    },
+    editCompanyPage: (req, res) => {
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/cad/${result2[0].cadID}/login`);
+                };
+            });
+        } else {
+            res.send("Coming very soon");
         };
     }
 };

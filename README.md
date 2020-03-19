@@ -71,10 +71,10 @@ ToDO
 - [x] add ems deputy / admin
 - [x] desc is not defined edit password
 - [x] min max length edit password
+- [x] description main header
 - [ ] add company for weapons
 - [ ] edit officers rank supervisor and such
 - [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  
-- [ ] description main header
 
 ## Public Branch
 

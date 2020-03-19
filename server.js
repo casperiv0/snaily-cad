@@ -150,7 +150,8 @@ const {
     createCompany,
     companyDetailPage,
     createCompanyPostPage,
-    createCompanyPost
+    createCompanyPost,
+    editCompanyPage
 } = require("./routes/citizens/citizen");
 
 // Registration - Login
@@ -299,9 +300,10 @@ app.get("/cad/:cadID/citizen/delete/:id-:first_name-:last_name", deleteCitizens)
 app.get("/cad/:cadID/citizen/company", companyPage);
 app.post("/cad/:cadID/citizen/company/join", company);
 app.post("/cad/:cadID/citizen/company/create", createCompany);
-app.get("/cad/:cadID/citizen/company/:company", companyDetailPage);
-app.get("/cad/:cadID/citizen/company/:company/create-post", createCompanyPostPage)
-app.post("/cad/:cadID/citizen/company/:company", createCompanyPost)
+app.get("/cad/:cadID/citizen/company/:id-:company", companyDetailPage);
+app.get("/cad/:cadID/citizen/company/:id-:company/create-post", createCompanyPostPage)
+app.post("/cad/:cadID/citizen/company/:id-:company", createCompanyPost)
+app.get("/cad/:cadID/citizen/company/:id-:company/edit-company", editCompanyPage)
 
 //  Login : Registration : Logout
 app.get(`/cad/:cadID/login`, loginPage);

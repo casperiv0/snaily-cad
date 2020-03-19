@@ -9,7 +9,6 @@ module.exports = {
                 connection1.query("INSERT INTO `errors` (`name`, `description`) VALUES ('" + err.name + "', '" + err.message + "')", (err2, resultError) => {
                     if (err2) {
                         console.log("error2" + err2);
-                        // return res.sendStatus(500);
                     }
                     return res.sendStatus(500);
                 });
@@ -27,17 +26,16 @@ module.exports = {
                             if (result[0].expire_date === expire_date) {
                                 res.render("expired.ejs", { title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
                             } else {
-                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req, desc: "" });
-                            }
-                        }
-                    })
-                }
-            }
-        })
-        req
+                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req, desc: `CAD app for cadID: ${result[0].cadID}.` });
+                            };
+                        };
+                    });
+                };
+            };
+        });
     },
     cadHomePage: (req, res) => {
-        res.render("main/home-page.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req, desc: "" })
+        res.render("main/home-page.ejs", { title: "Home | SnailyCAD", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, req: req, desc: "Simple and Fast web interface, SnailyCAD will help you set your next step for your RP community." })
     },
     manageAccountPage: (req, res) => {
         if (req.session.mainLoggedin) {
