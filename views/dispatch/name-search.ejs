@@ -81,9 +81,11 @@
                 <div id="dots2"></div>
                 <div id="more2">
                     <% if (!weapons[0]) { %>
-                    <li class="list-group-item color-black">
-                        <p>No Weapons registered to this person.</p>
-                    </li>
+                        <p class="mb-1">
+                            <li class="list-group-item text-dark">
+                                This Person doesn't have any weapons registered
+                            </li>
+                        </p>
                     <% } else  {%>
                     <p class="mb-1">
                         <% weapons.forEach(weapon => { %>
@@ -112,12 +114,11 @@
                 <div id="dots4"></div>
                 <div id="more4">
                     <% if (!charges[0]) { %>
-                    <li class="list-group-item color-black">
-                        <p>Clean record.</p>
-                        <a class="btn btn-primary"
-                            href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
-                            Offence</a>
-                    </li>
+                        <p class="mb-1">
+                            <li class="list-group-item text-dark">
+                                This Person doesn't have any charges
+                            </li>
+                        </p>
                     <% } else  {%>
                     <p class="mb-1">
                         <% charges.forEach(charge => { %>
@@ -140,7 +141,7 @@
         <div class="mb-4"></div>
     </div>
     <% } else { %>
-    <p class="text-center text-light">Citizen Not Found. Go Back <a href="/cad/<%= cadId %>/dispatch">Here</a>.</p>
+    <h3 class="text-center text-light">Citizen Not Found. Go Back <a href="/cad/<%= cadId %>/dispatch">Here</a>.</h3>
 
     <% } %>
 

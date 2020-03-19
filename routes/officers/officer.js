@@ -107,7 +107,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -115,15 +115,12 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         };
     },
     addOfficer: (req, res) => {
@@ -141,6 +138,9 @@ module.exports = {
                             if (result1[0].leo == 'yes') {
                                 let officer_name = req.body.officer_name;
                                 let dept = req.body.dept;
+                                if (dept === undefined) {
+                                    dept = "Unknown"
+                                } 
                                 let cadID = req.params.cadID
                                 let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`,`status`,`status2`,`cadID`) VALUES ('" + officer_name + "','" + dept + "','" + req.session.username2 + "','10-42 | 10-7','----------', '" + cadID + "')";
 

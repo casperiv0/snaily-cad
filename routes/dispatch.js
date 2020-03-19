@@ -23,8 +23,8 @@ module.exports = {
                                     } else {
                                         let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'"
                                         let addressess = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
-                                        let officersQ = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "'"
-                                        let EMSS = "SELECT * FROM `ems-fd` WHERE `cadID` = '" + req.params.cadID + "'";
+                                        let officersQ = "SELECT * FROM `officers` WHERE `cadID` = '" + req.params.cadID + "' AND `status` = '10-41 | 10-8'"
+                                        let EMSS = "SELECT * FROM `ems-fd` WHERE `cadID` = '" + req.params.cadID + "' AND `status` = '10-41 | 10-8'";
                                         let bolosQ = "SELECT * FROM `bolos` WHERE `cadID` = '" + req.params.cadID + "'";
                                         connection.query(`${weapons}; ${addressess}; ${officersQ}; ${EMSS}; ${bolosQ}`, (err, result) => {
                                             if (err) {
@@ -119,9 +119,8 @@ module.exports = {
             let searchQ = req.body.plate_search;
             let vehicle = "SELECT * FROM `registered_cars` WHERE `plate` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
 
-            connection.query(`${vehicle}`, (err1, result1) => {
+            connection.query(`${vehicle}`, (err, result1) => {
                 if (!result1[0]) {
-                    console.log(err1);
                     let query2 = "SELECT cadID FROM `users` WHERE `cadID` = '" + req.params.cadID + "'"
 
                     connection1.query(query2, (err, result2) => {
@@ -144,19 +143,20 @@ module.exports = {
                             return res.sendStatus(500);
                         } else {
                             if (result2[0]) {
-
                                 let citizen = "SELECT * FROM `citizens` WHERE `full_name` = '" + result1[0].owner + "' AND `cadID` = '" + req.params.cadID + "'";
                                 connection.query(citizen, (err, result) => {
-
-                                    res.render("dispatch/plate-search.ejs", {  desc: "",title: "Dispatch | SnailyCAD", isAdmin: "", plates: result1[0], name: result[0], cadId: result2[0].cadID });
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500 )
+                                    } else {
+                                        res.render("dispatch/plate-search.ejs", {  desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", plates: result1[0], name: result[0], cadId: result2[0].cadID });
+                                    }
                                 });
                             } else {
                                 res.sendStatus(404)
                             }
                         }
                     });
-
-
                 };
             });
         } else {

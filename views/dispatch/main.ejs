@@ -207,6 +207,7 @@
                 <div class="active list-group-item text-light ">Active Units</div>
                 
                 <!-- <span class="border-top-0"></span> -->
+                <% if (officers.length > 0) { %>
                     <% officers.forEach(officer => {%>
                         <% if(officer.status == "10-42 | 10-7" || officer.status == "") {%>
                         <!-- <p>not on duty</p> -->
@@ -237,8 +238,12 @@
                             </form>
                         </li>
                         <%} %>
-                        <% })  %>
-                    
+                    <% })  %>
+                    <%} else { %>
+                        <li class="list-group-item bg-dark text-light">
+                            No Active Police Deputies
+                        </li>
+                        <%} %>
                 
     
                 <div class="active list-group-item text-light">Active EMS</div>
@@ -293,16 +298,6 @@
                     <button type="submit" class="container btn btn-success">Update AOP</button>
                 </form>
             </ul>
-            <!-- <ul class="list-group" >
-                <div class="active list-group-item text-light ">Quick Warrant</div>
-                <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
-                    <div class="form-group">
-                        <label for="input">New AOP</label>
-                        <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
-                    </div>
-                    <button type="submit" class="container btn btn-success">Update AOP</button>
-                </form>
-            </ul> -->
           </div>
         </div>
         <div class="row">

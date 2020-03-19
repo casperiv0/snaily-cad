@@ -357,7 +357,7 @@ module.exports = {
                                                                             return res.sendStatus(500);
                                                                         } else {
                                                                             if (result2[0]) {
-                                                                                res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, messageG: 'Successfully Changed Password', message: "", message2: "", cadId: result2[0].cadID, messageG: '', })
+                                                                                res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, messageG: 'Successfully Changed Password', message: "", message2: "", cadId: result2[0].cadID, messageG: '', })
                                                                             } else {
                                                                                 res.sendStatus(404)
                                                                             };
@@ -371,7 +371,7 @@ module.exports = {
                                             } else {
                                                 let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                                                 connection1.query(query, (err, result1) => {
-                                                    res.render("edit-account.ejs", { title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Invalid Password', messageG: '', cadId: result3[0].cadID })
+                                                    res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Invalid Password', messageG: '', cadId: result3[0].cadID })
                                                 });
                                             };
                                         };
@@ -405,7 +405,7 @@ module.exports = {
                         console.log(err);
                         return res.sendStatus(500)
                     } else {
-                        let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
                         connection1.query(query, async (err, result2) => {
                             if (err) {
@@ -413,17 +413,16 @@ module.exports = {
                                 return res.sendStatus(500);
                             } else {
                                 if (result2[0]) {
-                                    await req.session.destroy()
-                                    await res.redirect(`/cad/${result2[0].cadID}/`)
+                                    await req.session.destroy();
+                                    await res.redirect(`/cad/${result2[0].cadID}/`);
                                 } else {
-                                    res.sendStatus(404)
-                                }
-                            }
-                        })
-
-                    }
-                })
-            }
-        })
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
+                    };
+                });
+            };
+        });
     }
 };

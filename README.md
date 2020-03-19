@@ -60,10 +60,21 @@ ToDO
 - [x] no offcers > show no officers
 - [x] no bolos > no bolos
 - [x] register vehicle company
-- [ ] edit officers rank supervisor and such
 - [x] support
-- [ ] add CAD, put register account for cad to
-- [ ] see all citizens
+- [x] see all citizens
+- [x] add CAD, put register account for cad to
+- [x] add officer undefined
+- [x] dispatch name search fix no weapons
+- [x] remove margin from weapon search / no weapons
+- [x] dispatch plate search remove null / make plate not found bigger
+- [x] no active units / check if there status === 10-8 > EMS/FD/POLICE
+- [x] add ems deputy / admin
+- [x] desc is not defined edit password
+- [x] min max length edit password
+- [ ] add company for weapons
+- [ ] edit officers rank supervisor and such
+- [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  
+- [ ] description main header
 
 ## Public Branch
 

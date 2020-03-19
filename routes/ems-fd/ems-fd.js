@@ -91,22 +91,22 @@ module.exports = {
     },
     addEMSPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection1.query(`${query2}; ${query}`, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("ems-fd/add-ems.ejs", {  desc: "",title: "Add EMS/FD Deputy | SnailyCAD", cadId: result2[0].cadID, isAdmin: '' })
+                        res.render("ems-fd/add-ems.ejs", {  desc: "", title: "Add EMS/FD Deputy | SnailyCAD", cadId: result2[0][0].cadID, isAdmin: result2[1][0].admin })
                     } else {
                         res.sendStatus(404);
                     };
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -124,7 +124,7 @@ module.exports = {
     },
     addEMS: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -157,7 +157,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);

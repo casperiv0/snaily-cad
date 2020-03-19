@@ -184,7 +184,7 @@ module.exports = {
                                         } else {
                                             req.session.mainLoggedin = true;
                                             req.session.user = username;
-                                            res.redirect("/order");
+                                            res.redirect("/account");
                                         };
                                     });
                                 };
