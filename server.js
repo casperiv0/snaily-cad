@@ -375,9 +375,9 @@ app.post("/cad/:cadID/admin/values/cars/edit/:id", editVehicle)
 app.post("/cad/:cadID/admin/values/cars/add", addCar)
 
 // Citizen cars
-app.get("/cad/:cadID/citizen/:id/:plate/edit", editVehiclePageCitizen)
-app.post("/cad/:cadID/citizen/:id/:plate/edit", editVehicleCitizen)
-app.get("/cad/:cadID/citizen/:id/:plate/delete", deleteVehicleCitizen)
+app.get("/cad/:cadID/citizen/:id/:car-:plate/edit", editVehiclePageCitizen)
+app.post("/cad/:cadID/citizen/:id/:car-:plate/edit", editVehicleCitizen)
+app.get("/cad/:cadID/citizen/:id/:car/delete", deleteVehicleCitizen)
 // Car Regestration
 app.get("/cad/:cadID/cars/register", regVehiclePage)
 app.post("/cad/:cadID/cars/register", regVehicle)

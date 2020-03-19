@@ -499,56 +499,63 @@ module.exports = {
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                     connection1.query(query, (err, result1) => {
-                        let plate = req.params.plate;
-                        let color = req.body.color;
-                        let status = req.body.status
-                        let company = req.body.companies
-                        let query = "UPDATE `registered_cars` SET `color` = '" + color + "', `in_status` = '" + status + "', company = '" + company + "' WHERE `registered_cars`.`plate` = '" + plate + "' AND `linked_to` = '" + req.params.cadID + "'";
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            let id = req.params.car
+                            let plate = req.params.plate;
+                            let color = req.body.color;
+                            let status = req.body.status
+                            let company = req.body.companies
+                            
+                            let query4 = "UPDATE `registered_cars` SET `color` = '" + color + "', `in_status` = '" + status + "', company = '" + company + "' WHERE `registered_cars`.`id` = '" + id + "'";
 
-                        connection.query(`${query};`, (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.status(500)
-                            } else {
-                                let query2 = "SELECT `cadID` FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                                connection1.query(query2, (err, result2) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        if (result2[0]) {
-                                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                            connection.query(`${query4};`, (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    let query23 = "SELECT `cadID` FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                                    connection1.query(query23, (err, result2) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500);
                                         } else {
-                                            res.sendStatus(404)
+                                            if (result2[0]) {
+                                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                            } else {
+                                                res.sendStatus(404)
+                                            }
                                         }
-                                    }
-                                })
-                            };
-                        });
+                                    })
+                                };
+                            });
+                        }
                     });
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
             connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     deleteVehicleCitizen: (req, res) => {
         let cadID = req.params.cadID;
-        let plate = req.params.plate;
+        let id = req.params.car;
 
-        let query = "DELETE FROM `registered_cars` WHERE `plate` = '" + plate + "' AND `cadID` = '" + cadID + "'";
+        let query = "DELETE FROM `registered_cars` WHERE `id` = '" + id + "' AND `cadID` = '" + cadID + "'";
 
         connection.query(query, (err, result) => {
             if (err) {
