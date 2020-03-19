@@ -63,6 +63,7 @@ ToDO
 - [x] support
 - [ ] add CAD, put register account for cad to
 - [ ] see all citizens
+- [ ] register vehicle company
 
 ## Public Branch
 

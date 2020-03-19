@@ -329,9 +329,9 @@ module.exports = {
         } else {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
             connection1.query(query, (err, result1) => {
-                let genderQ = "SELECT * FROM `genders`"
-                let ethnicityQ = "SELECT * FROM `ethnicities`"
-                let dmvQ = "SELECT * FROM `in_statuses`"
+                let genderQ = "SELECT * FROM `genders` WHERE `cadID` = '" + req.params.cadID + "'"
+                let ethnicityQ = "SELECT * FROM `ethnicities` WHERE `cadID` = '" + req.params.cadID + "'"
+                let dmvQ = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'"
                 let id = req.params.id;
                 let current = "SELECT * FROM `citizens` WHERE `id` = '" + id + "'"
 
@@ -469,18 +469,18 @@ module.exports = {
                             connection.query(`${vehicles}; ${weapons}; ${citizens}`, (err1, result1) => {
                                 if (err1) {
                                     return res.status(500).send(err);
+                                } else {
+                                    res.redirect(`/cad/${result2[0].cadID}/citizen`);
                                 }
-                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
                             });
 
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-        }
+                        res.sendStatus(404);
+                    };
+                };
+            });
+        };
     },
     companyPage: (req, res) => {
         if (!req.session.loggedin) {
