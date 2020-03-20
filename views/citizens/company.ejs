@@ -3,6 +3,14 @@
 <div class="container mt-2">
     <ul class="list-group">
 
+        <% if(message != ''){ %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <%= message %>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <% } %>
         <!-- Join Business -->
         <button class="btn text-dark no-out btn-primary list-group-item" data-target="#nameSearch"
             data-toggle="modal">Join a business</button>
