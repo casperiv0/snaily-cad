@@ -1,0 +1,45 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-3">
+    <h1 class="card-title text-light cap">
+        Edit <%= current.full_name %>
+    </h1>
+
+    <form action="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= req.params.citizen %>" method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1" class="text-light">Company Rank</label>
+          <% if (current.full_name === you.full_name) { %> 
+            <li class="list-group-item">You cannot edit your own permissions.</li>
+          <% } else if (current.rank === "owner") { %>
+            <li class="list-group-item">You cannot edit the owners permissions.</li>
+          <% }  else { %>
+              <select name="company_rank" id="company_rank" class="form-control bg-dark border-dark text-light cap">
+                  <option value="<%= current.rank %>"><%= current.rank %></option>
+                  <option disabled value="--------">--------</option>
+                  <option value="manager">Manager</option>
+                  <option value="employee">Employee</option>
+              </select>
+        <% }%>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1" class="text-light">Can Register Vehicles</label>
+          <select name="vehicles" id="company_rank" class="form-control bg-dark border-dark text-light cap">
+              <option value="<%= current.vehicle_reg %>"><%= current.vehicle_reg %></option>
+              <option disabled value="--------">--------</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1" class="text-light">Can Create Posts</label>
+          <select name="posts" id="company_rank" class="form-control bg-dark border-dark text-light cap">
+              <option value="<%= current.posts %>"><%= current.posts %></option>
+              <option disabled value="--------">--------</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+          </select>
+        </div>
+        <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit-company" class="btn btn-danger cancel-btn">Cancel</a>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</div>

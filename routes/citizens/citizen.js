@@ -216,7 +216,7 @@ module.exports = {
                     height = "Unknown"
 
                 }
-                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`,`cadID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                query = "INSERT INTO `citizens` ( `first_name`, `last_name`, `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair`, `eyes`, `address`, `height`, `weight`, `dmv`, `fire_licence`, `pilot_licence`,`ccw`,`ocw`,`business`, `rank`, `vehicle_reg`, `posts`, `cadID`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` ='" + full_name + "' AND cadID = '" + cadID + "'";
 
                 connection.query(query222, (err, result3) => {
@@ -226,7 +226,6 @@ module.exports = {
                     } else {
                         // if (result3[])
                         if (result3.length > 0) {
-
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
                             connection1.query(query2, (err, result2) => {
@@ -240,20 +239,20 @@ module.exports = {
                                                 console.log(err);
                                                 return res.sendStatus(500)
                                             } else {
-                                                let genderQ = "SELECT * FROM `genders`"
-                                                let ethnicityQ = "SELECT * FROM `ethnicities`"
-                                                let dmvQ = "SELECT * FROM `in_statuses`"
+                                                let genderQ = "SELECT * FROM `genders` WHERE `cadID` = '" + req.params.cadID + "'";
+                                                let ethnicityQ = "SELECT * FROM `ethnicities` WHERE `cadID` = '" + req.params.cadID + "'";
+                                                let dmvQ = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'";
                                                 connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
                                                     if (err) {
                                                         return res.status(500).send(err);
                                                     } else {
-                                                        res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID })
-                                                    }
+                                                        res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2, cadId: result2[0].cadID });
+                                                    };
                                                 });
-                                            }
+                                            };
                                         });
                                     } else {
-                                        res.sendStatus(404)
+                                        res.sendStatus(404);
                                     };
                                 };
                             });
@@ -265,7 +264,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     if (result2[0]) {
-                                        connection.query(query, [first_name, last_name, full_name, linked_to, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'none', 'Currently not working', cadID], (err, result) => {
+                                        connection.query(query, [first_name, last_name, full_name, linked_to, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'none', 'Currently not working', 'employee', 'yes', 'yes', cadID], (err, result) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.status(500).send("Something went wrong")
@@ -542,7 +541,7 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
-                            res.redirect(`/cad/${result2[0].cadID}/citizen/company/${joined_business}`)
+                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
 
                         }
                     })
@@ -585,7 +584,11 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500);
                         } else {
-                            res.redirect(`/cad/${result2[0].cadID}/citizen/company/${id}-${companyName}`);
+                            if (result2[0]) {
+                                res.redirect(`/cad/${result2[0].cadID}/citizen/company/${id}-${companyName}`);
+                            } else {
+                                res.status(404);
+                            };
                         };
                     });
                 };
@@ -633,10 +636,10 @@ module.exports = {
                             if (result2[0]) {
                                 // '" + req.params.cadID + "'
                                 // '" + req.params.company + "'
-                               
-                                let getCitizen = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?" 
+
+                                let getCitizen = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?"
                                 connection.query(getCitizen, [req.params.cadID, req.params.id], (err, result5) => {
-                                    if(err) {
+                                    if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
@@ -649,7 +652,6 @@ module.exports = {
                                                     console.log(err);
                                                     return res.sendStatus(500)
                                                 } else {
-                                                    console.log(result[2]);
                                                     res.render("company/main.ejs", { messageG: '', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1], owner: result[2], result5: result5 });
                                                 };
                                             });
@@ -702,46 +704,72 @@ module.exports = {
             let uploadedBy = req.session.username2;
             let uploadedAt = d.toLocaleDateString();
 
-            let query = "INSERT INTO `posts` (`linked_to_bus`,`title`,`description`,`cadID`,`uploadedBy`,`uploadedAt`) VALUES (?, ?, ?, ?, ?, ?)"
-            connection.query(query, [req.params.company, title, desc, cadID, uploadedBy, uploadedAt], (err, result) => {
+            let query3 = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?";
+
+            connection.query(query3, [req.params.cadID, req.params.id], (err, results) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus((500))
+                    return res.sendStatus(500)
                 } else {
-                    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500)
-                        } else {
-                            if (result2[0]) {
-                                let postss = "SELECT * FROM `posts` WHERE cadID = ? AND `linked_to_bus` = ?";
-
-                                connection.query(postss, [req.params.cadID, req.params.company], (err, result) => {
+                    if (results[0].posts === 'yes' || results[0].rank === "owner" || results[0].rank === "manager") {
+                        let query = "INSERT INTO `posts` (`linked_to_bus`,`title`,`description`,`cadID`,`uploadedBy`,`uploadedAt`) VALUES (?, ?, ?, ?, ?, ?)"
+                        connection.query(query, [req.params.company, title, desc, cadID, uploadedBy, uploadedAt], (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus((500))
+                            } else {
+                                let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                                connection1.query(query2, (err, result2) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
-                                        // '" + req.params.cadID + "'
-                                        // '" + req.params.company + "'
-                                        let postss = "SELECT * FROM `posts` WHERE cadID = ? AND `linked_to_bus` = ?";
-                                        let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?"
-                                        connection.query(`${postss}; ${totalEmployees}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company], (err, result) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.render("company/main.ejs", { messageG: 'Post successfully created', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result2[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1] });
-                                                res.end();
-                                            };
-                                        });
+                                        if (result2[0]) {
+                                            let getCitizen = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?";
+                                            connection.query(getCitizen, [req.params.cadID, req.params.id], (err, result5) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return res.sendStatus(500);
+                                                } else {
+                                                    if (result5[0]) {
+                                                        let postss = "SELECT * FROM `posts` WHERE cadID = ? AND `linked_to_bus` = ?";
+                                                        let totalEmployees = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?";
+                                                        let ownerQ = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `business_owner` = ?";
+                                                        connection.query(`${postss}; ${totalEmployees}; ${ownerQ}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company, req.params.cadID, result5[0].full_name], (err, result) => {
+                                                            if (err) {
+                                                                console.log(err);
+                                                                return res.sendStatus(500);
+                                                            } else {
+                                                                res.render("company/main.ejs", { messageG: 'Post Successfully created', message: '', desc: "", title: req.params.company + " | SnailyCAD", isAdmin: result5[0].admin, cadId: result2[0].cadID, req: req, posts: result[0], employees: result[1], owner: result[2], result5: result5 });
+                                                            };
+                                                        });
+                                                    } else {
+                                                        res.send("There was an error getting your name! Please try again later");
+                                                    };
+                                                };
+                                            });
+                                        } else {
+                                            res.sendStatus(404);
+                                        };
                                     };
                                 });
-                            } else {
-                                res.sendStatus(404);
                             };
-                        };
-                    });
+                        });
+                    } else {
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        connection1.query(query2, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result2[0]) {
+                                    res.render("company/add.ejs", { messageG: '', message: 'You are not allowed to create posts to this company! Please message your company owner or manager.', desc: "", title: "Create Post | SnailyCAD", isAdmin: "", cadId: result2[0].cadID, req: req });
+                                } else {
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
+                    };
                 };
             });
         } else {
@@ -768,7 +796,131 @@ module.exports = {
                 };
             });
         } else {
-            res.send("Coming very soon");
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?"
+                        connection.query(query, [req.params.cadID, req.params.id], (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result[0]) {
+                                    if (result[0].rank === 'owner' || result[0].rank === "manager") {
+                                        let query2 = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `business_name` = ?"
+                                        let query3 = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?"
+                                        connection.query(`${query2}; ${query3}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company], (err, result1) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], cadId: result2[0].cadID, isAdmin: "", employees: result1[1], req: req })
+                                            }
+                                        });
+                                    } else {
+                                        res.send("You're not the company manager or owner!");
+                                    };
+                                } else {
+                                    res.sendStatus(403)
+                                };
+                            };
+                        });
+                    } else {
+                        res.send("CAD was not found.")
+                    }
+                };
+            });
+
         };
+    },
+    editCitizenCompanyPage: (req, res) => {
+        if (!req.session.loggedin) {
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/cad/${result2[0].cadID}/login`);
+                };
+            });
+        } else {
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result2[0]) {
+                        let query = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?"
+                        connection.query(query, [req.params.cadID, req.params.id], (err, result3) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result3[0]) {
+                                    if (result3[0].rank === 'owner' || result3[0].rank === "manager") {
+                                        let query = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `id` = ?"
+
+                                        connection.query(query, [req.params.cadID, req.params.citizen], (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                                return res.sendStatus(500)
+                                            } else {
+                                                res.render("company/citizen.ejs", { title: "Edit Company | SnailyCAD", desc: "", isAdmin: "", cadId: result2[0].cadID, current: result[0], req: req, you: result3[0] })
+                                            }
+                                        })
+                                    } else {
+                                        res.send("You're not the company manager or owner!");
+                                    };
+                                } else {
+                                    res.sendStatus(403)
+                                };
+                            };
+                        });
+                    } else {
+                        res.send("CAD was not found.")
+                    }
+                };
+            });
+
+        };
+    },
+    editCitizenCompany: (req, res) => {
+
+        let query;
+        let rank = req.body.company_rank;
+        let vehicles = req.body.vehicles;
+        let posts = req.body.posts;
+        let citizenID = req.params.citizen;
+        if (rank === undefined) {
+            query = "UPDATE `citizens` SET `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
+
+            return connection.query(query, [vehicles, posts, citizenID], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
+                };
+            });
+        } else {
+            query = "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
+
+            return connection.query(query, [rank, vehicles, posts, citizenID], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500);
+                } else {
+                    res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
+                };
+            });
+        }
+
+
     }
 };

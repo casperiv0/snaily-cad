@@ -35,7 +35,7 @@
   <% if (req.session.username2 === user[0].username) {%>
   <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
 
-  <span class="text-light pb-2">You cannot edit your CAD Permisions</span>
+  <span class="text-light pb-2">You cannot edit your own CAD Permisions</span>
   <%} else if (user[0].admin == 'owner') { %>
   <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
   <span class="text-light pb-2">You cannot edit the head admin of this CAD</span>

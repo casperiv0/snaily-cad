@@ -1,7 +1,7 @@
 <%- include("../partials/header.ejs") %>
 
 <div class="text-light mt-2">
-    <form action="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>" class="container mx-auto" method="POST">
+    <form action="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>" class="container mx-auto" method="POST">
         <h1 class="card-title">Create Post</h1>
         <% if(message != ''){ %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -19,7 +19,7 @@
             <label for="desc">Post Description</label>
             <textarea name="description" id="desc" class="form-control" required cols="30" rows="5" maxlength="1800" minlength="1" max="1800"></textarea>
         </div>
-        <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.company %>" type="button" class="btn cancel-btn btn-danger">Cancel</a>
+        <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>" type="button" class="btn cancel-btn btn-danger">Cancel</a>
         <button type="submit" class="btn btn-primary">Create Post</button>
 
     </form>
