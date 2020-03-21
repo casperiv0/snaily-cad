@@ -215,7 +215,8 @@ const { adminDashboard,
     usernameAdmin,
     expireCAD,
     reactivateCAD,
-    addCad
+    addCad,
+    adminDashboardLogin
 } = require("./routes/main-admin")
 
 const { supportPage, createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support')
@@ -266,6 +267,7 @@ app.post("/support/ticket/:ticket_id-:title", replyToPost)
 
 // SnailyCAD Admin Dashboard
 app.get("/admin/dashboard/", adminDashboard)
+app.post("/admin/dashboard/", adminDashboardLogin)
 app.get("/admin/dashboard/:username", usernameAdminPage)
 app.post("/admin/dashboard/:username", usernameAdmin)
 app.post("/admin/dashboard/:username/add-cad", addCad)

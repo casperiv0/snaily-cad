@@ -294,36 +294,40 @@ module.exports = {
 
             let query = "SELECT * FROM `users` WHERE `username` = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'";
             connection1.query(`${query}`, (err, result) => {
-
-                if (result[0].admin == 'owner') {
-                    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                    let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
-                    connection1.query(`${query2}; ${cads};`, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                let date = new Date()
-                                let currentD = date.toLocaleString();
-                                let action_title = `CAD name was edited to "${cad_name}".`
-
-                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                connection1.query(`${query4}; ${actionLog}`, (err, result5) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: 'Changes Successfully Saved', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0][0].cadID, current: result2[1][0] });
-                                    };
-                                });
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
                 } else {
-                    res.sendStatus(403)
+                    if (result[0].admin == 'owner') {
+                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                        let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
+                        connection1.query(`${query2}; ${cads};`, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                if (result2[0]) {
+                                    let date = new Date()
+                                    let currentD = date.toLocaleString();
+                                    let action_title = `CAD name was edited to "${cad_name}".`
+
+                                    let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
+                                    connection1.query(`${query4}; ${actionLog}`, (err, result5) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500);
+                                        } else {
+                                            res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: 'Changes Successfully Saved', title: "CAD Settings | Equinox CAD", isAdmin: result[0].admin, cadId: result2[0][0].cadID, current: result2[1][0] });
+                                        };
+                                    });
+                                } else {
+                                    res.sendStatus(404);
+                                };
+                            };
+                        });
+                    } else {
+                        res.sendStatus(403)
+                    };
                 };
             });
         } else {
