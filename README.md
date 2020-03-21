@@ -73,6 +73,7 @@ ToDO
 - [x] min max length edit password
 - [x] description main header
 - [x] add auth for company page if citizen  ID is in your account
+- [x] my companies page
 - [ ] add company for weapons
 - [ ] edit officers rank supervisor and such
 - [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  

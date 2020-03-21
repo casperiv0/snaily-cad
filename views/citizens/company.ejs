@@ -11,6 +11,7 @@
                 </button>
             </div>
             <% } %>
+            
         <!-- Join Business -->
         <button class="btn text-dark no-out btn-primary list-group-item" data-target="#nameSearch"
             data-toggle="modal">Join a business</button>
@@ -118,6 +119,13 @@
                 </div>
             </div>
         </div>
+
+        <ul class="list-group mt-2 text-light">
+            <li class="list-group-item active">Your Companies</li>
+            <% companies.forEach(company => { %>
+                <li class="list-group-item bg-dark "><span class="bolder">Name:</span> <%= company.business_name %> <br><span class="bolder">Owner:</span> <%= company.business_owner %></li>
+            <% }) %>
+        </ul>
     </ul>
 
     <script>

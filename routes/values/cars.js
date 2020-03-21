@@ -347,7 +347,7 @@ module.exports = {
                         let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
                         let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
-                        let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
+                        let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "' AND `linked_to` = '"+req.session.username2+"'"
 
                         connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
                             if (err) {

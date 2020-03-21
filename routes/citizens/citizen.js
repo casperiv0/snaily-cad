@@ -512,8 +512,10 @@ module.exports = {
                             } else {
                                 let query2 = "SELECT * FROM businesses WHERE cadID = ?";
                                 let citizen = "SELECT * FROM citizens WHERE linked_to = ? AND cadID = ?"
-                                connection.query(`${query2}; ${citizen}`, [req.params.cadID, req.session.username2, req.params.cadID], (err, result) => {
-                                    res.render("citizens/company.ejs", { title: "Edit Citizen | SnailyCAD", desc: "", message: "", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, });
+                                let compaines = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `linked_to` = ?"
+
+                                connection.query(`${query2}; ${citizen}; ${compaines}`, [req.params.cadID, req.session.username2, req.params.cadID, req.params.cadID, req.session.username2, req.params.cadID, req.session.username2], (err, result) => {
+                                    res.render("citizens/company.ejs", { title: "Manage Employment | SnailyCAD", desc: "", message: "", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, companies: result[2]  });
                                 });
                             };
                         });
