@@ -6,26 +6,73 @@ include("../partials/admin-header.ejs") %>
     Member management
   </h1>
 
-  <input
-    type="text"
-    class=" form-control mt-2 text-light bg-dark border-dark"
-    id="myInput"
-    onkeyup="myFunction()"
-    placeholder="Search for members.."
-  />
-  <ul class="list-group " id="myUL">
-    <% users.forEach(user => { %>
-    <li class="list-group-item mt-1 text-light bg-dark">
-      <%= user.id %> | <%= user.username %>
-      <a
-        href="/cad/<%= cadId %>/admin/users/edit/<%= user.id %>"
-        class="btn btn-success float-right"
-        >Edit Permissions</a
-      >
-    </li>
 
-    <% }) %>
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active bg-dark border-dark text-light" id="member-tab" data-toggle="tab" href="#members" role="tab" aria-controls="home" aria-selected="true">Members</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link bg-dark border-dark text-light ml-1" id="profile-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="profile" aria-selected="false">Pending</a>
+    </li>
   </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="members" role="tabpanel" aria-labelledby="home-tab">
+      <input
+      type="text"
+      class=" form-control mt-2 text-light bg-dark border-dark"
+      id="myInput"
+      onkeyup="myFunction()"
+      placeholder="Search for members.."
+    />
+    <ul class="list-group " id="myUL">
+      <% users.forEach(user => { %>
+      <li class="list-group-item mt-1 text-light bg-dark">
+        <%= user.id %> | <%= user.username %>
+        <a
+          href="/cad/<%= cadId %>/admin/users/edit/<%= user.id %>"
+          class="btn btn-success float-right"
+          >Edit Permissions</a
+        >
+      </li>
+  
+      <% }) %>
+    </ul>
+    </div>
+    <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="profile-tab">
+      <% if (whitelist.whitelisted === "true") { %>
+        <% if (pending.length > 0) { %>
+          <input
+          type="text"
+          class=" form-control mt-2 text-light bg-dark border-dark"
+          id="myInput2"
+          onkeyup="myFunction2()"
+          placeholder="Search for members.."
+          />
+          <ul class="list-group" id="myUL2">
+          <% pending.forEach(user => { %>
+              <li class="list-group-item bg-dark border-dark mt-1">
+                <%= user.username %>
+              </li>
+            <% }) %> 
+            <% } else { %>
+              <li class="list-group-item bg-dark border-dark mt-1">
+                No Members Pending 
+              </li>
+          <% } %>
+      <% } else { %>
+        <li class="list-group-item bg-dark border-dark mt-1">
+          This CAD isn't whitelisted so this function is unavailable, If you want your CAD to be whitelisted goto the 'CAD Settings' tab.
+        </li>
+      <% } %>
+      
+      </ul>
+    </div>
+  </div>
+  
+
+
+ 
   <div class="mb-3"></div>
 </div>
 
@@ -35,6 +82,22 @@ include("../partials/admin-header.ejs") %>
     input = document.getElementById('myInput');
     filter = input.value.toUpperCase();
     ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+      a = li[i];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = '';
+      } else {
+        li[i].style.display = 'none';
+      }
+    }
+  }
+  function myFunction2() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput2');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('myUL2');
     li = ul.getElementsByTagName('li');
     for (i = 0; i < li.length; i++) {
       a = li[i];

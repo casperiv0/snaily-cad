@@ -15,6 +15,7 @@
       class="form-control text-light border-dark bg-dark"
       id="name"
       aria-describedby="emailHelp"
+      required
     />
   </div>
   <div class="form-group">
@@ -24,6 +25,7 @@
       name="dept"
       class="form-control text-light border-dark bg-dark"
       id="dept"
+      required
     >
       <% depts.forEach(dept => { %>
         <option value="<%= dept.name %>"><%= dept.name %></option>

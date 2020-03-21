@@ -127,7 +127,12 @@ const {
     statusChange,
     codesPage,
     officerBolo,
-    removeOfficerBolo
+    removeOfficerBolo,
+    officerOffencer,
+    versionChange,
+    officerNameSearch,
+    officerPlateSearch,
+    officerWeaponSearch
 } = require("./routes/officers/officer");
 
 const {
@@ -213,7 +218,7 @@ const { adminDashboard,
     addCad
 } = require("./routes/main-admin")
 
-const { supportPage,createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support')
+const { supportPage, createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support')
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -365,6 +370,13 @@ app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspe
 app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/pilot", suspendLicenseName)
 app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/fire", suspendLicenseName)
 app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", suspendLicenseName)
+app.post("/cad/:cadID/officers/dash/offence", officerOffencer)
+app.post("/cad/:cadID/officers/version/compact", versionChange)
+app.post("/cad/:cadID/officers/version/real", versionChange)
+
+app.post("/cad/:cadID/officers/search/name", officerNameSearch);
+app.post("/cad/:cadID/officers/search/plate", officerPlateSearch);
+app.post("/cad/:cadID/officers/search/weapon", officerWeaponSearch);
 
 // EMS/FD
 app.get('/cad/:cadID/ems-fd', emsPage);

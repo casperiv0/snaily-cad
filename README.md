@@ -77,6 +77,8 @@ ToDO
 - [ ] add company for weapons
 - [ ] edit officers rank supervisor and such
 - [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  
+- [ ] company join system
+- [ ] CAD option join system
 
 ## Public Branch
 

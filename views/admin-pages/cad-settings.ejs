@@ -21,13 +21,32 @@ include("../partials/admin-header.ejs") %>
         id="name"
         name="cad_name"
         class="form-control bg-dark border-dark text-light"
+        value="<%= current.cad_name %>"
       />
+    </div>
+
+
+
+    <div class="form-group p-2">
+      <% if(current.whitelisted === "true") { %>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" name="whitelist"  checked class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+      </div>
+    <% } else { %>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" name="whitelist" class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+      </div>
+    <% } %>
     </div>
     <button type="submit" class=" btn btn-success ml-2 mb-2 mr-2">
       Update
     </button>
   </form>
 
+
+  
   <form
     action="/cad/<%= cadId %>/admin/delete-citizens"
     method="post"
