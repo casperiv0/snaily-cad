@@ -870,12 +870,13 @@ module.exports = {
                                     if (result[0].rank === 'owner' || result[0].rank === "manager") {
                                         let query2 = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `business_name` = ?"
                                         let query3 = "SELECT * FROM `citizens` WHERE `cadID` = ? AND `business` = ?"
-                                        connection.query(`${query2}; ${query3}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company], (err, result1) => {
+                                        let query4 = "SELECT * FROM `registered_cars` WHERE `cadID` = ? AND `company` = ?"
+                                        connection.query(`${query2}; ${query3}; ${query4}`, [req.params.cadID, req.params.company, req.params.cadID, req.params.company, req.params.cadID, req.params.company], (err, result1) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.sendStatus(500)
                                             } else {
-                                                res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], cadId: result2[0].cadID, isAdmin: "", employees: result1[1], req: req })
+                                                res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], cadId: result2[0].cadID, isAdmin: "", employees: result1[1], req: req, vehicles: result1[2] })
                                             }
                                         });
                                     } else {
