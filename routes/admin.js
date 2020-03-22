@@ -384,12 +384,12 @@ module.exports = {
                                 };
                             });
                         } else {
-                            res.sendStatus(403)
+                            res.sendStatus(403);
                         };
-                    }
+                    };
                 });
-            }
-        })
+            };
+        });
     },
     banUser: (req, res) => {
         if (!req.session.loggedin) {

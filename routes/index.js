@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 15;
-const d = new Date()
 module.exports = {
     homePage: (req, res, next) => {
         let query2 = "SELECT `cadID` FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
@@ -22,9 +21,10 @@ module.exports = {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
+                            let d = new Date()
                             let expire_date = d.toLocaleDateString()
                             if (result[0].expire_date === expire_date) {
-                                res.render("expired.ejs", { title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
+                                res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
                             } else {
                                 res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req, desc: `CAD app for cadID: ${result[0].cadID}.` });
                             };

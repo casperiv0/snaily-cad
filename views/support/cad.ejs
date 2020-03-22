@@ -9,9 +9,10 @@
 
     <ul class="list-group">
         <li class="list-group-item active">CAD Information</li>
-        <li class="list-group-item"><%= cad.cad_name %></li>
-        <li class="list-group-item"><%= cad.owner %></li>
-        <li class="list-group-item"><%= cad.expire_date %></li>
+        <li class="list-group-item"><span class="bolder"> CAD Name: </span> <%= cad.cad_name %></li>
+        <li class="list-group-item"><span class="bolder"> Owner: </span><%= cad.owner %></li>
+        <li class="list-group-item"><span class="bolder">Expire Date: </span> <%= cad.expire_date %></li>
+        <li class="list-group-item"><span class="bolder"> whitelisted: </span> <%= cad.whitelisted %></li>
     </ul>
 
     <div class="container mt-2">
