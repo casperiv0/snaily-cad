@@ -225,8 +225,8 @@ module.exports = {
                                     } else {
                                         if (result3[0].whitelisted === "true") {
                                             // '" + username + "', '" + username + "@" + cadID + "', '" + hash + "', 'no', 'no', 'no', 'no', '" + cadID + "', 'pi75PugYho', '', 'no', 'false', '/'
-                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "awaiting"], function (error, results, fields) {
+                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "awaiting", "1"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {
@@ -252,8 +252,8 @@ module.exports = {
                                                 };
                                             });
                                         } else {
-                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted"], function (error, results, fields) {
+                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted", "1"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {

@@ -48,6 +48,9 @@ module.exports = {
             name = "Not Specified"
         }
         let desc = req.body.description;
+        if (desc === undefined) {
+            desc = "Not Specified"
+        }
         let location = req.body.location;
         console.log(`Name: ${name}, Desc: ${desc}, Location: ${location}`);
         let query = "INSERT INTO `calls` (`description`, `name`, `location`, `cadID`) VALUES (?, ?, ?, ?)"

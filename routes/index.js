@@ -175,7 +175,7 @@ module.exports = {
                                 } else if (result1.length > 0) {
                                     res.render("main/register.ejs", { title: "Register | SnailyCAD", message: "Username is already in use! Please change to another username", req: req, desc: "" });
                                 } else {
-                                    connection1.query("INSERT INTO `users` (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`, `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`) VALUES ('" + username + "', '" + email + "', '" + hash + "', 'no', 'no', 'no', 'no', '', 'pi75PugYho', '', 'no', 'false', '/', 'accepted')", (err, result2) => {
+                                    connection1.query("INSERT INTO `users` (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`, `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES ('" + username + "', '" + email + "', '" + hash + "', 'no', 'no', 'no', 'no', '', 'pi75PugYho', '', 'no', 'false', '/', 'accepted', '1')", (err, result2) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500);
