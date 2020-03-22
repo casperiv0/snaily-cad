@@ -347,7 +347,7 @@ module.exports = {
                         let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
                         let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
-                        let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "' AND `linked_to` = '"+req.session.username2+"'"
+                        let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "' AND `linked_to` = '" + req.session.username2 + "'"
 
                         connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
                             if (err) {
@@ -444,40 +444,54 @@ module.exports = {
                                 } else {
                                     if (result2[0]) {
                                         let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '" + plate + "' AND `cadID` = '" + req.params.cadID + "'"
-    
+
                                         connection.query(q1, (err, result) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.sendStatus(500)
                                             } else {
                                                 if (result.length > 0) {
-                                                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                    connection1.query(query, (err, result1) => {
+                                                    let cadi = "SELECT * FROM `cads` WHERE `cadID` = ?"
+
+                                                    connection1.query(cadi, [req.params.cadID], (err, result2) => {
                                                         if (err) {
                                                             console.log(err);
                                                             return res.sendStatus(500)
                                                         } else {
-                                                            let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                                            let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                                            let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
-                                                            let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                                            let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
-                                                            let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
-                
-                                                            connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
-                                                                if (err) {
-                                                                    console.log(err);
-                                                                    return res.sendStatus(500)
-                                                                } else {
-                                                                    res.render("vehicles/reg-vehicle.ejs", { desc: "", title: "Vehicle Registration | SnailyCAD", message: 'Sorry! This plate already exists, please change the plate.', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4], companies: result[5] });
-                                                                    res.end()
-                                                                };
-                                                            });
-                                                        };
-                                                    });
+                                                            if (result2[0]) {
+                                                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                                                connection1.query(query, (err, result1) => {
+                                                                    if (err) {
+                                                                        console.log(err);
+                                                                        return res.sendStatus(500)
+                                                                    } else {
+                                                                        let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                                        let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                                        let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
+                                                                        let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+                                                                        let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
+
+                                                                        connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
+                                                                            if (err) {
+                                                                                console.log(err);
+                                                                                return res.sendStatus(500)
+                                                                            } else {
+                                                                                res.render("vehicles/reg-vehicle.ejs", { desc: "", title: "Vehicle Registration | SnailyCAD", message: 'Sorry! This plate already exists, please change the plate.', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4], companies: result[5] });
+                                                                                res.end()
+                                                                            };
+                                                                        });
+                                                                    };
+                                                                });
+                                                            } else {
+                                                                req.sendStatus(500)
+                                                            }
+                                                        }
+                                                    })
+
                                                 } else {
                                                     let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `cadID`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            
+
                                                     companies = "None"
                                                     // '" + owner + "', '" + vehicle + "', '" + vin_number + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "'
                                                     connection.query(query, [owner, vehicle, vin_number, in_status, plate, color, req.params.cadID, linked_to, companies], (err, result) => {
@@ -505,7 +519,6 @@ module.exports = {
                                         });
                                     } else {
                                         res.send('CAD was not found');
-                                        res.end()
                                     };
                                 };
                             });
@@ -515,58 +528,77 @@ module.exports = {
             } else {
                 let q1 = "SELECT plate FROM `registered_cars` WHERE plate = '" + plate + "' AND `cadID` = '" + req.params.cadID + "'"
 
-                            connection.query(q1, (err, result) => {
+                connection.query(q1, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        if (result.length > 0) {
+                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                            let cadi = "SELECT * FROM `cads` WHERE `cadID` = ?"
+
+                            connection1.query(cadi, [req.params.cadID], (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    if (result.length > 0) {
-                                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                                    if (result2[0]) {
                                         connection1.query(query, (err, result1) => {
-                                            let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                            let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                            let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
-                                            let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                            let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
-                                            let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
-
-                                            connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
-                                                if (err) {
-                                                    console.log(err);
-                                                    return res.sendStatus(500)
-                                                } else {
-                                                    res.render("vehicles/reg-vehicle.ejs", { desc: "", title: "Vehicle Registration | SnailyCAD", message: 'Sorry! This plate already exists, please change the plate.', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4], companies: result[5] });
-                                                    res.end()
-                                                };
-                                            });
-                                        });
-                                    } else {
-                                        let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `cadID`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                                        // '" + owner + "', '" + vehicle + "', '" + vin_number + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "'
-                                        connection.query(query, [owner, vehicle, vin_number, in_status, plate, color, req.params.cadID, linked_to, companies], (err, result) => {
                                             if (err) {
                                                 console.log(err);
-                                                return res.sendStatus(500);
+                                                return res.sendStatus(500)
                                             } else {
-                                                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                                connection1.query(query2, (err, result2) => {
+                                                let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
+                                                let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
+                                                let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+                                                let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
+                
+                                                connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
                                                     if (err) {
                                                         console.log(err);
-                                                        return res.sendStatus(500);
+                                                        return res.sendStatus(500)
                                                     } else {
-                                                        if (result2[0]) {
-                                                            res.redirect(`/cad/${result2[0].cadID}/citizen`);
-                                                        } else {
-                                                            res.sendStatus(404);
-                                                        };
+                                                        res.render("vehicles/reg-vehicle.ejs", { desc: "", title: "Vehicle Registration | SnailyCAD", message: 'Sorry! This plate already exists, please change the plate.', owners: result[0], vehicles: result[1], in_status: result[2], isAdmin: result1[0].admin, name: req.session.username2, owners: result[3], cadId: result2[0].cadID, defaults: result[4], companies: result[5] });
+                                                        res.end()
                                                     };
                                                 });
                                             };
                                         });
-                                    };
+                                    } else {
+                                        res.sendStatus(500)
+                                    }
+                                }
+                            })
+                            
+                        } else {
+                            let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `cadID`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                            // '" + owner + "', '" + vehicle + "', '" + vin_number + "', '" + in_status + "', '" + plate + "', '" + color + "', '" + req.params.cadID + "', '" + linked_to + "'
+                            connection.query(query, [owner, vehicle, vin_number, in_status, plate, color, req.params.cadID, linked_to, companies], (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
+                                } else {
+                                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
+                                    connection1.query(query2, (err, result2) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500);
+                                        } else {
+                                            if (result2[0]) {
+                                                res.redirect(`/cad/${result2[0].cadID}/citizen`);
+                                            } else {
+                                                res.sendStatus(404);
+                                            };
+                                        };
+                                    });
                                 };
                             });
+                        };
+                    };
+                });
             }
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
