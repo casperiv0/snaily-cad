@@ -12,7 +12,13 @@ include("../partials/admin-header.ejs") %>
   <% } %>
   <h1 class="card-title text-light">CAD Settings</h1>
 
-  <form action="" method="post" class="card bg-secondary">
+  <div class="card bg-secondary">
+    <h4 class="card-title text-light p-2">Downloads</h4>
+      <a download href="/downloads/snailyCAD-towservice.zip" class="ml-2 mb-2 mr-2 btn btn-primary">
+      FiveM call tow service integration(911 calls coming soon)</a>
+  </div>
+
+  <form action="" method="post" class="card bg-secondary mt-3">
     <h4 class="card-title text-light p-2">General Settings</h4>
     <div class="ml-2 mr-2 form-group">
       <label for="name" class="text-light">CAD Name</label>
