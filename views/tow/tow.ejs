@@ -1,0 +1,42 @@
+<%- include("../partials/header.ejs") %> 
+
+<div class="container mt-3">
+    <h1 class="card-title text-light">Tow Trucker - AOP: <% if (aop.AOP === "") { %>
+        N/A
+    <% } else { %>
+        <%= aop.AOP %>
+    <% } %></h1>
+    <!-- <ul class="list-group">
+        <li class="list-group-item active">Tow Truckers</li>
+        <li class="list-group-item bg-dark border-dark text-light"></li>
+    </ul> -->
+
+    <ul class="list-group mt-3">
+        <li class="list-group-item active">Active Calls <div class="float-right"><button class="btn btn-success" onclick="refresh()">Refresh</button></div></li>
+        <% if (calls.length > 0) { %>
+            <% calls.forEach(call => { %>
+                <li class="list-group-item bg-dark border-dark text-light">
+                    <span class="bolder">Description: </span> <%= call.description %> <br>
+                    <span class="bolder">Location: </span> <%= call.location %> <br>
+                    <span class="bolder">Caller Name: </span> <%= call.name %> <br>
+                    <div class="float-right">
+                        <a href="/cad/<%= cadId %>/tow/cancel-call-<%= call.id %>" class="btn btn-success">End Call</a>
+                    </div>
+                </li>                
+            <% }) %>
+        <% } else { %>
+            <li class="list-group-item bg-dark border-dark text-light">
+                No Active Calls
+            </li>
+        <% } %>
+
+
+        
+    </ul>
+</div>
+
+<script>
+    function refresh() {
+        document.location.reload()
+    }
+</script>

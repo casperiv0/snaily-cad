@@ -1383,7 +1383,7 @@ module.exports = {
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
             connection1.query(query2, (err, result2) => {
                 if (err) {

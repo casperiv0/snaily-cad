@@ -59,6 +59,12 @@
         class="btn btn-primary cap mt-1"
         >Manage Employment Status</a
       >
+      <a
+        href="#towModal"
+        class="btn btn-primary cap mt-1"
+        data-toggle="modal"
+        >Call Tow Service</a
+      >
 
       <% citizen.forEach(value => { %>
       <li class="list-group-item mt-2 bg-dark text-light">
@@ -71,6 +77,39 @@
       </li>
 
       <% }) %>
+
+      <div class="modal fade" id="towModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Call Tow Service</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/cad/<%= cadId %>/create-tow-call" method="POST">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Call Description</label>
+                    <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Caller Name</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name" name="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Caller Location</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Location" name="location" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Call</button>
+                </form>
+                </div>
+          </div>
+        </div>
+      </div>
     </ul>
     <div class="mb-4"></div>
   </div>
