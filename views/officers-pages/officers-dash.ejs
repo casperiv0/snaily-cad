@@ -161,13 +161,13 @@
           <div class="mt-2">
             <ul class="list-group mb-4" >
               <div class="active list-group-item text-light ">Quick Create Warrant</div>
-              <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/officers/" method="post">
+              <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/officers/warrant" method="post">
                 <div class="form-group">
                   <label for="name">Full Name</label>
                   <input
                     type="text"
                     name="name"
-                    class="form-control text-dark border-secondary bg-secondary"
+                    class="form-control text-light border-secondary bg-secondary"
                     id="name"
                     aria-describedby="emailHelp"
                     placeholder="Full Name"
@@ -205,7 +205,7 @@
                     placeholder="Details"
                   />
                 </div>
-                  <button type="submit" class="container btn btn-success">Update Status</button>
+                  <button type="submit" class="container btn btn-success">Create Warrant</button>
               </form>
           </ul>
           </div>
