@@ -16,7 +16,7 @@ module.exports = {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("tow/tow.ejs", { desc: "", title: "Tow | SnailyCAD", isAdmin: result2[0][0].admin, cadId: result2[1][0].cadID, calls: result, aop: result2[1][0]  });
+                                res.render("tow/tow.ejs", { desc: "", title: "Tow | SnailyCAD", isAdmin: result2[0][0].admin, cadId: result2[1][0].cadID, calls: result, aop: result2[1][0] });
                             }
                         })
                     } else {
@@ -42,52 +42,37 @@ module.exports = {
         };
     },
     createTowCall: (req, res) => {
-        if (req.session.loggedin) {
-            let name = req.body.name;
-            if (name === "") {
-                name = "Not Specified"
-            }
-            let desc = req.body.description;
-            let location = req.body.location;
-            let query = "INSERT INTO `calls` (`description`, `name`, `location`, `cadID`) VALUES (?, ?, ?, ?)"
 
-            connection.query(query, [desc, name, location, req.params.cadID], (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
-                } else {
-                    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+        let name = req.body.name
+        if (name === "") {
+            name = "Not Specified"
+        }
+        let desc = req.body.description;
+        let location = req.body.location;
+        console.log(`Name: ${name}, Desc: ${desc}, Location: ${location}`);
+        let query = "INSERT INTO `calls` (`description`, `name`, `location`, `cadID`) VALUES (?, ?, ?, ?)"
 
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                res.redirect(`/cad/${result2[0].cadID}/citizen`);
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
-                }
-            })
-        } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+        connection.query(query, [desc, name, location, req.params.cadID], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                connection1.query(query2, (err, result2) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
                     } else {
-                        res.sendStatus(404);
+                        if (result2[0]) {
+                            res.redirect(`/cad/${result2[0].cadID}/citizen`);
+                        } else {
+                            res.sendStatus(404);
+                        };
                     };
-                };
-            });
-        };
+                });
+            };
+        });
     },
     cancelCallTow: (req, res) => {
         if (req.session.loggedin) {

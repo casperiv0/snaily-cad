@@ -377,7 +377,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     if (result2[0]) {
-                                        res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: 'All Citizens Were Successfully Deleted.', title: "CAD Settings | Equinox CAD", isAdmin: result[0][0].admin, cadId: result2[0].cadID })
+                                        res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: 'All Citizens Were Successfully Deleted.', current: "", title: "CAD Settings | Equinox CAD", isAdmin: result[0][0].admin, cadId: result2[0].cadID })
                                     } else {
                                         res.sendStatus(404);
                                     };
