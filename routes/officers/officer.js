@@ -58,16 +58,12 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        res.render("login-res/login.ejs", { desc: "", title: "Login | SnailyCAD", isAdmin: "", message: "Session Expired. Please log back in.", cadId: result2[0].cadID })
-                        // res.redirect(`/cad/${result2[0].cadID}/login`)
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(404);
+                    };
+                };
+            });
         };
     },
     addOfficerPage: (req, res) => {
