@@ -139,14 +139,14 @@ module.exports = {
                                                                             if (err) {
                                                                                 res.sendStatus(500);
                                                                                 console.log(err);
-                                                                            }
-                                                                            if (!result[0]) {
-                                                                                res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
-                                                                            }
-                                                                            else {
-                                                                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                                                                            }
-                                                                        })
+                                                                            } else {
+                                                                                if (!result[0]) {
+                                                                                    res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
+                                                                                } else {
+                                                                                    res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                                                                                }
+                                                                            };
+                                                                        });
                                                                     } else {
                                                                         res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
                                                                     };
