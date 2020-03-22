@@ -132,7 +132,7 @@ module.exports = {
                                                                     console.log(err);
                                                                     return res.sendStatus(500)
                                                                 } else {
-                                                                    if (result == true) {
+                                                                    if (result === true) {
                                                                         req.session.loggedin = true;
                                                                         req.session.username2 = username;
                                                                         connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
@@ -141,10 +141,11 @@ module.exports = {
                                                                                 return res.sendStatus(500);
                                                                             } else {
                                                                                 if (!result[0]) {
-                                                                                    res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
+                                                                                   return res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
                                                                                 } else {
                                                                                     res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                                                                                }
+                                                                                    res.end()
+                                                                                };
                                                                             };
                                                                         });
                                                                     } else {
