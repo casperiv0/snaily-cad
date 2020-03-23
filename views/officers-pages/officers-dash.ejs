@@ -331,11 +331,12 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/search/name" id="modal" method="post">
+            <form action="/cad/<%= cadId %>/officers/search/name" id="modal" method="POST">
                 <div class="form-group">
                     <label for="bolo">Name</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Search By Name">
                 </div>
+                 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -347,7 +348,7 @@
     </div>
 
     <!-- Plate Search -->
-    <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="plate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -357,10 +358,10 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/search/name" id="modal" method="post">
+            <form action="/cad/<%= cadId %>/officers/search/plate" id="modal" method="post">
                 <div class="form-group">
-                    <label for="bolo">Plate</label>
-                    <input type="text" class="form-control" min="1" max="8" maxlength="8" name="plate" id="name" placeholder="Search By Name">
+                    <label for="plate">Plate</label>
+                    <input type="text" class="form-control" min="1" max="8" maxlength="8" name="plate" id="plate" placeholder="Search By Name">
                 </div>
         </div>
         <div class="modal-footer">

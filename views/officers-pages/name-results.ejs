@@ -3,203 +3,204 @@
 
 
 <div class="container ">
-    <h1 class="card-title cap mt-3 text-center text-light"> <%= result.full_name %></h1>
 
-    <ul class="list-group">
-        <a href="/cad/<%= cadId %>/officers/dash/" class="btn btn-primary cap mt-2">Back to Police Dash</a>
-        <li class="list-group-item text-light bg-dark mt-2">Full Name: <%= result.full_name %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Gender: <%= result.gender %></li>
-        <li class="list-group-item text-light bg-dark mt-2">Birthday: <%= result.birth %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Ethnicity: <%= result.ethnicity %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Hair Color: <%= result.hair %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Eye Color: <%= result.eyes %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Address: <%= result.address %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Height: <%= result.height %> </li>
-        <li class="list-group-item text-light bg-dark mt-2">Weight: <%= result.weight %> </li>
-        <% if (result.business == "") { %>
-        <li class="list-group-item text-light bg-dark mt-2">Employer: Currently is not working</li>
-        <%} else {%>
-        <li class="list-group-item text-light bg-dark mt-2">Employer: <%= result.business %> </li>
+    <% if (result) { %>
+        <h1 class="card-title cap mt-3 text-center text-light"> <%= result.full_name %></h1>
 
-        <%} %>
-
-        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1 ">Licenses:</h5>
-            </div>
-            <div id="dots3"></div>
-            <div id="more3">
-                <p class="mb-1">
-                    <li class="list-group-item color-black"><span class="bolder"> Driver License: </span> <%= result.dmv %> <form
-                            action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/dmv"
-                            class="float-right" method="post"><button type="submit"
-                                class="btn btn-sm btn-danger">Suspend
-                                License</button>
-                        </form>
-                    </li>
-                    <li class="list-group-item color-black"><span class="bolder">Pilot License: </span> <%= result.pilot_licence %> <form
-                            action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/pilot"
-                            class="float-right" method="post"><button type="submit"
-                                class="btn btn-sm btn-danger">Suspend
-                                License</button>
-                        </form>
-                    </li>
-                    <li class="list-group-item color-black"><span class="bolder"> Firearms License: </span> <%= result.fire_licence %> <form
-                            action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/fire"
-                            class="float-right" method="post"><button type="submit"
-                                class="btn btn-sm btn-danger">Suspend
-                                License</button>
-                        </form>
-                    </li>
-                    <li class="list-group-item color-black"><span class="bolder"> CCW License: </span> <%= result.ccw %> <form
-                            action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/ccw"
-                            class="float-right" method="post"><button type="submit"
-                                class="btn btn-sm btn-danger">Suspend
-                                License</button>
-                        </form>
-                    </li>
-                </p>
-
-            </div>
-            <button class="btn btn-primary" onclick="lic()" id="licBtn">See all</button>
-
-
-
-        </div>
-        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Vehicles:</h5>
-            </div>
-            <div id="dots"></div>
-            <div id="more">
-                <p class="mb-1">
-                    <% if (!vehicles[0]) { %>
-                        <li class="list-group-item color-black">
-                            <p>No Weapons registered to this person.</p>
+        <ul class="list-group">
+            <a href="/cad/<%= cadId %>/officers/dash/" class="btn btn-primary cap mt-2">Back to Police Dash</a>
+            <li class="list-group-item text-light bg-dark mt-2">Full Name: <%= result.full_name %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Gender: <%= result.gender %></li>
+            <li class="list-group-item text-light bg-dark mt-2">Birthday: <%= result.birth %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Ethnicity: <%= result.ethnicity %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Hair Color: <%= result.hair %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Eye Color: <%= result.eyes %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Address: <%= result.address %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Height: <%= result.height %> </li>
+            <li class="list-group-item text-light bg-dark mt-2">Weight: <%= result.weight %> </li>
+            <% if (result.business == "") { %>
+            <li class="list-group-item text-light bg-dark mt-2">Employer: Currently is not working</li>
+            <%} else {%>
+            <li class="list-group-item text-light bg-dark mt-2">Employer: <%= result.business %> </li>
+    
+            <%} %>
+    
+            <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1 ">Licenses:</h5>
+                </div>
+                <div id="dots3"></div>
+                <div id="more3">
+                    <p class="mb-1">
+                        <li class="list-group-item color-black"><span class="bolder"> Driver License: </span> <%= result.dmv %> <form
+                                action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/dmv"
+                                class="float-right" method="post"><button type="submit"
+                                    class="btn btn-sm btn-danger">Suspend
+                                    License</button>
+                            </form>
                         </li>
-                        <% } else  {%>
-                        <p class="mb-1">
-                            <% vehicles.forEach(vehicle => { %>
-                                <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
-                                    <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
-                                    <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
-                                    <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
-                                    <span class="font-weight-bold">VIN:</span>  <span class="cap"> <%= vehicle.vin_number %></span> <br>
-                                </li>
-                                <%  }) %>
-                        </p>
-                        <% } %>
-                </p>
+                        <li class="list-group-item color-black"><span class="bolder">Pilot License: </span> <%= result.pilot_licence %> <form
+                                action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/pilot"
+                                class="float-right" method="post"><button type="submit"
+                                    class="btn btn-sm btn-danger">Suspend
+                                    License</button>
+                            </form>
+                        </li>
+                        <li class="list-group-item color-black"><span class="bolder"> Firearms License: </span> <%= result.fire_licence %> <form
+                                action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/fire"
+                                class="float-right" method="post"><button type="submit"
+                                    class="btn btn-sm btn-danger">Suspend
+                                    License</button>
+                            </form>
+                        </li>
+                        <li class="list-group-item color-black"><span class="bolder"> CCW License: </span> <%= result.ccw %> <form
+                                action="<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>/suspend/ccw"
+                                class="float-right" method="post"><button type="submit"
+                                    class="btn btn-sm btn-danger">Suspend
+                                    License</button>
+                            </form>
+                        </li>
+                    </p>
+    
+                </div>
+                <button class="btn btn-primary" onclick="lic()" id="licBtn">See all</button>
+    
+    
+    
             </div>
-            <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
-
-
-        </div>
+            <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Vehicles:</h5>
+                </div>
+                <div id="dots"></div>
+                <div id="more">
+                    <p class="mb-1">
+                        <% if (!vehicles[0]) { %>
+                            <li class="list-group-item color-black">
+                                <p>No Weapons registered to this person.</p>
+                            </li>
+                            <% } else  {%>
+                            <p class="mb-1">
+                                <% vehicles.forEach(vehicle => { %>
+                                    <li class="list-group-item color-black"> <%= vehicle.vehicle %> <br>
+                                        <span class="font-weight-bold"> Plate:</span> <span class="uppercase font-weight-normal"><%= vehicle.plate %></span> <br> 
+                                        <span class="font-weight-bold">Insurance Status:</span>  <span> <%= vehicle.in_status %></span> <br>
+                                        <span class="font-weight-bold">Color:</span>  <span class="cap"> <%= vehicle.color %></span> <br>
+                                        <span class="font-weight-bold">VIN:</span>  <span class="cap"> <%= vehicle.vin_number %></span> <br>
+                                    </li>
+                                    <%  }) %>
+                            </p>
+                            <% } %>
+                    </p>
+                </div>
+                <button class="btn btn-primary" onclick="veh()" id="vehBtn">See all</button>
+    
+    
+            </div>
+            <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Weapons:</h5>
+                </div>
+                <div id="dots2"></div>
+                <div id="more2">
+                    <p class="mb-1">
+                    <% if (!weapons[0]) { %>
+                    <li class="list-group-item color-black">
+                        <p>No Weapons registered to this person.</p>
+                    </li>
+                    <% } else  {%>
+                    <p class="mb-1">
+                        <% weapons.forEach(weapon => { %>
+                            <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
+                                <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
+                                <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
+                            </li>
+                        <%  }) %>
+                    </p>
+    
+                    <% } %>
+                         
+                </p>
+                </div>
+                <div class="btn btn-primary pointer" onclick="wep()" id="weapenBtn">See all</button>
+                </div>
+    
+    
+            </div>
+    
+    
+    
+            <!-- Charges -->
+            <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Legal:</h5>
+                </div>
+                <div id="dots4"></div>
+                <div id="more4">
+                    <% if (!charges[0]) { %>
+                            <li class="list-group-item color-black">
+                                <p>Clean record.</p>
+                            </li>
+                            <a class="btn btn-dark text-light mt-1"
+                                href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                                Offence</a>
+    
+                    <% } else  {%>
+                    <div class="mb-1">
+                        <% charges.forEach(charge => { %>
+                        <li class="list-group-item color-black"> <%= charge.charge %> <br>
+                            <span class="bolder">Notes: </span> <%= charge.notes %> <br> <span class="bolder">Given on:</span>  <%= charge.date %> <br> <span class="bolder">Nearest Postal: </span> <%= charge.postal %>
+    
+                        </li>
+    
+                        <%  }) %>
+                    </div>                    </>
+    
+                    <a class="btn btn-dark text-light"
+                        href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
+                        Offence</a>
+                    <% } %>
+                </div>
+                <div class="btn btn-primary mt-1 pointer" onclick="legal()" id="legalBtn">See all</button>
+    
+    
+                </div>
+        </ul>
         <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Weapons:</h5>
+                <h5 class="mb-1">Warrants:</h5>
             </div>
-            <div id="dots2"></div>
-            <div id="more2">
-                <p class="mb-1">
-                <% if (!weapons[0]) { %>
+            <div id="dots5"></div>
+            <div id="more5">
+                <% if (!warrants) { %>
                 <li class="list-group-item color-black">
-                    <p>No Weapons registered to this person.</p>
+                    <p>No warrants out for this person.</p>
                 </li>
+                <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
+                    class="btn btn-dark text-light">Add Warrant</a>
+    
                 <% } else  {%>
                 <p class="mb-1">
-                    <% weapons.forEach(weapon => { %>
-                        <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
-                            <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
-                            <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
-                        </li>
+                    <% warrants.forEach(war => { %>
+                    <li class="list-group-item color-black">
+                        <span class="card-title bolder"> Warrant: </span> <%= war.reason %> <br>
+                        <span class="card-title bolder">Date From, To: </span> <%= war.d_from %>-<%= war.d_to %>
+                    </li>
                     <%  }) %>
                 </p>
-
-                <% } %>
-                     
-            </p>
-            </div>
-            <div class="btn btn-primary pointer" onclick="wep()" id="weapenBtn">See all</button>
-            </div>
-
-
-        </div>
-
-
-
-        <!-- Charges -->
-        <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Legal:</h5>
-            </div>
-            <div id="dots4"></div>
-            <div id="more4">
-                <% if (!charges[0]) { %>
-                        <li class="list-group-item color-black">
-                            <p>Clean record.</p>
-                        </li>
-                        <a class="btn btn-dark text-light mt-1"
-                            href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
-                            Offence</a>
-
-                <% } else  {%>
-                <div class="mb-1">
-                    <% charges.forEach(charge => { %>
-                    <li class="list-group-item color-black"> <%= charge.charge %> <br>
-                        <span class="bolder">Notes: </span> <%= charge.notes %> <br> <span class="bolder">Given on:</span>  <%= charge.date %> <br> <span class="bolder">Nearest Postal: </span> <%= charge.postal %>
-
-                    </li>
-
-                    <%  }) %>
-                </div>                    </>
-
-                <a class="btn btn-dark text-light"
-                    href="/cad/<%= cadId %>/officers/dash/offence/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>">Add
-                    Offence</a>
+                <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
+                    class="btn btn-dark text-light">Add Warrant</a>
                 <% } %>
             </div>
-            <div class="btn btn-primary mt-1 pointer" onclick="legal()" id="legalBtn">See all</button>
-
-
+            <div class="btn btn-primary pointer" onclick="war()" id="warB">See all</button>
             </div>
-    </ul>
-    <div class="list-group-item border-dark text-light bg-dark list-group-item-action active mt-2">
-        <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">Warrants:</h5>
         </div>
-        <div id="dots5"></div>
-        <div id="more5">
-            <% if (!warrants) { %>
-            <li class="list-group-item color-black">
-                <p>No warrants out for this person.</p>
-            </li>
-            <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
-                class="btn btn-dark text-light">Add Warrant</a>
-
-            <% } else  {%>
-            <p class="mb-1">
-                <% warrants.forEach(war => { %>
-                <li class="list-group-item color-black">
-                    <span class="card-title bolder"> Warrant: </span> <%= war.reason %> <br>
-                    <span class="card-title bolder">Date From, To: </span> <%= war.d_from %>-<%= war.d_to %>
-                </li>
-                <%  }) %>
-            </p>
-            <a href="/cad/<%= cadId %>/officers/dash/warrants/add/<%= result.id %>-<%= result.first_name %>-<%= result.last_name %>"
-                class="btn btn-dark text-light">Add Warrant</a>
-            <% } %>
-        </div>
-        <div class="btn btn-primary pointer" onclick="war()" id="warB">See all</button>
-
-        </div>
-
-
-
+        <div class="mb-5"></div>
     </div>
-    <div class="mb-5"></div>
-</div>
-
+    <% } else { %>
+        <h1 class="card-title text-light">Citizen Not found go back to the dashboard <a href="/cad/<%= cadId %>/officers/dash">Here</a></h1>
+    <% } %>
+   
 
 
 
