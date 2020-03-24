@@ -515,7 +515,7 @@ module.exports = {
                                 let compaines = "SELECT * FROM `businesses` WHERE `cadID` = ? AND `linked_to` = ?"
 
                                 connection.query(`${query2}; ${citizen}; ${compaines}`, [req.params.cadID, req.session.username2, req.params.cadID, req.params.cadID, req.session.username2, req.params.cadID, req.session.username2], (err, result) => {
-                                    res.render("citizens/company.ejs", { title: "Manage Employment | SnailyCAD", desc: "", message: "", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, companies: result[2]  });
+                                    res.render("citizens/company.ejs", { title: "Manage Employment | SnailyCAD", desc: "", message: "", isAdmin: result1[0].admin, businesses: result[0], current: result[1], cadId: result2[0].cadID, companies: result[2] });
                                 });
                             };
                         });
@@ -876,20 +876,20 @@ module.exports = {
                                                 console.log(err);
                                                 return res.sendStatus(500)
                                             } else {
-                                                res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], cadId: result2[0].cadID, isAdmin: "", employees: result1[1], req: req, vehicles: result1[2] })
-                                            }
+                                                res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], cadId: result2[0].cadID, isAdmin: "", employees: result1[1], req: req, vehicles: result1[2] });
+                                            };
                                         });
                                     } else {
                                         res.send("You're not the company manager or owner!");
                                     };
                                 } else {
-                                    res.sendStatus(403)
+                                    res.sendStatus(403);
                                 };
                             };
                         });
                     } else {
-                        res.send("CAD was not found.")
-                    }
+                        res.send("CAD was not found.");
+                    };
                 };
             });
 
@@ -903,7 +903,11 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.redirect(`/cad/${result2[0].cadID}/login`);
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(500)
+                    }
                 };
             });
         } else {
@@ -949,36 +953,49 @@ module.exports = {
         };
     },
     editCitizenCompany: (req, res) => {
+        if (req.session.loggedin) {
+            let query;
+            let rank = req.body.company_rank;
+            let vehicles = req.body.vehicles;
+            let posts = req.body.posts;
+            let citizenID = req.params.citizen;
+            if (rank === undefined) {
+                query = "UPDATE `citizens` SET `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
 
-        let query;
-        let rank = req.body.company_rank;
-        let vehicles = req.body.vehicles;
-        let posts = req.body.posts;
-        let citizenID = req.params.citizen;
-        if (rank === undefined) {
-            query = "UPDATE `citizens` SET `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
+                return connection.query(query, [vehicles, posts, citizenID], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
+                    };
+                });
+            } else {
+                query = "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
 
-            return connection.query(query, [vehicles, posts, citizenID], (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
-                };
-            });
+                return connection.query(query, [rank, vehicles, posts, citizenID], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
+                    };
+                });
+            }
         } else {
-            query = "UPDATE `citizens` SET `rank` = ?, `vehicle_reg` = ?, `posts` = ? WHERE `citizens`.`id` = ?";
-
-            return connection.query(query, [rank, vehicles, posts, citizenID], (err, result) => {
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
+            connection1.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    res.redirect(`/cad/${req.params.cadID}/citizen/company/${req.params.id}-${req.params.company}/edit-company`);
+                    if (result2[0]) {
+                        res.redirect(`/cad/${result2[0].cadID}/login`);
+                    } else {
+                        res.sendStatus(500)
+                    }
                 };
             });
         }
-
-
     }
 };

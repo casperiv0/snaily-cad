@@ -161,7 +161,7 @@
           <div class="mt-2">
             <ul class="list-group mb-4" >
               <div class="active list-group-item text-light ">Quick Create Warrant</div>
-              <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/officers/warrant" method="post">
+              <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/officers/quickwarrant" method="post">
                 <div class="form-group">
                   <label for="name">Full Name</label>
                   <input
@@ -252,7 +252,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/dash/offence" id="modal" method="post">
+            <form action="/cad/<%= cadId %>/officers/dash/" id="modal" method="post">
               <div class="form-group">
                 <label for="exampleInputEmail1">Charge/Offence</label>
                 <input
@@ -321,7 +321,7 @@
     </div>
 
     <!-- Name Search -->
-    <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="nameSearch2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -375,19 +375,48 @@
 
     <!-- Serial Number Search -->
     <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
+      <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content bg-dark border-dark">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Name Search</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title text-light" id="exampleModalLabel">Name Search</h5>
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/search/name" id="modal" method="post">
+            <!-- action="/cad/<%= cadId %>/officers/search/name" -->
+            <form id="modal" onsubmit="event.preventDefault(); return nameSearch()">
                 <div class="form-group">
-                    <label for="bolo">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Search By Name">
+                    <label for="bolo" class="text-light">Name</label>
+                    <input type="text" class="form-control bg-secondary text-light border-secondary" name="name" id="nameSearchIn" placeholder="Search By Name">
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h6 class="card-title bolder text-light">Person Info</h6>
+                          <div id="personInfo" class="text-light"></div>
+                    </div>
+                    <div class="col-sm-6">
+                      <h6 class="card-title bolder text-light">Licenses</h6>
+                      <div id="licenses" class="text-light"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <h6 class="card-title bolder text-light mt-3">Charges/Offences</h6>
+                          <div id="charges" class="overflow-auto" style="height: 15rem;" class="text-light">
+
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <h6 class="card-title bolder text-light mt-3">Warrants</h6>
+                          <div id="warrants" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+
+                          </div>
+                      </div>
+                  </div>
                 </div>
         </div>
         <div class="modal-footer">
@@ -399,6 +428,73 @@
       </div>
     </div>
 
+   
+
     <!-- Container -->
   </div>
 <% } %>
+
+
+<script>
+  const xhttp = new XMLHttpRequest();
+
+
+  function nameSearch() {
+    const nameSearchInputValue = document.getElementById("nameSearchIn").value
+    xhttp.open("GET", `/cad/<%= cadId %>/officers/api/${nameSearchInputValue}`, true);
+    
+    xhttp.onload = function() {
+      if (this.status === 200) {
+        let result = JSON.parse(this.responseText);
+
+        console.log(result);
+        
+      
+        let person = '';
+        let licenses = '';
+        let warrant;
+
+        person += '<ul>' + 
+          '<li><span class="bolder mt-1"> Full Name:</span> ' + result[1][0].full_name +'</li>' +
+          '<li><span class="bolder mt-1"> Gender:</span> ' + result[1][0].gender +'</li>'+
+          '<li><span class="bolder mt-1"> Day of Birth:</span> ' + result[1][0].birth +'</li>'+
+          '<li><span class="bolder mt-1"> Ethnicity:</span> ' + result[1][0].ethnicity +'</li>'+
+          '<li><span class="bolder mt-1"> Hair Color:</span> ' + result[1][0].hair +'</li>'+
+          '<li><span class="bolder mt-1"> Eye Color:</span> ' + result[1][0].eyes +'</li>'+
+          '<li><span class="bolder mt-1"> Address:</span> ' + result[1][0].address +'</li>'+
+          '<li><span class="bolder mt-1"> Height / Weight: </span> ' + result[1][0].height + " / " + result[1][0].weight + '</li>'+
+          '</ul>';
+        
+        licenses += '<ul>' +
+          '<li><span class="bolder mt-1"> Drivers Licenses:</span> ' + result[1][0].dmv +'</li>' +
+          '<li><span class="bolder mt-1"> Firearms Licenses:</span> ' + result[1][0].fire_licence +'</li>' +
+          '<li><span class="bolder mt-1"> Pilot License:</span> ' + result[1][0].pilot_licence +'</li>' +
+          '<li><span class="bolder mt-1"> CCW:</span> ' + result[1][0].ccw +'</li>' +
+          '</ul>'
+
+
+        let charges = result[2].map(charge => {
+          return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On </span> '+ charge.date +' <br /> <span class="bolder">Nearest Postal</span> '+ charge.postal +' </li>'
+         })
+
+        if (result[0].length > 0) {
+          warrants = result[0].map(warrant => {
+          return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Date From, To: </span> '+ warrant.d_from + ' ' + warrant.d_to +' </li>'
+        })
+        document.getElementById("warrants").innerHTML = warrants.join('\n');
+        } else {
+          document.getElementById("warrants").innerHTML = '<li class="list-group-item">Person Has No Warrants</li>'
+        }
+        
+
+      document.getElementById("personInfo").innerHTML = person
+      document.getElementById("licenses").innerHTML = licenses
+      document.getElementById("charges").innerHTML = charges.join('\n');
+      }
+    }
+
+
+    xhttp.send();
+  }
+
+  </script>
