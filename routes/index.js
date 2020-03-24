@@ -300,5 +300,8 @@ module.exports = {
     },
     allScreensPage: (req, res) => {
         res.render("main/all-screens.ejs", { title: "Screenshots | SnailyCAD", req: req, desc: "" })
+    },
+    productsPage: (req, res) => {
+        res.render("main/products.ejs", { title: "Products | SnailyCAD", req: req, desc: "Check out all out products here! We sell CAD/MDT and Custom Sites" })
     }
 };
