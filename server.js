@@ -226,6 +226,9 @@ const { adminDashboard,
 const { supportPage, createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support');
 
 const { towPage, createTowCall, cancelCallTow } = require("./routes/tow/tow")
+
+const {create911Call} = require("./routes/911/911")
+
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({
@@ -324,6 +327,7 @@ app.post("/cad/:cadID/citizen/company/:id-:company/edit/:citizen", editCitizenCo
 // Tow
 app.get("/cad/:cadID/tow", towPage)
 app.post("/cad/:cadID/create-tow-call", createTowCall)
+app.post("/cad/:cadID/create-911-call", create911Call)
 app.get("/cad/:cadID/tow/cancel-call-:callID", cancelCallTow)
 
 //  Login : Registration : Logout
