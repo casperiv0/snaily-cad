@@ -1620,5 +1620,17 @@ module.exports = {
                 };
             });
         };
+    },
+    officerAPIPlate: (req, res) => {
+        let cars = "SELECT * FROM `registered_cars` WHERE `cadID` = ? AND `plate` = ?"
+
+        connection.query(`${cars};`, [req.params.cadID, req.params.plate], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.json(result)
+            }
+        })
     }
 };

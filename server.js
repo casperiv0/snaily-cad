@@ -135,7 +135,8 @@ const {
     officerWeaponSearch,
     officerAddWarrant,
     officerAPI,
-    quickWarrant
+    quickWarrant,
+    officerAPIPlate
 } = require("./routes/officers/officer");
 
 const {
@@ -386,6 +387,7 @@ app.post("/cad/:cadID/officers/dash/offence", officerOffencer)
 app.post("/cad/:cadID/officers/version/compact", versionChange)
 app.post("/cad/:cadID/officers/version/real", versionChange)
 app.get("/cad/:cadID/officers/api/:name", officerAPI)
+app.get("/cad/:cadID/officers/api/plate/:plate", officerAPIPlate)
 app.post("/cad/:cadID/officers/quickwarrant", quickWarrant)
 
 app.post("/cad/:cadID/officers/search/name", officerNameSearch);

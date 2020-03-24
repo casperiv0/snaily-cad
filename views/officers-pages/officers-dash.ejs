@@ -350,18 +350,23 @@
     <!-- Plate Search -->
     <div class="modal fade" id="plate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark border-dark">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Plate Search</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title text-light" id="exampleModalLabel">Plate Search</h5>
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/search/plate" id="modal" method="post">
+            <form id="modal" onsubmit="event.preventDefault(); return plateSearch()">
                 <div class="form-group">
-                    <label for="plate">Plate</label>
-                    <input type="text" class="form-control" min="1" max="8" maxlength="8" name="plate" id="plate" placeholder="Search By Name">
+                    <label for="plate" class="text-light">Plate</label>
+                    <input type="text" class="form-control text-light bg-secondary border-secondary" min="1" max="8" maxlength="8" name="plate" id="plateSearchIn" placeholder="Search By Name">
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div id="plates" class="text-light"></div>
+                  </div>
                 </div>
         </div>
         <div class="modal-footer">
@@ -388,7 +393,7 @@
             <form id="modal" onsubmit="event.preventDefault(); return nameSearch()">
                 <div class="form-group">
                     <label for="bolo" class="text-light">Name</label>
-                    <input type="text" class="form-control bg-secondary text-light border-secondary" name="name" id="nameSearchIn" placeholder="Search By Name">
+                    <input type="text" required class="form-control bg-secondary text-light border-secondary" name="name" id="nameSearchIn" placeholder="Search By Name">
                 </div>
                 <div class="container">
                   <div class="row">
@@ -447,7 +452,6 @@
       if (this.status === 200) {
         let result = JSON.parse(this.responseText);
 
-        console.log(result);
         
       
         let person = '';
@@ -495,6 +499,42 @@
 
         document.getElementById("personInfo").innerHTML = person;
         document.getElementById("licenses").innerHTML = licenses;
+      } 
+    }
+
+
+    xhttp.send();
+  }
+
+  function plateSearch() {
+    const plateSearchInputValue = document.getElementById("plateSearchIn").value
+    xhttp.open("GET", `/cad/<%= cadId %>/officers/api/plate/${plateSearchInputValue}`, true);
+    
+    xhttp.onload = function() {
+      if (this.status === 200) {
+        let result = JSON.parse(this.responseText);
+
+        console.log(result);
+
+        let plates = '';
+      
+        if (result.length > 0) {
+          plates += '<ul>' + 
+          '<li><span class="bolder mt-1"> Plate:</span> ' + result[0].plate +'</li>' +
+          '<li><span class="bolder mt-1"> Vehicle:</span> ' + result[0].vehicle +'</li>'+
+          '<li><span class="bolder mt-1"> VIN Number:</span> ' + result[0].vin_number +'</li>'+
+          '<li><span class="bolder mt-1"> Color:</span> ' + result[0].color +'</li>'+
+          '<li><span class="bolder mt-1"> Insurance Status:</span> ' + result[0].in_status +'</li>'+
+          '<li><span class="bolder mt-1"> Owner:</span> ' + result[0].owner +'</li>'+
+          '</ul>';
+        
+
+        document.getElementById("plates").innerHTML = plates;
+        } else {
+        document.getElementById("plates").innerHTML = "Plate was not found";
+        }
+
+        
       }
     }
 
