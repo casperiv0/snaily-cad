@@ -38,33 +38,52 @@
     </div>
     <% } %>
 
-    <ul class="list-group" id="myUL">
-      <a class="btn btn-danger  mt-1" href="/cad/<%= cadId %>/logout">Logout</a>
-      <a class="btn btn-primary  mt-1" href="/cad/<%= cadId %>/account/edit"
-        >Edit Account</a
-      >
-      <a href="/cad/<%= cadId %>/citizen/add" class="btn btn-primary cap  mt-1"
-        >add a new citizen</a
-      >
-      <a class="btn btn-primary cap mt-1" href="/cad/<%= cadId %>/cars/register"
-        >register a car</a
-      >
-      <a
-        class="btn btn-primary cap mt-1"
+    <ul class="list-group" >
+    <div class="container grid">
+      <div class="row">
+        <a class="btn btn-danger col" href="/cad/<%= cadId %>/logout">Logout</a>
+        <a class="btn btn-primary col ml-1" href="/cad/<%= cadId %>/account/edit"
+          >Edit Account</a
+        >
+      </div>
+      <div class="row mt-1">
+        <a href="/cad/<%= cadId %>/citizen/add" class="btn btn-primary cap col"
+          >add a new citizen</a
+        >
+        <a class="btn btn-primary cap col ml-1" href="/cad/<%= cadId %>/cars/register"
+          >register a car</a
+        >
+        <a
+        class="btn btn-primary cap col ml-1"
         href="/cad/<%= cadId %>/weapons/register"
         >register a weapon</a
       >
-      <a
+      </div>
+      <div class="row mt-1">
+        <a
         href="/cad/<%= cadId %>/citizen/company"
-        class="btn btn-primary cap mt-1"
+        class="btn btn-primary cap col col"
         >Manage Employment Status</a
       >
       <a
         href="#towModal"
-        class="btn btn-primary cap mt-1"
+        class="btn btn-primary cap col ml-1"
         data-toggle="modal"
         >Call Tow Service</a
       >
+      <a
+        href="#911call"
+        class="btn btn-primary cap col ml-1"
+        data-toggle="modal"
+        >Call 911 Service</a
+      >
+      </div>
+    </div>
+
+      
+      
+      
+      
 
       <% citizen.forEach(value => { %>
       <li class="list-group-item mt-2 bg-dark text-light">

@@ -1,10 +1,7 @@
-const d = new Date()
-
 module.exports = {
     dispatchPage: (req, res) => {
-
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
             connection1.query(query2, (err, result2) => {
                 if (err) {
@@ -12,14 +9,14 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result22) => {
                             if (result22[0].dispatch == 'yes') {
 
                                 let cads = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
                                 connection1.query(cads, (err, result43) => {
                                     if (err) {
-                                        return console.log(err)
+                                        return console.log(err);
                                     } else {
                                         let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'"
                                         let addressess = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
@@ -34,131 +31,19 @@ module.exports = {
                                                 res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: result22[0].admin, weapons: result[0], address: result[1], officers: result[2], cadId: result2[0].cadID, ems: result[3], cad: result43[0], bolos: result[4] });
                                             };
                                         });
-                                    }
+                                    };
                                 });
                             } else {
                                 res.render("dispatch/403.ejs", { desc: "", title: "Unauthorized | SnailyCAD", isAdmin: result22[0].admin, cadId: result2[0].cadID });
                             };
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            });
-
-
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            });
-
-        }
-
-
-
-    },
-    disptachNameSearch: (req, res) => {
-        if (req.session.loggedin) {
-            let searchQ = req.body.name_search;
-            let query = "SELECT * FROM `citizens` WHERE `full_name` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
-            let vehicles = "SELECT * FROM `registered_cars` WHERE `owner` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
-            let weapon = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
-            let charge = "SELECT * FROM `posted_charges` WHERE `name` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
-
-            connection.query(`${query}; ${vehicles}; ${weapon}; ${charge}`, (err, result) => {
-                if (err) {
-                    return console.log(err);
-                } else {
-                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                res.render("dispatch/name-search.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", result: result[0][0], vehicles: result[1], weapons: result[2], charges: result[3], cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
+                        res.sendStatus(404);
+                    };
                 };
             });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            });
-        }
 
 
-    },
-    disptachPlateSearch: (req, res) => {
-        if (req.session.loggedin) {
-            let searchQ = req.body.plate_search;
-            let vehicle = "SELECT * FROM `registered_cars` WHERE `plate` = '" + searchQ + "' AND `cadID` = '" + req.params.cadID + "'";
-
-            connection.query(`${vehicle}`, (err, result1) => {
-                if (!result1[0]) {
-                    let query2 = "SELECT cadID FROM `users` WHERE `cadID` = '" + req.params.cadID + "'"
-
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                res.render("dispatch/plate-not-found.ejs", {  desc: "",title: "Dispatch | SnailyCAD", isAdmin: "", cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
-                } else {
-                    let query2 = "SELECT cadID FROM `users` WHERE `cadID` = '" + req.params.cadID + "'"
-                    connection1.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                let citizen = "SELECT * FROM `citizens` WHERE `full_name` = '" + result1[0].owner + "' AND `cadID` = '" + req.params.cadID + "'";
-                                connection.query(citizen, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500 )
-                                    } else {
-                                        res.render("dispatch/plate-search.ejs", {  desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", plates: result1[0], name: result[0], cadId: result2[0].cadID });
-                                    }
-                                });
-                            } else {
-                                res.sendStatus(404)
-                            }
-                        }
-                    });
-                };
-            });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
@@ -174,6 +59,7 @@ module.exports = {
                     };
                 };
             });
+
         };
     },
     disptachWeaponSearch: (req, res) => {
@@ -360,6 +246,10 @@ module.exports = {
         if (req.session.loggedin) {
             let cadID = req.params.cadID;
             let newAOP = req.body.aop
+
+            if (newAOP === '') {
+                newAOP = "N/A"
+            }
 
             let query1 = "UPDATE `cads` SET `AOP` = '" + newAOP + "' WHERE `cads`.`cadID` = '" + cadID + "'"
             connection1.query(`${query1};`, (err, result) => {

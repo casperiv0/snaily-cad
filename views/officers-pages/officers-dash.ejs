@@ -7,7 +7,20 @@
     <h1 class="users-title card-title text-center text-light ">Police Dept.
 
     </h1>
-  
+      <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+      >
+        This Version will soon be deleted, please use the Realistic version.
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
     <ul class="list-group">
       <form action="/cad/<%= cadId %>/officers/version/real" method="POST">
         <button type="submit" class="container btn btn-primaryy list-group-item mt-2 text-light bg-dark">Realistic Version</button>
@@ -97,7 +110,7 @@
   </div>
 <% } else { %>
   <div class="container-fluid mt-3">
-    <h1 class="card-title text-light">Police Dept. </h1>
+    <h1 class="card-title text-light">Police Dept. <button class="float-right btn btn-success"  onclick="refresh()">Refresh</button></h1>
     <% if(messageG != ''){ %>
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -122,13 +135,16 @@
       </div>
       <div class="card-body row mx-auto">
         <form action="/cad/<%= cadId %>/officers/version/compact" method="POST">
-            <button type="submit" class="btn btn-primary">Compact Version</button>
+            <button type="submit" class="btn btn-primary mt-1">Compact Version</button>
         </form>
-          <a href="#nameSearch" data-toggle="modal" class="btn btn-secondary ml-2">Name Search</a>
-          <a href="#plate" data-toggle="modal" class="btn btn-secondary ml-2">Plate Search</a>
-          <a href="#weaponSearch" data-toggle="modal" class="btn btn-secondary ml-2">Weapon Search</a>
-          <a href="#offenceCharge"  data-toggle="modal" class="btn btn-secondary ml-2">Create Offence/charge</a>
-          <a href="#boloModal" data-toggle="modal" class="btn btn-secondary ml-2">Create Bolo</a>
+          <a href="#nameSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Name Search</a>
+          <a href="#plateSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Plate Search</a>
+          <a href="#weaponSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Weapon Search</a>
+          <a href="#offenceCharge"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Offence/charge</a>
+          <a href="#boloModal" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Bolo</a>
+          <a href="/cad/<%= cadId %>/officers/penal-codes"  class="btn btn-secondary ml-2 mt-1" >Penal Codes</a>
+          <a href="/cad/<%= cadId %>/officers/dash/codes"  class="btn btn-secondary ml-2 mt-1" >10 Codes</a>
+
       </div>
     </div>
 
@@ -137,7 +153,75 @@
         <div class="col-md-8">
           <div class="mt-2">
             <ul class="list-group " >
-              <div class="active list-group-item text-light ">Active Bolos</div>
+              <div class="active list-group-item text-light ">Active 911 Calls</div>
+              <% if (calls.length > 0) { %>
+               <table class="table table-dark">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                       <th scope="col">Caller Name</th>
+                       <th scope="col">Caller Location</th>
+                       <th scope="col">Call Description</th>
+                       <th scope="col">Status</th>
+                       <th scope="col">Actions</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                      <% calls.forEach(call => { %>
+                        <tr>
+                          <th scope="row"><%= call.id %></th>
+                          <td><%= call.name %></td>
+                          <td><%= call.location %></td>
+                          <td><%= call.description %></td>
+                          <td><%= call.status %></td>
+                          <td> <button class="btn btn-success" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
+                        </tr>
+                        <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content bg-dark border-dark text-light">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true" class="text-light">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <form action="/cad/<%= cadId %>/officers/dash/update-call-<%= call.id %> " method="POST">
+                                    <div class="form-group">
+                                      <label for="location">Call Location</label>
+                                      <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="exampleInputPassword1">Call Status</label>
+                                      <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
+                                        <option value="<%= call.status %>"><%= call.status %></option>
+                                        <option disabled value="--------">--------</option>
+                                        <option value="assigned">Assigned</option>
+                                        <option value="not assigned">Not Assigned</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <a href="/cad/<%= cadId %>/officers/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
+                                    <button type="submit" class="container btn btn-success">Update Call</button>
+                                  </div>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    <%}) %>
+                    <% } else { %>
+                      <li class="list-group-item bg-dark text-light">
+                        There're no active calls.
+                      </li>
+                      <% } %>
+                   </tbody>
+                 </table>
+            </ul>
+          </div>
+          <div class="mt-2">
+            <ul class="list-group" >
+              <div class="active list-group-item text-light ">Active Bolos </div>
               <% if (bolos.length > 0) { %>
                 <% bolos.forEach(bolo => { %>
                   <li class="list-group-item bg-dark text-light">
@@ -160,8 +244,8 @@
         <div class="col col-md-4">
           <div class="mt-2">
             <ul class="list-group mb-4" >
-              <div class="active list-group-item text-light ">Quick Create Warrant</div>
-              <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/officers/quickwarrant" method="post">
+              <div class="active list-group-item text-light">Quick Create Warrant</div>
+              <form class="list-group-item bg-dark border-dark text-light" action="/cad/<%= cadId %>/officers/quickwarrant" method="post">
                 <div class="form-group">
                   <label for="name">Full Name</label>
                   <input
@@ -215,6 +299,10 @@
 
 
     <!-- Modals -->
+      <!-- View Call -->
+
+
+
     <div class="modal fade" id="boloModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -243,8 +331,8 @@
     </div>
     <!-- Offence -->
     <div class="modal fade mx-auto" id="offenceCharge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog"  role="document">
-        <div class="modal-content" >
+      <div class="modal-dialog modal-xl"  role="document">
+        <div class="modal-content bg-dark border-dark text-light" >
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Offence/charge</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -259,7 +347,7 @@
                   type="text"
                   list="penals"
                   name="offence"
-                  class="form-control"
+                  class="form-control bg-secondary border-secondary text-light"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   required
@@ -276,7 +364,7 @@
                 <input
                   type="text"
                   name="name"
-                  class="form-control"
+                  class="form-control bg-secondary border-secondary text-light"
                   id="exampleInputPassword1"
                   required
                   placeholder="Name of subject"
@@ -287,7 +375,7 @@
                 <input
                   type="text"
                   name="officer_name"
-                  class="form-control"
+                  class="form-control bg-secondary border-secondary text-light"
                   id="exampleInputPassword1"
                   required
                   placeholder="Name of officer"
@@ -298,7 +386,7 @@
                 <input
                   type="text"
                   name="postal"
-                  class="form-control"
+                  class="form-control bg-secondary border-secondary text-light"
                   id="exampleInputPassword1"
                   placeholder="Nearest Postal (not required)"
                 />
@@ -306,49 +394,53 @@
             
               <div class="form-group">
                 <label for="exampleInputPassword1">Notes:</label>
-                <textarea name="notes" id="notes" cols="5" rows="5" class="form-control" placeholder="Notes (not required)"></textarea>
+                <textarea name="notes" id="notes" cols="5" rows="5" class="form-control bg-secondary border-secondary text-light" placeholder="Notes (not required)"></textarea>
               </div>
 
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Create Offence/charge</button>
+          <button type="submit" class="btn btn-primary">Create Ticket</button>
       </div>
       </form>
         </div>
       </div>
     </div>
 
-    <!-- Name Search -->
-    <div class="modal fade" id="nameSearch2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Weapon Search -->
+    <div class="modal fade text-light" id="weaponSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark border-dark">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Name Search</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Weapon Search</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true" class="text-light">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form action="/cad/<%= cadId %>/officers/search/name" id="modal" method="POST">
-                <div class="form-group">
-                    <label for="bolo">Name</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Search By Name">
+            <form id="modal" onsubmit="event.preventDefault(); return weaponSearch()">
+              <div class="form-group">
+                  <label for="plate" class="text-light">Serial Number</label>
+                  <input type="text" class="form-control text-light bg-secondary border-secondary" required min="1" name="serial_number" id="serial_number" placeholder="Search By Serial Number">
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div id="weapons" class="text-light"></div>
                 </div>
-                 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Search</button>
+              </div>
       </div>
-      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    </form>
         </div>
       </div>
     </div>
 
     <!-- Plate Search -->
-    <div class="modal fade" id="plate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="plateSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content bg-dark border-dark">
           <div class="modal-header">
@@ -378,7 +470,7 @@
       </div>
     </div>
 
-    <!-- Serial Number Search -->
+    <!-- name Number Search -->
     <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content bg-dark border-dark">
@@ -441,6 +533,7 @@
 
 
 <script>
+
   const xhttp = new XMLHttpRequest();
 
 
@@ -489,7 +582,7 @@
         
         if (result[0].length > 0) {
           warrants = result[0].map(warrant => {
-            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Date From, To: </span> '+ warrant.d_from + ' ' + warrant.d_to +' </li>'
+            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Date From, To: </span> '+ warrant.d_from + ' - ' + warrant.d_to +' </li>'
           });
           document.getElementById("warrants").innerHTML = warrants.join('\n');
         } else {
@@ -537,9 +630,43 @@
         
       }
     }
-
-
     xhttp.send();
+  };
+
+  function weaponSearch() {
+    const weaponSerialNumber = document.getElementById("serial_number").value
+    xhttp.open("GET", `/cad/<%= cadId %>/officers/api/weapon/${weaponSerialNumber}`, true);
+    
+    xhttp.onload = function() {
+      if (this.status === 200) {
+        let result = JSON.parse(this.responseText);
+
+        console.log(result);
+
+        let weapons = '';
+      
+        if (result.length > 0) {
+          weapons += '<ul>' + 
+          '<li><span class="bolder mt-1"> Weapon Type:</span> ' + result[0].weapon +'</li>' +
+          '<li><span class="bolder mt-1"> Serial Number:</span> ' + result[0].serial_number +'</li>'+
+          '<li><span class="bolder mt-1"> Weapon Status:</span> ' + result[0].status +'</li>'+
+          '<li><span class="bolder mt-1"> Owner:</span> ' + result[0].owner +'</li>'+
+          '</ul>';
+        
+
+        document.getElementById("weapons").innerHTML = weapons;
+        } else {
+        document.getElementById("weapons").innerHTML = "Weapon was not found";
+        }
+
+        
+      }
+    }
+    xhttp.send();
+  }
+
+  function refresh() {
+    document.location.reload()
   }
 
   </script>

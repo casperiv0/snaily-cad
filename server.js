@@ -4,7 +4,6 @@ let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
 let creds = require("./creds.json");
 const favicon = require('express-favicon');
-const fetch = require("node-fetch")
 const session = require("express-session");
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -130,13 +129,14 @@ const {
     removeOfficerBolo,
     officerOffencer,
     versionChange,
-    officerNameSearch,
-    officerPlateSearch,
     officerWeaponSearch,
     officerAddWarrant,
     officerAPI,
     quickWarrant,
-    officerAPIPlate
+    officerAPIPlate,
+    officerAPIWeapon,
+    cancelCall911,
+    update911call
 } = require("./routes/officers/officer");
 
 const {
@@ -346,8 +346,6 @@ app.get(`/cad/:cadID/logout`, async (req, res) => {
 });
 
 app.get("/cad/:cadID/dispatch", dispatchPage);
-app.post("/cad/:cadID/dispatch/search/name", disptachNameSearch);
-app.post("/cad/:cadID/dispatch/search/plate", disptachPlateSearch);
 app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch);
 app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch);
 app.post("/cad/:cadID/dispatch/status", statusChangeDispatch);
@@ -388,10 +386,11 @@ app.post("/cad/:cadID/officers/version/compact", versionChange)
 app.post("/cad/:cadID/officers/version/real", versionChange)
 app.get("/cad/:cadID/officers/api/:name", officerAPI)
 app.get("/cad/:cadID/officers/api/plate/:plate", officerAPIPlate)
+app.get("/cad/:cadID/officers/api/weapon/:serial", officerAPIWeapon)
 app.post("/cad/:cadID/officers/quickwarrant", quickWarrant)
+app.get("/cad/:cadID/officers/cancel-call-:id", cancelCall911)
+app.post("/cad/:cadID/officers/dash/update-call-:id", update911call)
 
-app.post("/cad/:cadID/officers/search/name", officerNameSearch);
-app.post("/cad/:cadID/officers/search/plate", officerPlateSearch);
 app.post("/cad/:cadID/officers/search/weapon", officerWeaponSearch);
 
 // EMS/FD
@@ -450,7 +449,7 @@ app.post("/cad/:cadID/admin/values/depts/add", addDept)
 // citizen weapons
 
 app.get("/cad/:cadID/weapon/:id/:weapon/delete", citizenDeleteWeapon)
-// Weapon regestration
+// Weapon registration
 app.get("/cad/:cadID/weapons/register", regWeaponPage)
 app.post("/cad/:cadID/weapons/register", regWeapon)
 
