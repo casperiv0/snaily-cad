@@ -8,7 +8,7 @@ let creds = require("../creds.json");
 paypal.configure({
     mode: creds.ENV === "dev" ? "sandbox" : "live", // Sandbox or live
     client_id: "AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ",
-    client_secret: creds.secret
+    client_secret: "EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY"
 })
 
 module.exports = {
