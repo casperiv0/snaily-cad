@@ -27,6 +27,7 @@
     "express-session": "^1.17.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
+    "paypal-rest-sdk": "^1.8.1",
     "slugify": "^1.4.0",
     "virgen-acl": "0.0.22"
   }

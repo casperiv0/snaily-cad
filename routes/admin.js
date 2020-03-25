@@ -244,23 +244,27 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result[0][0].admin == 'owner') {
-                        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                        connection1.query(query2, (err, result2) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500);
-                            } else {
-                                if (result2[0]) {
-                                    res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: '', message: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0][0].admin, cadId: result2[0].cadID, current: result[1][0] });
+                    if(result[0][0]) {
+                        if (result[0][0].admin == 'owner') {
+                            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+                            connection1.query(query2, (err, result2) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
                                 } else {
-                                    res.sendStatus(404);
+                                    if (result2[0]) {
+                                        res.render("admin-pages/cad-settings.ejs", { desc: "", messageG: '', message: '', title: "CAD Settings | Equinox CAD", isAdmin: result[0][0].admin, cadId: result2[0].cadID, current: result[1][0] });
+                                    } else {
+                                        res.sendStatus(404);
+                                    };
                                 };
-                            };
-                        });
+                            });
+                        } else {
+                            res.sendStatus(403)
+                        };
                     } else {
-                        res.sendStatus(403)
-                    };
+                        res.send("Oops something went wrong during the request! Make sure you are logged in and on the correct CAD Id")
+                    }
                 };
             });
         } else {

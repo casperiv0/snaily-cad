@@ -7,6 +7,7 @@ const favicon = require('express-favicon');
 const session = require("express-session");
 const bodyParser = require('body-parser');
 const path = require('path');
+const paypal = require("paypal-rest-sdk");
 // Variables
 let port = creds.ENV === "dev" ? 3001 : 80;
 const mysql = require('mysql');
@@ -206,6 +207,8 @@ const {
     changeUsernameMain,
     manageAccount,
     orderPage,
+    paymentAuthOrder,
+    successPageOrder,
     editPassword,
     editPasswordPage,
     allScreensPage,
@@ -268,6 +271,8 @@ app.get(`/logout`, (req, res) => {
     res.redirect("/")
 });
 app.get("/order", orderPage)
+app.post("/order/auth/payment", paymentAuthOrder)
+app.get("/order/success", successPageOrder)
 
 // Support 
 app.get("/support", supportPage)

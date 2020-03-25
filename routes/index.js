@@ -1,5 +1,16 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 15;
+const paypal = require("paypal-rest-sdk");
+let creds = require("../creds.json");
+
+// "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6", SANDBOX
+// "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j" SANDBOX
+paypal.configure({
+    mode: creds.ENV === "dev" ? "sandbox" : "live", // Sandbox or live
+    client_id: "AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ",
+    client_secret: creds.secret
+})
+
 module.exports = {
     homePage: (req, res, next) => {
         let query2 = "SELECT `cadID` FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
@@ -46,7 +57,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0][0], subs: result2[1], req: req, desc: "see all your subscriptions or change your username or password."  })
+                    res.render("main/manage-account.ejs", { title: "Account | SnailyCAD", message: "", messageG: "", isAdmin: req.session.isAdmin, loggedin: req.session.loggedin, username: req.session.username2, current: result2[0][0], subs: result2[1], req: req, desc: "see all your subscriptions or change your username or password." })
                 }
             })
         } else {
@@ -222,7 +233,111 @@ module.exports = {
     },
     orderPage: (req, res) => {
         if (req.session.mainLoggedin) {
-            res.render("main/order.ejs", { title: "Order | SnailyCAD", message: "", messageG: "", req: req, desc: ""});
+            res.render("main/order.ejs", { title: "Order | SnailyCAD", message: "", messageG: "", req: req, desc: "" });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    paymentAuthOrder: (req, res) => {
+        if (req.session.loggedin) {
+            const create_payment_json = {
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"
+                },
+                "redirect_urls": {
+                    "return_url": "http://localhost:3001/order/success",
+                    "cancel_url": "http://localhost:3001/"
+                },
+                "transactions": [{
+                    "item_list": {
+                        "items": [{
+                            "name": "SnailyCAD",
+                            "sku": "001",
+                            "price": "5.00",
+                            "currency": "EUR",
+                            "quantity": 1
+                        }]
+                    },
+                    "amount": {
+                        "currency": "EUR",
+                        "total": "5.00"
+                    },
+                    "description": "CAD/MDT for your FiveM Community."
+                }]
+            };
+
+            paypal.payment.create(create_payment_json, function (err, payment) {
+                if (err) {
+                    console.log(err);
+                    res.sendStatus(500);
+                } else {
+                    for (let i = 0; i < payment.links.length; i++) {
+                        if (payment.links[i].rel === 'approval_url') {
+                            res.redirect(payment.links[i].href);
+                        };
+                    };
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    successPageOrder: (req, res) => {
+        if (req.session.loggedin) {
+            const payerID = req.query.PayerID;
+            const paymentID = req.query.paymentId;
+
+            const execute_payment_json = {
+                "payer_id": payerID,
+                "transactions": [{
+                    "amount": {
+                        "currency": "EUR",
+                        "total": "5.00"
+                    }
+                }]
+            };
+
+            paypal.payment.execute(paymentID, execute_payment_json, function (error, payment) {
+                if (error) {
+                    console.log(error.response);
+                    throw error;
+                } else {
+                    function makeid(length) {
+                        var result = '';
+                        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                        var charactersLength = characters.length;
+                        for (var i = 0; i < length; i++) {
+                            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                        }
+                        return result;
+                    };
+                    let cadId = makeid(10);
+                    let expireDate = new Date();
+                    expireDate.setDate(expireDate.getDate() + 30);
+
+
+                    console.log(expireDate);
+                    let query = "UPDATE `users` SET `admin` = ?, `leo` = ?, `ems_fd` = ?, `dispatch` = ?, `cadID` = ? WHERE `username` = ?"
+                    let cads = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `AOP`, `expire_date`, `whitelisted`) VALUES (?, ?, ?, ?, ?, ?, ?)"
+                    connection1.query(`${query}; ${cads}`, ['owner', 'yes', 'yes', 'yes', cadId, req.session.user, cadId, '', req.session.user, '', 'N/A', expireDate, 'false'], (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            let query2 = "INSERT INTO `payments` (`payID`, `state`, `payment_method`, `payer_email`, `payer_first_name`, `payer_last_name`) VALUES (?, ?, ?, ?, ?, ?)"
+                            connection1.query(query2, [payment.id, payment.state, payment.payer.payment_method, payment.payer.payer_info.email, payment.payer.payer_info.first_name, payment.payer.payer_info.last_name], (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.sendStatus(500)
+                                } else {
+                                    res.redirect("/account");
+                                };
+                            });
+                        };
+                    });
+                };
+            });
         } else {
             res.redirect("/login");
         };
@@ -273,7 +388,8 @@ module.exports = {
                                                                 return res.sendStatus(500)
                                                             } else {
                                                                 req.session.destroy()
-                                                                await res.render("main/manage-account.ejs", { title: 'Manage Account | SnailyCAD', isAdmin: "", message: '', messageG: "Password Updated Successfully", current: result2[0], subs: result2, req: req, desc: "" })                                                            }
+                                                                await res.render("main/manage-account.ejs", { title: 'Manage Account | SnailyCAD', isAdmin: "", message: '', messageG: "Password Updated Successfully", current: result2[0], subs: result2, req: req, desc: "" })
+                                                            }
                                                         })
 
                                                     }

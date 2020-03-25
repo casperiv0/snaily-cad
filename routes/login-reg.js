@@ -34,7 +34,7 @@ module.exports = {
                                 return res.sendStatus(500)
                             } else {
                                 let d = new Date()
-                            let expire_date = d.toLocaleDateString()
+                                let expire_date = d.setDate(d.getDate());
                                 if (result[0].expire_date === expire_date) {
                                     res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
                                 } else {
@@ -171,7 +171,7 @@ module.exports = {
                                 return res.sendStatus(500)
                             } else {
                                 let d = new Date()
-                                let expire_date = d.toLocaleDateString()
+                                let expire_date = d.setDate(d.getDate());
                                 if (result[0].expire_date === expire_date) {
                                     res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result1[0].cadID })
                                 } else {
