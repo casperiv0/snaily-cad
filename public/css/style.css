@@ -179,6 +179,14 @@ body::-webkit-scrollbar-thumb {
   border-bottom: 3px solid grey;
 }
 
+.scroll-bar::-webkit-scrollbar {
+  width: 8px;
+  background-color: #343a40
+}
+.scroll-bar::-webkit-scrollbar-thumb {
+  background-color: #222;
+}
+
 .pointer {
   cursor: pointer;
 }

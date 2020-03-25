@@ -183,15 +183,15 @@ const { addDept, addDeptPage, editDept, deleteDept, editDeptPage, deptPage } = r
 
 const {
     dispatchPage,
-    disptachNameSearch,
-    disptachPlateSearch,
     disptachWeaponSearch,
     disptachAddressSearch,
     statusChangeDispatch,
     statusChangeDispatchEMS,
     editAOP,
     createBolo,
-    removeBolo
+    removeBolo,
+    updateDispatchCall,
+    cancelCall911Dis
 } = require("./routes/dispatch")
 
 const {
@@ -359,6 +359,10 @@ app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS);
 app.post("/cad/:cadID/dispatch/aop", editAOP);
 app.post("/cad/:cadID/dispatch/bolo", createBolo);
 app.post("/cad/:cadID/dispatch/remove-bolo", removeBolo);
+app.post("/cad/:cadID/dispatch/update-call-:id", updateDispatchCall)
+app.get("/cad/:cadID/dispatch/cancel-call-:id", cancelCall911Dis)
+
+
 
 
 // Officers
