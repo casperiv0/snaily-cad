@@ -552,7 +552,7 @@
   function showCitizensResult() {
     const nameSearchInput = document.getElementById("nameSearchIn").value
 
-      if (nameSearchInput.length > 1) {
+      if (nameSearchInput.length > 3) {
         const nameSearch = document.getElementById("nameSearchIn");
         const att = document.createAttribute("list");
         att.value = "citizens";
@@ -568,7 +568,7 @@
   function warrantCitizens() {
     const warrantCitizensSearch = document.getElementById("warrantCitizensSearch").value
 
-      if (warrantCitizensSearch.length > 1) {
+      if (warrantCitizensSearch.length > 3) {
         const warrant = document.getElementById("warrantCitizensSearch");
         const att = document.createAttribute("list");
         att.value = "citizens2";
