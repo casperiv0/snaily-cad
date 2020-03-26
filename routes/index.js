@@ -246,8 +246,8 @@ module.exports = {
                     "payment_method": "paypal"
                 },
                 "redirect_urls": {
-                    "return_url": "http://localhost:3001/order/success",
-                    "cancel_url": "http://localhost:3001/"
+                    "return_url": "https://snaily-cad.ga/order/success",
+                    "cancel_url": "https://snaily-cad.ga/"
                 },
                 "transactions": [{
                     "item_list": {
