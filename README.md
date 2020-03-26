@@ -79,6 +79,7 @@ ToDO
 - [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  
 - [ ] company join system
 - [ ] CAD option join system
+- [ ] show 3char show list
 
 ## Public Branch
 

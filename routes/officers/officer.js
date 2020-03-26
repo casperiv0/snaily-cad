@@ -244,12 +244,13 @@ module.exports = {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
                         let bolosQ = "SELECT * FROM `bolos` WHERE `cadID` = '" + req.params.cadID + "'";
                         let calls = "SELECT * FROM `911calls` WHERE `cadID` = '"+req.params.cadID+"'"
+                        let citizensQ = "SELECT * FROM `citizens` WHERE `cadID` = '"+req.params.cadID+"'"
                         connection1.query(`${query};`, (err, result) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                connection.query(`${bolosQ}; ${calls}`, (err, result5) => {
+                                connection.query(`${bolosQ}; ${calls}; ${citizensQ}`, (err, result5) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
@@ -267,6 +268,7 @@ module.exports = {
                                                     cadId: result2[0].cadID,
                                                     bolos: result5[0],
                                                     penals: json,
+                                                    citizens: result5[2],
                                                     calls: result5[1],
                                                     messageG: ""
                                                 }));

@@ -365,10 +365,17 @@
                   type="text"
                   name="name"
                   class="form-control bg-secondary border-secondary text-light"
-                  id="exampleInputPassword1"
+                  id="warrantCitizensSearch"
                   required
+                  list="citizen2"
                   placeholder="Name of subject"
+                  onkeypress="warrantCitizens()"
                 />
+                <datalist id="citizens2">
+                  <% citizens.forEach(citizen => { %>
+                    <option value="<%= citizen.full_name %>"><%= citizen.full_name %></option>
+                  <% }) %>
+                </datalist>
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Officer Name</label>
@@ -453,7 +460,7 @@
             <form id="modal" onsubmit="event.preventDefault(); return plateSearch()">
                 <div class="form-group">
                     <label for="plate" class="text-light">Plate</label>
-                    <input type="text" class="form-control text-light bg-secondary border-secondary" min="1" max="8" maxlength="8" name="plate" id="plateSearchIn" placeholder="Search By Name">
+                    <input type="text" class="form-control text-light bg-secondary border-secondary" min="1" max="8" maxlength="8" name="plate" id="plateSearchIn" placeholder="Search By Plate">
                 </div>
                 <div class="container">
                   <div class="row">
@@ -470,7 +477,7 @@
       </div>
     </div>
 
-    <!-- name Number Search -->
+    <!-- name Search -->
     <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content bg-dark border-dark">
@@ -483,9 +490,14 @@
           <div class="modal-body">
             <!-- action="/cad/<%= cadId %>/officers/search/name" -->
             <form id="modal" onsubmit="event.preventDefault(); return nameSearch()">
-                <div class="form-group">
+                <div class="form-group" id="nameResults">
                     <label for="bolo" class="text-light">Name</label>
-                    <input type="text" required class="form-control bg-secondary text-light border-secondary" name="name" id="nameSearchIn" placeholder="Search By Name">
+                    <input type="text" required class="form-control bg-secondary text-light border-secondary" onkeydown="showCitizensResult()" name="name" id="nameSearchIn" placeholder="Search By Name">
+                    <datalist id="citizens">
+                      <% citizens.forEach(citizen => { %>
+                        <option value="<%= citizen.full_name %>"><%= citizen.full_name %></option>
+                      <% }) %>
+                    </datalist>
                 </div>
                 <div class="container">
                   <div class="row">
@@ -535,6 +547,40 @@
 <script>
 
   const xhttp = new XMLHttpRequest();
+
+
+  function showCitizensResult() {
+    const nameSearchInput = document.getElementById("nameSearchIn").value
+
+      if (nameSearchInput.length > 1) {
+        const nameSearch = document.getElementById("nameSearchIn");
+        const att = document.createAttribute("list");
+        att.value = "citizens";
+        nameSearch.setAttributeNode(att)
+        // document.getElementById("citizens").style.display = "block"        
+      } else {
+        console.log("not longer");
+
+      }
+    
+  }
+
+  function warrantCitizens() {
+    const warrantCitizensSearch = document.getElementById("warrantCitizensSearch").value
+
+      if (warrantCitizensSearch.length > 1) {
+        const warrant = document.getElementById("warrantCitizensSearch");
+        const att = document.createAttribute("list");
+        att.value = "citizens2";
+        warrant.setAttributeNode(att)
+        // document.getElementById("citizens").style.display = "block"        
+      } else {
+        console.log("not longer");
+
+      }
+    
+  }
+  
 
 
   function nameSearch() {
