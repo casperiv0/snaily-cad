@@ -6,9 +6,9 @@ let creds = require("../creds.json");
 // "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6", SANDBOX
 // "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j" SANDBOX
 paypal.configure({
-    mode: "live", // Sandbox or live
-    client_id: "AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ",
-    client_secret: "EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY"
+    mode: 'live', // Sandbox or live
+    client_id: 'AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ',
+    client_secret: 'EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY'
 })
 
 module.exports = {
