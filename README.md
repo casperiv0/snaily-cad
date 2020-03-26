@@ -74,12 +74,16 @@ ToDO
 - [x] description main header
 - [x] add auth for company page if citizen  ID is in your account
 - [x] my companies page
+- [x] show 3char show list
+- [x] CAD option join system
+- [x] company join system
 - [ ] add company for weapons
 - [ ] edit officers rank supervisor and such
 - [ ] FiveM integration support (register Vehicles/register citizens/register weapons/)  
-- [ ] company join system
-- [ ] CAD option join system
-- [ ] show 3char show list
+
+
+- [ ] notepads for LEO/dispatch/ems
+
 
 ## Public Branch
 
