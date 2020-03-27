@@ -1,6 +1,22 @@
 <%- include("../partials/main/header.ejs") %>
 
 <div class="container">
+
+  <h1 class="card-title">General Information</h1>
+  <ul class="list-group">
+    <li class="list-group-item">
+      username: <%= users.username %> 
+    </li>
+    <li class="list-group-item">
+      leo_dash: <%= users.leo_dash %> 
+    </li>
+    <li class="list-group-item">
+      cadID: <%= users.cadID %> 
+    </li>
+  </ul>
+
+
+
   <h1 class="card-title">CAD Ownerships</h1>
   <ul class="list-group">
     <% cads.forEach(cad => { %>

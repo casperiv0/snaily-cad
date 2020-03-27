@@ -2,51 +2,56 @@
 
 
 <div class="container">
-    <h1 class="card-title"><%= ticket.title %> 
-        <% if (isAdmin === '4d9OOeGOCV6eGOCV4d96') { %>
-            <div class="float-right">
-                <a class="btn btn-danger" href="/admin/ticket/close/<%= ticket.id %>">Close Ticket</a>
-            </div>
-        <% } else { %>
-
-        <%}%>
-        </h1>
-    <span class="text-secondary"><span class="bolder">Created:</span>     <%= ticket.date %> <span class="bolder">Status:</span>   <%= ticket.status %> </span>
-    <h2 class="card-title mt-5">Messages</h2>
-    <ul class="list-group">
-        <form action="/support/ticket/<%= ticket.ticket_id %>-<%= ticket.title %>" method="POST">
-            <div class="form-group card">
-              <label for="exampleInputEmail1" class="card-header">Reply</label>
-              <div class="card-body">
-                
-                  <textarea name="message" required id="ticket" cols="30" rows="6" class="form-control" placeholder="Reply Message.."></textarea>
-              </div>
-              <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Reply</button>
-              </div>
-            </div>
-        </form>
-        <% messages.forEach(message => { %>
+    <% if (ticket) { %>
+        <h1 class="card-title"><%= ticket.title %> 
+            <% if (isAdmin === '4d9OOeGOCV6eGOCV4d96') { %>
+                <div class="float-right">
+                    <a class="btn btn-danger" href="/admin/ticket/close/<%= ticket.id %>">Close Ticket</a>
+                </div>
+            <% } else { %>
+    
+            <%}%>
+            </h1>
+        <span class="text-secondary"><span class="bolder">Created:</span>     <%= ticket.date %> <span class="bolder">Status:</span>   <%= ticket.status %> </span>
+        <h2 class="card-title mt-5">Messages</h2>
+        <ul class="list-group">
+            <form action="/support/ticket/<%= ticket.ticket_id %>-<%= ticket.title %>" method="POST">
+                <div class="form-group card">
+                  <label for="exampleInputEmail1" class="card-header">Reply</label>
+                  <div class="card-body">
+                    
+                      <textarea name="message" required id="ticket" cols="30" rows="6" class="form-control" placeholder="Reply Message.."></textarea>
+                  </div>
+                  <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Reply</button>
+                  </div>
+                </div>
+            </form>
+            <% messages.forEach(message => { %>
+                <li class="list-group-item">
+                    <span class="bolder"><%= message.name %>  </span> <p class="float-right"><%= message.time %></p>
+                    <br>
+                    <br>
+                    <p class="text-dark">
+                        <%= message.message %>
+                    </p>
+                </li>
+            <% }) %>
             <li class="list-group-item">
-                <span class="bolder"><%= message.name %>  </span> <p class="float-right"><%= message.time %></p>
+                <span class="bolder"><%= ticket.creator %></span>
                 <br>
                 <br>
+    
                 <p class="text-dark">
-                    <%= message.message %>
+                    <%= ticket.description %>
                 </p>
             </li>
-        <% }) %>
-        <li class="list-group-item">
-            <span class="bolder"><%= ticket.creator %></span>
-            <br>
-            <br>
-
-            <p class="text-dark">
-                <%= ticket.description %>
-            </p>
-        </li>
-    </ul>
-
-</div>
+        </ul>
+    
+    </div>
+    <% } else { %>
+        <h1 class="card-title">Ticket was not found.</h1>
+    <% } %>
+    
 
 <div class="mb-5"></div>

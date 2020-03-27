@@ -359,7 +359,6 @@
       return actions.order.capture().then(function(details) {
         // This function shows a transaction success message to your buyer.
         const xhttp = new XMLHttpRequest();
-        console.log(details);
         xhttp.open("GET", `/order/payment/confirm`, true);
 
         xhttp.onload = function() {
