@@ -47,7 +47,7 @@ module.exports = {
             connection1.query(query, [subject, ticket_id, desc, 'open', req.session.user, date], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.render("support/tickets.ejs", { title: "Create Ticket | SnailyCAD", desc: "", message: "Something went wrong while making the ticket! Please try again later." })
+                    return res.render("support/tickets.ejs", { title: "Create Ticket | SnailyCAD", desc: "", message: "Something went wrong while making the ticket! Please try again later.", req: req  })
                 } else {
                     res.redirect("/support");
                 };
@@ -66,7 +66,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
-                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0][0], messages: result[1], isAdmin: result[2][0].main_administrator_sM7a6mFOHI  });
+                    res.render("support/ticket.ejs", { title: "Tickets | SnailyCAD", desc: "", message: "", ticket: result[0][0], messages: result[1], isAdmin: result[2][0].main_administrator_sM7a6mFOHI, req: req  });
                 };
             });
         };

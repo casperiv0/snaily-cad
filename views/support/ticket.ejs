@@ -7,6 +7,7 @@
             <% if (isAdmin === '4d9OOeGOCV6eGOCV4d96') { %>
                 <div class="float-right">
                     <a class="btn btn-danger" href="/admin/ticket/close/<%= ticket.id %>">Close Ticket</a>
+                    <a class="btn btn-danger" href="/admin/ticket/delete/<%= ticket.id %>">Delete Ticket</a>
                 </div>
             <% } else { %>
     
@@ -29,7 +30,7 @@
             </form>
             <% messages.forEach(message => { %>
                 <li class="list-group-item">
-                    <span class="bolder"><%= message.name %>  </span> <p class="float-right"><%= message.time %></p>
+                    <span class="bolder"><%= message.name %> <% if (req.session.user === message.name) { %><span class="badge badge-success">You</span> <%} else { %>  <% } %> <span class="badge"></span>  </span> <p class="float-right"><%= message.time %></p>
                     <br>
                     <br>
                     <p class="text-dark">
