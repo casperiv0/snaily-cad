@@ -252,8 +252,7 @@
                   <span class="text-primary">Password:</span> demo@@ <br>
                   <a href="/cad/WCLCag5Kn1/login" class="text-success">Demo Here</a>
 
-           
-                  <a href="/order" class="btn btn-primary btn-lg">Order Here</a>         
+             
               </div> 
           </div>
       </div> 
@@ -456,6 +455,27 @@
     </div>
   </div>
 
+  <div class="modal fade" id="successOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <img src="/icon2.png" alt="protfolio">
+            <h3 class="card-title">
+              Order was successfully made!
+            </h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </header>
 
     
@@ -517,23 +537,3 @@
     </div>
 </footer>
 
-
-
-<script>
-    function loadMore() {
-        let moreBtn = document.getElementById("loadMore")
-    let hidden = document.getElementById("hiddenMore")
-    let dots = document.getElementById("dots")
-    if (dots.style.display === "none") {
-        dots.style.display = "block"
-        hidden.style.display = "none";
-            moreBtn.textContent = "Load More Screenshots"
-
-        } else {
-            dots.style.display = "none";
-            hidden.style.display = "block";
-            moreBtn.textContent = "Load Less Screenshots"
-        }
-    }
-   
-</script>

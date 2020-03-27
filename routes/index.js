@@ -2,14 +2,19 @@ const bcrypt = require('bcrypt');
 const saltRounds = 15;
 const paypal = require("paypal-rest-sdk");
 let creds = require("../creds.json");
+var request = require('request');
 
 // "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6", SANDBOX
 // "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j" SANDBOX
-paypal.configure({
-    mode: 'live', // Sandbox or live
-    client_id: 'AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ',
-    client_secret: 'EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY'
-})
+// paypal.configure({
+//     mode: 'live', // Sandbox or live
+//     client_id: 'AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ',
+//     client_secret: 'EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY'
+// })
+
+const client_id = "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6";
+const client_secret = "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j";
+var PAYPAL_API = 'https://api.sandbox.paypal.com';
 
 module.exports = {
     homePage: (req, res, next) => {
@@ -240,48 +245,121 @@ module.exports = {
     },
     paymentAuthOrder: (req, res) => {
         if (req.session.loggedin) {
-            const create_payment_json = {
-                "intent": "sale",
-                "payer": {
-                    "payment_method": "paypal"
-                },
-                "redirect_urls": {
-                    "return_url": "https://snaily-cad.ga/order/success",
-                    "cancel_url": "https://snaily-cad.ga/"
-                },
-                "transactions": [{
-                    "item_list": {
-                        "items": [{
-                            "name": "SnailyCAD",
-                            "sku": "001",
-                            "price": "5.00",
-                            "currency": "EUR",
-                            "quantity": 1
-                        }]
+            request.post(PAYPAL_API + '/v1/payments/payment',
+                {
+                    auth: {
+                        user: client_id,
+                        pass: client_secret
                     },
-                    "amount": {
-                        "currency": "EUR",
-                        "total": "5.00"
+                    body: {
+                        intent: 'sale',
+                        payer:
+                        {
+                            payment_method: 'paypal'
+                        },
+                        transactions: [
+                            {
+                                amount:
+                                {
+                                    total: '4.99',
+                                    currency: 'EUR'
+                                }
+                            }],
+                        redirect_urls:
+                        {
+                            return_url: 'https://snaily-cad.ga/account',
+                            cancel_url: 'https://example.com'
+                        }
                     },
-                    "description": "CAD/MDT for your FiveM Community."
-                }]
-            };
-
-            paypal.payment.create(create_payment_json, function (err, payment) {
-                if (err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                } else {
-                    for (let i = 0; i < payment.links.length; i++) {
-                        if (payment.links[i].rel === 'approval_url') {
-                            res.redirect(payment.links[i].href);
-                        };
+                    json: true
+                }, function (err, response) {
+                    if (err) {
+                        console.error(err);
+                        return res.sendStatus(500);
+                    } else {
+                        // 3. Return the payment ID to the client
+                        res.json({
+                            id: response.body.id
+                        });
                     };
-                };
-            });
+                });
         } else {
             res.redirect("/login");
         };
+    },
+    executePaymentOrder: (req, res) => {
+        // 2. Call /v1/payments/payment to set up the payment
+        request.post(PAYPAL_API + '/v1/payments/payment',
+            {
+                auth:
+                {
+                    user: client_id,
+                    pass: client_secret
+                },
+                body:
+                {
+                    intent: 'sale',
+                    payer:
+                    {
+                        payment_method: 'paypal'
+                    },
+                    transactions: [
+                        {
+                            amount:
+                            {
+                                total: '4.99',
+                                currency: 'EUR'
+                            }
+                        }],
+                    redirect_urls:
+                    {
+                        return_url: 'https://snaily-cad.ga/account',
+                        cancel_url: 'https://snaily-cad.ga'
+                    }
+                },
+                json: true
+            }, function (err, response) {
+                if (err) {
+                    console.error(err);
+                    return res.sendStatus(500);
+                } else {
+                    // 3. Return the payment ID to the client
+                    res.json({
+                        id: response.body.id
+                    });
+                };
+            });
+    },
+    confirmOrderGet: (req, res) => {
+        function makeid(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        };
+        let cadId = makeid(10);
+        let expireDate = new Date();
+        expireDate.setDate(expireDate.getDate() + 30);
+
+
+        console.log(expireDate);
+        let query = "UPDATE `users` SET `admin` = ?, `leo` = ?, `ems_fd` = ?, `dispatch` = ?, `cadID` = ? WHERE `username` = ?"
+        let cads = "INSERT INTO `cads` (`cadID`, `orderID`, `owner`, `cad_name`, `AOP`, `expire_date`, `whitelisted`) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        connection1.query(`${query}; ${cads}`, ['owner', 'yes', 'yes', 'yes', cadId, req.session.user, cadId, '', req.session.user, '', 'N/A', expireDate, 'false'], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("/account");
+            };
+        });
+
+    },
+    successMessage: (req, res) => {
+        res.render("success.ejs", { title: "Success | SnailyCAD", desc: "" })
     },
     successPageOrder: (req, res) => {
         if (req.session.loggedin) {

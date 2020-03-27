@@ -212,7 +212,10 @@ const {
     editPassword,
     editPasswordPage,
     allScreensPage,
-    productsPage
+    productsPage,
+    executePaymentOrder,
+    confirmOrderGet,
+    successMessage
 } = require("./routes/index");
 
 const {
@@ -273,6 +276,9 @@ app.get(`/logout`, (req, res) => {
 app.get("/order", orderPage)
 app.post("/order/auth/payment", paymentAuthOrder)
 app.get("/order/success", successPageOrder)
+app.post("/order/auth/execute", executePaymentOrder)
+app.get("/order/payment/confirm", confirmOrderGet)
+app.get("/success", successMessage)
 
 // Support 
 app.get("/support", supportPage)
