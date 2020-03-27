@@ -58,7 +58,7 @@ module.exports = {
         if (!req.session.mainLoggedin) {
             res.redirect("/login")
         } else {
-            let query = "SELECT * FROM `tickets` WHERE `creator` = '" + req.session.user + "' AND `ticket_id` = '" + req.params.ticket_id + "' ";
+            let query = "SELECT * FROM `tickets` WHERE `ticket_id` = '" + req.params.ticket_id + "' ";
             let query2 = "SELECT * FROM `ticket_message` WHERE `ticket_id` = '" + req.params.ticket_id + "' ORDER BY `ticket_message`.`time` DESC";
             let admin = "SELECT * FROM `users` WHERE `username` = '" + req.session.user + "'"
             connection1.query(`${query}; ${query2}; ${admin}`, (err, result) => {
