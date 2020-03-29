@@ -227,7 +227,8 @@ const { adminDashboard,
     expireCAD,
     reactivateCAD,
     addCad,
-    adminDashboardLogin
+    adminDashboardLogin,
+    addFreeCad
 } = require("./routes/main-admin")
 
 const { supportPage, createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support');
@@ -293,6 +294,7 @@ app.post("/admin/dashboard/", adminDashboardLogin)
 app.get("/admin/dashboard/:username", usernameAdminPage)
 app.post("/admin/dashboard/:username", usernameAdmin)
 app.post("/admin/dashboard/:username/add-cad", addCad)
+app.post("/admin/dashboard/:username/add-free-cad", addFreeCad)
 app.get("/admin/expire-cad/:cadID", expireCAD)
 app.post("/admin/reactivate", reactivateCAD)
 app.get("/admin/cad/:cadID", cadPage)

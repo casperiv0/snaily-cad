@@ -4,14 +4,6 @@ const paypal = require("paypal-rest-sdk");
 let creds = require("../creds.json");
 var request = require('request');
 
-// "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6", SANDBOX
-// "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j" SANDBOX
-// paypal.configure({
-//     mode: 'live', // Sandbox or live
-//     client_id: 'AZD1CWcIenQ_I3Xm4PsuLQfuDW1zNL9qAGBWcXw8YCajX-uqRE0OhLY7mpQFML0eE1zgxNYh7XXo9XFQ',
-//     client_secret: 'EJaqLtT10f2cf6SYEb-1lC0WSG_P90jcHdShRZhoLNh5T80u3NccsLGgx6yHCAatkaYJE6Gu_QKTpLWY'
-// })
-
 const client_id = "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6";
 const client_secret = "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j";
 var PAYPAL_API = 'https://api.sandbox.paypal.com';
@@ -19,7 +11,8 @@ var PAYPAL_API = 'https://api.sandbox.paypal.com';
 module.exports = {
     homePage: (req, res, next) => {
         let query2 = "SELECT `cadID` FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
-        connection1.query(query2, (err, result2) => {
+        let query = "SELECT `cadID` FROM `free-cads` WHERE `cadID` = '" + req.params.cadID + "'"
+        connection1.query(`${query2}; ${query}`, (err, result2) => {
             if (err) {
                 connection1.query("INSERT INTO `errors` (`name`, `description`) VALUES ('" + err.name + "', '" + err.message + "')", (err2, resultError) => {
                     if (err2) {
@@ -28,21 +21,48 @@ module.exports = {
                     return res.sendStatus(500);
                 });
             } else {
-                if (!result2[0]) {
-                    res.sendStatus(404)
+                if (!result2[0][0]) {
+                    if (result2[1][0]) {
+                        let query2 = "SELECT `cadID` FROM `free-cads` WHERE `cadID` = '" + result2[1][0].cadID + "'"
+                        connection1.query(` ${query2}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result[0]) {
+                                    let d = new Date()
+                                    let expire_date = d.toLocaleDateString()
+                                    if (result[0].expire_date === expire_date) {
+                                        res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[1][0].cadID })
+                                    } else {
+                                        res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[1][0].cadID, req: req, desc: `CAD app for cadID: ${result[1][0].cadID}.` });
+                                    };
+                                } else {
+                                    res.send("cad not found")
+                                };
+                            };
+                        });
+                    } else {
+                        res.send("cad not found")
+                    }
+                    
                 } else {
-                    let query = "SELECT * FROM `cads` WHERE `cadID` = '" + result2[0].cadID + "'"
-                    connection1.query(query, (err, result) => {
+                    let query = "SELECT * FROM `cads` WHERE `cadID` = '" + result2[0][0].cadID + "'"
+                    connection1.query(`${query};`, (err, result) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
-                            let d = new Date()
-                            let expire_date = d.toLocaleDateString()
-                            if (result[0].expire_date === expire_date) {
-                                res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
+                            if (result[0]) {
+                                let d = new Date()
+                                let expire_date = d.toLocaleDateString()
+                                if (result[0].expire_date === expire_date) {
+                                    res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0][0].cadID })
+                                } else {
+                                    res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0][0].cadID, req: req, desc: `CAD app for cadID: ${result[0].cadID}.` });
+                                };
                             } else {
-                                res.render("index.ejs", { title: "Home | SnailyCAD", isAdmin: '', loggedin: req.session.loggedin, username: req.session.username2, cadId: result2[0].cadID, req: req, desc: `CAD app for cadID: ${result[0].cadID}.` });
+                                res.send("cad not found")
                             };
                         };
                     });
