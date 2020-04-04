@@ -1,4 +1,81 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav class="col-md-2 d-none d-md-block bg-dark sidebar" style="min-height: 100vh;">
+  <div class="sidebar-sticky">
+    <ul class="nav flex-column ">
+      <li class="nav-item">
+        <a
+          class="nav-link text-light"
+          href="/cad/<%= cadId %>/admin/action-log"
+        >
+          Action Logs <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <% if (isAdmin === 'admin' || isAdmin === 'owner') { %>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/cad/<%= cadId %>/admin/users">
+          Member management
+        </a>
+      </li>
+      <% } else {%> <%} %> <% if (isAdmin === 'owner') { %>
+      <li class="nav-item">
+        <a class="nav-link text-light" href="/cad/<%= cadId %>/admin/edit-cad">
+          CAD Settings
+        </a>
+      </li>
+      <% } else {%> <%} %>
+
+      <li class="nav-item">
+        <button
+          type="button"
+          class="btn btn-primary ml-3 nav-link"
+          data-target="#valueCollapse"
+          data-toggle="collapse"
+        >
+          Values >
+        </button>
+      </li>
+
+      <div class="collapse nav-link" id="valueCollapse">
+        <li class="nav-item">
+          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/cars"
+            >Vehicles</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/genders"
+            >Genders</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/weapons"
+            >Weapons</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class=" text-light"
+            href="/cad/<%= cadId %>/admin/values/ethnicities"
+            >Ethnicities</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/legal"
+            >Legal</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/depts"
+            >Departments</a
+          >
+        </li>
+      </div>
+    </ul>
+  </div>
+</nav>
+
+<!-- <nav class="flex-column navbar navbar-expand-lg navbar-light bg-dark" style="width: 15rem;">
   <div class="dropdown">
     <button
       class="btn btn-secondary dropdown-toggle"
@@ -11,24 +88,7 @@
       Values
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/cars"
-        >Vehicles</a
-      >
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/genders"
-        >Genders</a
-      >
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/weapons"
-        >Weapons</a
-      >
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/ethnicities"
-        >Ethnicities</a
-      >
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/legal"
-        >Legal</a
-      >
-      <a class="dropdown-item" href="/cad/<%= cadId %>/admin/values/depts"
-        >Departments</a
-      >
+      
     </div>
   </div>
   <a
@@ -49,4 +109,4 @@
     >CAD settings</a
   >
   <% } else {%> <%} %>
-</nav>
+</nav> -->

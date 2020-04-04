@@ -1,26 +1,39 @@
-<%- include("../partials/header.ejs") %> <%-
-include("../partials/admin-header.ejs") %>
+<%- include("../partials/header.ejs") %>
 
-<div class="container mt-2">
-  <h1 class="card-title text-light">Action Logs</h1>
-  <table class="table table-dark">
-    <thead>
-      <tr>
-        <th scope="col">Action ID</th>
-        <th scope="col">Action</th>
-        <th scope="col">Date and Time of action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% actions.forEach(action => { %>
-      <tr>
-        <th scope="row"><%= action.id %></th>
-        <td><%= action.action_title %></td>
-        <td><%= action.date %></td>
-      </tr>
-      <% }) %>
-    </tbody>
-  </table>
+
+<div class="container-fluid">
+  <div class="row">
+    <%-
+    include("../partials/admin-header.ejs") %>
+    
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light">
+      <div class="mt-2">
+        <h1 class="card-title text-light">Action Logs</h1>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">Action ID</th>
+              <th scope="col">Action</th>
+              <th scope="col">Date and Time of action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% actions.forEach(action => { %>
+            <tr>
+              <th scope="row"><%= action.id %></th>
+              <td><%= action.action_title %></td>
+              <td><%= action.date %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
 </div>
+
+
+
 
 <div class="mb-4"></div>

@@ -1,6 +1,6 @@
 # equinox-cad
 
-Simple CAD for a awesome server
+Simple CAD for an awesome server
 
 - [ ] expire CAD page for all pages
 

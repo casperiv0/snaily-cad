@@ -84,8 +84,8 @@
       
       
       
-
-      <% citizen.forEach(value => { %>
+    <% if (citizen.length > 0) {%>
+<% citizen.forEach(value => { %>
       <li class="list-group-item mt-2 bg-dark text-light">
         <%= value.id %> | <%= value.first_name %> | <%= value.birth %>
         <a
@@ -96,6 +96,12 @@
       </li>
 
       <% }) %>
+      <%} else { %>
+      <div class="alert alert-primary mt-5" role="alert">
+  you don't have any citizens! Create one <a href="/cad/<%= cadId %>/citizen/add">Here</a>
+</div>
+<%} %>
+      
 
       <div class="modal fade" id="towModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

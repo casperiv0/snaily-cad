@@ -27,21 +27,12 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result2[0]) {
-                        let query = "SELECT * FROM `cads` WHERE `cadID` = ?" 
-                        connection1.query(query, [result2[0].cadID], (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500)
-                            } else {
-                                let d = new Date()
-                                let expire_date = d.setDate(d.getDate());
-                                if (result[0].expire_date === expire_date) {
-                                    res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result2[0].cadID })
-                                } else {
-                                    res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result2[0].cadID, desc: "Login into your community CAD" })
-                                };
-                            };
-                        });
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result2[0].cadID, desc: "Login into your community CAD" })
+                        };
                     } else {
                         res.sendStatus(404);
                     };
@@ -164,21 +155,8 @@ module.exports = {
                     return res.sendStatus(500);
                 } else {
                     if (result1[0]) {
-                        let expired = "SELECT * FROM `cads` WHERE `cadID` = ?"
-                        connection1.query(expired, [req.params.cadID], (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500)
-                            } else {
-                                let d = new Date()
-                                let expire_date = d.setDate(d.getDate());
-                                if (result[0].expire_date === expire_date) {
-                                    res.render("expired.ejs", { desc: '', title: "Expired | SnailyCAD", isAdmin: '', cadId: result1[0].cadID })
-                                } else {
-                                    res.render("login-res/reg.ejs", { desc: "", title: "Register | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID });
-                                };
-                            };
-                        });
+                        res.render("login-res/reg.ejs", { desc: "", title: "Register | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID });
+
                     } else {
                         res.sendStatus(404);
                     };
@@ -226,7 +204,7 @@ module.exports = {
                                         if (result3[0].whitelisted === "true") {
                                             // '" + username + "', '" + username + "@" + cadID + "', '" + hash + "', 'no', 'no', 'no', 'no', '" + cadID + "', 'pi75PugYho', '', 'no', 'false', '/'
                                             let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "awaiting", "2"], function (error, results, fields) {
+                                            connection1.query(query, [username, username + "@" + cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "awaiting", "2"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {
@@ -253,7 +231,7 @@ module.exports = {
                                             });
                                         } else {
                                             let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username+"@"+cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted", "2"], function (error, results, fields) {
+                                            connection1.query(query, [username, username + "@" + cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted", "2"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {

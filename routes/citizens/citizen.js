@@ -26,19 +26,29 @@ module.exports = {
                     if (result2[0]) {
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                         connection1.query(query, (err, result1) => {
-                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
-                            let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
-                            let query3 = "SELECT * FROM `users` WHERE `cadID` = '" + req.params.cadID + "'";
-                            let query4 = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
-                            connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
-                                connection.query(`${query}`, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
+                                let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
+                                let query3 = "SELECT * FROM `users` WHERE `cadID` = '" + req.params.cadID + "'";
+                                let query4 = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
+                                connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
                                     if (err) {
                                         console.log(err);
+                                        return res.sendStatus(500)
                                     } else {
-                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].admin, message: "", messageG: '', username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
-                                    }
+                                        connection.query(`${query}`, (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "", messageG: '', username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
+                                            }
+                                        });
+                                    };
                                 });
-                            });
+                            }
                         });
                     } else {
                         res.send("CAD not found");

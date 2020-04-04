@@ -1,77 +1,86 @@
-<%- include("../partials/header.ejs") %> <%-
-include("../partials/admin-header.ejs") %>
-
-<div class="container-fluid mt-2">
-  <% if(messageG != ''){ %>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <%= messageG %>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <% } %>
-  <h1 class="card-title text-light">CAD Settings</h1>
-
-  <div class="card bg-secondary">
-    <h4 class="card-title text-light p-2">Downloads</h4>
-      <a download href="/downloads/snailyCAD-towservice.zip" class="ml-2 mb-2 mr-2 btn btn-primary">
-      FiveM call tow service integration(911 calls coming soon)</a>
-  </div>
-
-  <form action="" method="post" class="card bg-secondary mt-3">
-    <h4 class="card-title text-light p-2">General Settings</h4>
-    <div class="ml-2 mr-2 form-group">
-      <label for="name" class="text-light">CAD Name</label>
-      <input
-        type="text"
-        id="name"
-        name="cad_name"
-        class="form-control bg-dark border-dark text-light"
-        value="<%= current.cad_name %>"
-      />
-    </div>
+<%- include("../partials/header.ejs") %> 
 
 
-
-    <div class="form-group p-2">
-      <% if(current.whitelisted === "true") { %>
-      <div class="custom-control custom-switch">
-        <input type="checkbox" name="whitelist"  checked class="custom-control-input" id="customSwitch1">
-        <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+<div class="container-fluid">
+  <div class="row">
+    <%-
+    include("../partials/admin-header.ejs") %>
+    
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+    <% if(messageG != ''){ %>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= messageG %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    <% } else { %>
-      <div class="custom-control custom-switch">
-        <input type="checkbox" name="whitelist" class="custom-control-input" id="customSwitch1">
-        <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+      <% } %>
+      <h1 class="card-title text-light">CAD Settings</h1>
+    
+      <div class="card bg-secondary">
+        <h4 class="card-title text-light p-2">Downloads</h4>
+          <a download href="/downloads/snailyCAD-towservice.zip" class="ml-2 mb-2 mr-2 btn btn-primary">
+          FiveM call tow service integration(911 calls coming soon)</a>
       </div>
-    <% } %>
-    </div>
-    <button type="submit" class=" btn btn-success ml-2 mb-2 mr-2">
-      Update
-    </button>
-  </form>
+    
+      <form action="" method="post" class="card bg-secondary mt-3">
+        <h4 class="card-title text-light p-2">General Settings</h4>
+        <div class="ml-2 mr-2 form-group">
+          <label for="name" class="text-light">CAD Name</label>
+          <input
+            type="text"
+            id="name"
+            name="cad_name"
+            class="form-control bg-dark border-dark text-light"
+            value="<%= current.cad_name %>"
+          />
+        </div>
+    
+    
+    
+        <div class="form-group p-2">
+          <% if(current.whitelisted === "true") { %>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" name="whitelist"  checked class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+          </div>
+        <% } else { %>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" name="whitelist" class="custom-control-input" id="customSwitch1">
+            <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
+          </div>
+        <% } %>
+        </div>
+        <button type="submit" class=" btn btn-success ml-2 mb-2 mr-2">
+          Update
+        </button>
+      </form>
+    
+    
+      
+      <form
+        action="/cad/<%= cadId %>/admin/delete-citizens"
+        method="post"
+        class="card bg-secondary mt-3"
+      >
+        <h4 class="card-title text-light p-2">Site Actions</h4>
+        <div
+          class="alert alert-danger mr-2 ml-2 alert-dismissible fade show"
+          role="alert"
+        >
+          <span class="bolder">Note:</span> Anything that gets deleted can NOT be
+          undone!
+    
+          </button>
+        </div>
+        <div class="ml-2 form-group">
+          <button type="submit" class="btn btn-danger cancel-btn">
+            Delete All Citizens
+          </button>
+        </div>
+      </form>
 
 
-  
-  <form
-    action="/cad/<%= cadId %>/admin/delete-citizens"
-    method="post"
-    class="card bg-secondary mt-3"
-  >
-    <h4 class="card-title text-light p-2">Site Actions</h4>
-    <div
-      class="alert alert-danger mr-2 ml-2 alert-dismissible fade show"
-      role="alert"
-    >
-      <span class="bolder">Note:</span> Anything that gets deleted can NOT be
-      undone!
-
-      </button>
-    </div>
-    <div class="ml-2 form-group">
-      <button type="submit" class="btn btn-danger cancel-btn">
-        Delete All Citizens
-      </button>
-    </div>
-  </form>
+  </main> 
+  </div>
 </div>

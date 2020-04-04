@@ -1,26 +1,36 @@
-<%- include("../partials/header.ejs") %> <%-
-include("../partials/admin-header.ejs") %>
+<%- include("../partials/header.ejs") %>
 
-<form
-  class="edit-veh-form"
-  action=""
-  method="post"
-  enctype="application/x-www-form-urlencoded"
->
-  <div class="form-group text-light">
-    <label for="exampleInputEmail1">Enter Gender</label>
-    <input
-      name="gender"
-      type="text"
-      class="form-control  text-light bg-dark border-dark "
-      placeholder="Gender"
-      value="<%= gender.gender %>"
-    />
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../partials/admin-header.ejs") %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <form
+        class="mt-2"
+        action=""
+        method="post"
+        enctype="application/x-www-form-urlencoded"
+      >
+      <h1 class="card-title">Edit Gender</h1>
+        <div class="form-group text-light">
+          <label for="exampleInputEmail1">Enter Gender</label>
+          <input
+            name="gender"
+            type="text"
+            class="form-control  text-light bg-dark border-dark "
+            placeholder="Gender"
+            value="<%= gender.gender %>"
+          />
+        </div>
+        <button type="submit" class="btn btn-success float-right">
+          Update
+        </button>
+        <a
+          href="/cad/<%= cadId %>/admin/values/genders"
+          class="btn btn-danger float-right margin-right-10"
+          >Cancel</a
+        >
+      </form>
+    </main>
   </div>
-  <button type="submit" class="btn btn-success float-right">Update</button>
-  <a
-    href="/cad/<%= cadId %>/admin/values/genders"
-    class="btn btn-danger float-right margin-right-10"
-    >Cancel</a
-  >
-</form>
+</div>

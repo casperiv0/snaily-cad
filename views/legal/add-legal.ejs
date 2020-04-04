@@ -1,26 +1,37 @@
-<%- include("../partials/header.ejs") %> <%-
-include("../partials/admin-header.ejs") %>
+<%- include("../partials/header.ejs") %>
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../partials/admin-header.ejs") %>
 
-<div class="container mt-2">
-  <form action="" method="post" enctype="application/x-www-form-urlencoded">
-    <div class="form-group">
-      <label for="first-name" class="text-light">Legal Status</label>
-      <input
-        type="text"
-        class="form-control text-light border-dark bg-dark"
-        name="status"
-        id="first-name"
-        placeholder="Status, E.G. Valid"
-        required
-      />
-    </div>
-    <button type="submit" class="btn btn-primary float-right">
-      Add Legal Status
-    </button>
-    <a
-      class="btn btn-danger cancel-btn float-right"
-      href="/cad/<%= cadId %>/admin/values/legal"
-      >Cancel</a
-    >
-  </form>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <div class="mt-2">
+        <form
+          action=""
+          method="post"
+          enctype="application/x-www-form-urlencoded"
+        >
+        <h1 class="card-title">Add Legal Status</h1>
+          <div class="form-group">
+            <label for="first-name" class="text-light">Legal Status</label>
+            <input
+              type="text"
+              class="form-control text-light border-dark bg-dark"
+              name="status"
+              id="first-name"
+              placeholder="Status, E.G. Valid"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary float-right">
+            Add Legal Status
+          </button>
+          <a
+            class="btn btn-danger cancel-btn float-right"
+            href="/cad/<%= cadId %>/admin/values/legal"
+            >Cancel</a
+          >
+        </form>
+      </div>
+    </main>
+  </div>
 </div>
