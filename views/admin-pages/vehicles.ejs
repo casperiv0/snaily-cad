@@ -38,9 +38,9 @@
             placeholder="Search for Vehicles.."
           />
         <ul class="list-group" id="myUL">
-          <% vehicles.forEach(value => { %>
+          <% vehicles.forEach((value, index) => { %>
           <li class="list-group-item text-light bg-dark">
-            <%= value.id %> | <%= value.cname %>
+            <%= ++index %> | <%= value.cname %>
             <a
               href="/cad/<%= cadId %>/admin/values/cars/delete/<%= value.id %>"
               class="btn btn-danger float-right"

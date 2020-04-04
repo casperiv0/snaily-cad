@@ -20,9 +20,9 @@
 
         <% if (weapons.length > 0) {%>
         <ul class="list-group">
-          <% weapons.forEach(value => { %>
+          <% weapons.forEach((value, index) => { %>
           <li class="list-group-item text-light bg-dark">
-            <%= value.id %> | <%= value.name %>
+            <%= ++index %> | <%= value.name %>
             <a
               href="/cad/<%= cadId %>/admin/values/weapons/delete/<%= value.id %>"
               class="btn btn-danger float-right"
