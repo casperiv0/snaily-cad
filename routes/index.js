@@ -4,10 +4,6 @@ const paypal = require("paypal-rest-sdk");
 let creds = require("../creds.json");
 var request = require('request');
 
-const client_id = "AZigiRAV-dCUsxiX-hhPy8tnW58DmuaaYCHF-O8JrsMB1aY7TuLW4qixwFKsr_oTOUdEgP-v8esjjBz6";
-const client_secret = "ENzolTG4OEI0ZkjlB91femqh9vuaJ3ZIoqinpIUvMmZ26GLVZL7SxsCAPVwbV07vwDbpsW16c7S0nO7j";
-var PAYPAL_API = 'https://api.sandbox.paypal.com';
-
 module.exports = {
     homePage: (req, res, next) => {
         let query2 = "SELECT `cadID` FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
