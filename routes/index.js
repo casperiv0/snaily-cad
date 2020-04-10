@@ -519,12 +519,15 @@ module.exports = {
         let email = req.body.email;
         let message = req.body.message;
 
-        connection1.query("INSERT INTO `contacts` (`name`, `email`, `message`) VALUES ?, ?, ?" [name, email, message], (err, result) => {
+        console.log(name, email, message);
+        
+
+        connection1.query("INSERT INTO `contacts` (`name`, `email`, `message`) VALUES (?, ?, ?)", [name, email, message], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.redirect("localhost:5500")
+                res.redirect("localhost:5500/success.html")
             }
         })        
     }
