@@ -39,6 +39,9 @@
     <li class="nav-item">
       <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">CAD's</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">contact Messages</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -91,6 +94,23 @@
             <a
               class="float-right btn btn-primary"
               href="/admin/cad/<%= cad.id %>"
+              >More</a
+            >
+          </li>
+          <%}) %>
+        </ul>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+      <div class="container mt-3" >
+        <h1 class="card-title">Support Tickets</h1>
+        <ul class="list-group">
+          <% contactMessages.forEach((message, index) => { %>
+          <li class="list-group-item">
+            <%= ++index %> | <%= message.email %>
+            <a
+              class="float-right btn btn-primary"
+              href="/contacts/<%= message.id %>"
               >More</a
             >
           </li>

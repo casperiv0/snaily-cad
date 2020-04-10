@@ -41,7 +41,7 @@ module.exports = {
                     } else {
                         res.send("cad not found")
                     }
-                    
+
                 } else {
                     let query = "SELECT * FROM `cads` WHERE `cadID` = '" + result2[0][0].cadID + "'"
                     connection1.query(`${query};`, (err, result) => {
@@ -520,7 +520,7 @@ module.exports = {
         let message = req.body.message;
 
         console.log(name, email, message);
-        
+
 
         connection1.query("INSERT INTO `contacts` (`name`, `email`, `message`) VALUES (?, ?, ?)", [name, email, message], (err, result) => {
             if (err) {
@@ -529,6 +529,17 @@ module.exports = {
             } else {
                 res.redirect("localhost:5500/success.html")
             }
-        })        
+        })
+    },
+    messagesPage: (req, res) => {
+        let message = "SELECT * FROM `contacts` WHERE id = ?"
+        connection1.query(message, [req.params.id], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                res.render("main-admin/messages.ejs", { title: "Messages | SnailyCAD Admin", desc: "", message: result[0] });
+            }
+        })
     }
 };

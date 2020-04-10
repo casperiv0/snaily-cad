@@ -216,7 +216,8 @@ const {
     executePaymentOrder,
     confirmOrderGet,
     successMessage,
-    contactCasper
+    contactCasper,
+    messagesPage
 } = require("./routes/index");
 
 const {
@@ -271,6 +272,7 @@ app.get("/cad/", (req, res) => {
 });
 
 app.post("/contact-casper", contactCasper)
+app.get("/contacts/:id", messagesPage)
 
 app.get(`/logout`, (req, res) => {
     req.session.destroy();

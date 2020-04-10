@@ -1,0 +1,14 @@
+<%- include("../partials/main/header.ejs") %>
+
+<div class="container">
+    Message ID: <%= message.id %> 
+    <div class="card">
+        <div class="card-header">
+            Email: <%= message.email %> <br>
+            Name: <%= message.name %>
+        </div>
+        <div class="card-body">
+            <%= message.message %>
+        </div>
+    </div>
+</div>
