@@ -215,7 +215,8 @@ const {
     productsPage,
     executePaymentOrder,
     confirmOrderGet,
-    successMessage
+    successMessage,
+    contactCasper
 } = require("./routes/index");
 
 const {
@@ -267,7 +268,9 @@ app.post("/register", registerMain);
 app.post("/account/edit-account", manageAccount)
 app.get("/cad/", (req, res) => {
     res.redirect("/account")
-})
+});
+
+app.post("/contact-casper", contactCasper)
 
 app.get(`/logout`, (req, res) => {
     req.session.destroy();

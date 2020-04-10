@@ -513,5 +513,19 @@ module.exports = {
     },
     productsPage: (req, res) => {
         res.render("main/products.ejs", { title: "Products | SnailyCAD", req: req, desc: "Check out all out products here! We sell CAD/MDT and Custom Sites" })
+    },
+    contactCasper: (req, res) => {
+        let name = req.body.name;
+        let email = req.body.email;
+        let message = req.body.message;
+
+        connection1.query("INSERT INTO `contacts` (`name`, `email`, `message`) VALUES ?, ?, ?" [name, email, message], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("localhost:5500")
+            }
+        })        
     }
 };
