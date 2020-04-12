@@ -58,7 +58,7 @@ module.exports = {
     },
     usersPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
+            let query2 = "SELECT * FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
             let query = "SELECT * FROM `users` WHERE cadID = '" + req.params.cadID + "' ORDER BY id ASC"
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             let pendingUsers = "SELECT * FROM `users` WHERE `cadID` = '" + req.params.cadID + "' AND `whitelist` = 'awaiting'"
@@ -71,6 +71,8 @@ module.exports = {
                     if (result2[0]) {
                         connection1.query(`${query1}; ${query}; ${pendingUsers}`, (err, result) => {
                             if (result[0][0].admin == 'admin' || result[0][0].admin == 'owner') {
+                                console.log(result2[0]);
+                                
                                 res.render("admin-pages/citizens.ejs", { desc: "", title: 'Admin Panel | Citizens', users: result[1], isAdmin: result[0][0].admin, cadId: result2[0].cadID, pending: result[2], whitelist: result2[0] })
                             } else {
                                 res.sendStatus(403)
