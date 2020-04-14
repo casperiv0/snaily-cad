@@ -14,7 +14,6 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
-    "braintree": "^2.22.0",
     "chart.js": "^2.9.3",
     "cookie-parser": "^1.4.4",
     "darkmode-js": "^1.5.5",
@@ -27,7 +26,6 @@
     "express-session": "^1.17.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
-    "paypal-rest-sdk": "^1.8.1",
     "request": "^2.88.2",
     "slugify": "^1.4.0",
     "virgen-acl": "0.0.22"

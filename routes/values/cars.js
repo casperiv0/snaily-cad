@@ -1,30 +1,42 @@
 module.exports = {
+    carValuePage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection.query(query, (err, result1) => {
+                if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                    let query2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'false' ORDER BY id ASC";
+                    let querys = "SELECT * FROM `vehicles` WHERE `default_car` = 'true' ";
+                    connection.query(`${query2}; ${querys}`, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            res.sendStatus(500);
+                        } else {
+                            res.render("admin-pages/vehicles.ejs", { desc: "", title: 'Admin Panel | Values', vehicles: result[0], defaults: result[1], isAdmin: result1[0].rank });
+                        };
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect(`/login`);
+        }
+
+    },
     addCarPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
+                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                    res.render("vehicles/add-vehicle.ejs", { desc: "", title: "Add Vehicle", isAdmin: result[0].rank });
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("vehicles/add-vehicle.ejs", { desc: "", title: "Add Vehicle", isAdmin: result[0].admin, cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
+                    res.sendStatus(403);
                 };
             });
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -40,308 +52,163 @@ module.exports = {
     },
     addCar: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
+                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                    let name = req.body.cname;
+                    let query = "INSERT INTO `vehicles` (`cname`, `default_car`) VALUES (?, ?)";
+                    connection.query(query, [name, "false"], (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            let date = new Date()
+                            let currentD = date.toLocaleString();
+                            let action_title = `Vehicle ${name} was added by ${req.session.username2}.`
+
+                            let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                            connection.query(actionLog, [action_title, currentD], (err, result3) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    res.redirect(`/admin/values/cars/`);
+                                };
+                            });
+                        }
+                    });
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let name = req.body.cname;
-                                let cadID = req.params.cadID;
-                                let query = "INSERT INTO `vehicles` (`cname`, `cadID`, `default_car`) VALUES ('" + name + "', '" + cadID + "', 'false')";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `Vehicle ${name} was added by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars/`);
-                                            };
-                                        });
-                                    }
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
+                    res.sendStatus(403);
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        };
-    },
-    carValuePage: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let query2 = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC";
-                                let querys = "SELECT * FROM `vehicles` WHERE `default_car` = 'true' ";
-                                connection.query(`${query2}; ${querys}`, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        res.sendStatus(500);
-                                    } else {
-                                        res.render("admin-pages/vehicles.ejs", { desc: "", title: 'Admin Panel | Values', vehicles: result[0], defaults: result[1], isAdmin: result1[0].admin, cadId: result2[0].cadID });
-                                    };
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.redirect(`/login`);
         };
     },
     editVehiclePage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let carId = req.params.id;
-                                let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    }
-                                    res.render("vehicles/edit-vehicle.ejs", { desc: "", title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID })
-                                });
-                            } else {
-                                res.sendStatus(403)
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let carId = req.params.id;
+                        let query = "SELECT * FROM `vehicles` WHERE id = '" + carId + "' ";
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
                             }
-                        })
+                            res.render("vehicles/edit-vehicle.ejs", { desc: "", title: "Edit Vehicle", vehicle: result[0], isAdmin: result[0].rank });
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
+                        res.sendStatus(403);
+                    };
                 }
-            })
 
-
-
-
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
+            res.redirect(`/login`);
+        };
     },
     editVehicle: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let carId = req.params.id;
-                                let car_name = req.body.cname;
-                                let myear = req.body.myear;
-                                let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '" WHERE `vehicles`.`id` = "' + carId + '"';
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let carId = req.params.id;
+                        let car_name = req.body.cname;
+                        let query = 'UPDATE `vehicles` SET `cname` = "' + car_name + '" WHERE `vehicles`.`id` = "' + carId + '"';
 
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err)
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `Vehicle ${car_name} was edited by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
-                                            };
-                                        });
-                                    }
-                                });
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                console.log(err)
+                                return res.sendStatus(500);
                             } else {
-                                res.sendStatus(403)
-                            }
-                        })
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let action_title = `Vehicle ${car_name} was edited by ${req.session.username2}.`
+
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                                connection.query(actionLog, [action_title, currentD], (err, result3) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.redirect(`/admin/values/cars`);
+                                    };
+                                });
+                            };
+                        });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(403);
+                    };
+                };
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
+            res.redirect(`/login`)
         }
 
     },
     deleteVehiclePage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let playerId = req.params.id;
-                                // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-                                let deleteUserQuery = 'DELETE FROM vehicles WHERE id = "' + playerId + '"';
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let carId = req.params.id;
+                        let query = 'DELETE FROM `vehicles` WHERE id = ?';
 
-                                connection.query(deleteUserQuery, (err, result) => {
+                        connection.query(query, [carId], (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let action_title = `A vehicle was deleted by ${req.session.username2}.`
+
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                                connection.query(actionLog, [action_title, currentD], (err, result3) => {
                                     if (err) {
                                         console.log(err);
-                                        return res.sendStatus(500);
+                                        return res.sendStatus(500)
                                     } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `A vehicle was deleted by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/cars`);
-                                            };
-                                        });
+                                        res.redirect(`/admin/values/cars`);
                                     };
                                 });
-                            } else {
-                                res.sendStatus(403)
                             };
                         });
                     } else {
-                        res.sendStatus(404)
+                        res.sendStatus(403)
                     };
-                };
+                }
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
+            res.redirect(`/login`)
         }
     },
     regVehiclePage: (req, res) => {
         if (req.session.loggedin) {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection1.query(query, (err, result1) => {
+                    connection.query(query, (err, result1) => {
                         let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                         let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
@@ -363,7 +230,7 @@ module.exports = {
         } else {
             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -408,13 +275,13 @@ module.exports = {
                         if (result[0].vehicle_reg === "no") {
                             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
 
-                            connection1.query(query2, (err, result2) => {
+                            connection.query(query2, (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
                                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                    connection1.query(query, (err, result1) => {
+                                    connection.query(query, (err, result1) => {
                                         let query = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                         let carQ = "SELECT * FROM `vehicles` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                         let cas2 = "SELECT * FROM `vehicles` WHERE `default_car` = 'true'"
@@ -437,7 +304,7 @@ module.exports = {
                         } else {
                             let cadi = "SELECT * FROM `cads` WHERE `cadID` = ?"
 
-                            connection1.query(cadi, [req.params.cadID], (err, result2) => {
+                            connection.query(cadi, [req.params.cadID], (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
@@ -453,14 +320,14 @@ module.exports = {
                                                 if (result.length > 0) {
                                                     let cadi = "SELECT * FROM `cads` WHERE `cadID` = ?"
 
-                                                    connection1.query(cadi, [req.params.cadID], (err, result2) => {
+                                                    connection.query(cadi, [req.params.cadID], (err, result2) => {
                                                         if (err) {
                                                             console.log(err);
                                                             return res.sendStatus(500)
                                                         } else {
                                                             if (result2[0]) {
                                                                 let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                                connection1.query(query, (err, result1) => {
+                                                                connection.query(query, (err, result1) => {
                                                                     if (err) {
                                                                         console.log(err);
                                                                         return res.sendStatus(500)
@@ -500,7 +367,7 @@ module.exports = {
                                                             return res.sendStatus(500);
                                                         } else {
                                                             let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                                            connection1.query(query2, (err, result2) => {
+                                                            connection.query(query2, (err, result2) => {
                                                                 if (err) {
                                                                     console.log(err);
                                                                     return res.sendStatus(500);
@@ -537,13 +404,13 @@ module.exports = {
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
                             let cadi = "SELECT * FROM `cads` WHERE `cadID` = ?"
 
-                            connection1.query(cadi, [req.params.cadID], (err, result2) => {
+                            connection.query(cadi, [req.params.cadID], (err, result2) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
                                     if (result2[0]) {
-                                        connection1.query(query, (err, result1) => {
+                                        connection.query(query, (err, result1) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.sendStatus(500)
@@ -554,7 +421,7 @@ module.exports = {
                                                 let in_s = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
                                                 let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
                                                 let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
-                
+
                                                 connection.query(`${query}; ${carQ}; ${in_s}; ${ownerQ}; ${cas2}; ${companiess}`, (err, result) => {
                                                     if (err) {
                                                         console.log(err);
@@ -571,7 +438,7 @@ module.exports = {
                                     }
                                 }
                             })
-                            
+
                         } else {
                             let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `cadID`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -582,7 +449,7 @@ module.exports = {
                                     return res.sendStatus(500);
                                 } else {
                                     let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                    connection1.query(query2, (err, result2) => {
+                                    connection.query(query2, (err, result2) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500);
@@ -603,7 +470,7 @@ module.exports = {
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -621,13 +488,13 @@ module.exports = {
         if (req.session.loggedin) {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection1.query(query, (err, result1) => {
+                    connection.query(query, (err, result1) => {
                         let query = "SELECT * FROM `registered_cars` WHERE `plate` = '" + req.params.plate + "' AND `cadID` = '" + req.params.cadID + "'"
                         let legalQ = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'"
                         let companiess = "SELECT * FROM `businesses` WHERE `cadID` = '" + req.params.cadID + "'"
@@ -646,7 +513,7 @@ module.exports = {
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -664,13 +531,13 @@ module.exports = {
         if (req.session.loggedin) {
             let query2 = "SELECT `cadID` FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection1.query(query, (err, result1) => {
+                    connection.query(query, (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
@@ -689,7 +556,7 @@ module.exports = {
                                     return res.sendStatus(500)
                                 } else {
                                     let query23 = "SELECT `cadID` FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                                    connection1.query(query23, (err, result2) => {
+                                    connection.query(query23, (err, result2) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500);
@@ -709,7 +576,7 @@ module.exports = {
             });
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
-            connection1.query(query2, (err, result2) => {
+            connection.query(query2, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -736,7 +603,7 @@ module.exports = {
             } else {
                 let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
                 let q1 = "SELECT * FROM `citizens` WHERE `id` = '" + req.params.id + "'"
-                connection1.query(query2, (err, result2) => {
+                connection.query(query2, (err, result2) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);

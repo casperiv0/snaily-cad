@@ -9,5 +9,6 @@
 3. Install XAMPP MySQL server to connect to the database. link: https://www.apachefriends.org/download.html
 4. Run `npm start` to start the CAD
 
-## Found bugs? 
+## Found bugs?
+
 Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll fix it asap

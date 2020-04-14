@@ -10,10 +10,10 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
       <div class="container mt-3">
         <h1 class="card-title text-light">
-          Vehicles management <a href="/cad/<%= cadId %>/admin/values/cars/add">+</a>
+          Vehicles management <a href="/admin/values/cars/add">+</a>
         </h1>
       
-        <h3 class="card-title text-light mt-2">Default Story Mode Vehicles</h3>
+        <h3 class="card-title text-light mt-2">Default In Game Vehicles</h3>
       
         <button class="container btn btn-primary mb-4" id="showAll" onclick="showAll()">
           Show All
@@ -42,12 +42,12 @@
           <li class="list-group-item text-light bg-dark">
             <%= ++index %> | <%= value.cname %>
             <a
-              href="/cad/<%= cadId %>/admin/values/cars/delete/<%= value.id %>"
+              href="/admin/values/cars/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/cars/edit/<%= value.id %>"
+              href="/admin/values/cars/edit/<%= value.id %>"
               class="btn btn-success float-right  margin-right-10"
               >Edit</a
             >
@@ -58,7 +58,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           No Vehicles found. Go
-          <a href="/cad/<%= cadId %>/admin/values/cars/add">here</a> to add vehicles.
+          <a href="/admin/values/cars/add">here</a> to add vehicles.
         </p>
         <% } %>
       

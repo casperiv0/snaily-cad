@@ -316,12 +316,12 @@ app.get("/cad/:cadID/ems-fd/add", addEMSPage)
 app.post("/cad/:cadID/ems-fd/add", addEMS)
 
 // Cars
-app.get("/cad/:cadID/admin/values/cars", carValuePage)
-app.get("/cad/:cadID/admin/values/cars/add", addCarPage)
-app.get("/cad/:cadID/admin/values/cars/edit/:id", editVehiclePage)
-app.get("/cad/:cadID/admin/values/cars/delete/:id", deleteVehiclePage)
-app.post("/cad/:cadID/admin/values/cars/edit/:id", editVehicle)
-app.post("/cad/:cadID/admin/values/cars/add", addCar)
+app.get("/admin/values/cars", carValuePage)
+app.get("/admin/values/cars/add", addCarPage)
+app.get("/admin/values/cars/edit/:id", editVehiclePage)
+app.get("/admin/values/cars/delete/:id", deleteVehiclePage)
+app.post("/admin/values/cars/edit/:id", editVehicle)
+app.post("/admin/values/cars/add", addCar)
 
 // Citizen cars
 app.get("/cad/:cadID/citizen/:id/:car-:plate/edit", editVehiclePageCitizen)
