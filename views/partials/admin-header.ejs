@@ -4,20 +4,20 @@
       <li class="nav-item">
         <a
           class="nav-link text-light"
-          href="/cad/<%= cadId %>/admin/action-log"
+          href="/admin/action-log"
         >
           Action Logs <span class="sr-only">(current)</span>
         </a>
       </li>
       <% if (isAdmin === 'admin' || isAdmin === 'owner') { %>
       <li class="nav-item">
-        <a class="nav-link text-light" href="/cad/<%= cadId %>/admin/users">
+        <a class="nav-link text-light" href="/admin/users">
           Member management
         </a>
       </li>
       <% } else {%> <%} %> <% if (isAdmin === 'owner') { %>
       <li class="nav-item">
-        <a class="nav-link text-light" href="/cad/<%= cadId %>/admin/edit-cad">
+        <a class="nav-link text-light" href="/admin/edit-cad">
           CAD Settings
         </a>
       </li>
@@ -36,17 +36,17 @@
 
       <div class="collapse nav-link" id="valueCollapse">
         <li class="nav-item">
-          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/cars"
+          <a class=" text-light" href="/admin/values/cars"
             >Vehicles</a
           >
         </li>
         <li class="nav-item">
-          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/genders"
+          <a class=" text-light" href="/admin/values/genders"
             >Genders</a
           >
         </li>
         <li class="nav-item">
-          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/weapons"
+          <a class=" text-light" href="/admin/values/weapons"
             >Weapons</a
           >
         </li>
@@ -54,19 +54,19 @@
         <li class="nav-item">
           <a
             class=" text-light"
-            href="/cad/<%= cadId %>/admin/values/ethnicities"
+            href="/admin/values/ethnicities"
             >Ethnicities</a
           >
         </li>
 
         <li class="nav-item">
-          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/legal"
+          <a class=" text-light" href="/admin/values/legal"
             >Legal</a
           >
         </li>
 
         <li class="nav-item">
-          <a class=" text-light" href="/cad/<%= cadId %>/admin/values/depts"
+          <a class=" text-light" href="/admin/values/depts"
             >Departments</a
           >
         </li>
@@ -93,19 +93,19 @@
   </div>
   <a
   class="navbar-brand text-light margin-left-10"
-  href="/cad/<%= cadId %>/admin/action-log"
+  href="/admin/action-log"
   >Action Log</a
 >
   <% if (isAdmin === 'admin' || isAdmin === 'owner') { %>
   <a
     class="navbar-brand text-light margin-left-10"
-    href="/cad/<%= cadId %>/admin/users"
+    href="/admin/users"
     >Member management</a
   >
   <% } else {%> <%} %> <% if (isAdmin === 'owner') { %>
   <a
     class="navbar-brand text-light"
-    href="/cad/<%= cadId %>/admin/edit-cad"
+    href="/admin/edit-cad"
     >CAD settings</a
   >
   <% } else {%> <%} %>

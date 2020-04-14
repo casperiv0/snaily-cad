@@ -221,16 +221,16 @@ app.post("/cad/:cadID/account/edit/password", editAccountPassword);
 app.post("/cad/:cadID/delete-account", deleteAccount)
 
 // Admin
-app.get("/cad/:cadID/admin", adminPanel);
-app.get("/cad/:cadID/admin/users", usersPage);
-app.get("/cad/:cadID/admin/users/edit/:id", adminEditCitizenPage);
-app.post("/cad/:cadID/admin/users/edit/:id", adminEditCitizen);
-app.get("/cad/:cadID/admin/edit-cad", editCADPage)
-app.post("/cad/:cadID/admin/edit-cad", editCAD)
-app.post("/cad/:cadID/admin/delete-citizens", deleteAllCitizens)
-app.post("/cad/:cadID/admin/ban-:id", banUser)
-app.post("/cad/:cadID/admin/unban-:id", unBanUser)
-app.get("/cad/:cadID/admin/action-log", actionLogPage)
+app.get("/admin", adminPanel);
+app.get("/admin/users", usersPage);
+app.get("/admin/users/edit/:id", adminEditCitizenPage);
+app.post("/admin/users/edit/:id", adminEditCitizen);
+app.get("/admin/edit-cad", editCADPage)
+app.post("/admin/edit-cad", editCAD)
+app.post("/admin/delete-citizens", deleteAllCitizens)
+app.post("/admin/ban-:id", banUser)
+app.post("/admin/unban-:id", unBanUser)
+app.get("/admin/action-log", actionLogPage)
 
 // Citizens
 app.get("/citizen", citizenPage);

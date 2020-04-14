@@ -89,7 +89,7 @@
         </div>
       
         <!-- <a href="/ems-fd/apply" class="btn btn-success">Apply for PD</a> -->
-        <a href="/cad/<%= cadId %>/admin/users" class="btn btn-danger ">Cancel</a>
+        <a href="/admin/users" class="btn btn-danger ">Cancel</a>
         <button type="submit" class="btn btn-success mt-2">Update</button>
         <div class="pb-2"></div>
       </form>
@@ -103,7 +103,7 @@
           <span class="text-light  pb-3">You cannot ban the head admin of this CAD</span>
           <% } else { %>
             <% if (user[0].banned === 'true') { %>
-              <form action="/cad/<%= cadId %>/admin/unban-<%= user[0].id %>" method="post">
+              <form action="/admin/unban-<%= user[0].id %>" method="post">
                 <div class="container mx-auto mt-2 card bg-secondary text-light">
                   <div class="card-title bolder fs-20 pt-2">Unban this user</div>
                   <div class="form-group"></div>
@@ -111,7 +111,7 @@
                 </div>
               </form>
               <%} else { %>
-                <form action="/cad/<%= cadId %>/admin/ban-<%= user[0].id %>" method="post">
+                <form action="/admin/ban-<%= user[0].id %>" method="post">
                   <div class="form-group">
                     <label for="reason" class="text-light">Enter Ban Reason</label>
                     <input
