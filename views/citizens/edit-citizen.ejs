@@ -17,10 +17,9 @@
   <div class="form-group">
     <label for="exampleInputEmail1">Enter Full Name</label>
     <input
-      disabled
       name="full_name"
       type="text"
-      class="form-control bg-dark border-dark text-light"
+      class="form-control bg-dark border-dark text-light pn"
       placeholder="Full Name"
       value="<%= username[0].full_name %> "
       minlength="1"
@@ -84,7 +83,7 @@
       class="form-control bg-dark border-dark text-light"
       placeholder="Hair Color"
       required
-      value="<%= current[0].hair %>"
+      value="<%= current[0].hair_color %>"
       minlength="1"
       maxlength="255"
     />
@@ -97,7 +96,7 @@
       class="form-control bg-dark border-dark text-light"
       placeholder="Eye Color"
       required
-      value="<%= current[0].eyes %>"
+      value="<%= current[0].eye_color %>"
       minlength="1"
       maxlength="255"
     />
@@ -159,7 +158,7 @@
   <div class="form-group">
     <label for="exampleInputEmail1">Firearms License</label>
     <select name="fire" class="form-control bg-dark border-dark text-light">
-      <option selected value="<%= current[0].fire_licence %>"
+      <option selected value="<%= current[0].fire_license %>"
         ><%= current[0].fire_licence %></option
       >
       <option disabled value="---------">---------</option>
@@ -173,7 +172,7 @@
   <div class="form-group">
     <label for="exampleInputEmail1">Pilots License</label>
     <select name="pilot" class="form-control bg-dark border-dark text-light">
-      <option selected value="<%= current[0].pilot_licence %>"
+      <option selected value="<%= current[0].pilot_license %>"
         ><%= current[0].pilot_licence %></option
       >
       <option disabled value="---------">---------</option>
@@ -206,7 +205,7 @@
     Edit Citizen
     </button>
   <a
-    href="/cad/<%= cadId %>/citizen"
+    href="/citizen"
     class="btn cancel-btn btn-danger float-right"
     >Cancel</a
   >

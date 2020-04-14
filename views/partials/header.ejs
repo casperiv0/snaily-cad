@@ -32,15 +32,11 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
-    <!-- <script
-      src="https://kit.fontawesome.com/57b65d1d2a.js"
-      crossorigin="anonymous"
-    ></script> -->
   </head>
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary sticky-top">
-      <a class="navbar-brand text-light" href="/cad/<%= cadId %>/">SnailyCAD</a>
+      <a class="navbar-brand text-light" href="/">Home</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -56,27 +52,27 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/myofficers"
+            <a class="nav-link text-light" href="/myofficers"
               >Police Dept.</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/dispatch"
+            <a class="nav-link text-light" href="/dispatch"
               >Dispatch</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/ems-fd"
+            <a class="nav-link text-light" href="/ems-fd"
               >EMS/FD</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/citizen"
+            <a class="nav-link text-light" href="/citizen"
               >Citizens</a
             >
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/tow"
+            <a class="nav-link text-light" href="/tow"
               >Tow</a
             >
           </li>
@@ -84,7 +80,7 @@
           <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin ===
           'owner') {%>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/cad/<%= cadId %>/admin"
+            <a class="nav-link text-light" href="/admin"
               >Admin
             </a>
           </li>
@@ -109,8 +105,7 @@
                 - Admin panel improvements
               </li>
               <small class="dropdown-item pn border-top border-dark"
-                >These messages will disapear after a few days</small
-              >
+                >These messages will disapear after a few days </small>
             </div>
           </div>
         </ul>

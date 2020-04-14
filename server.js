@@ -12,32 +12,12 @@ const paypal = require("paypal-rest-sdk");
 let port = creds.ENV === "dev" ? 3001 : 80;
 const mysql = require('mysql');
 let connection;
-let connection1;
-let connection2;
 
 let db = {
     host: "localhost",
     user: "root",
     password: creds.DBP,
-    database: creds.DB,
-    multipleStatements: true,
-    timeout: 0
-};
-
-let db2 = {
-    host: "localhost",
-    user: "root",
-    password: creds.DBP,
-    database: creds.DB2,
-    multipleStatements: true,
-    timeout: 0
-};
-
-let db3 = {
-    host: "localhost",
-    user: "root",
-    password: creds.DBP,
-    database: creds.DB3,
+    database: "snaily-cad",
     multipleStatements: true,
     timeout: 0
 };
@@ -172,8 +152,6 @@ const {
     registerPage,
     login,
     register,
-    changeUsername,
-    changeUsernamePage,
     editAccountPage,
     editAccountUsername,
     editAccountPassword,
@@ -197,47 +175,15 @@ const {
 
 const {
     homePage,
-    cadHomePage,
-    manageAccountPage,
-    loginPageMain,
-    loginMain,
-    registerMain,
-    registerPageMain,
-    accountMainPage,
-    changeUsernameMain,
-    manageAccount,
-    orderPage,
-    paymentAuthOrder,
-    successPageOrder,
-    editPassword,
-    editPasswordPage,
-    allScreensPage,
-    productsPage,
-    executePaymentOrder,
-    confirmOrderGet,
-    successMessage,
-    contactCasper,
-    messagesPage
+    logout
 } = require("./routes/index");
 
-const {
-    legalPage, addLegalPage, deleteLegal, addLegal, editLegalPage, editLegal } = require("./routes/values/legal")
+const { legalPage, addLegalPage, deleteLegal, addLegal, editLegalPage, editLegal } = require("./routes/values/legal")
 
-const { adminDashboard,
-    usernameAdminPage,
-    usernameAdmin,
-    expireCAD,
-    reactivateCAD,
-    addCad,
-    adminDashboardLogin,
-    addFreeCad
-} = require("./routes/main-admin")
-
-const { supportPage, createTicketPage, createTicket, ticketPage, replyToPost, cadPage, closeTicket } = require('./routes/support');
 
 const { towPage, createTowCall, cancelCallTow } = require("./routes/tow/tow")
 
-const {create911Call} = require("./routes/911/911")
+const { create911Call } = require("./routes/911/911")
 
 // Middleware
 app.use(express.static(__dirname + '/public'));
@@ -258,58 +204,17 @@ app.use(favicon(__dirname + '/public/icon2.png'));
 app.use(eSession.main(session));
 
 
-app.get("/", cadHomePage);
-app.get("/screenshots", allScreensPage);
-app.get("/account", manageAccountPage);
-app.get("/products", productsPage);
-app.get("/login", loginPageMain);
-app.post("/login", loginMain);
-app.get("/register", registerPageMain);
-app.post("/register", registerMain);
-app.post("/account/edit-account", manageAccount)
-app.get("/cad/", (req, res) => {
-    res.redirect("/account")
-});
+// Main Pages
+app.get("/", homePage);
+app.get(`/logout`, logout);
 
-app.post("/contact-casper", contactCasper)
-app.get("/contacts/:id", messagesPage)
+//  Login : Registration
+app.get(`/login`, loginPage);
+app.post(`/login`, login);
+app.get(`/register`, registerPage);
+app.post(`/register`, register);
 
-app.get(`/logout`, (req, res) => {
-    req.session.destroy();
 
-    res.redirect("/")
-});
-app.get("/order", orderPage)
-app.post("/order/auth/payment", paymentAuthOrder)
-app.get("/order/success", successPageOrder)
-app.post("/order/auth/execute", executePaymentOrder)
-app.get("/order/payment/confirm", confirmOrderGet)
-app.get("/success", successMessage)
-
-// Support 
-app.get("/support", supportPage)
-app.get("/support/create-ticket", createTicketPage)
-app.post("/support", createTicket)
-app.get("/support/ticket/:ticket_id-:title", ticketPage)
-app.post("/support/ticket/:ticket_id-:title", replyToPost)
-
-// SnailyCAD Admin Dashboard
-app.get("/admin/dashboard/", adminDashboard)
-app.post("/admin/dashboard/", adminDashboardLogin)
-app.get("/admin/dashboard/:username", usernameAdminPage)
-app.post("/admin/dashboard/:username", usernameAdmin)
-app.post("/admin/dashboard/:username/add-cad", addCad)
-app.post("/admin/dashboard/:username/add-free-cad", addFreeCad)
-app.get("/admin/expire-cad/:cadID", expireCAD)
-app.post("/admin/reactivate", reactivateCAD)
-app.get("/admin/cad/:cadID", cadPage)
-app.get("/admin/ticket/close/:id", closeTicket)
-// Settings
-app.post("/account/change-username", changeUsernameMain);
-app.get("/account/edit-password-:username", editPasswordPage)
-app.post("/account/edit-password-:username", editPassword)
-// Home/defualt pages
-app.get(`/cad/:cadID/`, homePage);
 app.get("/cad/:cadID/account/edit", editAccountPage);
 app.post("/cad/:cadID/account/edit/username", editAccountUsername);
 app.post("/cad/:cadID/account/edit/password", editAccountPassword);
@@ -328,46 +233,29 @@ app.post("/cad/:cadID/admin/unban-:id", unBanUser)
 app.get("/cad/:cadID/admin/action-log", actionLogPage)
 
 // Citizens
-app.get("/cad/:cadID/citizen", citizenPage);
-app.get("/cad/:cadID/citizens/:id-:first_name-:last_name", citizenDetailPage);
-app.get("/cad/:cadID/citizen/add", addCitizenPage);
-app.post("/cad/:cadID/citizen/add", addCitizen);
-app.get("/cad/:cadID/citizen/edit/:id-:first_name-:last_name", editCitizenPage);
-app.post("/cad/:cadID/citizen/edit/:id-:first_name-:last_name", editCitizen);
-app.get("/cad/:cadID/citizen/delete/:id-:first_name-:last_name", deleteCitizens);
-app.get("/cad/:cadID/citizen/company", companyPage);
-app.post("/cad/:cadID/citizen/company/join", company);
-app.post("/cad/:cadID/citizen/company/create", createCompany);
-app.get("/cad/:cadID/citizen/company/:id-:company", companyDetailPage);
-app.get("/cad/:cadID/citizen/company/:id-:company/create-post", createCompanyPostPage)
-app.post("/cad/:cadID/citizen/company/:id-:company", createCompanyPost)
-app.get("/cad/:cadID/citizen/company/:id-:company/edit-company", editCompanyPage)
-app.get("/cad/:cadID/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
-app.post("/cad/:cadID/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
+app.get("/citizen", citizenPage);
+app.get("/citizens/:id-:full_name", citizenDetailPage);
+app.get("/citizen/add", addCitizenPage);
+app.post("/citizen/add", addCitizen);
+app.get("/citizen/edit/:id-:full_name", editCitizenPage);
+app.post("/citizen/edit/:id-:full_name", editCitizen);
+app.get("/citizen/delete/:id-:full_name", deleteCitizens);
+app.get("/citizen/company", companyPage);
+app.post("/citizen/company/join", company);
+app.post("/citizen/company/create", createCompany);
+app.get("/citizen/company/:id-:company", companyDetailPage);
+app.get("/citizen/company/:id-:company/create-post", createCompanyPostPage)
+app.post("/citizen/company/:id-:company", createCompanyPost)
+app.get("/citizen/company/:id-:company/edit-company", editCompanyPage)
+app.get("/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
+app.post("/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
 // Tow
 app.get("/cad/:cadID/tow", towPage)
 app.post("/cad/:cadID/create-tow-call", createTowCall)
 app.post("/cad/:cadID/create-911-call", create911Call)
 app.get("/cad/:cadID/tow/cancel-call-:callID", cancelCallTow)
 
-//  Login : Registration : Logout
-app.get(`/cad/:cadID/login`, loginPage);
-app.post(`/cad/:cadID/login`, login);
-app.get(`/cad/:cadID/register`, registerPage);
-app.post(`/cad/:cadID/register`, register);
-app.get(`/cad/:cadID/logout`, async (req, res) => {
 
-    req.session.destroy();
-    let query2 = "SELECT `cadID` FROM `users` WHERE `cadID` = '" + req.params.cadID + "'";
-    await connection1.query(query2, (err, result2) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        } else {
-            res.redirect(`/cad/${result2[0].cadID}/`)
-        };
-    });
-});
 
 app.get("/cad/:cadID/dispatch", dispatchPage);
 app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch);
@@ -495,12 +383,12 @@ app.post("/cad/:cadID/admin/values/legal/edit/:id", editLegal)
 // 404 page 
 app.get('/cad/:cadID/*', (req, res) => {
     let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
-    connection1.query(query2, (err, result) => {
+    connection.query(query2, (err, result) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         } else {
-            if(result[0]) {
+            if (result[0]) {
                 if (req.path.includes("/cad/")) {
                     res.status(404).render("errors/404.ejs", {
                         title: "404 | Equinox CAD",
@@ -512,7 +400,7 @@ app.get('/cad/:cadID/*', (req, res) => {
             } else {
                 res.sendStatus(404)
             }
-            
+
         };
     });
 });
@@ -526,47 +414,17 @@ app.get('/*', (req, res) => {
 async function main() {
     function handleDisconnect() {
         connection = mysql.createConnection(db); // Recreate the connection, since
-        connection1 = mysql.createConnection(db2); // Recreate the connection, since
-        connection2 = mysql.createConnection(db3); // Recreate the connection, since
         // the old one cannot be reused.
         global.connection = connection
-        global.connection1 = connection1
-        global.connection2 = connection2
 
         connection.connect(function (err) { // The server is either down
             connection.timeout = 0;
             if (err) { // or restarting (takes a while sometimes).
-                console.log('error when connecting to db1:', err);
-                setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-            } // to avoid a hot loop, and to allow our node script to
-        }); // process asynchronous requests in the meantime.
-        // If you're also serving http, display a 503 error.
-        connection.on('error', function (err) {
-            console.log('db error - 1', err);
-            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-                handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
-                throw err; // server variable configures this)
-            }
-        });
-
-        connection.on('error', function (err) {
-            console.log('db error - 1', err);
-            if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
-                handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
-                throw err; // server variable configures this)
-            }
-        });
-
-        connection1.connect(function (err) { // The server is either down
-            connection1.timeout = 0;
-            if (err) { // or restarting (takes a while sometimes).
                 console.log('error when connecting to db2:', err);
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
             } // to avoid a hot loop, and to allow our node script to
         }); // process asynchronous requests in the meantime.
-        connection1.on('error - 2', function (err) {
+        connection.on('error - 2', function (err) {
             console.log('db error', err);
             if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
@@ -574,31 +432,8 @@ async function main() {
                 throw err; // server variable configures this)
             }
         });
-        connection1.on('error', function (err) {
+        connection.on('error', function (err) {
             console.log('db error - 2', err);
-            if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
-                handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
-                throw err; // server variable configures this)
-            }
-        });
-        connection2.connect(function (err) { // The server is either down
-            connection2.timeout = 0;
-            if (err) { // or restarting (takes a while sometimes).
-                console.log('error when connecting to db2:', err);
-                setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-            } // to avoid a hot loop, and to allow our node script to
-        }); // process asynchronous requests in the meantime.
-        connection2.on('error - 2', function (err) {
-            console.log('db error', err);
-            if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-                handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
-                throw err; // server variable configures this)
-            }
-        });
-        connection2.on('error', function (err) {
-            console.log('db error - 3', err);
             if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
             } else { // connnection idle timeout (the wait_timeout
@@ -616,16 +451,6 @@ async function main() {
                 console.log(err);
             }
         })
-        connection1.query("SELECT 1", (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-        })
-        connection2.query("SELECT 1", (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-        }, 10000)
     });
 }
 

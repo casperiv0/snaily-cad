@@ -27,7 +27,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="/cad/<%= cadId %>/citizen/company/join" id="modal" method="post">
+                        <form action="/citizen/company/join" id="modal" method="post">
                             <div class="form-group">
                                 <label for="bus">Select Citizen</label>
                                 <select name="citizen_name" id="bus" class="form-control">
@@ -71,7 +71,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="/cad/<%= cadId %>/citizen/company/create" id="modal" class="needs-validation" method="post">
+                        <form action="/citizen/company/create" id="modal" class="needs-validation" method="post">
                             <div class="form-group">
                                 <label for="companyName">Enter Company Name</label>
                                 <input required type="text" name="companyName" class="form-control" id="plate-search"
@@ -120,11 +120,17 @@
             </div>
         </div>
 
+        <!-- your companies -->
         <ul class="list-group mt-2 text-light">
             <li class="list-group-item active">Your Companies</li>
-            <% companies.forEach(company => { %>
-                <li class="list-group-item bg-dark "><span class="bolder">Name:</span> <%= company.business_name %> <br><span class="bolder">Owner:</span> <%= company.business_owner %></li>
-            <% }) %>
+            <% if (companies.length > 0) { %>
+                <% companies.forEach(company => { %>
+                    <li class="list-group-item bg-dark "><span class="bolder">Name:</span> <%= company.business_name %> <br><span class="bolder">Owner:</span> <%= company.business_owner %></li>
+                <% }) %>
+            <% } else { %>
+                <li class="list-group-item bg-dark ">You're not working anywhere</li>
+            <% } %>
+            
         </ul>
     </ul>
 

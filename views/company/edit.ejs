@@ -9,9 +9,6 @@
         <li class="nav-item ">
           <a class="nav-link bg-dark border-dark text-light" id="profile-tab" data-toggle="tab" href="#vehicles" role="tab" aria-controls="profile" aria-selected="false">Vehicles</a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-        </li> -->
       </ul>
       <div class="tab-content text-light" id="myTabContent">
         <div class="tab-pane fade show active" id="employees" role="tabpanel" aria-labelledby="employee-tab">
@@ -21,7 +18,7 @@
                     <li class="list-group-item bg-dark border-dark text-light cap">
                         <%= employee.full_name %> | <%= employee.rank %> 
                         <div class="float-right">
-                            <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= employee.id %>" class="btn btn-success">Edit</a>
+                            <a href="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= employee.id %>" class="btn btn-success">Edit</a>
                         </div>
                     </li>
                 <% }) %> 

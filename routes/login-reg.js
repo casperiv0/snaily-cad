@@ -4,234 +4,172 @@ const saltRounds = 15;
 module.exports = {
     loginPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            });
+            res.redirect(`/citizen`)
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500)
-                        } else {
-                            res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result2[0].cadID, desc: "Login into your community CAD" })
-                        };
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.render("login-res/login.ejs", { title: "Login | SnailyCAD", isAdmin: req.session.isAdmin, message: "", desc: "Login into your community CAD" })
         };
     },
     login: (req, res) => {
         var username = req.body.username;
         var password = req.body.password;
-        let cadID = req.params.cadID
-        let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-        connection1.query(query2, (err, result2) => {
-            if (!result2) {
-                res.sendStatus(404)
-            } else {
-                if (username && password) {
-                    connection1.query('SELECT * FROM `users` WHERE username = "' + username + '" AND cadID = "' + cadID + '"', (error, results, fields) => {
-                        if (error) {
-                            return console.log(error);
-                        } else if (results.length > 0) {
-                            if (results[0].banned === 'true') {
-                                res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: `You're banned for this server on this CAD. Reason: ${results[0].ban_reason}`, cadId: result2[0].cadID })
+        if (username && password) {
+            connection.query('SELECT * FROM `users` WHERE username = ?', [username], (err, results) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else if (results.length > 0) {
+                    if (results[0].banned === 'true') {
+                        res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: `You're banned for this server on this CAD. Reason: ${results[0].ban_reason}` })
+                    } else {
+                        let whitelisted = "SELECT * FROM `cad_info`"
+                        connection.query(whitelisted, [req.params.cadID], (err, result5) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
                             } else {
-                                let whitelisted = "SELECT * FROM `cads` WHERE `cadID` = ? "
-                                connection1.query(whitelisted, [req.params.cadID], (err, result5) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500)
-                                    } else {
-                                        if (result5[0].whitelisted === "true") {
-                                            let whitelist = "SELECT * FROM `users` WHERE `username` = ? "
-                                            connection1.query(whitelist, [username], (err, result4) => {
-                                                if (err) {
-                                                    console.log(err);
-                                                    return res.sendStatus(500)
-                                                } else {
-                                                    if (result4[0].whitelist === "awaiting") {
-                                                        res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: `This account has not been accepted yet to this CAD. Please contact your community staff.`, cadId: result2[0].cadID })
-                                                    } else {
-                                                        bcrypt.compare(password, results[0].password, function (err, result) {
-                                                            if (err) {
-                                                                console.log(err);
-                                                                return res.sendStatus(500)
-                                                            } else {
-                                                                if (result == true) {
-                                                                    req.session.loggedin = true;
-                                                                    req.session.username2 = username;
-                                                                    connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                                                                        if (err) {
-                                                                            res.sendStatus(500);
-                                                                            console.log(err);
-                                                                        }
-                                                                        if (!result[0]) {
-                                                                            res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
-                                                                        }
-                                                                        else {
-                                                                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                                                                        }
-                                                                    })
-                                                                } else {
-                                                                    res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
-                                                                };
-                                                            };
-                                                        });
-                                                    };
-                                                };
-                                            });
+                                if (result5[0].whitelisted === "true") {
+                                    let whitelist = "SELECT * FROM `users` WHERE `username` = ? "
+                                    connection.query(whitelist, [username], (err, result4) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500)
                                         } else {
-                                            bcrypt.compare(password, results[0].password, function (err, result) {
-                                                if (err) {
-                                                    console.log(err);
-                                                    return res.sendStatus(500)
-                                                } else {
-                                                    if (result == true) {
-                                                        req.session.loggedin = true;
-                                                        req.session.username2 = username;
-                                                        connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
-                                                            if (err) {
-                                                                res.sendStatus(500);
-                                                                console.log(err);
-                                                            }
-                                                            if (!result[0]) {
-                                                                res.redirect(`/cad/${result2[0].cadID}/citizen/add`)
-                                                            }
-                                                            else {
-                                                                res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                                                            }
-                                                        })
+                                            if (result4[0].whitelist_status === "awaiting") {
+                                                res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: `This account has not been accepted yet to this CAD. Please contact your community staff.` })
+                                            } else {
+                                                bcrypt.compare(password, results[0].password, function (err, result) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        return res.sendStatus(500)
                                                     } else {
-                                                        res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
+                                                        if (result == true) {
+                                                            req.session.loggedin = true;
+                                                            req.session.username2 = username;
+                                                            connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+                                                                if (err) {
+                                                                    res.sendStatus(500);
+                                                                    console.log(err);
+                                                                } else {
+                                                                    if (!result[0]) {
+                                                                        res.redirect(`/citizen/add`);
+                                                                    } else {
+                                                                        res.redirect(`/citizen`);
+                                                                    };
+                                                                };
+                                                            });
+                                                        } else {
+                                                            res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!" })
+                                                        };
                                                     };
-                                                };
-                                            });
+                                                });
+                                            };
                                         };
-                                    };
-                                });
+                                    });
+                                } else {
+                                    bcrypt.compare(password, results[0].password, function (err, result) {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500)
+                                        } else {
+                                            if (result == true) {
+                                                req.session.loggedin = true;
+                                                req.session.username2 = username;
+                                                connection.query("SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'", (err, result) => {
+                                                    if (err) {
+                                                        res.sendStatus(500);
+                                                        console.log(err);
+                                                    }
+                                                    if (!result[0]) {
+                                                        res.redirect(`/citizen/add`)
+                                                    }
+                                                    else {
+                                                        res.redirect(`/citizen`)
+                                                    }
+                                                })
+                                            } else {
+                                                res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!" })
+                                            };
+                                        };
+                                    });
+                                };
                             };
-                        } else {
-                            res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!", cadId: result2[0].cadID })
-                        }
-                        // res.end();
-                    });
+                        });
+                    };
                 } else {
-                    res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Something went wrong! Please try again", cadId: result2[0].cadID })
-                    res.end();
+                    res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: '', message: "Wrong Username or Password!" })
                 }
-            }
-        })
+                // res.end();
+            });
+        } else {
+            res.render("login-res/login.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Something went wrong! Please try again" })
+            res.end();
+        }
     },
     registerPage: (req, res) => {
         if (req.session.loggedin) {
             res.redirect("/citizen")
         } else {
-            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query, (err, result1) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result1[0]) {
-                        res.render("login-res/reg.ejs", { desc: "", title: "Register | SnailyCAD", isAdmin: req.session.isAdmin, message: "", cadId: result1[0].cadID });
-
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.render("login-res/reg.ejs", { desc: "", title: "Register | SnailyCAD", isAdmin: req.session.isAdmin, message: "" });
         };
     },
     register: (req, res) => {
         var username = req.body.username;
         var password = req.body.password;
         var password2 = req.body.password2;
-        let cadID = req.params.cadID;
-        let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-        connection1.query(query, (err, result2) => {
-            if (password.length < 6) {
-                return res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Passwords must be at least 6 characters long!", cadId: result2[0].cadID });
-            } else if (password2 !== password) {
-                return res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Passwords are not the same!", cadId: result2[0].cadID });
-            } else {
-                bcrypt.hash(password, saltRounds, function (err, hash) {
+
+
+        if (password.length < 6) {
+            return res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Passwords must be at least 6 characters long!" });
+        } else if (password2 !== password) {
+            return res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Passwords are not the same!" });
+        } else {
+            bcrypt.hash(password, saltRounds, function (err, hash) {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
                     let q1 = "SELECT username FROM `users` WHERE username = '" + username + "'";
                     let cadID = req.params.cadID
 
-                    connection1.query(q1, (err, result) => {
+                    connection.query(q1, (err, result) => {
                         if (result.length > 0) {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500);
                             } else {
                                 if (result2[0]) {
-                                    res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Username is already in use, Please change username.", cadId: result2[0].cadID });
+                                    res.render("login-res/reg.ejs", { desc: "", title: 'Register | SnailyCAD', isAdmin: "", message: "Username is already in use, Please change username." });
                                 } else {
                                     res.sendStatus(404);
                                 };
                             };
                         } else {
                             if (username && password) {
-                                let whitelist = "SELECT * FROM `cads` WHERE `cadID` = ?"
+                                let whitelist = "SELECT * FROM `cad_info`"
 
-                                connection1.query(whitelist, [req.params.cadID], (err, result3) => {
+                                connection.query(whitelist, (err, result3) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500)
                                     } else {
                                         if (result3[0].whitelisted === "true") {
-                                            // '" + username + "', '" + username + "@" + cadID + "', '" + hash + "', 'no', 'no', 'no', 'no', '" + cadID + "', 'pi75PugYho', '', 'no', 'false', '/'
-                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username + "@" + cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "awaiting", "2"], function (error, results, fields) {
+                                            let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            connection.query(query, [username, hash, "No Rank", "no", "no", "no", "", "", "awaiting"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {
                                                     if (results.length > 0) {
-                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password" });
                                                     } else {
-                                                        let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                                        connection1.query(query, (err, result2) => {
-                                                            if (err) {
-                                                                console.log(err);
-                                                                return res.sendStatus(500);
-                                                            } else {
-                                                                if (result2[0]) {
-                                                                    req.session.loggedin = true;
-                                                                    req.session.username2 = username;
-                                                                    res.redirect(`/cad/${result2[0].cadID}/citizen`);
-                                                                } else {
-                                                                    res.sendStatus(404);
-                                                                };
-                                                            };
-                                                        });
+                                                        req.session.loggedin = false;
+                                                        res.redirect(`/login`);
                                                     };
                                                 };
                                             });
                                         } else {
-                                            let query = "INSERT INTO users (`username`, `email`, `password`, `admin`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                            connection1.query(query, [username, username + "@" + cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted", "2"], function (error, results, fields) {
+                                            let query = "INSERT INTO users (`username`, `email`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `cadID`,  `main_administrator_sM7a6mFOHI`, `orderID`, `expired`, `banned`, `ban_reason`, `whitelist`, `leo_dash`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                            connection.query(query, [username, username + "@" + cadID, hash, "no", "no", "no", "no", cadID, "pi75PugYho", "", "no", "false", "/", "accepted", "2"], function (error, results, fields) {
                                                 if (error) {
                                                     console.log(error);
                                                 } else {
@@ -239,7 +177,7 @@ module.exports = {
                                                         res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
                                                     } else {
                                                         let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                                        connection1.query(query, (err, result2) => {
+                                                        connection.query(query, (err, result2) => {
                                                             if (err) {
                                                                 console.log(err);
                                                                 return res.sendStatus(500);
@@ -264,16 +202,16 @@ module.exports = {
                             };
                         };
                     });
-                });
-            };
-        });
+                };
+            });
+        }
     },
     editAccountPage: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-            connection1.query(query, (err, result1) => {
+            connection.query(query, (err, result1) => {
                 let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                connection1.query(query, (err, result2) => {
+                connection.query(query, (err, result2) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -289,7 +227,7 @@ module.exports = {
         } else {
             let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query, (err, result2) => {
+            connection.query(query, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -309,7 +247,7 @@ module.exports = {
         if (!req.session.loggedin) {
             let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
 
-            connection1.query(query, (err, result2) => {
+            connection.query(query, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -323,7 +261,7 @@ module.exports = {
             })
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result3) => {
+            connection.query(query2, (err, result3) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -333,7 +271,7 @@ module.exports = {
                         let password = req.body.password;
                         let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
 
-                        connection1.query(query, (err, result) => {
+                        connection.query(query, (err, result) => {
                             bcrypt.compare(password, result[0].password, function (err, result2) {
                                 if (result2 === true) {
                                     let old_name = req.session.username2;
@@ -342,7 +280,7 @@ module.exports = {
                                     let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
                                     let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
                                     connection.query(`${query3}; ${query4}`, async (err1, result) => {
-                                        connection1.query(`${query2}; ${query5};`, async (err, result1) => {
+                                        connection.query(`${query2}; ${query5};`, async (err, result1) => {
 
                                             if (err) {
                                                 console.log(err);
@@ -356,7 +294,7 @@ module.exports = {
                                     });
                                 } else {
                                     let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                    connection1.query(query, (err, result1) => {
+                                    connection.query(query, (err, result1) => {
                                         res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", messageG: '', message2: '', cadId: result3[0].cadID })
                                     });
 
@@ -374,7 +312,7 @@ module.exports = {
         if (!req.session.loggedin) {
             let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
-            connection1.query(query, (err, result2) => {
+            connection.query(query, (err, result2) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);
@@ -388,7 +326,7 @@ module.exports = {
             });
         } else {
             let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection1.query(query2, (err, result3) => {
+            connection.query(query2, (err, result3) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -400,9 +338,9 @@ module.exports = {
 
                         if (password !== password2) {
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                            connection1.query(query, (err, result1) => {
+                            connection.query(query, (err, result1) => {
                                 let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                                connection1.query(query, (err, result2) => {
+                                connection.query(query, (err, result2) => {
                                     if (err) {
                                         console.log(err);
                                         return res.sendStatus(500);
@@ -418,7 +356,7 @@ module.exports = {
                         } else {
                             let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
 
-                            connection1.query(query, (err, result) => {
+                            connection.query(query, (err, result) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
@@ -436,16 +374,16 @@ module.exports = {
                                                         return res.sendStatus(500)
                                                     } else {
                                                         let query2 = 'UPDATE `users` SET `password` = "' + hash + '" WHERE `users`.`username` = "' + old_name + '"';
-                                                        connection1.query(`${query2};`, async (err, result1) => {
+                                                        connection.query(`${query2};`, async (err, result1) => {
                                                             if (err) {
                                                                 console.log(err);
                                                             } else if (err) {
                                                                 console.log(err1);
                                                             } else {
                                                                 let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                                connection1.query(query, (err, result1) => {
+                                                                connection.query(query, (err, result1) => {
                                                                     let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                                                                    connection1.query(query, (err, result2) => {
+                                                                    connection.query(query, (err, result2) => {
                                                                         if (err) {
                                                                             console.log(err);
                                                                             return res.sendStatus(500);
@@ -464,7 +402,7 @@ module.exports = {
                                                 })
                                             } else {
                                                 let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                connection1.query(query, (err, result1) => {
+                                                connection.query(query, (err, result1) => {
                                                     res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Invalid Password', messageG: '', cadId: result3[0].cadID })
                                                 });
                                             };
@@ -494,14 +432,14 @@ module.exports = {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                connection1.query(query, (err, result) => {
+                connection.query(query, (err, result) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500)
                     } else {
                         let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
 
-                        connection1.query(query, async (err, result2) => {
+                        connection.query(query, async (err, result2) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500);

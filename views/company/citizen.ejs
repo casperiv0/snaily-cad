@@ -5,13 +5,13 @@
         Edit <%= current.full_name %>
     </h1>
 
-    <form action="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= req.params.citizen %>" method="POST">
+    <form action="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= req.params.citizen %>" method="POST">
         <div class="form-group">
           <label for="exampleInputEmail1" class="text-light">Company Rank</label>
           <% if (current.full_name === you.full_name) { %> 
-            <li class="list-group-item">You cannot edit your own permissions.</li>
+            <li class="list-group-item bg-dark border-dark text-light">You cannot edit your own permissions.</li>
           <% } else if (current.rank === "owner") { %>
-            <li class="list-group-item">You cannot edit the owners permissions.</li>
+            <li class="list-group-item bg-dark border-dark text-light">You cannot edit the owners permissions.</li>
           <% }  else { %>
               <select name="company_rank" id="company_rank" class="form-control bg-dark border-dark text-light cap">
                   <option value="<%= current.rank %>"><%= current.rank %></option>
@@ -39,7 +39,7 @@
               <option value="no">No</option>
           </select>
         </div>
-        <a href="/cad/<%= cadId %>/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit-company" class="btn btn-danger cancel-btn">Cancel</a>
+        <a href="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit-company" class="btn btn-danger cancel-btn">Cancel</a>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
 </div>

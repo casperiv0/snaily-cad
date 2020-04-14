@@ -5,7 +5,7 @@
     <div class="users-list">
         <ul class="list-group">
             <a class="btn btn-success"
-                href="/cad/<%= cadId %>/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>">Edit</a>
+                href="/citizen/edit/<%= citizen[0].id %>-<%= citizen[0].full_name %>">Edit</a>
 
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-danger top-1" data-toggle="modal" data-target="#exampleModal">
@@ -29,7 +29,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary top-1" data-dismiss="modal">Cancel</button>
-                            <a href="/cad/<%= cadId %>/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>"
+                            <a href="/citizen/delete/<%= citizen[0].id %>-<%= citizen[0].first_name %>-<%= citizen[0].last_name %>"
                                 class="btn btn-danger">Delete Citizen</a>
                         </div>
                     </div>
@@ -37,20 +37,19 @@
             </div>
 
 
-            <li class="list-group-item bg-dark text-light mt-1">Full Name: <%= citizen[0].first_name %> </li>
-            <!-- <li class="list-group-item">Last Name: <%= citizen[0].last_name %></li> -->
+            <li class="list-group-item bg-dark text-light mt-1">Full Name: <%= citizen[0].full_name %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Birthday: <%= citizen[0].birth %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Gender: <%= citizen[0].gender %></li>
             <li class="list-group-item bg-dark text-light  mt-1">Ethnicity: <%= citizen[0].ethnicity %> </li>
-            <li class="list-group-item bg-dark text-light  mt-1">Hair Color: <%= citizen[0].hair %> </li>
-            <li class="list-group-item bg-dark text-light  mt-1">Eye Color: <%= citizen[0].eyes %> </li>
+            <li class="list-group-item bg-dark text-light  mt-1">Hair Color: <%= citizen[0].hair_color %> </li>
+            <li class="list-group-item bg-dark text-light  mt-1">Eye Color: <%= citizen[0].eye_color %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Address: <%= citizen[0].address %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Height: <%= citizen[0].height %> </li>
             <li class="list-group-item bg-dark text-light  mt-1">Weight: <%= citizen[0].weight %> </li>
             <% if (citizen[0].business === "Currently is not working") { %>
             <li class="list-group-item bg-dark text-light  mt-1">Employer: Currently is not working</li>
             <%} else {%>
-            <li class="list-group-item bg-dark text-light  mt-1">Employer: <a href="/cad/<%= cadId %>/citizen/company/<%= citizen[0].id %>-<%= citizen[0].business %>"> <%= citizen[0].business %></a> </li>
+            <li class="list-group-item bg-dark text-light  mt-1">Employer: <a href="/citizen/company/<%= citizen[0].id %>-<%= citizen[0].business %>"> <%= citizen[0].business %></a> </li>
 
             <%} %>
             <div class="list-group-item list-group-item-action active bg-dark text-light border-dark mt-1">
@@ -61,8 +60,8 @@
                 <div id="more3">
                     <p class="mb-1">
                         <li class="list-group-item color-black"><span class="bolder">Driver License:</span>  <%= citizen[0].dmv %> </li>
-                        <li class="list-group-item color-black"><span class="bolder">Pilot License: </span> <%= citizen[0].pilot_licence %> </li>
-                        <li class="list-group-item color-black"><span class="bolder"> Firearms License: </span> <%= citizen[0].fire_licence %> </li>
+                        <li class="list-group-item color-black"><span class="bolder">Pilot License: </span> <%= citizen[0].pilot_license %> </li>
+                        <li class="list-group-item color-black"><span class="bolder"> Firearms License: </span> <%= citizen[0].fire_license %> </li>
                         <li class="list-group-item color-black"><span class="bolder"> CCW License:</span> <%= citizen[0].ccw %> </li>
                     </p>
 
@@ -93,8 +92,8 @@
                                 <span class="font-weight-bold">Company Vehicle: </span>  <span class="cap"> Yes, <%= vehicle.company %></span> <br>
                                 <% }%>
                                 
-                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.id %>-<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
-                                <a href="/cad/<%= cadId %>/citizen/<%= citizen[0].id %>/<%= vehicle.id %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
+                                <a href="/citizen/<%= citizen[0].id %>/<%= vehicle.id %>-<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
+                                <a href="/citizen/<%= citizen[0].id %>/<%= vehicle.id %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
                             </li>
                             <%  }) %>
                         </p>
@@ -102,7 +101,7 @@
                         <p class="mb-1">
                             <li class="list-group-item text-dark">
                                 You don't have any cars registered. <br>
-                                <a class="btn btn-primary" href="/cad/<%= cadId %>/cars/register">Register a car here</a>
+                                <a class="btn btn-primary" href="/cars/register">Register a car here</a>
                             </li>
                         </p>
                         <%} %>
@@ -128,7 +127,7 @@
                             <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
                                 <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
                                 <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
-                                <a href="/cad/<%= cadId %>/weapon/<%= citizen[0].id %>/<%= weapon.id %>/delete" class="btn btn-danger mt-2">Delete Weapon</a>
+                                <a href="/weapon/<%= citizen[0].id %>/<%= weapon.id %>/delete" class="btn btn-danger mt-2">Delete Weapon</a>
                             </li>
                             <%  }) %>
                         </p>
@@ -136,7 +135,7 @@
                         <p class="mb-1">
                             <li class="list-group-item text-dark">
                                 You don't have any weapons registered. <br>
-                                <a class="btn btn-primary" href="/cad/<%= cadId %>/weapons/register">Register a weapon here</a>
+                                <a class="btn btn-primary" href="/weapons/register">Register a weapon here</a>
                             </li>
                         </p> 
                         <%   }%>

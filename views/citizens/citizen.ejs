@@ -41,27 +41,27 @@
     <ul class="list-group" >
     <div class="container grid">
       <div class="row">
-        <a class="btn btn-danger col" href="/cad/<%= cadId %>/logout">Logout</a>
-        <a class="btn btn-primary col ml-1" href="/cad/<%= cadId %>/account/edit"
+        <a class="btn btn-danger col" href="/logout">Logout</a>
+        <a class="btn btn-primary col ml-1" href="/account/edit"
           >Edit Account</a
         >
       </div>
       <div class="row mt-1">
-        <a href="/cad/<%= cadId %>/citizen/add" class="btn btn-primary cap col"
+        <a href="/citizen/add" class="btn btn-primary cap col"
           >add a new citizen</a
         >
-        <a class="btn btn-primary cap col ml-1" href="/cad/<%= cadId %>/cars/register"
+        <a class="btn btn-primary cap col ml-1" href="/cars/register"
           >register a car</a
         >
         <a
         class="btn btn-primary cap col ml-1"
-        href="/cad/<%= cadId %>/weapons/register"
+        href="/weapons/register"
         >register a weapon</a
       >
       </div>
       <div class="row mt-1">
         <a
-        href="/cad/<%= cadId %>/citizen/company"
+        href="/citizen/company"
         class="btn btn-primary cap col col"
         >Manage Employment Status</a
       >
@@ -87,9 +87,9 @@
     <% if (citizen.length > 0) {%>
 <% citizen.forEach((value, index) => { %>
       <li class="list-group-item mt-2 bg-dark text-light">
-        <%= ++index %> | <%= value.first_name %> | <%= value.birth %>
+        <%= ++index %> | <%= value.full_name %> | <%= value.birth %>
         <a
-          href="/cad/<%= cadId %>/citizens/<%= value.id %>-<%= value.first_name %>-<%= value.last_name %>"
+          href="/citizens/<%= value.id %>-<%= value.full_name %>"
           class="btn btn-success float-right"
           >More Info</a
         >
@@ -98,7 +98,7 @@
       <% }) %>
       <%} else { %>
       <div class="alert alert-primary mt-5" role="alert">
-  you don't have any citizens! Create one <a href="/cad/<%= cadId %>/citizen/add">Here</a>
+  you don't have any citizens! Create one <a href="/citizen/add">Here</a>
 </div>
 <%} %>
       
@@ -113,7 +113,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/cad/<%= cadId %>/create-tow-call" method="POST">
+              <form action="/create-tow-call" method="POST">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Call Description</label>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control" required></textarea>
@@ -147,7 +147,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/cad/<%= cadId %>/create-911-call" method="POST">
+              <form action="/create-911-call" method="POST">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Call Description</label>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control" required></textarea>
