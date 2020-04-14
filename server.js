@@ -7,17 +7,17 @@ const favicon = require('express-favicon');
 const session = require("express-session");
 const bodyParser = require('body-parser');
 const path = require('path');
-const paypal = require("paypal-rest-sdk");
+require("dotenv").config()
 // Variables
-let port = creds.ENV === "dev" ? 3001 : 80;
+let port = creds.ENV === "dev" ? 3001 : creds.ProductionPort;
 const mysql = require('mysql');
 let connection;
 
 let db = {
     host: "localhost",
     user: "root",
-    password: creds.DBP,
-    database: "snaily-cad",
+    database: creds.database,
+    password: process.env.DBP,
     multipleStatements: true,
     timeout: 0
 };
@@ -215,10 +215,10 @@ app.get(`/register`, registerPage);
 app.post(`/register`, register);
 
 
-app.get("/cad/:cadID/account/edit", editAccountPage);
-app.post("/cad/:cadID/account/edit/username", editAccountUsername);
-app.post("/cad/:cadID/account/edit/password", editAccountPassword);
-app.post("/cad/:cadID/delete-account", deleteAccount)
+app.get("/account/edit", editAccountPage);
+app.post("/account/edit/username", editAccountUsername);
+app.post("/account/edit/password", editAccountPassword);
+app.post("/delete-account", deleteAccount)
 
 // Admin
 app.get("/admin", adminPanel);
@@ -250,70 +250,70 @@ app.get("/citizen/company/:id-:company/edit-company", editCompanyPage)
 app.get("/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
 app.post("/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
 // Tow
-app.get("/cad/:cadID/tow", towPage)
-app.post("/cad/:cadID/create-tow-call", createTowCall)
-app.post("/cad/:cadID/create-911-call", create911Call)
-app.get("/cad/:cadID/tow/cancel-call-:callID", cancelCallTow)
+app.get("/tow", towPage)
+app.post("/create-tow-call", createTowCall)
+app.post("/create-911-call", create911Call)
+app.get("/tow/cancel-call-:callID", cancelCallTow)
 
 
 
-app.get("/cad/:cadID/dispatch", dispatchPage);
-app.post("/cad/:cadID/dispatch/search/weapon", disptachWeaponSearch);
-app.post("/cad/:cadID/dispatch/search/address", disptachAddressSearch);
-app.post("/cad/:cadID/dispatch/status", statusChangeDispatch);
-app.post("/cad/:cadID/dispatch/status-ems", statusChangeDispatchEMS);
-app.post("/cad/:cadID/dispatch/aop", editAOP);
-app.post("/cad/:cadID/dispatch/bolo", createBolo);
-app.post("/cad/:cadID/dispatch/remove-bolo", removeBolo);
-app.post("/cad/:cadID/dispatch/update-call-:id", updateDispatchCall)
-app.get("/cad/:cadID/dispatch/cancel-call-:id", cancelCall911Dis)
+app.get("/dispatch", dispatchPage);
+app.post("/dispatch/search/weapon", disptachWeaponSearch);
+app.post("/dispatch/search/address", disptachAddressSearch);
+app.post("/dispatch/status", statusChangeDispatch);
+app.post("/dispatch/status-ems", statusChangeDispatchEMS);
+app.post("/dispatch/aop", editAOP);
+app.post("/dispatch/bolo", createBolo);
+app.post("/dispatch/remove-bolo", removeBolo);
+app.post("/dispatch/update-call-:id", updateDispatchCall)
+app.get("/dispatch/cancel-call-:id", cancelCall911Dis)
 
 
 
 
 // Officers
-app.get("/cad/:cadID/myofficers", officersPage)
-app.get("/cad/:cadID/officers/dash", officersDash)
-app.get("/cad/:cadID/officers/penal-codes", penalCodesPage)
-app.get("/cad/:cadID/officers/dash/search/plate", searchPlatePage)
-app.get("/cad/:cadID/officers/dash/search/plate/:id-:owner", plateResultsPage)
-app.get("/cad/:cadID/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
-app.post("/cad/:cadID/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
-app.get("/cad/:cadID/officers/dash/search/person-name", searchNamePage)
-app.get("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
-app.get("/cad/:cadID/officers/apply", officerApplyPage);
-app.post("/cad/:cadID/officers/apply", officerApply);
-app.get("/cad/:cadID/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
-app.post("/cad/:cadID/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
-app.post("/cad/:cadID/officers/warrant", officerAddWarrant)
-app.get('/cad/:cadID/officers/add', addOfficerPage)
-app.post('/cad/:cadID/officers/add', addOfficer)
-app.post("/cad/:cadID/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
-app.post("/cad/:cadID/myofficers/status", statusChange)
-app.get("/cad/:cadID/officers/dash/codes", codesPage)
-app.post("/cad/:cadID/officers/bolo", officerBolo)
-app.post("/cad/:cadID/officers/remove-bolo", removeOfficerBolo)
-app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/dmv", suspendLicenseName)
-app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/pilot", suspendLicenseName)
-app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/fire", suspendLicenseName)
-app.post("/cad/:cadID/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", suspendLicenseName)
-app.post("/cad/:cadID/officers/dash/offence", officerOffencer)
-app.post("/cad/:cadID/officers/version/compact", versionChange)
-app.post("/cad/:cadID/officers/version/real", versionChange)
-app.get("/cad/:cadID/officers/api/:name", officerAPI)
-app.get("/cad/:cadID/officers/api/plate/:plate", officerAPIPlate)
-app.get("/cad/:cadID/officers/api/weapon/:serial", officerAPIWeapon)
-app.post("/cad/:cadID/officers/quickwarrant", quickWarrant)
-app.get("/cad/:cadID/officers/cancel-call-:id", cancelCall911)
-app.post("/cad/:cadID/officers/dash/update-call-:id", update911call)
+app.get("/myofficers", officersPage)
+app.get("/officers/dash", officersDash)
+app.get("/officers/penal-codes", penalCodesPage)
+app.get("/officers/dash/search/plate", searchPlatePage)
+app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
+app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
+app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
+app.get("/officers/dash/search/person-name", searchNamePage)
+app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
+app.get("/officers/apply", officerApplyPage);
+app.post("/officers/apply", officerApply);
+app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
+app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
+app.post("/officers/warrant", officerAddWarrant)
+app.get('/officers/add', addOfficerPage)
+app.post('/officers/add', addOfficer)
+app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
+app.post("/myofficers/status", statusChange)
+app.get("/officers/dash/codes", codesPage)
+app.post("/officers/bolo", officerBolo)
+app.post("/officers/remove-bolo", removeOfficerBolo)
+app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/dmv", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/pilot", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/fire", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", suspendLicenseName)
+app.post("/officers/dash/offence", officerOffencer)
+app.post("/officers/version/compact", versionChange)
+app.post("/officers/version/real", versionChange)
+app.get("/officers/api/:name", officerAPI)
+app.get("/officers/api/plate/:plate", officerAPIPlate)
+app.get("/officers/api/weapon/:serial", officerAPIWeapon)
+app.post("/officers/quickwarrant", quickWarrant)
+app.get("/officers/cancel-call-:id", cancelCall911)
+app.post("/officers/dash/update-call-:id", update911call)
 
-app.post("/cad/:cadID/officers/search/weapon", officerWeaponSearch);
+app.post("/officers/search/weapon", officerWeaponSearch);
 
 // EMS/FD
-app.get('/cad/:cadID/ems-fd', emsPage);
-app.post("/cad/:cadID/ems-fd/status", statusChangeEMS)
-app.get("/cad/:cadID/ems-fd/add", addEMSPage)
-app.post("/cad/:cadID/ems-fd/add", addEMS)
+app.get('/ems-fd', emsPage);
+app.post("/ems-fd/status", statusChangeEMS)
+app.get("/ems-fd/add", addEMSPage)
+app.post("/ems-fd/add", addEMS)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)
@@ -324,90 +324,66 @@ app.post("/admin/values/cars/edit/:id", editVehicle)
 app.post("/admin/values/cars/add", addCar)
 
 // Citizen cars
-app.get("/cad/:cadID/citizen/:id/:car-:plate/edit", editVehiclePageCitizen)
-app.post("/cad/:cadID/citizen/:id/:car-:plate/edit", editVehicleCitizen)
-app.get("/cad/:cadID/citizen/:id/:car/delete", deleteVehicleCitizen)
+app.get("/citizen/:id/:car-:plate/edit", editVehiclePageCitizen)
+app.post("/citizen/:id/:car-:plate/edit", editVehicleCitizen)
+app.get("/citizen/:id/:car/delete", deleteVehicleCitizen)
 // Car Regestration
-app.get("/cad/:cadID/cars/register", regVehiclePage)
-app.post("/cad/:cadID/cars/register", regVehicle)
+app.get("/cars/register", regVehiclePage)
+app.post("/cars/register", regVehicle)
 
 // Genders 
-app.get("/cad/:cadID/admin/values/genders", genderPage)
-app.get("/cad/:cadID/admin/values/genders/add", addGenderPage)
-app.get("/cad/:cadID/admin/values/genders/delete/:id", deleteGender)
-app.post("/cad/:cadID/admin/values/genders/add", addGender)
-app.get("/cad/:cadID/admin/values/genders/edit/:id", editGenderPage)
-app.post("/cad/:cadID/admin/values/genders/edit/:id", editGender)
+app.get("/admin/values/genders", genderPage)
+app.get("/admin/values/genders/add", addGenderPage)
+app.get("/admin/values/genders/delete/:id", deleteGender)
+app.post("/admin/values/genders/add", addGender)
+app.get("/admin/values/genders/edit/:id", editGenderPage)
+app.post("/admin/values/genders/edit/:id", editGender)
 
 // ethnicities 
-app.get("/cad/:cadID/admin/values/ethnicities", ethnicitiesPage)
-app.get("/cad/:cadID/admin/values/ethnicities/add", addethnicityPage)
-app.get("/cad/:cadID/admin/values/ethnicities/edit/:id", editEthnicityPage)
-app.get("/cad/:cadID/admin/values/ethnicities/delete/:id", deleteEthnicity)
-app.post("/cad/:cadID/admin/values/ethnicities/edit/:id", editethnicity)
-app.post("/cad/:cadID/admin/values/ethnicities/add", addethnicity)
+app.get("/admin/values/ethnicities", ethnicitiesPage)
+app.get("/admin/values/ethnicities/add", addethnicityPage)
+app.get("/admin/values/ethnicities/edit/:id", editEthnicityPage)
+app.get("/admin/values/ethnicities/delete/:id", deleteEthnicity)
+app.post("/admin/values/ethnicities/edit/:id", editethnicity)
+app.post("/admin/values/ethnicities/add", addethnicity)
 
 // Weapons
-app.get("/cad/:cadID/admin/values/weapons", weaponsPage)
-app.get("/cad/:cadID/admin/values/weapons/add", addWeaponPage)
-app.get("/cad/:cadID/admin/values/weapons/delete/:id", deleteWeapon)
-app.post("/cad/:cadID/admin/values/weapons/add", addWeapon)
-app.get("/cad/:cadID/admin/values/weapons/edit/:id", editWeaponPage)
-app.post("/cad/:cadID/admin/values/weapons/edit/:id", editWeapon)
+app.get("/admin/values/weapons", weaponsPage)
+app.get("/admin/values/weapons/add", addWeaponPage)
+app.get("/admin/values/weapons/delete/:id", deleteWeapon)
+app.post("/admin/values/weapons/add", addWeapon)
+app.get("/admin/values/weapons/edit/:id", editWeaponPage)
+app.post("/admin/values/weapons/edit/:id", editWeapon)
 
 // Departments
-app.get("/cad/:cadID/admin/values/depts", deptPage)
-app.get("/cad/:cadID/admin/values/depts/add", addDeptPage)
-app.get("/cad/:cadID/admin/values/depts/edit/:id", editDeptPage)
-app.get("/cad/:cadID/admin/values/depts/delete/:id", deleteDept)
-app.post("/cad/:cadID/admin/values/depts/edit/:id", editDept)
-app.post("/cad/:cadID/admin/values/depts/add", addDept)
+app.get("/admin/values/depts", deptPage)
+app.get("/admin/values/depts/add", addDeptPage)
+app.get("/admin/values/depts/edit/:id", editDeptPage)
+app.get("/admin/values/depts/delete/:id", deleteDept)
+app.post("/admin/values/depts/edit/:id", editDept)
+app.post("/admin/values/depts/add", addDept)
 // citizen weapons
 
-app.get("/cad/:cadID/weapon/:id/:weapon/delete", citizenDeleteWeapon)
+app.get("/weapon/:id/:weapon/delete", citizenDeleteWeapon)
 // Weapon registration
-app.get("/cad/:cadID/weapons/register", regWeaponPage)
-app.post("/cad/:cadID/weapons/register", regWeapon)
+app.get("/weapons/register", regWeaponPage)
+app.post("/weapons/register", regWeapon)
 
 // Legal 
-app.get("/cad/:cadID/admin/values/legal", legalPage)
-app.get("/cad/:cadID/admin/values/legal/add", addLegalPage)
-app.get("/cad/:cadID/admin/values/legal/delete/:id", deleteLegal)
-app.post("/cad/:cadID/admin/values/legal/add", addLegal)
-app.get("/cad/:cadID/admin/values/legal/edit/:id", editLegalPage)
-app.post("/cad/:cadID/admin/values/legal/edit/:id", editLegal)
+app.get("/admin/values/legal", legalPage)
+app.get("/admin/values/legal/add", addLegalPage)
+app.get("/admin/values/legal/delete/:id", deleteLegal)
+app.post("/admin/values/legal/add", addLegal)
+app.get("/admin/values/legal/edit/:id", editLegalPage)
+app.post("/admin/values/legal/edit/:id", editLegal)
 
 
-
-
-// 404 page 
-app.get('/cad/:cadID/*', (req, res) => {
-    let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
-    connection.query(query2, (err, result) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        } else {
-            if (result[0]) {
-                if (req.path.includes("/cad/")) {
-                    res.status(404).render("errors/404.ejs", {
-                        title: "404 | Equinox CAD",
-                        isAdmin: req.session.admin,
-                        cadId: result[0].cadID,
-                        desc: "",
-                    });
-                };
-            } else {
-                res.sendStatus(404)
-            }
-
-        };
-    });
-});
+// 404
 app.get('/*', (req, res) => {
-    res.status(404).render("errors/404-main.ejs", {
+    res.status(404).render("errors/404.ejs", {
         title: "404 | Equinox CAD",
-        desc: ""
+        isAdmin: "",
+        desc: "",
     });
 });
 
