@@ -5,7 +5,7 @@ module.exports = {
         let desc = req.body.description;
         let query = "INSERT INTO `911calls` (`description`, `name`, `location`, `status`) VALUES (?, ?, ?, ?)"
 
-        connection.query(query, [desc, name, location, 'not assigned'], (err, result) => {
+        connection.query(query, [desc, name, location, 'not assigned'], (err) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)

@@ -327,7 +327,7 @@ app.post("/admin/values/cars/add", addCar)
 app.get("/citizen/:id/:car-:plate/edit", editVehiclePageCitizen)
 app.post("/citizen/:id/:car-:plate/edit", editVehicleCitizen)
 app.get("/citizen/:id/:car/delete", deleteVehicleCitizen)
-// Car Regestration
+// Car Registration
 app.get("/cars/register", regVehiclePage)
 app.post("/cars/register", regVehicle)
 
@@ -429,5 +429,6 @@ async function main() {
         })
     });
 }
+
 
 main();

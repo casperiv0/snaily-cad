@@ -28,6 +28,7 @@
     "node-fetch": "^2.6.0",
     "request": "^2.88.2",
     "slugify": "^1.4.0",
+    "stringify": "^5.2.0",
     "virgen-acl": "0.0.22"
   }
 }

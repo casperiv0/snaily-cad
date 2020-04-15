@@ -1,4 +1,5 @@
 const d = new Date()
+const stringify = require('stringify');
 
 module.exports = {
     citizenPage: (req, res, next) => {
@@ -178,8 +179,8 @@ module.exports = {
                                         console.log(err);
                                         return res.status(500).send("Something went wrong")
                                     } else {
-                                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                        connection.query(query, (err, result1) => {
+                                        let query = "SELECT * FROM `users` WHERE username = ?";
+                                        connection.query(query, [req.session.username2], (err, result1) => {
                                             if (err) {
                                                 console.log(err);
                                                 return res.sendStatus(500)
@@ -191,12 +192,12 @@ module.exports = {
                                                         console.log(err);
                                                         return res.sendStatus(500)
                                                     } else {
-                                                        let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'";
-                                                        connection.query(`${query}`, (err, result) => {
+                                                        let query = "SELECT * FROM `citizens` WHERE linked_to = ?";
+                                                        connection.query(`${query}`, [req.session.username2], (err, result) => {
                                                             if (err) {
                                                                 console.log(err);
                                                             } else {
-                                                                res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].admin, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
+                                                                res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].rank, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP });
                                                             };
                                                         });
                                                     };
@@ -216,8 +217,8 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect(`/login`)
         } else {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-            connection.query(query, (err, result1) => {
+            let query = "SELECT * FROM `users` WHERE username = ?";
+            connection.query(query, [req.session.username2], (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)

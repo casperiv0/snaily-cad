@@ -3,15 +3,16 @@
 <div class="container mx-auto">
   <h1 class="card-title text-center mt-3 text-light">EMS/FD</h1>
   <ul class="list-group">
-    <a href="/cad/<%= cadId %>/ems-fd/add" class="btn btn-primary mt-1"
+    <a href="/ems-fd/add" class="btn btn-primary mt-1"
       >Add EMS Deputy</a
     >
 
-    <% ems.forEach(value => { %>
+    <% if (ems.length > 0) { %>
+      <% ems.forEach(value => { %>
     <li class="list-group-item mt-2 text-light bg-dark">
       <form
         class="form-inline text-light bg-dark"
-        action="/cad/<%= cadId %>/ems-fd/status"
+        action="/ems-fd/status"
         method="post"
       >
         <input
@@ -81,6 +82,12 @@
       </p>
     </li>
     <% }) %>
+    <% } else { %>
+      <li class="list-group-item text-light bg-dark">
+        You Don't have any EMS deputies. Create one <a href="/ems-fd/add">here</a>
+        </li>
+    <% } %>
+    
   </ul>
 </div>
 
