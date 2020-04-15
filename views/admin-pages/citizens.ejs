@@ -56,7 +56,10 @@
                 <ul class="list-group" id="myUL2">
                 <% pending.forEach(user => { %>
                     <li class="list-group-item bg-dark border-dark mt-1">
-                      <%= user.username %>
+                      <%= user.username %> <div class="float-right">
+                        <a class="btn btn-success" href="/admin/accept-<%= user.id %>">Accept User</a>
+                        <a class="btn btn-danger" href="/admin/decline-<%= user.id %>">Decline User</a>
+                      </div> 
                     </li>
                   <% }) %> 
                   <% } else { %>

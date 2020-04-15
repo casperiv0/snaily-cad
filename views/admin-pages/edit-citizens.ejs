@@ -34,7 +34,7 @@
         </div>
         <% } %>
       <form
-        action=""
+        action="/admin/users/edit/<%= user[0].id %>"
         class="container card bg-secondary text-light mx-auto mt-2"
         method="POST"
       >
@@ -54,6 +54,7 @@
             <option disabled value="">--------</option>
             <option value="admin">admin</option>
             <option value="moderator">moderator</option>
+            <option value="No Rank">Remove Rank</option>
           </select>
         </div>
         <% } %>

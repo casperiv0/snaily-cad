@@ -89,7 +89,7 @@ module.exports = {
                         if (err) {
                             return res.status(500).send(err);
                         } else {
-                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", desc: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2 })
+                            res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", message: "", desc: "", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].rank, username: req.session.username2 })
                         };
                     });
                 };
@@ -167,7 +167,7 @@ module.exports = {
                                             if (err) {
                                                 return res.status(500).send(err);
                                             } else {
-                                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].admin, username: req.session.username2 });
+                                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].rank, username: req.session.username2 });
                                             };
                                         });
                                     };

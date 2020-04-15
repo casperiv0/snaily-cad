@@ -42,14 +42,14 @@ module.exports = {
             let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
             let pendingUsers = "SELECT * FROM `users` WHERE  `whitelist_status` = 'awaiting'"
 
-            connection.query(`${query1}; ${query}; ${pendingUsers}`, (err, result) => {
+            connection.query(`${query2}; ${query1}; ${query}; ${pendingUsers}`, (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
+                    if (result[1][0].rank == 'admin' || result[1][0].rank == 'owner') {
 
-                        res.render("admin-pages/citizens.ejs", { desc: "", title: 'Admin Panel | Citizens', users: result[1], isAdmin: result[0][0].rank, pending: result[2], whitelist: result[0] })
+                        res.render("admin-pages/citizens.ejs", { desc: "", title: 'Admin Panel | Citizens', users: result[2], isAdmin: result[1][0].rank, pending: result[3], whitelist: result[0][0] })
                     } else {
                         res.sendStatus(403)
                     };
@@ -87,7 +87,6 @@ module.exports = {
             let leo = req.body.leo;
             let ems = req.body.ems;
             let dispatch = req.body.dispatch;
-            console.log(admin);
             if (admin == "") {
                 query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
             } else if (admin == undefined) {
@@ -420,4 +419,34 @@ module.exports = {
             res.redirect(`/login`);
         };
     },
+    acceptUser: (req, res) => {
+        if (req.session.loggedin) {
+            const query = "UPDATE `users` SET `whitelist_status` = ? WHERE `users`.`id` = ?"
+            connection.query(query, ["accepted", req.params.userId], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect("/admin/users")
+                }
+            })
+        } else {
+            res.redirect(`/login`);
+        }
+    },
+    declineUser: (req, res) => {
+        if (req.session.loggedin) {
+            const query = "UPDATE `users` SET `whitelist_status` = ? WHERE `users`.`id` = ?"
+            connection.query(query, ["declined", req.params.userId], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect("/admin/users")
+                }
+            })
+        } else {
+            res.redirect(`/login`);
+        }
+    }
 }

@@ -19,7 +19,7 @@ module.exports = {
                                 console.log(err)
                                 return res.sendStatus(500);
                             } else {
-                                res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5], bolos: result[3], calls: result[4] });
+                                res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5][0], bolos: result[3], calls: result[4] });
                             };
                         });
                     } else {
@@ -59,8 +59,8 @@ module.exports = {
             connection.query(query, [searchQ], (err, result) => {
                 if (err) {
                     return console.log(err);
-                    } else {
-                    res.render("dispatch/address-search.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", users: result});
+                } else {
+                    res.render("dispatch/address-search.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: "", users: result });
                 };
             });
         } else {
@@ -166,215 +166,111 @@ module.exports = {
     },
     editAOP: (req, res) => {
         if (req.session.loggedin) {
-            let cadID = req.params.cadID;
             let newAOP = req.body.aop
 
             if (newAOP === '') {
                 newAOP = "N/A"
             }
 
-            let query1 = "UPDATE `cads` SET `AOP` = '" + newAOP + "' WHERE `cads`.`cadID` = '" + cadID + "'"
-            connection.query(`${query1};`, (err, result) => {
+            let query1 = "UPDATE `cad_info` SET `AOP` = ?"
+            connection.query(`${query1};`, [newAOP], (err) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-                    connection.query(query2, (err, result2) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            if (result2[0]) {
-                                res.redirect(`/${result2[0].cadID}/dispatch`);
-                            } else {
-                                res.sendStatus(404);
-                            };
-                        };
-                    });
+                    res.redirect(`/dispatch`);
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-            connection.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.redirect(`/login`);
         };
     },
     createBolo: (req, res) => {
         let boloDesc = req.body.bolo_desc;
-        let cadID = req.params.cadID;
 
-        let query = "INSERT INTO `bolos` (`description`, `cadID`) VALUES ('" + boloDesc + "', '" + cadID + "')"
-        connection.query(query, (err, result) => {
+        let query = "INSERT INTO `bolos` (`description`) VALUES (?)"
+        connection.query(query, [boloDesc], (err) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                connection.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    } else {
-                        if (result2[0]) {
-                            res.redirect(`/cad/${result2[0].cadID}/dispatch`);
-                        } else {
-                            res.sendStatus(404);
-                        };
-                    };
-                });
+                res.redirect(`/dispatch`);
             }
         })
     },
     removeBolo: (req, res) => {
         let boloId = req.body.boloID;
-        let cadID = req.params.cadID;
 
-        let query = "DELETE FROM `bolos` WHERE `id` = '" + boloId + "' AND `cadID` = '" + cadID + "' "
-        connection.query(query, (err, result) => {
+        let query = "DELETE FROM `bolos` WHERE `id` = ?"
+        connection.query(query, [boloId], (err) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                connection.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    } else {
-                        if (result2[0]) {
-                            res.redirect(`/cad/${result2[0].cadID}/dispatch`);
-                        } else {
-                            res.sendStatus(404);
-                        };
-                    };
-                });
+                res.redirect(`/dispatch`);
             }
         })
     },
     updateDispatchCall: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection.query(query, (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500)
-                            } else {
-                                if (result[0]) {
-                                    if (result[0].dispatch === 'yes') {
-                                        let query = "UPDATE `911calls` SET `location` = ?, `status` = ? WHERE `911calls`.`id` = ?"
-                                        connection.query(query, [req.body.location, req.body.status, req.params.id], (err, result) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500);
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/dispatch`);
-                                            };
-                                        });
-                                    } else {
-                                        res.sendStatus(403);
-                                    };
+                    if (result[0]) {
+                        if (result[0].dispatch === 'yes') {
+                            let query = "UPDATE `911calls` SET `location` = ?, `status` = ? WHERE `911calls`.`id` = ?"
+                            connection.query(query, [req.body.location, req.body.status, req.params.id], (err) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
                                 } else {
-                                    res.send("Something went wrong during the request");
+                                    res.redirect(`/dispatch`);
                                 };
-                            };
-                        });
+                            });
+                        } else {
+                            res.sendStatus(403);
+                        };
                     } else {
-                        res.sendStatus(404);
+                        res.send("Something went wrong during the request");
                     };
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.redirect(`/login`);
         }
     },
     cancelCall911Dis: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection.query(query, (err, result) => {
-                            if (err) {
-                                console.log(err);
-                                return res.sendStatus(500)
-                            } else {
-                                if (result[0]) {
-                                    if (result[0].leo === 'yes') {
-                                        let query = "DELETE FROM `911calls` WHERE `id` = ? AND `cadID` = ?"
-                                        connection.query(query, [req.params.id, req.params.cadID], (err, result) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500);
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/dispatch`);
-                                            };
-                                        });
-                                    } else {
-                                        res.sendStatus(403);
-                                    };
+                    if (result[0]) {
+                        if (result[0].leo === 'yes') {
+                            let query = "DELETE FROM `911calls` WHERE `id` = ?"
+                            connection.query(query, [req.params.id], (err, result) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500);
                                 } else {
-                                    res.send("Something went wrong during the request");
+                                    res.redirect(`/dispatch`);
                                 };
-                            };
-                        });
+                            });
+                        } else {
+                            res.sendStatus(403);
+                        };
                     } else {
-                        res.sendStatus(404);
+                        res.send("Something went wrong during the request");
                     };
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.redirect(`/login`);
         }
     }
 };

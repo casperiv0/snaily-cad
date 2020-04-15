@@ -34,7 +34,9 @@ const {
     banUser,
     unBanUser,
     editCAD,
-    actionLogPage
+    actionLogPage,
+    declineUser,
+    acceptUser
 } = require("./routes/admin");
 
 // Vehicles
@@ -218,6 +220,11 @@ app.post("/admin/ban-:id", banUser)
 app.post("/admin/unban-:id", unBanUser)
 app.get("/admin/action-log", actionLogPage)
 
+// User Management
+app.get("/admin/accept-:userId", acceptUser)
+app.get("/admin/decline-:userId", declineUser)
+
+
 // Citizens
 app.get("/citizen", citizenPage);
 app.get("/citizens/:id-:full_name", citizenDetailPage);
@@ -244,7 +251,7 @@ app.post("/create-911-call", create911Call)
 app.get("/tow/cancel-call-:callID", cancelCallTow)
 
 
-
+// Dispatch
 app.get("/dispatch", dispatchPage);
 app.post("/dispatch/search/weapon", disptachWeaponSearch);
 app.post("/dispatch/search/address", disptachAddressSearch);
