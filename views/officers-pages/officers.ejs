@@ -1,21 +1,19 @@
 <%- include("../partials/header.ejs") %>
 
 <div class="container">
-  <h1 class="card-title mt-3 text-light">Police Department - AOP: <%= cad.AOP %></h1>
+  <h1 class="card-title mt-3 text-light">
+    Police Department - AOP: <%= cad.AOP %>
+  </h1>
 
   <ul class="list-group">
-    <a href="/cad/<%= cadId %>/officers/dash" class="btn btn-primary"
-      >Police Dashboard</a
-    >
-    <a href="/cad/<%= cadId %>/officers/add" class="btn btn-primary mt-1"
-      >Add Officer</a
-    >
+    <a href="/officers/dash" class="btn btn-primary">Police Dashboard</a>
+    <a href="/officers/add" class="btn btn-primary mt-1">Add Officer</a>
 
-    <% officers.forEach(value => { %>
+    <% if (officers.length) { %> <% officers.forEach(value => { %>
     <li class="list-group-item mt-2 text-light bg-dark">
       <form
         class="form-inline text-light bg-dark"
-        action="/cad/<%= cadId %>/myofficers/status"
+        action="/myofficers/status"
         method="post"
       >
         <input
@@ -85,39 +83,11 @@
         <span class="bolder">-</span> <%= value.status2 %>
       </p>
     </li>
-    <% }) %>
-  </ul>
-  
-  <ul class="list-group mt-2">
-    <div class="active list-group-item">All Officers</div>
-    <table class="table table-dark">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Officer Name</th>
-          <th scope="col">Officer Department</th>
-          <th scope="col">Current Status</th>
-        </tr>
-      </thead>
-        <tbody>
-          <% if (allofficers.length > 0) { %>
-            <% allofficers.forEach(officer => { %>
-              <tr>
-                <th scope="row"><%= officer.id %></th>
-                <td><%= officer.officer_name %></td>
-                <td><%= officer.officer_dept %></td>
-                <td><%= officer.status %></td>
-              </tr>
-            <%}) %>
-            <%} else {%>
-            <tr>
-            <th scope="row">0</th>
-            <td>/</td>
-            <td>There are no police officers</td>
-            <td>/</td>
-          </tr><%}%>
-        </tbody>
-    </table>
+    <% }) %> <% } else { %>
+    <li class="list-group-item bg-dark text-light">
+      You don't have any officers. Create one <a href="/officers/add">here</a>
+    </li>
+    <% } %>
   </ul>
 </div>
 

@@ -7,7 +7,7 @@
       <div class="container mt-3">
         <h1 class="users-title card-title text-light">
           Department management
-          <a href="/cad/<%= cadId %>/admin/values/depts/add">+</a>
+          <a href="/admin/values/depts/add">+</a>
         </h1>
         <input
           class="disabled list-group-item text-light bg-dark"
@@ -22,12 +22,12 @@
           <li class="list-group-item text-light bg-dark">
             <%= value.id %> | <%= value.name %>
             <a
-              href="/cad/<%= cadId %>/admin/values/depts/delete/<%= value.id %>"
+              href="/admin/values/depts/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/depts/edit/<%= value.id %>"
+              href="/admin/values/depts/edit/<%= value.id %>"
               class="btn btn-success float-right  margin-right-10"
               >Edit</a
             >
@@ -38,7 +38,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           No Departments found. Go
-          <a href="/cad/<%= cadId %>/admin/values/depts/add">here</a> to add
+          <a href="/admin/values/depts/add">here</a> to add
           Departments.
         </p>
         <% } %>

@@ -39,7 +39,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <!-- action="/cad/<%= cadId %>/officers/search/name" -->
+                      <!-- action="/officers/search/name" -->
                       <form id="modal" onsubmit="event.preventDefault(); return nameSearch()">
                           <div class="form-group">
                               <label for="bolo" class="text-light">Name</label>
@@ -158,7 +158,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/cad/<%= cadId %>/dispatch/bolo" id="modal" method="post">
+                            <form action="/dispatch/bolo" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="bolo">Bolo Description</label>
                                     <textarea name="bolo_desc" id="bolo" cols="30" rows="5" maxlength="1800" minlength="10" class="form-control bg-secondary border-secondary text-light" placeholder="Bolo Description, Min Length of 10 characters"></textarea>
@@ -188,7 +188,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/cad/<%= cadId %>/dispatch/search/address" id="modal" method="post">
+                            <form action="/dispatch/search/address" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="address-search">Search By Address</label>
                                     <select name="address_search" id="weapon-search" class="form-control text-light bg-secondary border-secondary"
@@ -255,7 +255,7 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-                                <form action="/cad/<%= cadId %>/dispatch/update-call-<%= call.id %> " method="POST">
+                                <form action="/dispatch/update-call-<%= call.id %> " method="POST">
                                     <div class="form-group">
                                       <label for="location">Call Location</label>
                                       <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
@@ -271,7 +271,7 @@
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <a href="/cad/<%= cadId %>/dispatch/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
+                                    <a href="/dispatch/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
                                     <button type="submit" class="container btn btn-success">Update Call</button>
                                   </div>
                                 </form>
@@ -292,7 +292,7 @@
               <% if (bolos.length > 0) {%>
                   <% bolos.forEach(bolo => { %>
                       <li class="list-group-item bg-dark text-light">
-                          <form action="/cad/<%= cadId %>/dispatch/remove-bolo" method="POST">
+                          <form action="/dispatch/remove-bolo" method="POST">
                               <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
                                 <div class="float-right">
                                   <button type="submit" class="btn btn-danger">Remove Bolo</a>
@@ -310,7 +310,7 @@
           <div class="col ">
             <ul class="list-group mb-4" >
                 <div class="active list-group-item text-light ">Edit AOP</div>
-                <form class="list-group-item bg-dark border-dark text-light " action="/cad/<%= cadId %>/dispatch/aop" method="post">
+                <form class="list-group-item bg-dark border-dark text-light " action="/dispatch/aop" method="post">
                     <div class="form-group">
                         <label for="input">New AOP</label>
                         <input type="text" id="input" name="aop" placeholder="New Area Of Roleplay" minlength="1" maxlength="255" max="255" min="1" class="form-control bg-dark border-secondary text-light">
@@ -358,7 +358,7 @@
 
     function nameSearch() {
     const nameSearchInputValue = document.getElementById("nameSearchIn").value
-    xhttp.open("GET", `/cad/<%= cadId %>/officers/api/${nameSearchInputValue}`, true);
+    xhttp.open("GET", `/officers/api/${nameSearchInputValue}`, true);
     
     xhttp.onload = function() {
       if (this.status === 200) {
@@ -420,7 +420,7 @@
 
     function plateSearch() {
     const plateSearchInputValue = document.getElementById("plateSearchIn").value
-    xhttp.open("GET", `/cad/<%= cadId %>/officers/api/plate/${plateSearchInputValue}`, true);
+    xhttp.open("GET", `/officers/api/plate/${plateSearchInputValue}`, true);
     
     xhttp.onload = function() {
       if (this.status === 200) {
@@ -451,6 +451,6 @@
     xhttp.send();
   }
 
-  function eSyBFqXnRU(){const weaponSerialNumber=document.getElementById("OcWlkeevPB").value; xhttp.open("GET",`/cad/<%=cadId%>/officers/api/weapon/${weaponSerialNumber}`,true);xhttp.onload=function(){if(this.status===200){let result=JSON.parse(this.responseText);let weapons='';if(result.length>0){weapons+='<ul>'+'<li><span class="bolder mt-1"> Weapon Type:</span> '+result[0].weapon+'</li>'+'<li><span class="bolder mt-1"> Serial Number:</span> '+result[0].serial_number+'</li>'+'<li><span class="bolder mt-1"> Weapon Status:</span> '+result[0].status+'</li>'+'<li><span class="bolder mt-1"> Owner:</span> '+result[0].owner+'</li>'+'</ul>';document.getElementById("weapons").innerHTML=weapons}else{document.getElementById("weapons").innerHTML="Weapon was not found"}}}; xhttp.send()}  // function eSyBFqXnRU() {
+  function eSyBFqXnRU(){const weaponSerialNumber=document.getElementById("OcWlkeevPB").value; xhttp.open("GET",`/officers/api/weapon/${weaponSerialNumber}`,true);xhttp.onload=function(){if(this.status===200){let result=JSON.parse(this.responseText);let weapons='';if(result.length>0){weapons+='<ul>'+'<li><span class="bolder mt-1"> Weapon Type:</span> '+result[0].weapon+'</li>'+'<li><span class="bolder mt-1"> Serial Number:</span> '+result[0].serial_number+'</li>'+'<li><span class="bolder mt-1"> Weapon Status:</span> '+result[0].status+'</li>'+'<li><span class="bolder mt-1"> Owner:</span> '+result[0].owner+'</li>'+'</ul>';document.getElementById("weapons").innerHTML=weapons}else{document.getElementById("weapons").innerHTML="Weapon was not found"}}}; xhttp.send()}  // function eSyBFqXnRU() {
 
 </script>

@@ -275,12 +275,6 @@ app.get("/dispatch/cancel-call-:id", cancelCall911Dis)
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
 app.get("/officers/penal-codes", penalCodesPage)
-app.get("/officers/dash/search/plate", searchPlatePage)
-app.get("/officers/dash/search/plate/:id-:owner", plateResultsPage)
-app.get("/officers/dash/offence/add/:id-:first_name-:last_name", addOffencePage)
-app.post("/officers/dash/offence/add/:id-:first_name-:last_name", addOffence)
-app.get("/officers/dash/search/person-name", searchNamePage)
-app.get("/officers/dash/search/name/:id-:first_name-:last_name", nameResultsPage)
 app.get("/officers/apply", officerApplyPage);
 app.post("/officers/apply", officerApply);
 app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
@@ -300,6 +294,8 @@ app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", su
 app.post("/officers/dash/offence", officerOffencer)
 app.post("/officers/version/compact", versionChange)
 app.post("/officers/version/real", versionChange)
+
+
 app.get("/officers/api/:name", officerAPI)
 app.get("/officers/api/plate/:plate", officerAPIPlate)
 app.get("/officers/api/weapon/:serial", officerAPIWeapon)

@@ -27,13 +27,23 @@
       id="dept"
       required
     >
+    <% if (depts.length > 0) { %>
       <% depts.forEach(dept => { %>
         <option value="<%= dept.name %>"><%= dept.name %></option>
      <% }) %>
     </select>
   </div>
-  <a href="/cad/<%= cadId %>/myofficers" class="btn cancel-btn btn-danger"
-    >Cancel</a
+  <a href="/myofficers" class="btn cancel-btn btn-danger"
+  >Cancel</a
   >
   <button type="submit" class="btn btn-primary">Add Officer</button>
+    <% } else { %>
+      <option value="">This CAD doesn't have any departments set up, please contact your community staff.</option>
+    </select>
+  </div>
+  <a href="/myofficers" class="btn cancel-btn btn-danger"
+  >Cancel</a
+  >
+  <button type="submit" class="btn btn-primary" disabled>Add Officer</button>
+  <% } %>
 </form>
