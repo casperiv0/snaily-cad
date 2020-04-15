@@ -8,7 +8,7 @@
       <div class="container mt-3">
         <h1 class="card-title text-light">
           Legal management
-          <a href="/cad/<%= cadId %>/admin/values/legal/add">+</a>
+          <a href="/admin/values/legal/add">+</a>
         </h1>
 
         <input
@@ -24,12 +24,12 @@
           <li class="list-group-item text-light bg-dark">
             <%= value.id %> | <%= value.status %>
             <a
-              href="/cad/<%= cadId %>/admin/values/legal/delete/<%= value.id %>"
+              href="/admin/values/legal/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/legal/edit/<%= value.id %>"
+              href="/admin/values/legal/edit/<%= value.id %>"
               class="btn btn-success float-right margin-right-10"
               >Edit</a
             >
@@ -40,7 +40,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           Nothing found. Go add
-          <a href="/cad/<%= cadId %>/admin/values/legal/add">here</a>.
+          <a href="/admin/values/legal/add">here</a>.
         </p>
         <% } %>
       </div>

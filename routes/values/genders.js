@@ -1,311 +1,160 @@
 module.exports = {
     genderPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result1) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let query = "SELECT * FROM `genders` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        res.sendStatus(400)
-                                    }
-                                    res.render("admin-pages/gender.ejs", { desc: "", title: 'Admin Panel | Genders', genders: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
-                                })
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
+                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                        let query = "SELECT * FROM `genders` ORDER BY id ASC"
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                res.sendStatus(400)
+                            }
+                            res.render("admin-pages/gender.ejs", { desc: "", title: 'Admin Panel | Genders', genders: result, isAdmin: result1[0].rank, })
+                        })
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        }
-    },
-    deleteGender: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let playerId = req.params.id;
-                                // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-                                let deleteUserQuery = 'DELETE FROM genders WHERE id = "' + playerId + '"';
-
-                                connection.query(deleteUserQuery, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`);
-                                    };
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-        }
-    },
-    addGenderPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                res.render("genders/add-gender.ejs", { desc: "", title: "Add Gender", isAdmin: result[0].admin, cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
+                        res.sendStatus(403);
                     };
                 };
             });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
+            res.redirect(`/login`)
         }
     },
-    addGender: (req, res) => {
+    deleteGender: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let gender = req.body.gender;
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let genderId = req.params.id;
+                        let query = 'DELETE FROM `genders` WHERE id = "' + genderId + '"';
 
-                                let query = "INSERT INTO `genders` (`gender`, `cadID`) VALUES ('" + gender + "', '" + req.params.cadID + "')";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
-                                    }
-                                });
+                        connection.query(query, (err) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
                             } else {
-                                res.sendStatus(403);
+                                res.redirect(`/admin/values/genders`);
                             };
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+                        res.sendStatus(403);
+                    };
+                };
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            res.redirect(`/login`)
+        }
+    },
+    addGenderPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        res.render("genders/add-gender.ejs", { desc: "", title: "Add Gender", isAdmin: result[0].rank, });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
+                        res.sendStatus(403);
+                    };
+                };
+            });
+        } else {
+            res.redirect(`/login`);
+        };
+    },
+    addGender: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let gender = req.body.gender;
 
+                        let query = "INSERT INTO `genders` (`name`) VALUES (?)";
+                        connection.query(query, [gender], (err) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            } else {
+                                res.redirect(`/admin/values/genders`)
+                            }
+                        });
+                    } else {
+                        res.sendStatus(403);
+                    };
+                };
+            });
+        } else {
+            res.redirect(`/login`);
         }
     },
     editGenderPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
-
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let genderId = req.params.id;
-                                let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    };
-                                    res.render("genders/edit-gender.ejs", {  desc: "",title: "Edit Gender", gender: result[0], isAdmin: result[0].admin, cadId: result2[0].cadID });
-                                });
-                            } else {
-                                res.sendStatus(403);
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let genderId = req.params.id;
+                        let query = "SELECT * FROM `genders` WHERE id = '" + genderId + "' ";
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
                             };
+                            res.render("genders/edit-gender.ejs", { desc: "", title: "Edit Gender", gender: result[0], isAdmin: result[0].rank, });
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-
+                        res.sendStatus(403);
+                    };
+                };
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
+            res.redirect(`/login`)
         };
     },
     editGender: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500);
+                    return res.sendStatus(500)
                 } else {
-                    if (result2[0]) {
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let genderId = req.params.id;
+                        let gender = req.body.gender;
+                        let query = 'UPDATE `genders` SET `name` = ? WHERE `genders`.`id` = ?';
 
-
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let genderId = req.params.id;
-                                let gender = req.body.gender;
-                                let query = 'UPDATE `genders` SET `gender` = "' + gender + '" WHERE `genders`.`id` = "' + genderId + '"';
-
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    }
-                                    res.redirect(`/cad/${result2[0].cadID}/admin/values/genders`)
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
+                        connection.query(query, [gender, genderId], (err) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);
+                            }
+                            res.redirect(`/admin/values/genders`)
                         });
                     } else {
-                        res.sendStatus(404)
-                    }
+                        res.sendStatus(403);
+                    };
                 }
-            })
-
-
+            });
         } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-        }
+            res.redirect(`/login`)
+        };
     }
-
-}
+};

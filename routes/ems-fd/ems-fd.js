@@ -17,7 +17,7 @@ module.exports = {
                                 res.render("ems-fd/ems-fd.ejs", {
                                     title: "EMS/FD | SnailyCAD",
                                     users: "qsd",
-                                    isAdmin: result1[0].admin,
+                                    isAdmin: result1[0].rank,
                                     ems: result,
                                     desc: ""
                                 });

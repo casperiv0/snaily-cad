@@ -331,38 +331,18 @@ module.exports = {
             let joined_business = req.body.join_business;
             let citizen_name = req.body.citizen_name;
             let query = 'UPDATE `citizens` SET `business` = ? WHERE `citizens`.`full_name` = ?';
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = ?"
 
-            connection.query(query2, [req.params.cadID], (err, result2) => {
+            connection.query(query, [joined_business, citizen_name], (err) => {
                 if (err) {
                     console.log(err);
-                    return res.sendStatus(500)
+                    return res.sendStatus(500);
                 } else {
-                    connection.query(query, [joined_business, citizen_name], (err, result1) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500);
-                        } else {
-                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
+                    res.redirect(`/citizen`)
 
-                        }
-                    })
                 }
             })
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
+            res.redirect(`/login`)
         }
 
     },

@@ -1,400 +1,225 @@
 module.exports = {
     weaponsPage: (req, res) => {
         if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let query = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC"
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        res.sendStatus(400)
-                                    }
-                                    res.render("admin-pages/weapons.ejs", {  desc: "",title: 'Admin Panel | Weapons', weapons: result, isAdmin: result1[0].admin, cadId: result2[0].cadID })
-                                })
-                            } else {
-                                res.sendStatus(403)
-                            }
-                        })
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-        }
-    },
-    deleteWeapon: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let playerId = req.params.id;
-                                // let getImageQuery = 'SELECT image from `players` WHERE id = "' + playerId + '"';
-                                let deleteUserQuery = 'DELETE FROM weapons WHERE id = "' + playerId + '"';
-
-                                connection.query(deleteUserQuery, (err, result) => {
-                                    if (err) {
-                                        return console.log(err);
-                                        return res.sendStatus(500);;
-                                    } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `A weapon was deleted by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`)
-                                            };
-                                        });
-                                    }
-                                });
-                            } else {
-                                res.sendStatus(403)
-                            }
-                        })
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            });
-
-        }
-    },
-    addWeaponPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                res.render("weapons/add-weapons.ejs", {  desc: "",title: "Add Weapon", isAdmin: result1[0].admin, cadId: result2[0].cadID });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        }
-    },
-    addWeapon: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let name = req.body.name;
-                                let cadId = req.params.cadID
-
-                                let query = "INSERT INTO `weapons` (`name`, `cadID`) VALUES ('" + name + "', '" + cadId + "')";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        return console.log(err);
-                                        return res.sendStatus(500);;
-                                    } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `Weapon "${name}" was added by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
-                                            };
-                                        });
-                                    }
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        };
-    },
-    editWeaponPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection1.query(query, (err, result1) => {
-                            if (result1[0].admin == 'moderator' || result1[0].admin == 'admin' || result1[0].admin == 'owner') {
-                                let genderId = req.params.id;
-                                let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        return console.log(err);
-                                        return res.sendStatus(500);;
-                                    }
-                                    res.render("weapons/edit-weapon.ejs", {  desc: "",title: "Edit Gender", weapon: result[0], isAdmin: result1[0].admin, cadId: result2[0].cadID });
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        };
-    },
-    editWeapon: (req, res) => {
-        if (req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection1.query(query, (err, result) => {
-                            if (result[0].admin == 'moderator' || result[0].admin == 'admin' || result[0].admin == 'owner') {
-                                let genderId = req.params.id;
-                                let name = req.body.name;
-                                let query = 'UPDATE `weapons` SET `name` = "' + name + '" WHERE `weapons`.`id` = "' + genderId + '"';
-
-                                connection.query(query, (err, result) => {
-                                    if (err) {
-                                        console.log(err)
-                                        return console.log(err);
-                                        return res.sendStatus(500);;
-                                    } else {
-                                        let date = new Date()
-                                        let currentD = date.toLocaleString();
-                                        let action_title = `Weapon "${name}" was edited by ${req.session.username2}.`
-
-                                        let actionLog = "INSERT INTO `action_logs` (`action_title`, `cadID`, `date`) VALUES ('" + action_title + "', '" + req.params.cadID + "', '" + currentD + "')"
-                                        connection1.query(actionLog, (err, result3) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                res.redirect(`/cad/${result2[0].cadID}/admin/values/weapons`);
-                                            };
-                                        });
-                                    }
-                                });
-                            } else {
-                                res.sendStatus(403);
-                            };
-                        });
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
-        }
-    },
-    regWeaponPage: (req, res) => {
-        if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection1.query(query, (err, result1) => {
-                        let weapons = "SELECT * FROM `weapons` WHERE `cadID` = '" + req.params.cadID + "' ORDER BY id ASC"
-                        let citizens = "SELECT * FROM `citizens` WHERE `cadID` = '" + req.params.cadID + "'"
-                        let wStatusess = "SELECT * FROM `in_statuses` WHERE `cadID` = '" + req.params.cadID + "'  ORDER BY id ASC"
-                        let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND `cadID` = '" + req.params.cadID + "'"
+                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                        let query = "SELECT * FROM `weapons` ORDER BY id ASC"
+                        connection.query(query, (err, result) => {
+                            if (err) {
+                                res.sendStatus(400)
+                            }
+                            res.render("admin-pages/weapons.ejs", { desc: "", title: 'Admin Panel | Weapons', weapons: result, isAdmin: result1[0].rank, })
+                        })
+                    } else {
+                        res.sendStatus(403)
+                    };
+                };
+            });
+        } else {
+            res.redirect("/login")
+        }
+    },
+    deleteWeapon: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let weaponId = req.params.id;
+                        let deleteUserQuery = 'DELETE FROM weapons WHERE id = ?';
 
-                        connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, (err, result) => {
+                        connection.query(deleteUserQuery, [weaponId], (err) => {
                             if (err) {
                                 console.log(err);
                                 return res.sendStatus(500);;
-                            }
-                            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].admin, name: req.session.username2, owner: result[3], cadId: result2[0].cadID, desc:  "" })
+                            } else {
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let action_title = `A weapon was deleted by ${req.session.username2}.`
+
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                                connection.query(actionLog, [action_title, currentD], (err) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.redirect(`/admin/values/weapons`);
+                                    };
+                                });
+                            };
                         });
-                    });
+                    } else {
+                        res.sendStatus(403);
+                    };
                 }
-            })
-
-
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    addWeaponPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection.query(query, (err, result1) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                        res.render("weapons/add-weapons.ejs", { desc: "", title: "Add Weapon", isAdmin: result1[0].rank, });
+                    } else {
+                        res.sendStatus(403);
+                    };
+                };
+            });
+        } else {
+            res.redirect("/login");
         }
+    },
+    addWeapon: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            connection.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let name = req.body.name;
+
+                        let query = "INSERT INTO `weapons` (`name`) VALUES (?)";
+                        connection.query(query, [name], (err) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500);;
+                            } else {
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let action_title = `Weapon "${name}" was added by ${req.session.username2}.`
+
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                                connection.query(actionLog, [action_title, currentD], (err) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.redirect(`/admin/values/weapons`);
+                                    };
+                                });
+                            }
+                        });
+                    } else {
+                        res.sendStatus(403);
+                    };
+                }
+            });
+        } else {
+            res.redirect(`/login`);
+        };
+    },
+    editWeaponPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection.query(query, (err, result1) => {
+                if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                    let genderId = req.params.id;
+                    let query = "SELECT * FROM `weapons` WHERE id = '" + genderId + "' ";
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);;
+                        }
+                        res.render("weapons/edit-weapon.ejs", { desc: "", title: "Edit Gender", weapon: result[0], isAdmin: result1[0].rank, });
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    editWeapon: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+            connection.query(query, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                        let weaponId = req.params.id;
+                        let name = req.body.name;
+                        let query = 'UPDATE `weapons` SET `name` = ? WHERE `weapons`.`id` = ?';
+
+                        connection.query(query, [name, weaponId], (err) => {
+                            if (err) {
+                                console.log(err)
+                                console.log(err);
+                                return res.sendStatus(500);;
+                            } else {
+                                let date = new Date()
+                                let currentD = date.toLocaleString();
+                                let action_title = `Weapon "${name}" was edited by ${req.session.username2}.`
+
+                                let actionLog = "INSERT INTO `action_logs` (`action_title`,`date`) VALUES (?, ?)"
+                                connection.query(actionLog, [action_title, currentD], (err) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.redirect(`/admin/values/weapons`);
+                                    };
+                                });
+                            }
+                        });
+                    } else {
+                        res.sendStatus(403);
+                    };
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    regWeaponPage: (req, res) => {
+        if (!req.session.loggedin) {
+            res.redirect("/login")
+        } else {
+            let query = "SELECT * FROM `users` WHERE username = ?";
+            connection.query(query, [req.session.username2], (err, result1) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
+                    let citizens = "SELECT * FROM `citizens` "
+                    let wStatusess = "SELECT * FROM `in_statuses`  ORDER BY id ASC"
+                    let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = ?"
+
+                    connection.query(`${weapons}; ${citizens}; ${wStatusess}; ${ownerQ}`, [req.session.username2], (err, result) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);;
+                        } else {
+                            res.render("weapons/reg-weapons.ejs", { title: "Weapon Registration", weapons: result[0], status: result[2], owners: result[1], isAdmin: result1[0].rank, name: req.session.username2, owner: result[3], desc: "" })
+                        }
+                    });
+                };
+            });
+        };
     },
     regWeapon: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`)
-                    } else {
-                        res.sendStatus(404)
-                    }
-                }
-            })
-
-
+            res.redirect("/login")
         } else {
             function makeid(length) {
                 var result = '';
@@ -411,95 +236,87 @@ module.exports = {
             let status = req.body.status;
             let serial_number = makeid(10)
 
-            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `serial_number`, `status`, `cadID`, `linked_to`) VALUES ('" + owner + "', '" + weapon + "', '" + serial_number + "', '" + status + "', '" + req.params.cadID + "', '" + req.session.username2 + "')";
+            let query = "INSERT INTO `registered_weapons` (`owner`, `weapon`, `serial_number`, `status`, `linked_to`) VALUES (?, ?, ?, ?, ?)";
 
-
-            connection.query(query, (err, result) => {
+            connection.query(query, [owner, weapon, serial_number, status, req.session.username2], (err) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500);;
+                } else {
+                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                    connection.query(query, (err, result1) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'";
+                            let query3 = "SELECT * FROM `users`";
+                            let query4 = "SELECT * FROM `cad_info`"
+                            connection.query(`${query3}; ${query4}`, (err, result4) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    connection.query(`${query}`, (err, result) => {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].rank, message: "", messageG: 'Successfully Registered Weapon', username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
+                                        }
+                                    });
+                                };
+                            });
+                        }
+                    });
                 }
 
-                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-
-                connection1.query(query2, (err, result2) => {
-                    if (err) {
-                        console.log(err);
-                        return res.sendStatus(500);
-                    } else {
-                        if (result2[0]) {
-                            res.redirect(`/cad/${result2[0].cadID}/citizen`)
-                        } else {
-                            res.sendStatus(404)
-                        }
-                    }
-                })
             });
         };
     },
     citizenDeleteWeapon: (req, res) => {
         if (!req.session.loggedin) {
-            let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-            connection1.query(query2, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
-        } else {
-            let carID = req.params.weapon;
-            let query = "DELETE FROM `registered_weapons` WHERE id = '" + carID + "' AND `cadID` = '" + req.params.cadID + "' ";
 
-            connection.query(query, (err, result) => {
+            res.redirect(`/login`);
+        } else {
+            let weaponId = req.params.weapon;
+            let query = "DELETE FROM `registered_weapons` WHERE id = ?";
+
+            connection.query(query, [weaponId], (err) => {
                 if (err) {
                     console.log(err);
                     return res.status(500)
                 } else {
-                    let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                    connection1.query(query2, (err, result2) => {
-
-
+                    let query = "SELECT * FROM `users` WHERE username = ?";
+                    connection.query(query, [req.session.username2], (err, result1) => {
                         if (err) {
                             console.log(err);
-                            return res.sendStatus(500);
+                            return res.sendStatus(500)
                         } else {
-                            if (result2[0]) {
-                                let query2 = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'";
-                                connection1.query(query2, (err, result2) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        if (result2[0]) {
-                                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                            connection1.query(query, (err, result1) => {
-                                                let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "' AND cadID = '" + req.params.cadID + "'";
-                                                let query2 = "SELECT cad_name FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'";
-                                                let query3 = "SELECT * FROM `users`";
-                                                let query4 = "SELECT * FROM `cads` WHERE `cadID` = '" + req.params.cadID + "'"
-                                                connection1.query(`${query3}; ${query2}; ${query4}`, (err, result4) => {
-                                                    connection.query(`${query}`, (err, result) => {
-                                                        if (err) {
-                                                            console.log(err);
-                                                        };
-                                                        res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].admin, message: "Weapon Successfully removed", username: req.session.username2, cadId: result2[0].cadID, cadName: result4[1][0].cad_name, aop: result4[2][0].AOP });
-                                                    });
-                                                });
-                                            });
+                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+                            connection.query(query, (err, result1) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'";
+                                    let query3 = "SELECT * FROM `users`";
+                                    let query4 = "SELECT * FROM `cad_info`"
+                                    connection.query(`${query3}; ${query4}`, (err, result4) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500)
                                         } else {
-                                            res.send("CAD not found");
+                                            connection.query(`${query}`, (err, result) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].rank, message: "", messageG: 'Successfully Removed Weapon', username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
+                                                }
+                                            });
                                         };
-                                    };
-                                });
-                            } else {
-                                res.sendStatus(404);
-                            };
+                                    });
+                                }
+                            });
                         };
                     });
                 };

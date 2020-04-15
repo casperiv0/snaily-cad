@@ -8,7 +8,7 @@
       <div class="container mt-3">
         <h1 class="card-title text-light">
           Weapon management
-          <a href="/cad/<%= cadId %>/admin/values/weapons/add">+</a>
+          <a href="/admin/values/weapons/add">+</a>
         </h1>
 
         <input
@@ -24,12 +24,12 @@
           <li class="list-group-item text-light bg-dark">
             <%= ++index %> | <%= value.name %>
             <a
-              href="/cad/<%= cadId %>/admin/values/weapons/delete/<%= value.id %>"
+              href="/admin/values/weapons/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/weapons/edit/<%= value.id %>"
+              href="/admin/values/weapons/edit/<%= value.id %>"
               class="btn btn-success float-right margin-right-10"
               >Edit</a
             >
@@ -40,7 +40,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           No weapons found. Go
-          <a href="/cad/<%= cadId %>/admin/values/weapons/add">here</a> to add
+          <a href="/admin/values/weapons/add">here</a> to add
           weapons.
         </p>
         <% } %>

@@ -51,8 +51,8 @@
       >
       <option disabled value="---------">---------</option>
       <% ethnicities.forEach(ethnicity => { %>
-      <option value="<%= ethnicity.ethnicity %>"
-        ><%= ethnicity.ethnicity %></option
+      <option value="<%= ethnicity.name %>"
+        ><%= ethnicity.name %></option
       >
       <% }) %>
     </select>
@@ -159,7 +159,7 @@
     <label for="exampleInputEmail1">Firearms License</label>
     <select name="fire" class="form-control bg-dark border-dark text-light">
       <option selected value="<%= current[0].fire_license %>"
-        ><%= current[0].fire_licence %></option
+        ><%= current[0].fire_license %></option
       >
       <option disabled value="---------">---------</option>
       <% dmvs.forEach(dmv => { %>
@@ -173,7 +173,7 @@
     <label for="exampleInputEmail1">Pilots License</label>
     <select name="pilot" class="form-control bg-dark border-dark text-light">
       <option selected value="<%= current[0].pilot_license %>"
-        ><%= current[0].pilot_licence %></option
+        ><%= current[0].pilot_license %></option
       >
       <option disabled value="---------">---------</option>
       <% dmvs.forEach(dmv => { %>

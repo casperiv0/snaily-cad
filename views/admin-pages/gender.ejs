@@ -8,22 +8,22 @@
       <div class="container mt-3">
         <h1 class="users-title card-title text-light">
           Gender management
-          <a href="/cad/<%= cadId %>/admin/values/genders/add">+</a>
+          <a href="/admin/values/genders/add">+</a>
         </h1>
         <input class="disabled list-group-item" type="text" name="" id="" />
 
         <% if (genders.length > 0) {%>
         <ul class="list-group">
-          <% genders.forEach(value => { %>
+          <% genders.forEach((value, index) => { %>
           <li class="list-group-item text-light bg-dark">
-            <%= value.id %> | <%= value.gender %>
+            <%= ++index %> | <%= value.name %>
             <a
-              href="/cad/<%= cadId %>/admin/values/genders/delete/<%= value.id %>"
+              href="/admin/values/genders/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/genders/edit/<%= value.id %>"
+              href="/admin/values/genders/edit/<%= value.id %>"
               class="btn btn-success float-right  margin-right-10"
               >Edit</a
             >
@@ -34,7 +34,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           No genders found. Go
-          <a href="/cad/<%= cadId %>/admin/values/genders/add">here</a> to add
+          <a href="/admin/values/genders/add">here</a> to add
           genders.
         </p>
         <% } %>

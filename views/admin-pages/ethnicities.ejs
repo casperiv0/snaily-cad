@@ -8,7 +8,7 @@
       <div class="mt-2">
         <h1 class="users-title card-title text-light">
           Ethnicities management
-          <a href="/cad/<%= cadId %>/admin/values/ethnicities/add">+</a>
+          <a href="/admin/values/ethnicities/add">+</a>
         </h1>
         <input
           class="disabled list-group-item text-light bg-dark"
@@ -21,14 +21,14 @@
         <ul class="list-group">
           <% ethnicities.forEach(value => { %>
           <li class="list-group-item text-light bg-dark">
-            <%= value.id %> | <%= value.ethnicity %>
+            <%= value.id %> | <%= value.name %>
             <a
-              href="/cad/<%= cadId %>/admin/values/ethnicities/delete/<%= value.id %>"
+              href="/admin/values/ethnicities/delete/<%= value.id %>"
               class="btn btn-danger float-right"
               >Delete</a
             >
             <a
-              href="/cad/<%= cadId %>/admin/values/ethnicities/edit/<%= value.id %>"
+              href="/admin/values/ethnicities/edit/<%= value.id %>"
               class="btn btn-success float-right margin-right-10"
               >Edit</a
             >
@@ -39,7 +39,7 @@
         <% } else { %>
         <p class="alert alert-primary">
           No ethnicities found. Go
-          <a href="/cad/<%= cadId %>/admin/values/ethnicities/add">here</a> to
+          <a href="/admin/values/ethnicities/add">here</a> to
           add ethnicities.
         </p>
         <% } %>
