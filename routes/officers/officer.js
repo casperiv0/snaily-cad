@@ -109,8 +109,8 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     if (result[0].leo == 'yes') {
-                        const penalCodes = fs.readFileSync(__dirname + '/penal-codes.json');
-                        JSON.parse(penalCodes)
+                        const rawPenalCodes = fs.readFileSync(__dirname + '/penal-codes.json');
+                        const penalCodes = JSON.parse(rawPenalCodes)
                         res.render("officers-pages/penal-codes.ejs", {
                             title: "Penal Codes | SnailyCAD",
                             desc: "",

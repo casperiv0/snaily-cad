@@ -8,143 +8,44 @@ const session = require("express-session");
 const bodyParser = require('body-parser');
 const path = require('path');
 require("dotenv").config()
+const mysql = require('mysql');
 // Variables
 let port = creds.ENV === "dev" ? 3001 : creds.ProductionPort;
-const mysql = require('mysql');
 let connection;
 
 let db = {
     host: "localhost",
-    user: "root",
+    user: creds.user,
     database: creds.database,
     password: creds.databasePassword,
     multipleStatements: true,
     timeout: 0
 };
 
-
 // Admin
-const {
-    adminPanel,
-    usersPage,
-    adminEditCitizen,
-    adminEditCitizenPage,
-    editCADPage,
-    deleteAllCitizens,
-    banUser,
-    unBanUser,
-    editCAD,
-    actionLogPage,
-    declineUser,
-    acceptUser
-} = require("./routes/admin");
+const { adminPanel, usersPage, adminEditCitizen, adminEditCitizenPage, editCADPage, deleteAllCitizens, banUser, unBanUser, editCAD, actionLogPage, declineUser, acceptUser } = require("./routes/admin");
 
 // Vehicles
-const {
-    addCarPage,
-    carValuePage,
-    editVehiclePage,
-    editVehicle,
-    deleteVehiclePage,
-    addCar,
-    regVehicle,
-    regVehiclePage,
-    editVehiclePageCitizen,
-    editVehicleCitizen,
-    deleteVehicleCitizen
-} = require("./routes/values/cars");
+const { addCarPage, carValuePage, editVehiclePage, editVehicle, deleteVehiclePage, addCar, regVehicle, regVehiclePage, editVehiclePageCitizen, editVehicleCitizen, deleteVehicleCitizen } = require("./routes/values/cars");
 
 // Genders
-const {
-    genderPage,
-    deleteGender,
-    addGenderPage,
-    addGender,
-    editGender,
-    editGenderPage
-} = require("./routes/values/genders");
+const { genderPage, deleteGender, addGenderPage, addGender, editGender, editGenderPage } = require("./routes/values/genders");
 // Weapons
-const {
-    weaponsPage,
-    deleteWeapon,
-    addWeaponPage,
-    addWeapon,
-    editWeapon,
-    editWeaponPage,
-    regWeapon,
-    regWeaponPage,
-    citizenDeleteWeapon
-} = require("./routes/values/weapons");
+const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWeaponPage, regWeapon, regWeaponPage, citizenDeleteWeapon } = require("./routes/values/weapons");
 
 // Ethnicities
-const {
-    ethnicitiesPage,
-    addethnicityPage,
-    addethnicity,
-    editEthnicityPage,
-    editethnicity,
-    deleteEthnicity
-} = require("./routes/values/ethnicities");
+const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities");
 
 // Officers
-const {
-    officersPage,
-    penalCodesPage,
-    officersDash,
-    addOfficer,
-    addOfficerPage,
-    suspendLicensePlate,
-    suspendLicenseName,
-    statusChange,
-    codesPage,
-    officerBolo,
-    removeOfficerBolo,
-    officerOffencer,
-    officerAPI,
-    quickWarrant,
-    officerAPIPlate,
-    officerAPIWeapon,
-    cancelCall911,
-    update911call
-} = require("./routes/officers/officer");
+const { officersPage, penalCodesPage, officersDash, addOfficer, addOfficerPage, suspendLicensePlate, suspendLicenseName, statusChange, codesPage, officerBolo, removeOfficerBolo, officerOffencer, officerAPI, quickWarrant, officerAPIPlate, officerAPIWeapon, cancelCall911, update911call } = require("./routes/officers/officer");
 
-const {
-    emsPage,
-    statusChangeEMS, addEMSPage,
-    addEMS
-} = require('./routes/ems-fd/ems-fd')
+const { emsPage, statusChangeEMS, addEMSPage, addEMS } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
-const {
-    citizenPage,
-    citizenDetailPage,
-    addCitizen,
-    addCitizenPage,
-    editCitizenPage,
-    editCitizen,
-    deleteCitizens,
-    companyPage,
-    company,
-    createCompany,
-    companyDetailPage,
-    createCompanyPostPage,
-    createCompanyPost,
-    editCompanyPage,
-    editCitizenCompanyPage,
-    editCitizenCompany
-} = require("./routes/citizens/citizen");
+const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany } = require("./routes/citizens/citizen");
 
 // Registration - Login
-const {
-    loginPage,
-    registerPage,
-    login,
-    register,
-    editAccountPage,
-    editAccountUsername,
-    editAccountPassword,
-    deleteAccount
-} = require("./routes/login-reg");
+const { loginPage, registerPage, login, register, editAccountPage, editAccountUsername, editAccountPassword, deleteAccount } = require("./routes/login-reg");
 
 const { addDept, addDeptPage, editDept, deleteDept, editDeptPage, deptPage } = require("./routes/values/depts")
 
