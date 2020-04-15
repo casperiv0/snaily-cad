@@ -7,7 +7,9 @@
 1. Clone this repo to your PC, Run `git clone https://github.com/Dev-CasperTheGhost/SnailyCAD.git`
 2. Run `npm install` to install all required dependencies
 3. Install XAMPP MySQL server to connect to the database. link: https://www.apachefriends.org/download.html
-4. Run `npm start` to start the CAD
+4. Make a database called "snaily-cad"
+5. Import the `snaily-cad.sql` file into that database
+6. Run `npm start` to start the CAD
 
 ## Found bugs?
 
