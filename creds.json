@@ -1,5 +1,5 @@
 {
-    "databasePassword": "Database Password -  leave blank if no password set",
+    "databasePassword": "DB password",
     "database": "snaily-cad",
     "ENV": "dev",
     "ProductionPort": "80"

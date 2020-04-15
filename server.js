@@ -17,7 +17,7 @@ let db = {
     host: "localhost",
     user: "root",
     database: creds.database,
-    password: process.env.DBP,
+    password: creds.databasePassword,
     multipleStatements: true,
     timeout: 0
 };
@@ -390,7 +390,7 @@ async function main() {
                 setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
             } // to avoid a hot loop, and to allow our node script to
         }); // process asynchronous requests in the meantime.
-        connection.on('error - 2', function (err) {
+        connection.on('error', function (err) {
             console.log('db error', err);
             if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
@@ -399,7 +399,7 @@ async function main() {
             }
         });
         connection.on('error', function (err) {
-            console.log('db error - 2', err);
+            console.log('db error', err);
             if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
             } else { // connnection idle timeout (the wait_timeout
@@ -411,13 +411,13 @@ async function main() {
     app.listen(port, () => {
         console.log(`Running on ${port}`)
     });
-    setInterval(function () {
-        connection.query("SELECT 1", (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-        })
-    });
+    // setInterval(function () {
+    //     connection.query("SELECT 1", (err, result) => {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     })
+    // });
 }
 
 

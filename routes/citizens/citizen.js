@@ -1,5 +1,4 @@
 const d = new Date()
-const stringify = require('stringify');
 
 module.exports = {
     citizenPage: (req, res, next) => {
