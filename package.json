@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-favicon": "^2.0.1",
     "express-session": "^1.17.0",
+    "minimist": "^1.2.5",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.0",
     "request": "^2.88.2",
