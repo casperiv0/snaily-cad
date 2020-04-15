@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
-    <meta name="description" content="<%= desc %>">
+    <meta name="description" content="<%= desc %>" />
     <link rel="stylesheet" href="/css/style.css" />
     <script
       data-ad-client="ca-pub-7413458526139350"
@@ -52,37 +52,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-light" href="/myofficers"
-              >Police Dept.</a
-            >
+            <a class="nav-link text-light" href="/myofficers">Police Dept.</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/dispatch"
-              >Dispatch</a
-            >
+            <a class="nav-link text-light" href="/dispatch">Dispatch</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/ems-fd"
-              >EMS/FD</a
-            >
+            <a class="nav-link text-light" href="/ems-fd">EMS/FD</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/citizen"
-              >Citizens</a
-            >
+            <a class="nav-link text-light" href="/citizen">Citizens</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/tow"
-              >Tow</a
-            >
+            <a class="nav-link text-light" href="/tow">Tow</a>
           </li>
 
-          <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin ===
-          'owner') {%>
+          <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin === 'owner') {%>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/admin"
-              >Admin
-            </a>
+            <a class="nav-link text-light" href="/admin">Admin </a>
           </li>
           <%} else {%>
           <li class="nav-item"></li>
@@ -105,17 +92,14 @@
                 - Admin panel improvements
               </li>
               <small class="dropdown-item pn border-top border-dark"
-                >These messages will disapear after a few days </small>
+                >These messages will disapear after a few days
+              </small>
             </div>
           </div>
         </ul>
       </div>
     </nav>
-
-    <!-- <div class="loader-con" id="loader-con">
-      <div class="loader" id="loader"></div>
-    </div> -->
-
+    
     <script>
       function myFunction() {
         var input, filter, ul, li, a, i, txtValue;
@@ -135,7 +119,5 @@
       }
 
       document.body.style.backgroundColor = '#191919';
-      console.log('Build Version: v3.1.0');
+      console.log('Build Version: v5.0.0');
     </script>
-  </body>
-</html>
