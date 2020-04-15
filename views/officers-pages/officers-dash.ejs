@@ -184,15 +184,13 @@
 
 
     <!-- Modals -->
-      <!-- View Call -->
 
-
-
+  <!-- BOLOs -->
     <div class="modal fade" id="boloModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content bg-dark border-dark">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create Bolo</h5>
+            <h5 class="modal-title text-light" id="exampleModalLabel">Create Bolo</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -200,8 +198,8 @@
           <div class="modal-body">
             <form action="/officers/bolo" id="modal" method="post">
                 <div class="form-group">
-                    <label for="bolo">Bolo Description</label>
-                    <textarea name="bolo_desc" id="bolo" cols="30" rows="5" maxlength="1800" required minlength="10" class="form-control" placeholder="Bolo Description, Min Length of 10 characters"></textarea>
+                    <label for="bolo" class="text-light">Bolo Description</label>
+                    <textarea name="bolo_desc" id="bolo" cols="30" rows="5" maxlength="1800" required minlength="10" class="form-control text-light bg-secondary border-secondary" placeholder="Bolo Description, Min Length of 10 characters"></textarea>
                 </div>
 
 

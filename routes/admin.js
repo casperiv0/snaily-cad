@@ -348,7 +348,7 @@ module.exports = {
                     let userID = req.params.id;
                     let query = "UPDATE `users` SET `banned` = 'false', `ban_reason` = '' WHERE `users`.`id` = ?";
 
-                    connection.query(query, [userID], (err, result) => {
+                    connection.query(query, [userID], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
