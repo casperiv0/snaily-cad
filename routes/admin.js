@@ -400,11 +400,7 @@ module.exports = {
                                     console.log(err);
                                     return res.sendStatus(500);
                                 } else {
-                                    if (result2[0]) {
-                                        res.render("admin-pages/action-logs.ejs", { desc: "", messageG: '', message: '', title: "Action Logs | Equinox CAD", isAdmin: result[0].rank, actions: result2 });
-                                    } else {
-                                        res.sendStatus(404);
-                                    };
+                                    res.render("admin-pages/action-logs.ejs", { desc: "", messageG: '', message: '', title: "Action Logs | Equinox CAD", isAdmin: result[0].rank, actions: result2 });
                                 };
                             });
                         } else {
