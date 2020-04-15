@@ -69,7 +69,7 @@
                           <div class="modal-dialog" role="document">
                             <div class="modal-content bg-dark border-dark text-light">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Update 911 Call</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true" class="text-light">&times;</span>
                                 </button>
@@ -84,7 +84,7 @@
                                       <label for="exampleInputPassword1">Call Status</label>
                                       <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
                                         <option value="<%= call.status %>"><%= call.status %></option>
-                                        <option disabled value="--------">--------</option>
+                                        <option class="text-light" disabled value="--------">--------</option>
                                         <option value="assigned">Assigned</option>
                                         <option value="not assigned">Not Assigned</option>
                                       </select>
@@ -114,12 +114,8 @@
               <% if (bolos.length > 0) { %>
                 <% bolos.forEach(bolo => { %>
                   <li class="list-group-item bg-dark text-light">
-                    <form action="/officers/remove-bolo" method="POST">
-                      <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
-                        <div class="float-right">
-                          <button type="submit" class="btn btn-danger">Remove Bolo</a>
-                        </div>
-                    </form>
+                    <%= bolo.description %>
+                    <a href="/officers/remove-bolo-<%= bolo.id %>" class="btn btn-danger float-right">Remove Bolo</a>
                   </li>
               <%}) %>
               <% } else { %>
@@ -229,7 +225,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <form action="/officers/dash/" id="modal" method="post">
+            <form action="/officers/dash/add-offence" id="modal" method="post">
               <div class="form-group">
                 <label for="exampleInputEmail1">Charge/Offence</label>
                 <input
@@ -551,8 +547,9 @@
           '<li><span class="bolder mt-1"> Vehicle:</span> ' + result[0].vehicle +'</li>'+
           '<li><span class="bolder mt-1"> VIN Number:</span> ' + result[0].vin_number +'</li>'+
           '<li><span class="bolder mt-1"> Color:</span> ' + result[0].color +'</li>'+
-          '<li><span class="bolder mt-1"> Insurance Status:</span> ' + result[0].in_status +'</li>'+
+          '<li><span class="bolder mt-1"> Insurance Status:</span> ' + result[0].in_status +' </li>'+
           '<li><span class="bolder mt-1"> Owner:</span> ' + result[0].owner +'</li>'+
+          `<li> <a href="/officers/suspend/${result[0].id}-${result[0].owner}" class=\"btn btn-danger\">Suspend License</a>  </li>` +
           '</ul>';
         
 

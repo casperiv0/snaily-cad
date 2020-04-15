@@ -87,19 +87,8 @@ const {
 // Officers
 const {
     officersPage,
-    tabletPage,
     penalCodesPage,
     officersDash,
-    searchNamePage,
-    searchPlatePage,
-    plateResultsPage,
-    nameResultsPage,
-    officerApplyPage,
-    addOffencePage,
-    addOffence,
-    officerApply,
-    addWarrant,
-    addWarrantPage,
     addOfficer,
     addOfficerPage,
     suspendLicensePlate,
@@ -109,9 +98,6 @@ const {
     officerBolo,
     removeOfficerBolo,
     officerOffencer,
-    versionChange,
-    officerWeaponSearch,
-    officerAddWarrant,
     officerAPI,
     quickWarrant,
     officerAPIPlate,
@@ -249,6 +235,8 @@ app.post("/citizen/company/:id-:company", createCompanyPost)
 app.get("/citizen/company/:id-:company/edit-company", editCompanyPage)
 app.get("/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
 app.post("/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
+
+
 // Tow
 app.get("/tow", towPage)
 app.post("/create-tow-call", createTowCall)
@@ -275,25 +263,18 @@ app.get("/dispatch/cancel-call-:id", cancelCall911Dis)
 app.get("/myofficers", officersPage)
 app.get("/officers/dash", officersDash)
 app.get("/officers/penal-codes", penalCodesPage)
-app.get("/officers/apply", officerApplyPage);
-app.post("/officers/apply", officerApply);
-app.get("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrantPage)
-app.post("/officers/dash/warrants/add/:id-:first_name-:last_name", addWarrant)
-app.post("/officers/warrant", officerAddWarrant)
 app.get('/officers/add', addOfficerPage)
 app.post('/officers/add', addOfficer)
 app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
 app.post("/myofficers/status", statusChange)
 app.get("/officers/dash/codes", codesPage)
 app.post("/officers/bolo", officerBolo)
-app.post("/officers/remove-bolo", removeOfficerBolo)
-app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/dmv", suspendLicenseName)
-app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/pilot", suspendLicenseName)
-app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/fire", suspendLicenseName)
-app.post("/officers/dash/search/name/:id-:first_name-:last_name/suspend/ccw", suspendLicenseName)
-app.post("/officers/dash/offence", officerOffencer)
-app.post("/officers/version/compact", versionChange)
-app.post("/officers/version/real", versionChange)
+app.get("/officers/remove-bolo-:boloId", removeOfficerBolo)
+app.post("/officers/dash/search/name/:id-:full_name/suspend/dmv", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:full_name/suspend/pilot", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:full_name/suspend/fire", suspendLicenseName)
+app.post("/officers/dash/search/name/:id-:full_name/suspend/ccw", suspendLicenseName)
+app.post("/officers/dash/add-offence", officerOffencer)
 
 
 app.get("/officers/api/:name", officerAPI)
@@ -302,8 +283,6 @@ app.get("/officers/api/weapon/:serial", officerAPIWeapon)
 app.post("/officers/quickwarrant", quickWarrant)
 app.get("/officers/cancel-call-:id", cancelCall911)
 app.post("/officers/dash/update-call-:id", update911call)
-
-app.post("/officers/search/weapon", officerWeaponSearch);
 
 // EMS/FD
 app.get('/ems-fd', emsPage);
@@ -377,11 +356,19 @@ app.post("/admin/values/legal/edit/:id", editLegal)
 // 404
 app.get('/*', (req, res) => {
     res.status(404).render("errors/404.ejs", {
-        title: "404 | Equinox CAD",
+        title: "404 | SnailyCAD",
         isAdmin: "",
         desc: "",
     });
 });
+
+app.post("/*", (req, res) => {
+    res.status(404).render("errors/404.ejs", {
+        title: "404 | SnailyCAD",
+        isAdmin: "",
+        desc: "",
+    });
+})
 
 async function main() {
     function handleDisconnect() {
