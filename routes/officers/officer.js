@@ -484,7 +484,7 @@ module.exports = {
                 } else {
                     if (result[0]) {
                         if (result[0].leo == 'yes') {
-                            res.render("officers-pages/codes.ejs", { desc: "All the 10 codes you should know when going on duty", title: "10 Codes | SnailyCAD", isAdmin: result[0].admin })
+                            res.render("officers-pages/codes.ejs", { desc: "All the 10 codes you should know when going on duty", title: "10 Codes | SnailyCAD", isAdmin: result[0].rank })
                         } else {
                             res.sendStatus(403);
                         };

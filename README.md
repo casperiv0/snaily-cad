@@ -20,7 +20,11 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 ## Todos
 
 - Police
+
+  - [x] better 10 codes page
   - [ ] suspend Driver, Pilot, Firearms license
   - [ ] suspend Insurance
   - [ ] Better Penal codes page
-  - [ ] better 10 codes page
+
+- Main
+  - [ ] change name for entire CAD
