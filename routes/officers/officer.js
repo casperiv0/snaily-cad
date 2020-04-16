@@ -659,5 +659,19 @@ module.exports = {
         } else {
             res.redirect("/login")
         }
+    },
+    suspendDriversLicense: (req, res) => {
+        const userId = req.params.id;
+        const query = "UPDATE `citizens` SET `dmv` = ? WHERE `citizens`.`id` = ?";
+
+        connection.query(query, ["Suspended",userId], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500)
+            } else {
+                res.redirect("/officers/dash")
+            }
+
+        })
     }
 };

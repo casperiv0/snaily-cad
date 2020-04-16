@@ -37,7 +37,7 @@ const { weaponsPage, deleteWeapon, addWeaponPage, addWeapon, editWeapon, editWea
 const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, editethnicity, deleteEthnicity } = require("./routes/values/ethnicities");
 
 // Officers
-const { officersPage, penalCodesPage, officersDash, addOfficer, addOfficerPage, suspendLicensePlate, suspendLicenseName, statusChange, codesPage, officerBolo, removeOfficerBolo, officerOffencer, officerAPI, quickWarrant, officerAPIPlate, officerAPIWeapon, cancelCall911, update911call } = require("./routes/officers/officer");
+const { officersPage, penalCodesPage, officersDash, addOfficer, addOfficerPage, suspendLicensePlate, suspendLicenseName, statusChange, codesPage, officerBolo, removeOfficerBolo, officerOffencer, officerAPI, quickWarrant, officerAPIPlate, officerAPIWeapon, cancelCall911, update911call, suspendDriversLicense } = require("./routes/officers/officer");
 
 const { emsPage, statusChangeEMS, addEMSPage, addEMS } = require('./routes/ems-fd/ems-fd')
 
@@ -183,6 +183,7 @@ app.post("/officers/dash/search/name/:id-:full_name/suspend/pilot", suspendLicen
 app.post("/officers/dash/search/name/:id-:full_name/suspend/fire", suspendLicenseName)
 app.post("/officers/dash/search/name/:id-:full_name/suspend/ccw", suspendLicenseName)
 app.post("/officers/dash/add-offence", officerOffencer)
+app.get("/officers/susdmv/:id", suspendDriversLicense)
 
 
 app.get("/officers/api/:name", officerAPI)

@@ -22,7 +22,8 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 - Police
 
   - [x] better 10 codes page
-  - [ ] suspend Driver, Pilot, Firearms license
+  - [x] suspend Drivers License
+  - [ ] suspend Pilot, Firearms license
   - [ ] suspend Insurance
   - [ ] Better Penal codes page
 
