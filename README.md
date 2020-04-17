@@ -26,6 +26,9 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 
 ## Todos
 
+- Tow
+  - [ ] whitelist tow, enable/disable for entire CAD 
+
 - Police
 
   - [x] better 10 codes page
