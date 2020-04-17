@@ -27,7 +27,7 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 ## Todos
 
 - Tow
-  - [ ] whitelist tow, enable/disable for entire CAD 
+  - [ ] whitelist tow, enable/disable for entire CAD - Semi Done
 
 - Police
 
@@ -39,4 +39,4 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 
 - Main
   - [x] change name for entire CAD
-  - [ ] Update checker
+  - [x] Update checker

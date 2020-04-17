@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const package = require('./package.json');
+const chalk = require("chalk")
+const fetch = require("node-fetch")
 let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
 let creds = require("./creds.json");
@@ -280,6 +283,8 @@ app.post("/*", (req, res) => {
 })
 
 async function main() {
+    console.log(chalk.blue("CHECKING CAD VERSION."));
+
     function handleDisconnect() {
         connection = mysql.createConnection(db); // Recreate the connection, since
         // the old one cannot be reused.
@@ -313,13 +318,26 @@ async function main() {
     app.listen(port, () => {
         console.log(`Running on ${port}`)
     });
-    // setInterval(function () {
-    //     connection.query("SELECT 1", (err, result) => {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //     })
-    // });
+    setInterval(function () {
+        connection.query("SELECT 1", (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+        })
+    });
+    const versionUrl = "https://dev-caspertheghost.github.io/portofolio/api/version.html";
+
+    const versionResult = await fetch(versionUrl).then(res => res.json());
+
+
+    if (`${package.version}` !== `${versionResult.latestVersion}`) {
+        console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad"))
+    } else {
+       console.log(chalk.green("You are on all up to date.")); 
+    }
+    
+
+
 }
 
 

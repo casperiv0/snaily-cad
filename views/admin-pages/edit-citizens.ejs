@@ -49,7 +49,7 @@
         <% } else { %>
         <div class="form-group">
           <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
-          <select name="admin" class="form-control bg-dark border-dark text-light">
+          <select name="admin" class="form-control bg-dark border-dark text-light cap">
             <option value="<%= user[0].rank %>"><%= user[0].rank %></option>
             <option disabled value="">--------</option>
             <option value="admin">admin</option>
@@ -61,7 +61,7 @@
       
         <div class="form-group">
           <label for="exampleInputEmail333" class="text-light">LEO Access</label>
-          <select name="leo" class="form-control bg-dark border-dark text-light">
+          <select name="leo" class="form-control bg-dark border-dark text-light cap">
             <option value="<%= user[0].leo %>"><%= user[0].leo %></option>
             <option disabled value="">--------</option>
             <option value="yes">Yes</option>
@@ -71,7 +71,7 @@
       
         <div class="form-group">
           <label for="exampleInputEmail333" class="text-light">Dispatch Access</label>
-          <select name="dispatch" class="form-control bg-dark border-dark text-light">
+          <select name="dispatch" class="form-control bg-dark border-dark text-light cap">
             <option value="<%= user[0].dispatch %>"><%= user[0].dispatch %></option>
             <option disabled value="">--------</option>
             <option value="yes">Yes</option>
@@ -81,13 +81,26 @@
       
         <div class="form-group">
           <label for="exampleInputEmail333" class="text-light">EMS/FD Access</label>
-          <select name="ems" class="form-control bg-dark border-dark text-light">
+          <select name="ems" class="form-control bg-dark border-dark text-light cap">
             <option value="<%= user[0].ems_fd %>"><%= user[0].ems_fd %></option>
             <option disabled value="">--------</option>
             <option value="yes">Yes</option>
             <option value="no">No</option>
           </select>
         </div>
+
+        <% if (cad_info.tow_whitelisted === "yes") { %>
+          <div class="form-group">
+            <label for="exampleInputEmail333" class="text-light">Tow Access</label>
+            <select name="tow" class="form-control bg-dark border-dark text-light cap">
+              <option value="<%= user[0].tow %>"><%= user[0].tow %></option>
+              <option disabled value="">--------</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        <% } %>
+        
       
         <!-- <a href="/ems-fd/apply" class="btn btn-success">Apply for PD</a> -->
         <a href="/admin/users" class="btn btn-danger ">Cancel</a>

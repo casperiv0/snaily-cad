@@ -16,7 +16,15 @@ module.exports = {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("tow/tow.ejs", { desc: "", title: "Tow | SnailyCAD", isAdmin: result2[0][0].rank, calls: result, aop: result2[1][0] });
+                                if (result2[1][0].tow_whitelisted === "yes") {
+                                    if (result2[0][0].tow !== "yes") {
+                                        res.render("tow/403.ejs", { desc: "", title: "unauthorized", isAdmin: result2[0][0].rank })
+                                    } else {
+                                        res.render("tow/tow.ejs", { desc: "", title: "Tow | SnailyCAD", isAdmin: result2[0][0].rank, calls: result, aop: result2[1][0] });
+                                    }
+                                } else {
+                                    res.render("tow/tow.ejs", { desc: "", title: "Tow | SnailyCAD", isAdmin: result2[0][0].rank, calls: result, aop: result2[1][0] });
+                                }
                             }
                         })
                     } else {

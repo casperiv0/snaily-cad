@@ -61,16 +61,22 @@ module.exports = {
     },
     adminEditCitizenPage: (req, res) => {
         if (req.session.loggedin) {
-            let id = req.params.id
-            let query = "SELECT * FROM `users` WHERE id = '" + id + "'"
-            let query1 = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection.query(`${query1}; ${query}`, (err, result) => {
-                if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
+            const id = req.params.id
+            const query = "SELECT * FROM `users` WHERE id = ?"
+            const query1 = "SELECT * FROM `users` WHERE username = ?"
+            const query3 = "SELECT * FROM `cad_info`"
 
-                    res.render("admin-pages/edit-citizens.ejs", { desc: "", messageG: '', message: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].rank, req: req })
+            connection.query(`${query1}; ${query}; ${query3}`, [req.session.username2, id], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
                 } else {
-                    res.sendStatus(403)
-                };
+                    if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
+                        res.render("admin-pages/edit-citizens.ejs", { desc: "", messageG: '', message: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].rank, req: req, cad_info: result[2][0] })
+                    } else {
+                        res.sendStatus(403)
+                    };
+                }
             });
 
 
@@ -87,16 +93,21 @@ module.exports = {
             let leo = req.body.leo;
             let ems = req.body.ems;
             let dispatch = req.body.dispatch;
+            let tow = req.body.tow;
+            if (tow === undefined) {
+                tow = "yes"
+            }
             if (admin == "") {
-                query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
+                query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '", `tow` = "' + tow + '" WHERE `users`.`id` = "' + id + '"';
             } else if (admin == undefined) {
-                query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
+                query2 = 'UPDATE `users` SET `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '", `tow` = "' + tow + '"  WHERE `users`.`id` = "' + id + '"';
             } else {
-                query2 = 'UPDATE `users` SET `rank` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '" WHERE `users`.`id` = "' + id + '"';
+                query2 = 'UPDATE `users` SET `rank` = "' + admin + '", `leo` = "' + leo + '", `ems_fd` = "' + ems + '", `dispatch` = "' + dispatch + '", `tow` = "' + tow + '"  WHERE `users`.`id` = "' + id + '"';
             }
             let query = "SELECT * FROM `users` WHERE id = ?"
             let query1 = "SELECT * FROM `users` WHERE username = ?"
-            connection.query(`${query1}; ${query}`, [req.session.username2, id], (err, result5) => {
+            let query3 = "SELECT * FROM `cad_info`"
+            connection.query(`${query1}; ${query}; ${query3}`, [req.session.username2, id], (err, result5) => {
                 if (err) {
                     console.log(er);
                     return res.sendStatus(500)
@@ -127,7 +138,7 @@ module.exports = {
                                                 return res.sendStatus(500)
                                             } else {
                                                 if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
-                                                    res.render("admin-pages/edit-citizens.ejs", { desc: "", messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result5[0][0].rank, req: req })
+                                                    res.render("admin-pages/edit-citizens.ejs", { desc: "", messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result5[0][0].rank, req: req, cad_info: result5[2][0] })
                                                 } else {
                                                     res.sendStatus(403);
                                                 };
