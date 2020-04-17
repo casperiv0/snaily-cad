@@ -39,3 +39,4 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 
 - Main
   - [x] change name for entire CAD
+  - [ ] Update checker
