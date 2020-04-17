@@ -4,6 +4,13 @@
 
 ## How To setup?
 
+**Requirements**
+
+- NodeJS
+- Xampp MySQL
+
+**Installation**
+
 1. Clone this repo to your PC, Run `git clone https://github.com/Dev-CasperTheGhost/SnailyCAD.git`
 2. Go into the folder using: `cd snaily-cad`
 3. Run `npm install` to install all required dependencies
@@ -23,9 +30,9 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 
   - [x] better 10 codes page
   - [x] suspend Drivers License
+  - [x] Better Penal codes page
   - [ ] suspend Pilot, Firearms license
   - [ ] suspend Insurance
-  - [ ] Better Penal codes page
 
 - Main
-  - [ ] change name for entire CAD
+  - [x] change name for entire CAD

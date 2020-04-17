@@ -66,6 +66,7 @@
           <li class="nav-item">
             <a class="nav-link text-light" href="/tow">Tow</a>
           </li>
+          
 
           <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin === 'owner') {%>
           <li class="nav-item">
@@ -74,6 +75,11 @@
           <%} else {%>
           <li class="nav-item"></li>
           <%} %>
+          <li class="nav-item">
+            <button class="nav-link btn text-light" onclick="openFullscreen()">
+              Fullscreen
+            </button>
+          </li>
           <div class="btn-group btn-group-sm nav-item">
             <button
               type="button"
@@ -99,7 +105,7 @@
         </ul>
       </div>
     </nav>
-    
+
     <script>
       function myFunction() {
         var input, filter, ul, li, a, i, txtValue;
@@ -117,7 +123,24 @@
           }
         }
       }
+      var elem = document.body;
+      function openFullscreen() {
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          /* Firefox */
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          /* Chrome, Safari & Opera */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          /* IE/Edge */
+          elem.msRequestFullscreen();
+        }
+      }
 
       document.body.style.backgroundColor = '#191919';
       console.log('Build Version: v5.0.0');
     </script>
+  </body>
+</html>

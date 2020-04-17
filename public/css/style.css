@@ -174,6 +174,12 @@ body::-webkit-scrollbar-thumb {
 .border2 {
   border-bottom: 3px solid grey;
 }
+.fullscreen {
+  border: none;
+  background: none;
+  height: 30px;
+}
+
 #border2 {
   visibility: visible;
   border-bottom: 3px solid grey;
