@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2020 at 03:43 PM
+-- Generation Time: Apr 18, 2020 at 10:34 AM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -83,6 +83,7 @@ CREATE TABLE `cad_info` (
   `owner` varchar(255) NOT NULL,
   `cad_name` varchar(255) NOT NULL,
   `AOP` varchar(255) NOT NULL,
+  `tow_whitelisted` varchar(255) NOT NULL,
   `whitelisted` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -279,6 +280,7 @@ CREATE TABLE `users` (
   `leo` varchar(255) NOT NULL,
   `ems_fd` varchar(255) NOT NULL,
   `dispatch` varchar(255) NOT NULL,
+  `tow` varchar(255) NOT NULL,
   `banned` varchar(255) NOT NULL,
   `ban_reason` varchar(255) NOT NULL,
   `whitelist_status` varchar(255) NOT NULL
@@ -1022,7 +1024,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=453;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
 
 --
 -- AUTO_INCREMENT for table `warrants`
