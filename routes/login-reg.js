@@ -131,7 +131,7 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    
+
                     if (cad.length > 0) {
                         bcrypt.hash(password, saltRounds, function (err, hash) {
                             if (err) {
@@ -161,37 +161,69 @@ module.exports = {
                                                     console.log(err);
                                                     return res.sendStatus(500)
                                                 } else {
-                                                    console.log(result3);
-
                                                     if (result3[0].whitelisted === "true") {
-                                                        let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                                        connection.query(query, [username, hash, "No Rank", "no", "no", "no", "", "", "awaiting"], function (error, results, fields) {
-                                                            if (error) {
-                                                                console.log(error);
-                                                            } else {
-                                                                if (results.length > 0) {
-                                                                    res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password" });
+                                                        if (result3[0].tow_whitelisted === "yes") {
+                                                            let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                                            connection.query(query, [username, hash, "No Rank", "no", "no", "no", "no", "", "", "awaiting"], function (error, results, fields) {
+                                                                if (error) {
+                                                                    console.log(error);
+                                                                    return res.sendStatus(500)
                                                                 } else {
-                                                                    req.session.loggedin = false;
-                                                                    res.redirect(`/login`);
+                                                                    if (results.length > 0) {
+                                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password" });
+                                                                    } else {
+                                                                        req.session.loggedin = false;
+                                                                        res.redirect(`/login`);
+                                                                    };
                                                                 };
-                                                            };
-                                                        });
+                                                            });
+                                                        } else {
+                                                            let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                                            connection.query(query, [username, hash, "No Rank", "no", "no", "no", "no", "", "", "awaiting"], function (error, results, fields) {
+                                                                if (error) {
+                                                                    console.log(error);
+                                                                } else {
+                                                                    if (results.length > 0) {
+                                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password" });
+                                                                    } else {
+                                                                        req.session.loggedin = false;
+                                                                        res.redirect(`/login`);
+                                                                    };
+                                                                };
+                                                            });
+                                                        };
                                                     } else {
-                                                        let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                                        connection.query(query, [username, hash, "No Rank", "no", "no", "no", "", "", "accepted"], function (error, results, fields) {
-                                                            if (error) {
-                                                                console.log(error);
-                                                            } else {
-                                                                if (results.length > 0) {
-                                                                    res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                                        if (result3[0].tow_whitelisted === "yes") {
+                                                            let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                                            connection.query(query, [username, hash, "No Rank", "no", "no", "no", "no", "", "", "accepted"], function (error, results, fields) {
+                                                                if (error) {
+                                                                    console.log(error);
                                                                 } else {
-                                                                    req.session.loggedin = true;
-                                                                    req.session.username2 = username;
-                                                                    res.redirect(`/citizen/add`);
+                                                                    if (results.length > 0) {
+                                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                                                    } else {
+                                                                        req.session.loggedin = true;
+                                                                        req.session.username2 = username;
+                                                                        res.redirect(`/citizen/add`);
+                                                                    };
                                                                 };
-                                                            };
-                                                        });
+                                                            });
+                                                        } else {
+                                                            let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                                            connection.query(query, [username, hash, "No Rank", "no", "no", "no", "no", "", "", "accepted"], function (error, results, fields) {
+                                                                if (error) {
+                                                                    console.log(error);
+                                                                } else {
+                                                                    if (results.length > 0) {
+                                                                        res.render("login-res/reg.ejs", { desc: "", title: 'Login | SnailyCAD', isAdmin: "", message: "Wrong Username or Password", cadId: result2[0].cadID });
+                                                                    } else {
+                                                                        req.session.loggedin = true;
+                                                                        req.session.username2 = username;
+                                                                        res.redirect(`/citizen/add`);
+                                                                    };
+                                                                };
+                                                            });
+                                                        }
                                                     }
                                                 };
                                             });

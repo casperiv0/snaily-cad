@@ -51,6 +51,20 @@
           </div>
         <% } %>
         </div>
+
+        <div class="form-group p-2">
+          <% if(current.tow_whitelisted === "yes") { %>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" name="whitelist"  checked class="custom-control-input" id="tow_whitelist">
+            <label class="custom-control-label text-light" for="tow_whitelist">Tow Whitelisted</label>
+          </div>
+        <% } else { %>
+          <div class="custom-control custom-switch">
+            <input type="checkbox" name="tow_whitelist" class="custom-control-input" id="tow_whitelist">
+            <label class="custom-control-label text-light" for="tow_whitelist">Tow Whitelisted</label>
+          </div>
+        <% } %>
+        </div>
         <button type="submit" class=" btn btn-success ml-2 mb-2 mr-2">
           Update
         </button>
