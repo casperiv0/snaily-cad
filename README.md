@@ -20,9 +20,13 @@
 7. Rename `creds-template.json` to `creds.json` and configure if needed.
 8. Run `npm start` to start the CAD
 
-## Found bugs
+## Found bugs & Suggestions
 
-Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll fix it asap
+**Bugs**
+Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll fix it asap.
+
+**Suggestions**
+Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll see what I can do!
 
 ## Todos
 
