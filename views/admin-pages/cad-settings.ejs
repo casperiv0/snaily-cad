@@ -72,9 +72,8 @@
     
     
       
-      <form
-        action="/admin/delete-citizens"
-        method="post"
+      <div
+        
         class="card bg-secondary mt-3"
       >
         <h4 class="card-title text-light p-2">Site Actions</h4>
@@ -88,11 +87,32 @@
           </button>
         </div>
         <div class="ml-2 form-group">
-          <button type="submit" class="btn btn-danger cancel-btn">
+          <button type="button" data-toggle="modal" data-target="#deleteCitizens" class="btn btn-danger cancel-btn">
             Delete All Citizens
           </button>
+          <div class="modal fade" id="deleteCitizens" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content bg-dark border-dark text-light">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Delete All Citizens?</h5>
+                  <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="/admin/delete-citizens" method="post">
+                <div class="modal-body">
+                  <h1>Are you sure you want to delete all citizens?</h1>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-danger">Delete Citizens</button>
+                </div>       
+              </form>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
 
 
   </main> 
