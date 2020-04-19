@@ -23,14 +23,17 @@
 ## Found bugs & Suggestions
 
 **Bugs**
+
 Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll fix it asap.
 
 **Suggestions**
+
 Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll see what I can do!
 
 ## Todos
 
 - Tow
+
   - [x] whitelist tow, enable/disable for entire CAD
 
 - Police

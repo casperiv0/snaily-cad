@@ -201,7 +201,7 @@ module.exports = {
                     return res.sendStatus(500)
                 } else {
                     let weapons = "SELECT * FROM `weapons` ORDER BY id ASC"
-                    let citizens = "SELECT * FROM `citizens` "
+                    let citizens = "SELECT * FROM `citizens` ORDER BY `full_name` ASC"
                     let wStatusess = "SELECT * FROM `in_statuses`  ORDER BY id ASC"
                     let ownerQ = "SELECT * FROM `citizens` WHERE linked_to = ?"
 
@@ -243,13 +243,13 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500);;
                 } else {
-                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                    connection.query(query, (err, result1) => {
+                    let query = "SELECT * FROM `users` WHERE username = ?";
+                    connection.query(query, [req.session.username2], (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
-                            let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'";
+                            let query = "SELECT * FROM `citizens` WHERE linked_to = ?";
                             let query3 = "SELECT * FROM `users`";
                             let query4 = "SELECT * FROM `cad_info`"
                             connection.query(`${query3}; ${query4}`, (err, result4) => {
@@ -257,7 +257,7 @@ module.exports = {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    connection.query(`${query}`, (err, result) => {
+                                    connection.query(`${query}`,[req.session.username2 ], (err, result) => {
                                         if (err) {
                                             console.log(err);
                                         } else {
@@ -275,7 +275,6 @@ module.exports = {
     },
     citizenDeleteWeapon: (req, res) => {
         if (!req.session.loggedin) {
-
             res.redirect(`/login`);
         } else {
             let weaponId = req.params.weapon;
@@ -287,30 +286,31 @@ module.exports = {
                     return res.status(500)
                 } else {
                     let query = "SELECT * FROM `users` WHERE username = ?";
-                    connection.query(query, [req.session.username2], (err, result1) => {
+                    connection.query(query, [req.session.username2], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
-                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                            connection.query(query, (err, result1) => {
+                            let query = "SELECT * FROM `users` WHERE username = ?";
+                            connection.query(query, [req.session.username2], (err, result1) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    let query = "SELECT * FROM `citizens` WHERE linked_to = '" + req.session.username2 + "'";
+                                    let query = "SELECT * FROM `citizens` WHERE linked_to = ?";
                                     let query3 = "SELECT * FROM `users`";
                                     let query4 = "SELECT * FROM `cad_info`"
-                                    connection.query(`${query3}; ${query4}`, (err, result4) => {
+                                    connection.query(`${query3}; ${query4}`,  (err, result4) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500)
                                         } else {
-                                            connection.query(`${query}`, (err, result) => {
+                                            connection.query(`${query}`,[req.session.username2], (err, result) => {
                                                 if (err) {
                                                     console.log(err);
+                                                    return res.sendStatus(500)
                                                 } else {
-                                                    res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].rank, message: "", messageG: 'Successfully Removed Weapon', username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
+                                                    res.render("citizens/citizen.ejs", { desc: "See All your citizens, register vehicles or weapons here too.", title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].rank, message: "", messageG: 'Successfully Removed Weapon', username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP, });
                                                 }
                                             });
                                         };
