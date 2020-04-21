@@ -333,7 +333,7 @@ async function main() {
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
         console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad"))
     } else {
-       console.log(chalk.green("You are on all up to date.")); 
+       console.log(chalk.green("You are all up to date.")); 
     }
     
 
