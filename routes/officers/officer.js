@@ -1,43 +1,47 @@
-const fetch = require("node-fetch")
 const fs = require("fs")
 module.exports = {
     officersPage: (req, res, next) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
+            let query = "SELECT * FROM `users` WHERE username = ?"
             let cads = "SELECT * FROM `cad_info`";
             connection.query(cads, (err, result43) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    connection.query(query, (err, result1) => {
-                        if (result1[0].leo == 'yes') {
-                            let query = "SELECT * FROM `officers` WHERE linked_to = ?"
-                            let q1 = "SELECT * FROM `officers`"
-                            connection.query(`${query}; ${q1}`, [req.session.username2], (err, result) => {
-                                if (err) {
-                                    console.log(err);
-                                    return res.sendStatus(500)
-                                } else {
-                                    res.render("officers-pages/officers.ejs", {
-                                        title: "Police Department | SnailyCAD",
-                                        users: "qsd",
-                                        desc: "",
-                                        isAdmin: result1[0].rank,
-                                        officers: result[0],
-                                        allofficers: result[1],
-                                        cad: result43[0]
-                                    });
-                                }
-                            });
+                    connection.query(query, [req.session.username2], (err, result1) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
                         } else {
-                            res.render("officers-pages/403.ejs", { desc: "", title: "unauthorized | SnailyCAD", isAdmin: "" })
-                        };
+                            if (result1[0].leo == 'yes') {
+                                let query = "SELECT * FROM `officers` WHERE linked_to = ?"
+                                let q1 = "SELECT * FROM `officers`"
+                                connection.query(`${query}; ${q1}`, [req.session.username2], (err, result) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        res.render("officers-pages/officers.ejs", {
+                                            title: "Police Department | SnailyCAD",
+                                            users: "qsd",
+                                            desc: "",
+                                            isAdmin: result1[0].rank,
+                                            officers: result[0],
+                                            allofficers: result[1],
+                                            cad: result43[0]
+                                        });
+                                    }
+                                });
+                            } else {
+                                res.render("officers-pages/403.ejs", { desc: "", title: "unauthorized | SnailyCAD", isAdmin: "" })
+                            };
+                        }
                     });
                 }
             });
         } else {
-            res.redirect("/login")
+            res.redirect("/login");
         };
     },
     addOfficerPage: (req, res) => {
@@ -69,8 +73,8 @@ module.exports = {
     },
     addOfficer: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection.query(query, (err, result1) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -102,8 +106,8 @@ module.exports = {
     },
     penalCodesPage: (req, res) => {
         if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection.query(query, (err, result) => {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2],  (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -143,21 +147,20 @@ module.exports = {
                             return res.sendStatus(500)
                         } else {
                             if (result[0].leo == 'yes') {
-                                const url = "http://95.179.141.103:3000";
-                                fetch(url)
-                                    .then(res => res.json())
-                                    .then(json => res.render("officers-pages/officers-dash.ejs", {
-                                        title: "Police Department",
-                                        isAdmin: result[0].rank,
-                                        current: result[0],
-                                        desc: "",
-                                        officer: "",
-                                        bolos: result5[0],
-                                        penals: json,
-                                        citizens: result5[2],
-                                        calls: result5[1],
-                                        messageG: ""
-                                    }));
+                                const rawPenalCodes = fs.readFileSync(__dirname + '/penal-codes.json');
+                                const penalCodes = JSON.parse(rawPenalCodes)
+                                res.render("officers-pages/officers-dash.ejs", {
+                                    title: "Police Department",
+                                    isAdmin: result[0].rank,
+                                    current: result[0],
+                                    desc: "",
+                                    officer: "",
+                                    bolos: result5[0],
+                                    penals: penalCodes,
+                                    citizens: result5[2],
+                                    calls: result5[1],
+                                    messageG: ""
+                                });
                             } else {
                                 res.sendStatus(403);
                             };
@@ -172,7 +175,7 @@ module.exports = {
     officerOffencer: (req, res) => {
         if (req.session.loggedin) {
             let query = "SELECT * FROM `users` WHERE username = ?"
-            connection.query(query,[req.session.username2],  (err, result) => {
+            connection.query(query, [req.session.username2], (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -664,7 +667,7 @@ module.exports = {
         const userId = req.params.id;
         const query = "UPDATE `citizens` SET `dmv` = ? WHERE `citizens`.`id` = ?";
 
-        connection.query(query, ["Suspended",userId], (err, result) => {
+        connection.query(query, ["Suspended", userId], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
