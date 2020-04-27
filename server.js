@@ -325,7 +325,7 @@ async function main() {
             }
         })
     });
-    const versionUrl = "https://dev-caspertheghost.github.io/portofolio/api/version.html";
+    const versionUrl = "https://dev-caspertheghost.github.io/api/version.html";
 
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
