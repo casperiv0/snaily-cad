@@ -1,0 +1,132 @@
+<%- include("./partials/header.ejs") %>
+
+<form
+  class="container-fluid mt-2 text-light"
+  action=""
+  method="post"
+  enctype="application/x-www-form-urlencoded"
+>
+  <% if(message2 != ''){ %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <%= message2 %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <% } %>
+  <div class="form-group">
+    <label for="oldPassword">Enter Old Password</label>
+
+    <div class="input-group mb-2">
+      <input
+        name="oldPassword"
+        type="password"
+        class="form-control"
+        placeholder="Old Password"
+        id="oldPassword"
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          id="passwordBtns"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Enter New Password</label>
+
+    <div class="input-group mb-2">
+      <input
+        name="password"
+        type="password"
+        class="form-control"
+        placeholder="New Password"
+        id="password"
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          id="passwordBtns2"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword2()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="exampleInputEmail1">Confirm New Password</label>
+
+    <div class="input-group mb-2">
+      <input
+        name="password2"
+        type="password"
+        class="form-control"
+        placeholder="Confirm Password"
+        id="password2"
+      />
+      <div class="input-group-prepend">
+        <button
+          type="button"
+          id="passwordBtns3"
+          class="input-group-text btn btn-primary"
+          onclick="showPassword3()"
+        >
+          Show Password
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-row"></div>
+  <button type="submit" class="btn btn-primary float-right">
+    Update Account
+  </button>
+  <a class="btn btn-danger cancel-btn float-right" href="/citizen">Cancel</a>
+</form>
+
+
+<script>
+  function showPassword() {
+    let passwordInput = document.getElementById('oldPassword');
+    let passwordbtn = document.getElementById('passwordBtns');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      passwordbtn.textContent = 'Hide Password';
+    } else {
+      passwordInput.type = 'password';
+      passwordbtn.textContent = 'Show Password';
+    }
+  }
+  function showPassword2() {
+    let passwordInput = document.getElementById('password');
+    let passwordbtn = document.getElementById('passwordBtns2');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      passwordbtn.textContent = 'Hide Password';
+    } else {
+      passwordInput.type = 'password';
+      passwordbtn.textContent = 'Show Password';
+    }
+  }
+  function showPassword3() {
+    let passwordInput = document.getElementById('password2');
+    let passwordbtn = document.getElementById('passwordBtns3');
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      passwordbtn.textContent = 'Hide Password';
+    } else {
+      passwordInput.type = 'password';
+      passwordbtn.textContent = 'Show Password';
+    }
+  }
+</script>

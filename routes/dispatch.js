@@ -272,5 +272,24 @@ module.exports = {
         } else {
             res.redirect(`/login`);
         }
+    },
+    dispatchUpdateOfficerStatus: (req, res) => {
+        if (req.session.loggedin) {
+            const officerId = req.params.id;
+            const status = req.body.status;
+            const status2 = req.body.status2;
+            const query = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `id` = ?";
+
+            connection.query(query, [status, status2, officerId], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect("/dispatch")
+                }
+            })
+        } else {
+            res.redirect("/login")
+        }
     }
 };

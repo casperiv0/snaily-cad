@@ -320,9 +320,8 @@ module.exports = {
                                                 };
                                             });
                                         } else {
-                                            let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                                            let query = "INSERT INTO `registered_cars` (`owner`, `vehicle`, `vin_number`, `in_status`, `plate`, `color`, `linked_to`, `company`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-                                            companies = "None"
                                             connection.query(query, [owner, vehicle, vin_number, in_status, plate, color, linked_to, companies], (err, result) => {
                                                 if (err) {
                                                     console.log(err);

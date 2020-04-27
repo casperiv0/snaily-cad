@@ -672,7 +672,11 @@ module.exports = {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.redirect("/officers/dash")
+                if (req.path.includes("dispatch")) {
+                    res.redirect("/dispatch")
+                } else {
+                    res.redirect("/officers/dash")
+                }
             }
 
         })

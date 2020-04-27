@@ -243,13 +243,13 @@
                           <td><%= call.location %></td>
                           <td><%= call.description %></td>
                           <td><%= call.status %></td>
-                          <td> <button class="btn btn-success" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
+                          <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
                         </tr>
                         <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content bg-dark border-dark text-light">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">View Call</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true" class="text-light">&times;</span>
                                 </button>
@@ -287,7 +287,7 @@
                    </tbody>
                  </table>
             </ul>
-            <ul class="list-group mt-3 overflow-auto scroll-bar" style="height: 18rem" >
+            <ul class="list-group mt-3 overflow-auto scroll-bar" style="max-height: 18rem" >
               <div class="active list-group-item text-light sticky-top">Active Bolos</div>
               <% if (bolos.length > 0) {%>
                   <% bolos.forEach(bolo => { %>
@@ -306,6 +306,85 @@
                   </li>
               <%}%>                 
           </ul>
+          <ul class="list-group scroll-bar overflow-auto mt-3" style="max-height: 18rem;">
+            <div class="active list-group-item text-light sticky-top">Active Officers</div>
+            <% if (officers.length > 0) { %>
+             <table class="table table-dark">
+                 <thead>
+                   <tr>
+                     <th scope="col">#</th>
+                     <th scope="col">Officer Name</th>
+                     <th scope="col">Officer Department</th>
+                     <th scope="col">Status</th>
+                     <th scope="col">Status</th>
+                     <th scope="col">Actions</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                    <% officers.forEach(officer => { %>
+                      <tr>
+                        <th scope="row"><%= officer.id %></th>
+                        <td><%= officer.officer_name %></td>
+                        <td><%= officer.officer_dept %></td>
+                        <td><%= officer.status %></td>
+                        <td><%= officer.status2 %></td>
+                        <td> <button class="btn btn-primary" data-target="#editStatus<%= officer.id %>" data-toggle="modal">Edit Status</button> </td>
+                      </tr>
+                      <div class="modal fade" id="editStatus<%= officer.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content bg-dark border-dark text-light">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Edit Officer Status</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" class="text-light">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="/dispatch/update-status-<%= officer.id %> " method="POST">
+                                  <div class="form-group">
+                                    <label for="location">Officer Status</label>
+                                    <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
+                                      <option value="<%= officer.status %>"><%= officer.status %></option>
+                                      <option class="color-light" disabled value="--------">--------</option>
+                                      <option class="text-light" value="10-41 | 10-8"
+                                      >10-41 | 10-8</option>
+                                    <option class="text-light" value="10-42 | 10-7"
+                                      >10-42 | 10-7</option>
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="exampleInputPassword1">Call Status</label>
+                                    <select name="status2" id="status2" class="form-control bg-secondary border-secondary text-light cap">
+                                      <option value="<%= officer.status2 %>"><%= officer.status2 %></option>
+                                      <option disabled value="--------">New Status...</option>
+                                      <option class="text-light" value="10-6">10-6</option>
+                                      <option class="text-light" value="10-5">10-5</option>
+                                      <option class="text-light" value="10-12">10-12</option>
+                                      <option class="text-light" value="10-97">10-97</option>
+                                      <option class="text-light" value="10-11">10-11</option>
+                                      <option class="text-light" value="Signal 11">Signal 11</option>
+                                      <option class="text-light" value="Code 5">Code 5</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-success">Update Status</button>
+                                </div>
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                  <%}) %>
+                  <% } else { %>
+                    <li class="list-group-item bg-dark text-light">
+                      There're no active officers.
+                    </li>
+                    <% } %>
+                 </tbody>
+               </table>
+          </ul>
+          </ul>
           </div>
           <div class="col ">
             <ul class="list-group mb-4" >
@@ -320,22 +399,7 @@
             </ul>
           </div>
         </div>
-        <!-- <div class="row">
-          <div class="col">
-            
-          </div>
-          <!-- <div class="col-6">
-            2 of 3
-          </div> -->
-        </div> -->
       </div>
-
-    <br><br>
-    <div class="container">
-        
-                
-                
-    </div>
 
 </div>
 
@@ -375,17 +439,18 @@
           '<li><span class="bolder mt-1"> Gender:</span> ' + result[1][0].gender +'</li>'+
           '<li><span class="bolder mt-1"> Day of Birth:</span> ' + result[1][0].birth +'</li>'+
           '<li><span class="bolder mt-1"> Ethnicity:</span> ' + result[1][0].ethnicity +'</li>'+
-          '<li><span class="bolder mt-1"> Hair Color:</span> ' + result[1][0].hair +'</li>'+
-          '<li><span class="bolder mt-1"> Eye Color:</span> ' + result[1][0].eyes +'</li>'+
+          '<li><span class="bolder mt-1"> Hair Color:</span> ' + result[1][0].hair_color +'</li>'+
+          '<li><span class="bolder mt-1"> Eye Color:</span> ' + result[1][0].eye_color +'</li>'+
           '<li><span class="bolder mt-1"> Address:</span> ' + result[1][0].address +'</li>'+
           '<li><span class="bolder mt-1"> Height / Weight: </span> ' + result[1][0].height + " / " + result[1][0].weight + '</li>'+
           '</ul>';
         
         licenses += '<ul>' +
           '<li><span class="bolder mt-1"> Drivers Licenses:</span> ' + result[1][0].dmv +'</li>' +
-          '<li><span class="bolder mt-1"> Firearms Licenses:</span> ' + result[1][0].fire_licence +'</li>' +
-          '<li><span class="bolder mt-1"> Pilot License:</span> ' + result[1][0].pilot_licence +'</li>' +
+          '<li><span class="bolder mt-1"> Firearms Licenses:</span> ' + result[1][0].fire_license +'</li>' +
+          '<li><span class="bolder mt-1"> Pilot License:</span> ' + result[1][0].pilot_license +'</li>' +
           '<li><span class="bolder mt-1"> CCW:</span> ' + result[1][0].ccw +'</li>' +
+          '<li><span class="bolder mt-1"> <a class="btn btn-danger" href=\'/dispatch/susdmv/'+ result[1][0].id+'\'> Suspend Drivers License </a> </li>' +
           '</ul>'
 
 
@@ -435,6 +500,7 @@
           '<li><span class="bolder mt-1"> Color:</span> ' + result[0].color +'</li>'+
           '<li><span class="bolder mt-1"> Insurance Status:</span> ' + result[0].in_status +'</li>'+
           '<li><span class="bolder mt-1"> Owner:</span> ' + result[0].owner +'</li>'+
+          '<li><span class="bolder mt-1"> Company:</span> ' + result[0].company +'</li>'+
           '</ul>';
       
         document.getElementById("plates").innerHTML = plates;

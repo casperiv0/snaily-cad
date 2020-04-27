@@ -30,20 +30,11 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new)
 
 Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll see what I can do!
 
-## Todos
+# FAQ
 
-- Tow
+- How Do I change the Icon?
 
-  - [x] whitelist tow, enable/disable for entire CAD
+  - goto `public/icons/` and there will be a file called `icon.png` replace this file with yours, It might take a little before the changes have been saved
 
-- Police
-
-  - [x] better 10 codes page
-  - [x] suspend Drivers License
-  - [x] Better Penal codes page
-  - [ ] suspend Pilot, Firearms license
-  - [ ] suspend Insurance
-
-- Main
-  - [x] change name for entire CAD
-  - [x] Update checker
+- Am I allowed to translate this CAD?
+  - Yes, you are allowed to translate this CAD. (Only for your community)

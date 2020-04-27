@@ -274,162 +274,89 @@ module.exports = {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: '', messageG: '' })
+                    res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Currently you are only able to edit your password, Username will follow up soon!', messageG: '' })
                 }
             })
         } else {
             res.redirect("/login")
         }
     },
-    editAccountUsername: (req, res) => {
-        if (!req.session.loggedin) {
-            res.redirect(`/login`)
-        } else {
-
-            let newUsername = req.body.username;
-            let password = req.body.password;
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-
-            connection.query(query, (err, result) => {
-                bcrypt.compare(password, result[0].password, function (err, result2) {
-                    if (result2 === true) {
-                        let old_name = req.session.username2;
-                        let query3 = 'UPDATE `citizens` SET `linked_to` = "' + newUsername + '"  WHERE `citizens`.`linked_to` = "' + old_name + '"';
-                        let query5 = 'UPDATE `cads` SET `owner` = "' + newUsername + '" WHERE `cads`.`owner` = "' + old_name + '"';
-                        let query2 = 'UPDATE `users` SET `username` = "' + newUsername + '" WHERE `users`.`username` = "' + old_name + '"';
-                        let query4 = 'UPDATE `officers` SET `linked_to` = "' + newUsername + '" WHERE `officers`.`linked_to` = "' + old_name + '"';
-                        connection.query(`${query3}; ${query4}`, async (err1, result) => {
-                            connection.query(`${query2}; ${query5};`, async (err, result1) => {
-
-                                if (err) {
-                                    console.log(err);
-                                } else if (err) {
-                                    console.log(err1);
-                                } else {
-                                    req.session.destroy();
-                                    await res.redirect(`/cad/${result3[0].cadID}/`)
-                                };
-                            });
-                        });
-                    } else {
-                        let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                        connection.query(query, (err, result1) => {
-                            res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "Invalid Password", messageG: '', message2: '' })
-                        });
-
-                    };
-                });
-            });
-        };
-    },
     editAccountPassword: (req, res) => {
         if (!req.session.loggedin) {
-            let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'";
-
-            connection.query(query, (err, result2) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500);
-                } else {
-                    if (result2[0]) {
-                        res.redirect(`/cad/${result2[0].cadID}/login`);
-                    } else {
-                        res.sendStatus(404);
-                    };
-                };
-            });
+            res.redirect(`/login`);
         } else {
-            let query2 = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-            connection.query(query2, (err, result3) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
-                } else {
-                    if (result3[0]) {
-                        let old_password = req.body.old_password;
-                        let password = req.body.password;
-                        let password2 = req.body.password2;
 
-                        if (password !== password2) {
-                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                            connection.query(query, (err, result1) => {
-                                let query = "SELECT cadID FROM `cads` WHERE cadID = '" + req.params.cadID + "'"
-                                connection.query(query, (err, result2) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500);
-                                    } else {
-                                        if (result2[0]) {
-                                            res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", messageG: '', message2: "Passwords Are Not The Same", cadId: result2[0].cadID })
+            let old_password = req.body.oldPassword;
+            let password = req.body.password;
+            let password2 = req.body.password2;
+
+            if (password !== password2) {
+                let query = "SELECT * FROM `users` WHERE username = ?";
+                connection.query(query, [req.session.username2], (err, result1) => {
+
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", messageG: '', message2: "Passwords Are Not The Same" })
+                    };
+                });
+            } else {
+                let query = "SELECT * FROM `users` WHERE username = ?"
+
+                connection.query(query, [req.session.username2], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        bcrypt.compare(old_password, result[0].password, (err, result2) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                if (result2 === true) {
+                                    let old_name = req.session.username2;
+                                    bcrypt.hash(password, saltRounds, (err2, hash) => {
+                                        if (err2) {
+                                            console.log(err2);
+                                            return res.sendStatus(500)
                                         } else {
-                                            res.sendStatus(404)
-                                        };
-                                    };
-                                });
-                            });
-                        } else {
-                            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-
-                            connection.query(query, (err, result) => {
-                                if (err) {
-                                    console.log(err);
-                                    return res.sendStatus(500)
+                                            let query2 = 'UPDATE `users` SET `password` = ? WHERE `users`.`username` = ?';
+                                            connection.query(`${query2};`, [hash, old_name], async (err, result1) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else if (err) {
+                                                    console.log(err1);
+                                                } else {
+                                                    let query = "SELECT * FROM `users` WHERE username = ?";
+                                                    connection.query(query, [req.session.username2], (err, result1) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                            return res.sendStatus(500)
+                                                        } else {
+                                                            res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, messageG: 'Successfully Changed Password', message: "", message2: "", messageG: '' })
+                                                        }
+                                                    });
+                                                };
+                                            });
+                                        }
+                                    })
                                 } else {
-                                    bcrypt.compare(old_password, result[0].password, (err, result2) => {
+                                    let query = "SELECT * FROM `users` WHERE username = ?";
+                                    connection.query(query, [req.session.username2], (err, result1) => {
                                         if (err) {
                                             console.log(err);
                                             return res.sendStatus(500)
                                         } else {
-                                            if (result2 === true) {
-                                                let old_name = req.session.username2;
-                                                bcrypt.hash(password, saltRounds, (err2, hash) => {
-                                                    if (err2) {
-                                                        console.log(err2);
-                                                        return res.sendStatus(500)
-                                                    } else {
-                                                        let query2 = 'UPDATE `users` SET `password` = "' + hash + '" WHERE `users`.`username` = "' + old_name + '"';
-                                                        connection.query(`${query2};`, async (err, result1) => {
-                                                            if (err) {
-                                                                console.log(err);
-                                                            } else if (err) {
-                                                                console.log(err1);
-                                                            } else {
-                                                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                                connection.query(query, (err, result1) => {
-                                                                    let query = "SELECT cadID FROM `users` WHERE cadID = '" + req.params.cadID + "'"
-                                                                    connection.query(query, (err, result2) => {
-                                                                        if (err) {
-                                                                            console.log(err);
-                                                                            return res.sendStatus(500);
-                                                                        } else {
-                                                                            if (result2[0]) {
-                                                                                res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, messageG: 'Successfully Changed Password', message: "", message2: "", cadId: result2[0].cadID, messageG: '', })
-                                                                            } else {
-                                                                                res.sendStatus(404)
-                                                                            };
-                                                                        };
-                                                                    });
-                                                                });
-                                                            };
-                                                        });
-                                                    }
-                                                })
-                                            } else {
-                                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-                                                connection.query(query, (err, result1) => {
-                                                    res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Invalid Password', messageG: '', cadId: result3[0].cadID })
-                                                });
-                                            };
-                                        };
+                                            res.render("edit-account.ejs", { desc: "", title: 'Edit Account | SnailyCAD', isAdmin: result1[0].admin, req: req, message: "", message2: 'Invalid Password', messageG: '' })
+                                        }
                                     });
                                 };
-                            });
-                        };
-                    } else {
-                        res.sendStatus(404);
+                            };
+                        });
                     };
-                };
-            });
+                });
+            };
         };
     },
     deleteAccount: (req, res) => {

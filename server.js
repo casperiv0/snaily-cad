@@ -48,7 +48,7 @@ const { emsPage, statusChangeEMS, addEMSPage, addEMS } = require('./routes/ems-f
 const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany } = require("./routes/citizens/citizen");
 
 // Registration - Login
-const { loginPage, registerPage, login, register, editAccountPage, editAccountUsername, editAccountPassword, deleteAccount } = require("./routes/login-reg");
+const { loginPage, registerPage, login, register, editAccountPage, editAccountPassword, deleteAccount } = require("./routes/login-reg");
 
 const { addDept, addDeptPage, editDept, deleteDept, editDeptPage, deptPage } = require("./routes/values/depts")
 
@@ -62,7 +62,8 @@ const {
     createBolo,
     removeBolo,
     updateDispatchCall,
-    cancelCall911Dis
+    cancelCall911Dis,
+    dispatchUpdateOfficerStatus
 } = require("./routes/dispatch")
 
 const {
@@ -91,7 +92,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
-app.use(favicon(__dirname + '/public/icon2.png'));
+app.use(favicon(__dirname + '/public/icons/icon.png'));
 
 app.use(eSession.main(session));
 
@@ -108,8 +109,7 @@ app.post(`/register`, register);
 
 
 app.get("/account/edit", editAccountPage);
-app.post("/account/edit/username", editAccountUsername);
-app.post("/account/edit/password", editAccountPassword);
+app.post("/account/edit", editAccountPassword);
 app.post("/delete-account", deleteAccount)
 
 // Admin
@@ -166,8 +166,8 @@ app.post("/dispatch/bolo", createBolo);
 app.post("/dispatch/remove-bolo", removeBolo);
 app.post("/dispatch/update-call-:id", updateDispatchCall)
 app.get("/dispatch/cancel-call-:id", cancelCall911Dis)
-
-
+app.post("/dispatch/update-status-:id", dispatchUpdateOfficerStatus)
+app.get("/dispatch/susdmv/:id", suspendDriversLicense)
 
 
 // Officers
@@ -301,7 +301,7 @@ async function main() {
             console.log('db error', err);
             if (err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
+            } else { // connection idle timeout (the wait_timeout
                 throw err; // server variable configures this)
             }
         });
@@ -309,7 +309,7 @@ async function main() {
             console.log('db error', err);
             if (err.code === 'ECONNRESET') { // Connection to the MySQL server is usually
                 handleDisconnect(); // lost due to either server restart, or a
-            } else { // connnection idle timeout (the wait_timeout
+            } else { // connection idle timeout (the wait_timeout
                 throw err; // server variable configures this)
             }
         });
@@ -331,11 +331,11 @@ async function main() {
 
 
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
-        console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad"))
+        console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))
     } else {
-       console.log(chalk.green("You are all up to date.")); 
+        console.log(chalk.green("You are all up to date."));
     }
-    
+
 
 
 }
