@@ -4,6 +4,8 @@
 
 ## How To setup?
 
+With version 3.2.0 you will need to run this in your MySQL database to update the database to the newest version(Only run this if you already have the database setup)
+
 **Requirements**
 
 - NodeJS
@@ -24,11 +26,11 @@
 
 **Bugs**
 
-Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll fix it asap.
+Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new) and I'll fix it asap.
 
 **Suggestions**
 
-Open an issue [here](https://github.com/Dev-CasperTheGhost/SnailyCAD/issues/new) and I'll see what I can do!
+Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new) and I'll see what I can do!
 
 # FAQ
 

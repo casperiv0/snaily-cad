@@ -1,4 +1,5 @@
-const d = new Date()
+const d = new Date();
+const expressUpload = require("express-fileupload");
 
 module.exports = {
     citizenPage: (req, res, next) => {
@@ -59,7 +60,7 @@ module.exports = {
                                 res.sendStatus(404)
                             } else {
                                 if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
-                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].admin, desc: "See All the information about your current citizen." });
+                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req });
                                 } else {
                                     res.sendStatus(401);
                                 };
@@ -75,8 +76,8 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect(`/login`)
         } else {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-            connection.query(query, (err, result1) => {
+            let query = "SELECT * FROM `users` WHERE username = ?";
+            connection.query(query, [req.session.username2], (err, result1) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -99,115 +100,128 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect(`/login`)
         } else {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-            connection.query(query, (err, result1) => {
+            let query = "SELECT * FROM `users` WHERE username = ?";
+            connection.query(query, [req.session.username2], (err) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    let full_name = req.body.full_name;
-                    let linked_to = req.session.username2;
-                    let birth = req.body.birth;
-                    let gender = req.body.gender;
-                    if (gender === undefined) {
-                        gender = "Unknown"
-                    }
-                    let ethnicity = req.body.ethnicity;
-                    if (ethnicity === undefined) {
-                        ethnicity = "Unknown"
-                    }
-                    let hair_color = req.body.hair_color;
-                    let eyes_color = req.body.eye_color;
-                    let address = req.body.address;
-                    let ccw = req.body.ccw;
-
-                    let weight = req.body.weight;
-                    if (weight == "") {
-                        weight = "Unknown"
-                    }
-                    let dmv = req.body.dmv;
-                    if (dmv === undefined) {
-                        dmv = "Unknown"
-                    }
-                    let fireArms = req.body.fire;
-                    if (fireArms === undefined) {
-                        fireArms = "Unknown"
-                    }
-                    let pilot = req.body.pilot;
-                    if (pilot === undefined) {
-                        pilot = "Unknown"
-                    }
-                    let height = req.body.height;
-                    if (height == "") {
-                        height = "Unknown"
-
-                    }
-                    let query = "INSERT INTO `citizens` ( `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`,`ccw`,`business`, `rank`, `vehicle_reg`, `posts`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` = ?";
-
-                    connection.query(query222, [full_name], (err, result3) => {
-                        if (err) {
-                            console.log(err);
-                            return res.sendStatus(500)
-                        } else {
-                            // if (result3[])
-                            if (result3.length > 0) {
-                                let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
-
-                                connection.query(query, (err, result1) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500)
-                                    } else {
-                                        let genderQ = "SELECT * FROM `genders`";
-                                        let ethnicityQ = "SELECT * FROM `ethnicities`";
-                                        let dmvQ = "SELECT * FROM `in_statuses`";
-                                        connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
-                                            if (err) {
-                                                return res.status(500).send(err);
-                                            } else {
-                                                res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].rank, username: req.session.username2 });
-                                            };
-                                        });
-                                    };
-
-                                });
-                            } else {
-                                connection.query(query, [full_name, linked_to, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'Currently not working', 'employee', 'yes', 'yes'], (err, result) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.status(500).send("Something went wrong")
-                                    } else {
-                                        let query = "SELECT * FROM `users` WHERE username = ?";
-                                        connection.query(query, [req.session.username2], (err, result1) => {
-                                            if (err) {
-                                                console.log(err);
-                                                return res.sendStatus(500)
-                                            } else {
-                                                let query3 = "SELECT * FROM `users`";
-                                                let query4 = "SELECT * FROM `cad_info`"
-                                                connection.query(`${query3}; ${query4}`, (err, result4) => {
-                                                    if (err) {
-                                                        console.log(err);
-                                                        return res.sendStatus(500)
-                                                    } else {
-                                                        let query = "SELECT * FROM `citizens` WHERE linked_to = ?";
-                                                        connection.query(`${query}`, [req.session.username2], (err, result) => {
-                                                            if (err) {
-                                                                console.log(err);
-                                                            } else {
-                                                                res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].rank, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP });
-                                                            };
-                                                        });
-                                                    };
-                                                });
-                                            };
-                                        });
-                                    };
-                                });
-                            };
+                    if (req.files) {
+                        const file = req.files.citizen_pictures;
+                        const fileName = file.name;
+                        let full_name = req.body.full_name;
+                        let linked_to = req.session.username2;
+                        let birth = req.body.birth;
+                        let gender = req.body.gender;
+                        if (gender === undefined) {
+                            gender = "Unknown"
                         }
-                    });
+                        let ethnicity = req.body.ethnicity;
+                        if (ethnicity === undefined) {
+                            ethnicity = "Unknown"
+                        }
+                        let hair_color = req.body.hair_color;
+                        let eyes_color = req.body.eye_color;
+                        let address = req.body.address;
+                        let ccw = req.body.ccw;
+
+                        let weight = req.body.weight;
+                        if (weight == "") {
+                            weight = "Unknown"
+                        }
+                        let dmv = req.body.dmv;
+                        if (dmv === undefined) {
+                            dmv = "Unknown"
+                        }
+                        let fireArms = req.body.fire;
+                        if (fireArms === undefined) {
+                            fireArms = "Unknown"
+                        }
+                        let pilot = req.body.pilot;
+                        if (pilot === undefined) {
+                            pilot = "Unknown";
+                        };
+                        let height = req.body.height;
+                        if (height == "") {
+                            height = "Unknown";
+                        };
+
+                        let query = "INSERT INTO `citizens` ( `full_name`, `linked_to`, `birth`, `gender`, `ethnicity`, `hair_color`, `eye_color`, `address`, `height`, `weight`, `dmv`, `fire_license`, `pilot_license`,`ccw`,`business`, `rank`, `vehicle_reg`, `posts`, `citizen_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        let query222 = "SELECT `full_name` FROM `citizens` WHERE `full_name` = ?";
+
+                        connection.query(query222, [full_name], (err, result3) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                // if (result3[])
+                                if (result3.length > 0) {
+                                    let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'";
+
+                                    connection.query(query, (err, result1) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.sendStatus(500)
+                                        } else {
+                                            let genderQ = "SELECT * FROM `genders`";
+                                            let ethnicityQ = "SELECT * FROM `ethnicities`";
+                                            let dmvQ = "SELECT * FROM `in_statuses`";
+                                            connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}`, (err, result) => {
+                                                if (err) {
+                                                    return res.status(500).send(err);
+                                                } else {
+                                                    res.render("citizens/add-citizen.ejs", { title: "Add Citizen | SnailyCAD", desc: "", message: "Citizen Name is already in use please choose a new name!", genders: result[0], ethnicities: result[1], dmvs: result[2], isAdmin: result1[0].rank, username: req.session.username2 });
+                                                };
+                                            });
+                                        };
+
+                                    });
+                                } else {
+                                    connection.query(query, [full_name, linked_to, birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'Currently not working', 'employee', 'yes', 'yes', fileName], (err) => {
+                                        if (err) {
+                                            console.log(err);
+                                            return res.status(500).send("Something went wrong")
+                                        } else {
+                                            let query = "SELECT * FROM `users` WHERE username = ?";
+                                            connection.query(query, [req.session.username2], (err, result1) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                    return res.sendStatus(500)
+                                                } else {
+                                                    let query3 = "SELECT * FROM `users`";
+                                                    let query4 = "SELECT * FROM `cad_info`"
+                                                    connection.query(`${query3}; ${query4}`, (err, result4) => {
+                                                        if (err) {
+                                                            console.log(err);
+                                                            return res.sendStatus(500)
+                                                        } else {
+                                                            let query = "SELECT * FROM `citizens` WHERE linked_to = ?";
+                                                            connection.query(`${query}`, [req.session.username2], (err, result) => {
+                                                                if (err) {
+                                                                    console.log(err);
+                                                                } else {
+                                                                    file.mv("./public/citizen-pictures/" + fileName, err => {
+                                                                        if (err) {
+                                                                            console.log(err);
+                                                                            return res.sendStatus(500)
+                                                                        } else {
+                                                                            res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", desc: "", citizen: result, isAdmin: result1[0].rank, message: "", messageG: `Successfully Added ${full_name}`, username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP });
+                                                                        }
+                                                                    })
+                                                                };
+                                                            });
+                                                        };
+                                                    });
+                                                };
+                                            });
+                                        };
+                                    });
+                                };
+                            }
+                        });
+                    } else {
+                        return res.send("Please upload a file!")
+                    }
                 }
             });
         }
@@ -224,13 +238,12 @@ module.exports = {
                 } else {
                     let genderQ = "SELECT * FROM `genders`"
                     let ethnicityQ = "SELECT * FROM `ethnicities`"
-                    let dmvQ = "SELECT * FROM `in_statuses`"
                     let current = "SELECT * FROM `citizens` WHERE `id` = ?"
 
-                    connection.query(`${genderQ}; ${ethnicityQ}; ${dmvQ}; ${current}`, [req.params.id], (err, result) => {
+                    connection.query(`${genderQ}; ${ethnicityQ}; ${current}`, [req.params.id], (err, result) => {
 
-                        if (result[3][0].linked_to == req.session.username2) {
-                            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", desc: "", message: '', genders: result[0], ethnicities: result[1], dmvs: result[2], current: result[3], isAdmin: result1[0].admin, username: result[3] })
+                        if (result[2][0].linked_to == req.session.username2) {
+                            res.render("citizens/edit-citizen.ejs", { title: "Edit Citizen | SnailyCAD", desc: "", message: '', genders: result[0], ethnicities: result[1], current: result[2], isAdmin: result1[0].admin, username: result[2] })
                         } else {
                             res.sendStatus(401)
                         }
@@ -247,7 +260,7 @@ module.exports = {
         if (!req.session.loggedin) {
             res.redirect(`/login`)
         } else {
-
+            let query;
             let full_name = req.body.full_name
             let birth = req.body.birth;
             let gender = req.body.gender;
@@ -263,15 +276,32 @@ module.exports = {
             let fireArms = req.body.fire;
             let pilot = req.body.pilot
             let ccw = req.body.ccw
-            let cadID = req.params.cadID
+            let file, fileName
+            if (req.files) {
+                file = req.files.citizen_pictures;
+                fileName = file.name;
+                query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `citizen_picture` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
+            } else {
+                query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
+            }
 
-            let query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
 
-            connection.query(`${query};`, [birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, 'none', 'Currently not working', cadID], (err, result) => {
+            connection.query(`${query};`, [birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, fileName], (err) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    res.redirect(`/citizens/${req.params.id}-${full_name}`);
+                    if (req.files) {
+                        file.mv("./public/citizen-pictures/" + fileName, err => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                res.redirect(`/citizens/${req.params.id}-${full_name}`);
+                            };
+                        });
+                    } else {
+                        res.redirect(`/citizens/${req.params.id}-${full_name}`);
+                    }
                 };
             });
         };
@@ -600,6 +630,45 @@ module.exports = {
             }
         } else {
             res.redirect(`/login`);
+        }
+    },
+    editLicensesPage: (req, res) => {
+        if (req.session.loggedin) {
+            const query = "SELECT * FROM `users` WHERE `username` = ?";
+            const query2 = "SELECT * FROM `citizens` WHERE `id` = ?"
+            const statuses = "SELECT * FROM `in_statuses`";
+            connection.query(`${query}; ${query2}; ${statuses}`, [req.session.username2, req.params.id], (err, result) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.render("citizens/licenses.ejs", { desc: "", title: "Edit Licenses", isAdmin: result[0][0].rank, req: req, current: result[1][0], statuses: result[2] });
+                };
+            });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    editLicenses: (req, res) => {
+        if (req.session.loggedin) {
+            const citizenId = req.params.id;
+            const citizenName = req.params.full_name
+            const dmv = req.body.dmv;
+            const pilot_license = req.body.pilot_license;
+            const fire_license = req.body.fire_license;
+            const ccw = req.body.ccw;
+
+            const query = "UPDATE `citizens` SET `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `id`= ?";
+            connection.query(query, [dmv, fire_license, pilot_license, ccw, citizenId], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/citizens/${citizenId}-${citizenName}`)
+                }
+            })
+        } else {
+            res.redirect("/login")
         }
     }
 };

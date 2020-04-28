@@ -1,0 +1,70 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-2 text-light">
+    <form action="" method="POST" enctype="application/x-www-form-urlencoded">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Drivers License</label>
+            <select name="dmv" class="form-control bg-dark border-dark text-light">
+              <option selected value="<%= current.dmv %>"
+                ><%= current.dmv %></option
+              >
+              <option disabled value="---------">---------</option>
+              <% statuses.forEach(dmv => { %>
+              <option value="<%= dmv.status %>"><%= dmv.status %></option>
+              <% }) %>
+              <option value="none">None</option>
+            </select>
+          </div>
+        
+          <div class="form-group">
+            <label for="exampleInputEmail1">Firearms License</label>
+            <select name="fire_license" class="form-control bg-dark border-dark text-light">
+              <option selected value="<%= current.fire_license %>"
+                ><%= current.fire_license %></option
+              >
+              <option disabled value="---------">---------</option>
+              <% statuses.forEach(dmv => { %>
+              <option value="<%= dmv.status %>"><%= dmv.status %></option>
+              <% }) %>
+              <option value="none">None</option>
+            </select>
+          </div>
+        
+          <div class="form-group">
+            <label for="exampleInputEmail1">Pilots License</label>
+            <select name="pilot_license" class="form-control bg-dark border-dark text-light">
+              <option selected value="<%= current.pilot_license %>"
+                ><%= current.pilot_license %></option
+              >
+              <option disabled value="---------">---------</option>
+              <% statuses.forEach(dmv => { %>
+              <option value="<%= dmv.status %>"><%= dmv.status %></option>
+              <% }) %>
+              <option value="none">None</option>
+            </select>
+          </div>
+        
+          <div class="form-group">
+            <label for="exampleInputEmail1">CCW License</label>
+            <select name="ccw" class="form-control bg-dark border-dark text-light">
+              <% if (current.ccw === '') { %>
+        
+                <%} else { %>
+                <option selected value="<%= current.ccw %>"
+                  ><%= current.ccw %></option
+                >
+                <option disabled value="---------">---------</option>
+                <%} %>
+              
+              <% statuses.forEach(dmv => { %>
+              <option value="<%= dmv.status %>"><%= dmv.status %></option>
+              <% }) %>
+              <option value="none">None</option>
+            </select>
+          </div>
+          <div class="form-group float-right">
+              <a href="/citizens/<%= req.params.id %>-<%= req.params.full_name %>" class="btn btn-danger">Cancel</a>
+              <button type="submit" class="btn btn-primary">Edit Licenses</button>
+          </div>
+    </form>
+</div>

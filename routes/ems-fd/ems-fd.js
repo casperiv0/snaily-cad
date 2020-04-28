@@ -86,16 +86,16 @@ module.exports = {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.redirect(`/ems-fd`)
-                            }
-                        })
+                                res.redirect(`/ems-fd`);
+                            };
+                        });
                     } else {
                         res.sendStatus(403);
                     };
-                }
+                };
             });
         } else {
             res.redirect(`/login`);
-        }
+        };
     }
 };

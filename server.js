@@ -5,10 +5,11 @@ const chalk = require("chalk")
 const fetch = require("node-fetch")
 let eSession = require('easy-session');
 let cookieParser = require('cookie-parser');
+const expressUpload = require("express-fileupload")
 let creds = require("./creds.json");
+const cors = require("cors")
 const favicon = require('express-favicon');
 const session = require("express-session");
-const bodyParser = require('body-parser');
 const path = require('path');
 require("dotenv").config()
 const mysql = require('mysql');
@@ -45,7 +46,7 @@ const { officersPage, penalCodesPage, officersDash, addOfficer, addOfficerPage, 
 const { emsPage, statusChangeEMS, addEMSPage, addEMS } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany } = require("./routes/citizens/citizen");
+const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany, editLicensesPage, editLicenses } = require("./routes/citizens/citizen");
 
 // Registration - Login
 const { loginPage, registerPage, login, register, editAccountPage, editAccountPassword, deleteAccount } = require("./routes/login-reg");
@@ -80,10 +81,10 @@ const { create911Call } = require("./routes/911/911")
 
 // Middleware
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({
+app.use(express.urlencoded({
     extended: true
 }));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
 app.set('views', __dirname + '/views');
 app.set("view engine", "ejs")
@@ -92,9 +93,10 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
 }));
+app.use(cors());
 app.use(favicon(__dirname + '/public/icons/icon.png'));
-
 app.use(eSession.main(session));
+app.use(expressUpload());
 
 
 // Main Pages
@@ -147,6 +149,9 @@ app.get("/citizen/company/:id-:company/edit-company", editCompanyPage)
 app.get("/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
 app.post("/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
 
+// Licenses
+app.get("/citizen/:id-:full_name/edit-licenses", editLicensesPage)
+app.post("/citizen/:id-:full_name/edit-licenses", editLicenses)
 
 // Tow
 app.get("/tow", towPage)
@@ -336,7 +341,14 @@ async function main() {
         console.log(chalk.green("You are all up to date."));
     }
 
-
+    // Checks every 12 hours while running
+    setInterval(() => {
+        if (`${package.version}` !== `${versionResult.latestVersion}`) {
+            console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))
+        } else {
+            console.log(chalk.green("You are all up to date."));
+        }
+    }, 43200000)
 
 }
 

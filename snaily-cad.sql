@@ -113,7 +113,8 @@ CREATE TABLE `citizens` (
   `business` varchar(255) NOT NULL,
   `rank` varchar(255) NOT NULL,
   `vehicle_reg` varchar(255) NOT NULL,
-  `posts` varchar(255) NOT NULL
+  `posts` varchar(255) NOT NULL,
+  `citizen_picture` TEXT NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
