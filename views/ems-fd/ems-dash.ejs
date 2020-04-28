@@ -1,0 +1,191 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container-fluid mt-2">
+
+    <h2 class="card-title text-light">Dispatch - AOP: <%= cad.AOP %></h2>
+    <div class="card bg-secondary  mx-auto mb-4">
+        <div class="card-header text-light bolder">
+            Utility Panel
+            <span class="float-right" id="date"></span>
+        </div>
+        <div class="card-body row">
+            <button class="btn btn-dark bg-dark text-light mt-2" data-target="#medicalRecord"
+            data-toggle="modal">Search Person Medial Record</button>
+
+                <button class="btn text-light btn-dark bg-dark  ml-2 mt-2" data-target="#notepad"
+                data-toggle="modal">Notepad</button>
+        </div>
+    </div>     
+
+    <ul class="list-group scroll-bar overflow-auto" style="max-height: 18rem;">
+        <div class="active list-group-item text-light sticky-top">Active 911 Calls</div>
+        <% if (calls.length > 0) { %>
+         <table class="table table-dark">
+             <thead>
+               <tr>
+                 <th scope="col">#</th>
+                 <th scope="col">Caller Name</th>
+                 <th scope="col">Caller Location</th>
+                 <th scope="col">Call Description</th>
+                 <th scope="col">Status</th>
+                 <th scope="col">Actions</th>
+               </tr>
+             </thead>
+             <tbody>
+                <% calls.forEach(call => { %>
+                  <tr>
+                    <th scope="row"><%= call.id %></th>
+                    <td><%= call.name %></td>
+                    <td><%= call.location %></td>
+                    <td><%= call.description %></td>
+                    <td><%= call.status %></td>
+                    <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
+                  </tr>
+                  <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content bg-dark border-dark text-light">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">View Call</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" class="text-light">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="/ems-fd/update-call-<%= call.id %> " method="POST">
+                              <div class="form-group">
+                                <label for="location">Call Location</label>
+                                <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputPassword1">Call Status</label>
+                                <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
+                                  <option value="<%= call.status %>"><%= call.status %></option>
+                                  <option disabled value="--------">--------</option>
+                                  <option value="assigned">Assigned</option>
+                                  <option value="not assigned">Not Assigned</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <a href="/ems-fd/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
+                              <button type="submit" class="container btn btn-success">Update Call</button>
+                            </div>
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+              <%}) %>
+              <% } else { %>
+                <li class="list-group-item bg-dark text-light">
+                  There're no active calls.
+                </li>
+                <% } %>
+             </tbody>
+           </table>
+      </ul>
+
+
+    <!-- Medical Record Search -->
+    <div class="modal fade" id="medicalRecord" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content bg-dark border-dark text-light">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Medical Search</h5>
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form onsubmit="event.preventDefault(); return searchMedicalRecord()">
+            <div class="modal-body">
+              <input type="text" name="name" id="searchInput" class="form-control">
+
+               <table class="table table-dark">
+                   <thead>
+                     <tr>
+                       <th scope="col">#</th>
+                       <th scope="col">Type</th>
+                       <th scope="col">Short Information</th>
+                       <th scope="col">Name</th>
+                       <th scope="col">Actions</th>
+                     </tr>
+                   </thead>
+                   <tbody  id="mtable">
+                     
+                   </tbody>
+                 </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- Notepad -->
+    <div class="modal fade" id="notepad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content bg-dark border-dark text-light">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Notepad</h5>
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <textarea name="notes" id="notes" cols="30" rows="15" class="form-control text-light bg-secondary border-secondary"></textarea>
+              <p>This gets reset after a page reload</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary container" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="mb-4"></div>
+
+
+<script>
+    const http = new XMLHttpRequest()
+    
+    function searchMedicalRecord(e) {
+        const searchInputValue = document.getElementById("searchInput").value;
+        http.open("GET", `/ems-fd/api/${searchInputValue}`, true);
+
+
+        http.onload = function() {
+            if (this.status===200)  {
+                let result = JSON.parse(this.responseText);
+                let info = '';
+
+                if (result.length >0) {
+                    result.forEach(inf => {
+                    info += '<tr>' +
+                    '<th scope="row">'+ inf.id +'</th>'+
+                       '<td> '+ inf.type +' </td>'+
+                       '<td>'+ inf.short_info +'</td>'+
+                       '<td>'+ inf.name +'</td>'+
+                       '<td>Coming soon</td>'+
+                    '</tr>'
+                    
+                });
+                } else {
+                    info += "Citizen Not Found"
+                }
+                
+               
+               
+                document.getElementById("mtable").innerHTML = info;
+            } else {
+                console.log("there was an error");
+            }
+        }
+
+        http.send()
+    };
+    
+</script>

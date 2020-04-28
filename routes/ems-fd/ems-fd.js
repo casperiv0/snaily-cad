@@ -32,6 +32,34 @@ module.exports = {
             res.redirect(`/login`)
         }
     },
+    emsDashPage: (req, res) => {
+        if (req.session.loggedin) {
+            let query = "SELECT * FROM `users` WHERE username = ?"
+            connection.query(query, [req.session.username2], (err, result1) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    if (result1[0].ems_fd == 'yes') {
+                        let query = "SELECT * FROM `cad_info`"
+                        let calssQ = "SELECT * FROM `911calls`"
+                        connection.query(`${query}; ${calssQ}`, [req.session.username2], (err, result) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                res.render("ems-fd/ems-dash.ejs", { title: "EMS/FD", isAdmin: result1[0].rank, desc: "", cad: result[0][0], calls: result[1]  });
+                            }
+                        });
+                    } else {
+                        res.sendStatus(403);
+                    };
+                }
+            });
+        } else {
+            res.redirect(`/login`)
+        }
+    },
     statusChangeEMS: (req, res) => {
 
         let id = req.body.id
@@ -97,5 +125,18 @@ module.exports = {
         } else {
             res.redirect(`/login`);
         };
+    },
+    medicalSearch: (req, res) => {
+        const name = req.params.name;
+
+        const query = "SELECT * FROM `medical_records` WHERE `name` = ?"
+        connection.query(query, [name], (err, result) => {
+            if (err) {
+                console.log(err);
+                return res.send(err);
+            } else {
+                res.json(result);
+            };
+        });
     }
 };

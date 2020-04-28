@@ -43,10 +43,10 @@ const { ethnicitiesPage, addethnicityPage, addethnicity, editEthnicityPage, edit
 // Officers
 const { officersPage, penalCodesPage, officersDash, addOfficer, addOfficerPage, suspendLicensePlate, suspendLicenseName, statusChange, codesPage, officerBolo, removeOfficerBolo, officerOffencer, officerAPI, quickWarrant, officerAPIPlate, officerAPIWeapon, cancelCall911, update911call, suspendDriversLicense } = require("./routes/officers/officer");
 
-const { emsPage, statusChangeEMS, addEMSPage, addEMS } = require('./routes/ems-fd/ems-fd')
+const { emsDashPage, emsPage, statusChangeEMS, addEMSPage, addEMS, medicalSearch } = require('./routes/ems-fd/ems-fd')
 
 // Citizens
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany, editLicensesPage, editLicenses } = require("./routes/citizens/citizen");
+const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens, companyPage, company, createCompany, companyDetailPage, createCompanyPostPage, createCompanyPost, editCompanyPage, editCitizenCompanyPage, editCitizenCompany, editLicensesPage, editLicenses, addMedicalRecord, addMedicalRecordPage } = require("./routes/citizens/citizen");
 
 // Registration - Login
 const { loginPage, registerPage, login, register, editAccountPage, editAccountPassword, deleteAccount } = require("./routes/login-reg");
@@ -149,6 +149,10 @@ app.get("/citizen/company/:id-:company/edit-company", editCompanyPage)
 app.get("/citizen/company/:id-:company/edit/:citizen", editCitizenCompanyPage)
 app.post("/citizen/company/:id-:company/edit/:citizen", editCitizenCompany)
 
+// Medical Records
+app.get("/citizen/:id-:full_name/medical-record", addMedicalRecordPage)
+app.post("/citizen/:id-:full_name/medical-record", addMedicalRecord)
+
 // Licenses
 app.get("/citizen/:id-:full_name/edit-licenses", editLicensesPage)
 app.post("/citizen/:id-:full_name/edit-licenses", editLicenses)
@@ -202,10 +206,14 @@ app.get("/officers/cancel-call-:id", cancelCall911)
 app.post("/officers/dash/update-call-:id", update911call)
 
 // EMS/FD
+app.get("/ems-fd/dash", emsDashPage)
 app.get('/ems-fd', emsPage);
 app.post("/ems-fd/status", statusChangeEMS)
 app.get("/ems-fd/add", addEMSPage)
-app.post("/ems-fd/add", addEMS)
+app.post("/ems-fd/add", addEMS);
+app.get("/ems-fd/api/:name", medicalSearch)
+app.get("/ems-fd/cancel-call-:id", cancelCall911)
+app.post("/ems-fd/update-call-:id", update911call)
 
 // Cars
 app.get("/admin/values/cars", carValuePage)

@@ -16,7 +16,13 @@
   <% } %>
   <div class="form-group text-light">
     <label for="citizen_pictures">Citizens Picture</label>
-    <input type="file" name="citizen_pictures" id="citizen_pictures" class="form-control-file" required>
+    <input
+      type="file"
+      name="citizen_pictures"
+      id="citizen_pictures"
+      class="form-control-file"
+      required
+    />
   </div>
   <div class="form-group text-light">
     <label for="exampleInputEmail1">Enter Full Name</label>
@@ -48,9 +54,7 @@
       class="form-control bg-dark text-light border-dark"
     >
       <% ethnicities.forEach(ethnicity => { %>
-      <option value="<%= ethnicity.name %>"
-        ><%= ethnicity.name %></option
-      >
+      <option value="<%= ethnicity.name %>"><%= ethnicity.name %></option>
       <% }) %>
     </select>
   </div>
@@ -122,53 +126,52 @@
   </div>
 
   <!-- Licences -->
-  <div class="form-group text-light">
-    <label for="exampleInputEmail1">Drivers Licence</label>
-    <select name="dmv" class="form-control bg-dark text-light border-dark">
-      <% dmvs.forEach(dmv => { %>
-      <option value="<%= dmv.status %>"><%= dmv.status %></option>
-      <% }) %>
-      <option value="none">None</option>
-    </select>
-  </div>
+  <h1 class="text-light">Licenses</h1>
+  <div class="form-row">
+    <div class="form-group text-light col-md-3">
+      <label for="exampleInputEmail1">Drivers Licence</label>
+      <select name="dmv" class="form-control bg-dark text-light border-dark">
+        <% dmvs.forEach(dmv => { %>
+        <option value="<%= dmv.status %>"><%= dmv.status %></option>
+        <% }) %>
+        <option value="none">None</option>
+      </select>
+    </div>
 
-  <div class="form-group text-light">
-    <label for="exampleInputEmail1">Firearms Licence</label>
-    <select name="fire" class="form-control bg-dark text-light border-dark">
-      <% dmvs.forEach(dmv => { %>
-      <option value="<%= dmv.status %>"><%= dmv.status %></option>
-      <% }) %>
-      <option value="none">None</option>
-    </select>
-  </div>
+    <div class="form-group text-light col-md-3">
+      <label for="exampleInputEmail1">Firearms Licence</label>
+      <select name="fire" class="form-control bg-dark text-light border-dark">
+        <% dmvs.forEach(dmv => { %>
+        <option value="<%= dmv.status %>"><%= dmv.status %></option>
+        <% }) %>
+        <option value="none">None</option>
+      </select>
+    </div>
 
-  <div class="form-group text-light">
-    <label for="exampleInputEmail1">Pilots Licence</label>
+    <div class="form-group text-light col-md-3">
+      <label for="exampleInputEmail1">Pilots Licence</label>
 
-    <select name="pilot" class="form-control  bg-dark text-light border-dark">
-      <% dmvs.forEach(dmv => { %>
-      <option value="<%= dmv.status %>"><%= dmv.status %></option>
-      <% }) %>
-      <option value="none">None</option>
-    </select>
-  </div>
-  <div class="form-group text-light">
-    <label for="exampleInputEmail1">CCW Licence</label>
+      <select name="pilot" class="form-control bg-dark text-light border-dark">
+        <% dmvs.forEach(dmv => { %>
+        <option value="<%= dmv.status %>"><%= dmv.status %></option>
+        <% }) %>
+        <option value="none">None</option>
+      </select>
+    </div>
+    <div class="form-group text-light col-md-3">
+      <label for="exampleInputEmail1">CCW Licence</label>
 
-    <select name="ccw" class="form-control bg-dark text-light border-dark">
-      <% dmvs.forEach(dmv => { %>
-      <option value="<%= dmv.status %>"><%= dmv.status %></option>
-      <% }) %>
-      <option value="none">None</option>
-    </select>
+      <select name="ccw" class="form-control bg-dark text-light border-dark">
+        <% dmvs.forEach(dmv => { %>
+        <option value="<%= dmv.status %>"><%= dmv.status %></option>
+        <% }) %>
+        <option value="none">None</option>
+      </select>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary float-right margin-right-10">
     Add Citizen
   </button>
-  <a
-    href="/citizen"
-    class="btn cancel-btn btn-danger float-right"
-    >Cancel</a
-  >
+  <a href="/citizen" class="btn cancel-btn btn-danger float-right">Cancel</a>
 </form>

@@ -2,9 +2,26 @@
 
 # Free CAD for your community
 
+# Update 3.3.0
+
+- Improvements to name police name search
+- Citizen profile picture
+- Entire new Details Citizens page
+- Medical Records
+- A ton of bug fixes
+- EMS/FD Dashboard
+  - Notepad
+  - able to search for medical records
+
 ## How To setup?
 
-With version 3.2.0 you will need to run this in your MySQL database to update the database to the newest version(Only run this if you already have the database setup)
+With version 3.3.0 you will need to run this in your MySQL database to update the database to the newest version(Only run this if you already have the database setup)
+
+`ALTER TABLE `citizens`ADD`citizen_picture`TEXT NOT NULL AFTER`posts`;`
+
+`CREATE TABLE `medical_records`(`id`int(11) NOT NULL,`type`varchar(255) NOT NULL,`short_info`varchar(255) NOT NULL,`name`varchar(255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+
+`ALTER TABLE `medical_records`ADD PRIMARY KEY (`id`);`
 
 **Requirements**
 

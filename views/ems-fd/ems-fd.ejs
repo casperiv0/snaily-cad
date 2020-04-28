@@ -3,12 +3,10 @@
 <div class="container mx-auto">
   <h1 class="card-title text-center mt-3 text-light">EMS/FD</h1>
   <ul class="list-group">
-    <a href="/ems-fd/add" class="btn btn-primary mt-1"
-      >Add EMS Deputy</a
-    >
+    <a href="/ems-fd/dash" class="btn btn-primary mt-1">EMS-FD Dashboard</a>
+    <a href="/ems-fd/add" class="btn btn-primary mt-1">Add EMS Deputy</a>
 
-    <% if (ems.length > 0) { %>
-      <% ems.forEach(value => { %>
+    <% if (ems.length > 0) { %> <% ems.forEach(value => { %>
     <li class="list-group-item mt-2 text-light bg-dark">
       <form
         class="form-inline text-light bg-dark"
@@ -81,13 +79,11 @@
         <span class="bolder">-</span> <%= value.status2 %>
       </p>
     </li>
-    <% }) %>
-    <% } else { %>
-      <li class="list-group-item text-light bg-dark mt-2">
-        You Don't have any EMS deputies. Create one <a href="/ems-fd/add">here</a>
-        </li>
+    <% }) %> <% } else { %>
+    <li class="list-group-item text-light bg-dark mt-2">
+      You Don't have any EMS deputies. Create one <a href="/ems-fd/add">here</a>
+    </li>
     <% } %>
-    
   </ul>
 </div>
 

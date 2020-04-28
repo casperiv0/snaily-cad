@@ -616,7 +616,11 @@ module.exports = {
                                     console.log(err);
                                     return res.sendStatus(500);
                                 } else {
-                                    res.redirect(`/officers/dash`);
+                                    if (req.path.includes("officers")) {
+                                        res.redirect(`/officers/dash`);
+                                    } else {
+                                    res.redirect(`/ems-fd/dash`);
+                                    }
                                 };
                             });
                         } else {
@@ -648,7 +652,11 @@ module.exports = {
                                     console.log(err);
                                     return res.sendStatus(500);
                                 } else {
-                                    res.redirect(`/officers/dash`);
+                                    if (req.path.includes("officers")) {
+                                        res.redirect(`/officers/dash`);
+                                    } else {
+                                    res.redirect(`/ems-fd/dash`);
+                                    }
                                 };
                             });
                         } else {

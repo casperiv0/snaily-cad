@@ -1,0 +1,35 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container mt-3 text-light">
+  <form action="" enctype="application/x-www-form-urlencoded" method="POST">
+    <h3 class="card-title">Add Medical Record</h3>
+    <div class="form-group">
+      <label for="type">Type</label>
+      <select
+        name="type"
+        id="type"
+        class="form-control bg-secondary border-secondary text-light"
+      >
+        <option value="allergy">Allergy</option>
+        <option value="medication">Medication</option>
+        <option value="health_problem">Health Problem</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="information">Short Information</label>
+      <textarea
+        name="short"
+        id="information"
+        cols="30"
+        rows="10"
+        maxlength="255"
+        minlength="10"
+        class="form-control bg-secondary border-secondary text-light"
+      ></textarea>
+    </div>
+    <div class="form-group float-right">
+        <a class="btn btn-danger" href="/citizens/<%= req.params.id %>-<%= req.params.full_name %>">Cancel</a>
+        <button class="btn btn-primary" type="submit">Add Medical Record</button>
+    </div>
+  </form>
+</div>

@@ -76,6 +76,42 @@
             </div>
             
 
+            <div class="card bg-dark border-dark mt-3 text-light scroll-bar overflow-auto" style="max-height: 20rem;">
+                <div class="bg-dark border-dark card-header sticky-top">
+                    <h3>Medical Records <div class="float-right">
+                        <a href="/citizen/<%= req.params.id %>-<%= req.params.full_name %>/medical-record" class="btn btn btn-primary">Add Allergy/Medication/Health Problem</a>
+                    </div> </h3>
+                </div>
+                <div class="card-body">
+                    <% if (medicalRecords.length > 0) { %>
+                        <table class="table table-dark">
+                            <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Short Information</th>
+                                <th scope="col">Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                               <% medicalRecords.forEach(record => { %>
+                                 <tr>
+                                   <th scope="row"><%= record.id %></th>
+                                   <td><%= record.type %></td>
+                                   <td><%= record.short_info %></td>
+                                   <td> Coming soon </td>
+                                 </tr>
+                             <%}) %>
+                             <% } else { %>
+                                <p class="text-light"> You Don't have any medical records, stay healthy :)</p>  
+                               <% } %>
+                            </tbody>
+                        </table>
+                   </ul>
+                   </ul>
+                </div>
+            </div>
+
             <div class="list-group-item list-group-item-action active bg-dark text-light border-dark mt-1">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">Vehicles:</h5>

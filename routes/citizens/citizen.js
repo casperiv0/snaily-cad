@@ -47,11 +47,13 @@ module.exports = {
                     let full_name = req.params.full_name;
                     let owner = full_name;
                     let isCeo = false;
-                    let query = "SELECT * FROM `citizens` WHERE id = '" + id + "' ";
-                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = '" + owner + "' AND `linked_to` = '" + req.session.username2 + "'";
-                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = '" + owner + "'  AND `linked_to` = '" + req.session.username2 + "'";
-                    let ceo = "SELECT business_owner FROM `businesses` WHERE `business_owner` = '" + owner + "' AND `linked_to` = '" + req.session.username2 + "'";
-                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${ceo}`, (err, result) => {
+                    let username = req.session.username2;
+                    let query = "SELECT * FROM `citizens` WHERE id = ?";
+                    let vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = ? AND `linked_to` = ?";
+                    let weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = ?  AND `linked_to` = ?";
+                    let ceo = "SELECT business_owner FROM `businesses` WHERE `business_owner` = ?  AND `linked_to` = ?";
+                    let medicalRecords = "SELECT * FROM `medical_records` WHERE `name` = ?"
+                    connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${ceo}; ${medicalRecords}`, [id, owner, username, owner, username, owner, username, full_name], (err, result) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
@@ -60,7 +62,7 @@ module.exports = {
                                 res.sendStatus(404)
                             } else {
                                 if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
-                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req });
+                                    res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], ceo: isCeo, isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req, medicalRecords: result[4] });
                                 } else {
                                     res.sendStatus(401);
                                 };
@@ -670,5 +672,33 @@ module.exports = {
         } else {
             res.redirect("/login")
         }
+    },
+    addMedicalRecordPage: (req, res) => {
+        if (req.session.loggedin) {
+            res.render("citizens/add-medical-record.ejs", { desc: "", title: "Edit Licenses", isAdmin: "",req: req });
+        } else {
+            res.redirect("/login");
+        };
+    },
+    addMedicalRecord: (req, res) => {
+        if (req.session.loggedin) {
+            const citizenId = req.params.id; 
+            const citizenName = req.params.full_name;
+            const type  = req.body.type;
+            const shortInfo = req.body.short;
+
+            const query = "INSERT INTO `medical_records` (`type`, `short_info`, `name`) VALUES (?, ?, ?)";
+
+            connection.query(query, [type, shortInfo, citizenName], (err) => {
+                if (err) {
+                    console.log(err);
+                    return res.sendStatus(500)
+                } else {
+                    res.redirect(`/citizens/${citizenId}-${citizenName}`);
+                }
+            })
+        } else {
+            res.redirect("/login");
+        };
     }
 };
