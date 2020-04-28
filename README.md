@@ -2,16 +2,9 @@
 
 # Free CAD for your community
 
-# Update 3.3.0
+# Update 3.3.1
 
-- Improvements to name police name search
-- Citizen profile picture
-- Entire new Details Citizens page
-- Medical Records
-- A ton of bug fixes
-- EMS/FD Dashboard
-  - Notepad
-  - able to search for medical records
+- Fixed citizen not found bug
 
 ## How To setup?
 
