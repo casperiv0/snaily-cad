@@ -1,6 +1,6 @@
 {
   "name": "snaily-cad",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -32,5 +32,8 @@
     "request": "^2.88.2",
     "slugify": "^1.4.0",
     "virgen-acl": "0.0.22"
+  },
+  "devDependencies": {
+    "eslint-plugin-security": "^1.4.0"
   }
 }

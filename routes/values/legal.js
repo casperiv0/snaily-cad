@@ -1,74 +1,84 @@
-module.exports = {
-    legalPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username =?";
-            connection.query(query, [req.session.username2], (err, result1) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
-                } else {
-                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
-                        let query = "SELECT * FROM `in_statuses`  ORDER BY id ASC";
-                        connection.query(query, (err, result) => {
-                            if (err) {
-                                res.sendStatus(400)
-                            } else {
-                                res.render("admin-pages/legal.ejs", { desc: "", title: 'Legal | SnailyCAD', legals: result, isAdmin: result1[0].rank });
-                            }
-                        });
-                    } else {
-                        res.sendStatus(403);
-                    };
-                }
-            });
+const router = require("express").Router();
+const usernameNotFound = "There was an error getting your username."
+
+// Main Legal Status Page
+router.get("/", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE username =?";
+    connection.query(query, [req.session.username2], (err, result1) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
         } else {
-            res.redirect("/login")
-        }
-    },
-    addLegalPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = ?";
-            connection.query(query, [req.session.username2], (err, result1) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
+            if (result1[0]) {
+                if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                    let query = "SELECT * FROM `in_statuses`  ORDER BY id ASC";
+                    connection.query(query, (err, result) => {
+                        if (err) {
+                            res.sendStatus(400)
+                        } else {
+                            res.render("admin-pages/legal-statuses/legal.ejs", { desc: "", title: 'Legal Statuses', legals: result, isAdmin: result1[0].rank });
+                        }
+                    });
                 } else {
-                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
-                        res.render("legal/add-legal.ejs", { desc: "", title: "Add Legal | SnailyCAD", isAdmin: result1[0].rank });
-                    } else {
-                        res.sendStatus(403);
-                    };
+                    res.sendStatus(403);
                 };
-            });
-
-        } else {
-            res.redirect(`/login`);
+            } else {
+                res.send(usernameNotFound);
+            };
         };
-    },
-    addLegal: (req, res) => {
-        if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = '" + req.session.username2 + "'"
-            connection.query(query, (err, result) => {
-                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
-                    let legalStatus = req.body.status;
+    });
+});
 
-                    let query = "INSERT INTO `in_statuses` (`status`) VALUES (?)";
+
+// Add Legal Status Page
+router.get("/add", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE username = ?";
+    connection.query(query, [req.session.username2], (err, result1) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result1[0]) {
+                if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                    res.render("admin-pages/legal-statuses/add-legal.ejs", { desc: "", title: "Add Legal | SnailyCAD", isAdmin: result1[0].rank });
+                } else {
+                    res.sendStatus(403);
+                };
+            } else {
+                res.send(usernameNotFound);
+            };
+        };
+    });
+});
+
+// Add Legal Status
+router.post("/add", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE username = ?"
+    connection.query(query, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0]) {
+                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                    const legalStatus = req.body.status;
+                    const query = "INSERT INTO `in_statuses` (`status`) VALUES (?)";
                     connection.query(query, [legalStatus], (err) => {
                         if (err) {
                             res.console.log(err);
                             return res.sendStatus(500);;
                         } else {
-                            let date = new Date()
-                            let currentD = date.toLocaleString();
-                            let action_title = `Legal Status ${legalStatus} was added by ${req.session.username2}.`
+                            const date = new Date()
+                            const currentD = date.toLocaleString();
+                            const action_title = `Legal Status ${legalStatus} was added by ${req.session.username2}.`
 
-                            let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                            const actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
                             connection.query(actionLog, [action_title, currentD], (err) => {
                                 if (err) {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    res.redirect(`/admin/values/legal`);
+                                    res.redirect(`/admin/legal`);
                                 };
                             });
                         }
@@ -76,121 +86,124 @@ module.exports = {
                 } else {
                     res.sendStatus(403);
                 };
-            });
+            } else {
+                res.send(usernameNotFound);
+            };
+        }
+    });
+})
+
+// Edit Legal Status Page
+router.get("/edit/:legalId", (req, res) => {
+    let query = "SELECT * FROM `users` WHERE username = ?";
+    connection.query(query, [req.session.username2], (err, result1) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
         } else {
-            res.redirect(`/login`);
-        };
-    },
-    deleteLegal: (req, res) => {
-        if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = ?"
-            connection.query(query, [req.session.username2], (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
+            if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
+                let legalId = req.params.legalId;
+                let query = "SELECT * FROM `in_statuses` WHERE id = ?";
+                connection.query(query, [legalId], (err, result) => {
+                    if (err) {
+                        res.console.log(err);
+                        return res.sendStatus(500);;
+                    }
+                    res.render("admin-pages/legal-statuses/edit-legal.ejs", { desc: "", title: "Edit Legal | SnailyCAD", legal: result[0], isAdmin: result1[0].rank, });
+                });
+            } else {
+                res.sendStatus(403);
+            };
+        }
+    });
+})
+
+// Edit Legal Status
+router.post("/edit/:legalId", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE username = ?";
+    connection.query(query, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0]) {
+                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                    const legalId = req.params.legalId;
+                    const name = req.body.status;
+                    const query = 'UPDATE `in_statuses` SET `status` = ? WHERE `in_statuses`.`id` = ?';
+
+                    connection.query(query, [name, legalId], (err) => {
+                        if (err) {
+                            console.log(err)
+                            res.console.log(err);
+                            return res.sendStatus(500);;
+                        } else {
+                            const date = new Date()
+                            const currentD = date.toLocaleString();
+                            const action_title = `Legal Status ${name} was edited by ${req.session.username2}.`
+
+                            const actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                            connection.query(actionLog, [action_title, currentD], (err) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    res.redirect(`/admin/legal`);
+                                };
+                            });
+                        }
+                    });
                 } else {
-                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
-                        let legalId = req.params.id;
-                        let query = 'DELETE FROM `in_statuses` WHERE `id` = ?';
-
-                        connection.query(query, [legalId], (err) => {
-                            if (err) {
-                                res.console.log(err);
-                                return res.sendStatus(500);;
-                            } else {
-                                let date = new Date()
-                                let currentD = date.toLocaleString();
-                                let action_title = `A Legal Status was deleted by ${req.session.username2}.`
-
-                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
-                                connection.query(actionLog, [action_title, currentD], (err) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500)
-                                    } else {
-                                        res.redirect(`/admin/values/legal`);
-                                    };
-                                });
-                            }
-                        });
-                    } else {
-                        res.sendStatus(403);
-                    };
-                }
-            });
-        } else {
-            res.redirect(`/login`);
+                    res.sendStatus(403);
+                };
+            } else {
+                res.send(usernameNotFound);
+            };
         };
-    },
-    editLegalPage: (req, res) => {
-        if (req.session.loggedin) {
-            let query = "SELECT * FROM `users` WHERE username = ?";
-            connection.query(query, [req.session.username2], (err, result1) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
+    });
+});
+
+// Delete Legal Status
+router.get("/delete/:legalId", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE username = ?"
+    connection.query(query, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0]) {
+                if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
+                    const legalId = req.params.legalId;
+                    const query = 'DELETE FROM `in_statuses` WHERE `id` = ?';
+
+                    connection.query(query, [legalId], (err) => {
+                        if (err) {
+                            res.console.log(err);
+                            return res.sendStatus(500);;
+                        } else {
+                            const date = new Date()
+                            const currentD = date.toLocaleString();
+                            const action_title = `A Legal Status was deleted by ${req.session.username2}.`
+                            const actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
+                            connection.query(actionLog, [action_title, currentD], (err) => {
+                                if (err) {
+                                    console.log(err);
+                                    return res.sendStatus(500)
+                                } else {
+                                    res.redirect(`/admin/legal`);
+                                };
+                            });
+                        };
+                    });
                 } else {
-                    if (result1[0].rank == 'moderator' || result1[0].rank == 'admin' || result1[0].rank == 'owner') {
-                        let legalId = req.params.id;
-                        let query = "SELECT * FROM `in_statuses` WHERE id = '" + legalId + "' ";
-                        connection.query(query, (err, result) => {
-                            if (err) {
-                                res.console.log(err);
-                                return res.sendStatus(500);;
-                            }
-                            res.render("legal/edit-legal.ejs", { desc: "", title: "Edit Legal | SnailyCAD", legal: result[0], isAdmin: result1[0].rank, });
-                        });
-                    } else {
-                        res.sendStatus(403);
-                    };
-                }
-            });
-        } else {
-            res.redirect(`/login`);
+                    res.sendStatus(403);
+                };
+            } else {
+                res.send(usernameNotFound);
+            };
         };
-    },
-    editLegal: (req, res) => {
-        if (req.session.loggedin) {
+    });
+});
 
-            let query = "SELECT * FROM `users` WHERE username = ?";
-            connection.query(query, [req.session.username2], (err, result) => {
-                if (err) {
-                    console.log(err);
-                    return res.sendStatus(500)
-                } else {
-                    if (result[0].rank == 'moderator' || result[0].rank == 'admin' || result[0].rank == 'owner') {
-                        let legalId = req.params.id;
-                        let name = req.body.status;
-                        let query = 'UPDATE `in_statuses` SET `status` = ? WHERE `in_statuses`.`id` = ?';
 
-                        connection.query(query, [name, legalId], (err) => {
-                            if (err) {
-                                console.log(err)
-                                res.console.log(err);
-                                return res.sendStatus(500);;
-                            } else {
-                                let date = new Date()
-                                let currentD = date.toLocaleString();
-                                let action_title = `Legal Status ${name} was edited by ${req.session.username2}.`
-
-                                let actionLog = "INSERT INTO `action_logs` (`action_title`, `date`) VALUES (?, ?)"
-                                connection.query(actionLog, [action_title, currentD], (err) => {
-                                    if (err) {
-                                        console.log(err);
-                                        return res.sendStatus(500)
-                                    } else {
-                                        res.redirect(`/admin/values/legal`);
-                                    };
-                                });
-                            }
-                        });
-                    } else {
-                        res.sendStatus(403);
-                    };
-                }
-            });
-        } else {
-            res.redirect(`/login`);
-        };
-    }
-};
+module.exports = router;

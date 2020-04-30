@@ -23,6 +23,9 @@
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#bolo"
                 data-toggle="modal">Create Bolo</button>
+
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#emergencyCall"
+                data-toggle="modal">Create 911 Call</button>
         </div>
     </div>        <ul class="list-group list-group-flush ">
 
@@ -158,7 +161,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form action="/dispatch/bolo" id="modal" method="post">
+                            <form action="/global/dispatch/add-bolo" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="bolo">Bolo Description</label>
                                     <textarea name="bolo_desc" id="bolo" cols="30" rows="5" maxlength="1800" minlength="10" class="form-control bg-secondary border-secondary text-light" placeholder="Bolo Description, Min Length of 10 characters"></textarea>
@@ -173,6 +176,39 @@
                         </form>
                     </div>
                 </div>
+            </div>
+
+            <div class="modal fade" id="emergencyCall" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content bg-dark border-dark text-light">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">911 Emergency Service</h5>
+                    <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="/global/dispatch/create-911-call" method="POST">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Call Description</label>
+                          <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control bg-secondary border-secondary text-light" required></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Caller Name</label>
+                          <input type="text" class="form-control bg-secondary border-secondary text-light" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name" name="name">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Caller Location</label>
+                          <input type="text" class="form-control bg-secondary border-secondary text-light" id="exampleInputPassword1" placeholder="Location" name="location" required>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create Call</button>
+                      </form>
+                      </div>
+                </div>
+              </div>
             </div>
 
 
@@ -255,7 +291,7 @@
                                 </button>
                               </div>
                               <div class="modal-body">
-                                <form action="/dispatch/update-call-<%= call.id %> " method="POST">
+                                <form action="/global/dispatch/update-911-call-<%= call.id %> " method="POST">
                                     <div class="form-group">
                                       <label for="location">Call Location</label>
                                       <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
@@ -271,7 +307,7 @@
                                     </div>
                                   </div>
                                   <div class="modal-footer">
-                                    <a href="/dispatch/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
+                                    <a href="/global/dispatch/cancel-911-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
                                     <button type="submit" class="container btn btn-success">Update Call</button>
                                   </div>
                                 </form>
@@ -290,14 +326,12 @@
             <ul class="list-group mt-3 overflow-auto scroll-bar" style="max-height: 18rem" >
               <div class="active list-group-item text-light sticky-top">Active Bolos</div>
               <% if (bolos.length > 0) {%>
-                  <% bolos.forEach(bolo => { %>
+                  <% bolos.forEach((bolo, index) => { %>
                       <li class="list-group-item bg-dark text-light">
-                          <form action="/dispatch/remove-bolo" method="POST">
-                              <input type="text" name="boloID" value="<%= bolo.id %>" class="removeBolo">| <%= bolo.description %> 
+                             <%= ++index %> | <%= bolo.description %> 
                                 <div class="float-right">
-                                  <button type="submit" class="btn btn-danger">Remove Bolo</a>
+                                  <a href="/global/dispatch/delete-bolo-<%= bolo.id %>" class="btn btn-danger">Remove Bolo</a>
                                 </div>
-                            </form>
                       </li>
                   <%}) %>
               <%} else {%>
@@ -450,7 +484,7 @@
           '<li><span class="bolder mt-1"> Firearms Licenses:</span> ' + result[1][0].fire_license +'</li>' +
           '<li><span class="bolder mt-1"> Pilot License:</span> ' + result[1][0].pilot_license +'</li>' +
           '<li><span class="bolder mt-1"> CCW:</span> ' + result[1][0].ccw +'</li>' +
-          '<li><span class="bolder mt-1"> <a class="btn btn-danger" href=\'/dispatch/susdmv/'+ result[1][0].id+'\'> Suspend Drivers License </a> </li>' +
+          '<li><span class="bolder mt-1"> <a class="btn btn-danger" href=\'/global/dispatch/susdmv/'+ result[1][0].id+'\'> Suspend Drivers License </a> </li>' +
           '</ul>'
 
 

@@ -1,0 +1,91 @@
+<%- include("../../partials/header.ejs") %> 
+
+
+<div class="container-fluid">
+  <div class="row">
+
+    <%-
+    include("../../partials/admin-header.ejs") %>
+    
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <div class="container mt-3">
+        <h1 class="card-title text-light">
+          Vehicles management <a href="/admin/vehicles/add">+</a>
+        </h1>
+      
+        <h3 class="card-title text-light mt-2">Default In Game Vehicles</h3>
+      
+        <button class="container btn btn-primary mb-4" id="showAll" onclick="showAll()">
+          Show All
+        </button>
+        <div id="dots2"></div>
+        <ul class="list-group" id="hiddenMore">
+          <% defaults.forEach(value => { %>
+            <li class="list-group-item text-light bg-dark">
+              <%= value.id %> | <%= value.cname %>
+            </li>
+        
+            <% }) %>
+        </ul>
+      
+        <h3 class="card-title text-light mt-2">Custom Added Vehicles</h3>
+        <% if (vehicles.length > 0) {%>
+          <input
+            type="text"
+            id="myInput"
+            class="form-control border-dark mb-2 text-light bg-dark"
+            onkeyup="myFunction()"
+            placeholder="Search for Vehicles.."
+          />
+        <ul class="list-group" id="myUL">
+          <% vehicles.forEach((value, index) => { %>
+          <li class="list-group-item text-light bg-dark">
+            <%= ++index %> | <%= value.cname %>
+            <a
+              href="/admin/vehicles/delete/<%= value.id %>"
+              class="btn btn-danger float-right"
+              >Delete</a
+            >
+            <a
+              href="/admin/vehicles/edit/<%= value.id %>"
+              class="btn btn-success float-right  margin-right-10"
+              >Edit</a
+            >
+          </li>
+      
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p class="alert alert-primary">
+          No Vehicles found. Go
+          <a href="/admin/vehicles/add">here</a> to add vehicles.
+        </p>
+        <% } %>
+      
+      
+      </div>
+    </div>
+  </div>
+    </main>
+   
+
+
+<div class="mb-4"></div>
+
+<script>
+    function showAll() {
+        let dots = document.getElementById("dots2");
+        let moreText = document.getElementById("hiddenMore");
+        let showAll = document.getElementById("showAll")
+
+        if (dots.style.display === "none") {
+            dots.style.display = "inline";
+            moreText.style.display = "none";
+            showAll.textContent = "Show All"
+        } else {
+            dots.style.display = "none";
+            moreText.style.display = "inline";
+            showAll.textContent = "Show Less"
+        }
+    }
+</script>

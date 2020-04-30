@@ -1,25 +1,13 @@
 # SnailyCAD
 
-# Free CAD for your community
-
-# Update 3.3.1
-
-- Fixed citizen not found bug
+Free NodeJS CAD For your Community
 
 ## How To setup?
 
-With version 3.3.0 you will need to run this in your MySQL database to update the database to the newest version(Only run this if you already have the database setup)
-
-`ALTER TABLE `citizens`ADD`citizen_picture`TEXT NOT NULL AFTER`posts`;`
-
-`CREATE TABLE `medical_records`(`id`int(11) NOT NULL,`type`varchar(255) NOT NULL,`short_info`varchar(255) NOT NULL,`name`varchar(255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
-
-`ALTER TABLE `medical_records`ADD PRIMARY KEY (`id`);`
-
 **Requirements**
 
-- NodeJS
-- Xampp MySQL
+- [NodeJS](https://nodejs.org)
+- [Xampp MySQL](https://www.apachefriends.org/download.html)
 
 **Installation**
 
@@ -50,3 +38,51 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
 
 - Am I allowed to translate this CAD?
   - Yes, you are allowed to translate this CAD. (Only for your community)
+
+# Main Features
+
+- Administration Panel
+- Dispatch System
+- LEO System
+- EMS/FD System
+- Citizen Panel
+- Tow
+
+- Citizen
+
+  - upload picture of citizen character>
+  - Register vehicles & weapons
+  - Call tow truckers or emergency services
+  - Drivers, Pilots, Firearms and CCW License
+  - Companies:
+    - Company Blog Page
+    - Create Unlimited Blog Posts
+    - Manage Employees
+    - Manage Posts
+    - Join a Company
+    - Start your own Company
+
+- Administration
+
+  - User Permissions
+  - Action Logs
+  - CAD Settings
+  - Ban Integration
+  - Add Custom vehicles, genders, weapons, ethnicities and departments…
+
+- LEO
+
+  - Unlimited Officers
+  - Vehicle Search
+  - Person Search
+  - Penal Codes
+  - 10-Codes
+  - Create Bolos
+  - Expire licenses
+  - Add Tickets
+  - Add Warrants
+  - And More!
+
+- EMS/FD
+  - EMS/FD Dashboard
+  - Able to search up medical records

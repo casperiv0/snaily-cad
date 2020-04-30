@@ -28,7 +28,7 @@
                         <% if (citizen[0].business === "Currently not working") { %>
                             <span class="bolder">Employer: </span> Currently Not working  
                         <%} else {%>
-                            <span class="bolder"> Employer: </span> <a href="/citizen/company/<%= citizen[0].id %>-<%= citizen[0].business %>"><%= citizen[0].business %> </a> 
+                            <span class="bolder"> Employer: </span> <a href="/company/<%= citizen[0].id %>-<%= citizen[0].business %>"><%= citizen[0].business %> </a> 
                         <% } %>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="card-header">
                     <h3>Licenses
                     <div class="float-right">
-                        <a class="btn btn-primary" href="/citizen/<%= req.params.id %>-<%= req.params.full_name %>/edit-licenses">Edit Licenses</a>
+                        <a class="btn btn-primary" href="/licenses/<%= req.params.id %>-<%= req.params.full_name %>/edit-licenses">Edit Licenses</a>
                     </div></h3> 
                 </div>
                 <div class="card-body ">
@@ -79,7 +79,7 @@
             <div class="card bg-dark border-dark mt-3 text-light scroll-bar overflow-auto" style="max-height: 20rem;">
                 <div class="bg-dark border-dark card-header sticky-top">
                     <h3>Medical Records <div class="float-right">
-                        <a href="/citizen/<%= req.params.id %>-<%= req.params.full_name %>/medical-record" class="btn btn btn-primary">Add Allergy/Medication/Health Problem</a>
+                        <a href="/medical/<%= req.params.id %>-<%= req.params.full_name %>/add" class="btn btn btn-primary">Add Allergy/Medication/Health Problem</a>
                     </div> </h3>
                 </div>
                 <div class="card-body">
@@ -94,9 +94,9 @@
                               </tr>
                             </thead>
                             <tbody>
-                               <% medicalRecords.forEach(record => { %>
+                               <% medicalRecords.forEach((record, index) => { %>
                                  <tr>
-                                   <th scope="row"><%= record.id %></th>
+                                   <th scope="row"><%= ++index %></th>
                                    <td><%= record.type %></td>
                                    <td><%= record.short_info %></td>
                                    <td> Coming soon </td>
@@ -133,8 +133,8 @@
                                 <span class="font-weight-bold">Company Vehicle: </span>  <span class="cap"> Yes, <%= vehicle.company %></span> <br>
                                 <% }%>
                                 
-                                <a href="/citizen/<%= citizen[0].id %>/<%= vehicle.id %>-<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
-                                <a href="/citizen/<%= citizen[0].id %>/<%= vehicle.id %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
+                                <a href="/c/vehicle/<%= citizen[0].id %>/<%= vehicle.id %>-<%= vehicle.plate %>/edit" class="btn btn-success mt-2">Edit Vehicle</a>
+                                <a href="/c/vehicle/<%= citizen[0].id %>/<%= vehicle.id %>/delete" class="btn btn-danger mt-2">Delete Vehicle</a>
                             </li>
                             <%  }) %>
                         </p>
@@ -142,7 +142,7 @@
                         <p class="mb-1">
                             <li class="list-group-item text-dark">
                                 You don't have any cars registered. <br>
-                                <a class="btn btn-primary" href="/cars/register">Register a car here</a>
+                                <a class="btn btn-primary mt-2" href="/c/vehicle/register">Register a vehicle here</a>
                             </li>
                         </p>
                         <%} %>
@@ -168,7 +168,7 @@
                             <li class="list-group-item color-black"> <%= weapon.weapon %> <br>
                                 <span class="font-weight-bold">Serial Number:</span>  <%= weapon.serial_number %> <br/>
                                 <span class="font-weight-bold">weapon Status:</span>  <%= weapon.status %> <br>
-                                <a href="/weapon/<%= citizen[0].id %>/<%= weapon.id %>/delete" class="btn btn-danger mt-2">Delete Weapon</a>
+                                <a href="/c/weapons/delete/<%= citizen[0].id %>/<%= weapon.id %>" class="btn btn-danger mt-2">Delete Weapon</a>
                             </li>
                             <%  }) %>
                         </p>
@@ -176,14 +176,14 @@
                         <p class="mb-1">
                             <li class="list-group-item text-dark">
                                 You don't have any weapons registered. <br>
-                                <a class="btn btn-primary" href="/weapons/register">Register a weapon here</a>
+                                <a class="btn btn-primary mt-2" href="/c/weapons/register">Register a weapon here</a>
                             </li>
                         </p> 
                         <%   }%>
 
                     
                 </div>
-                <div class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
+                <button class="btn btn-primary" onclick="wep()" id="weapenBtn">See all</button>
 
 
                 </div>

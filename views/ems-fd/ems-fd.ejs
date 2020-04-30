@@ -4,13 +4,13 @@
   <h1 class="card-title text-center mt-3 text-light">EMS/FD</h1>
   <ul class="list-group">
     <a href="/ems-fd/dash" class="btn btn-primary mt-1">EMS-FD Dashboard</a>
-    <a href="/ems-fd/add" class="btn btn-primary mt-1">Add EMS Deputy</a>
+    <a href="/ems-fd/add-deputy" class="btn btn-primary mt-1">Add EMS Deputy</a>
 
     <% if (ems.length > 0) { %> <% ems.forEach(value => { %>
     <li class="list-group-item mt-2 text-light bg-dark">
       <form
         class="form-inline text-light bg-dark"
-        action="/ems-fd/status"
+        action="/ems-fd/update-status"
         method="post"
       >
         <input
@@ -48,7 +48,6 @@
         </select>
         <select
           id="status2"
-          disabled
           class="custom-select my-1 mr-sm-2 text-light bg-dark"
           name="status2"
           id="inlineFormCustomSelectPref"
@@ -81,18 +80,8 @@
     </li>
     <% }) %> <% } else { %>
     <li class="list-group-item text-light bg-dark mt-2">
-      You Don't have any EMS deputies. Create one <a href="/ems-fd/add">here</a>
+      You Don't have any EMS deputies. Create one <a href="/ems-fd/add-deputy">here</a>
     </li>
     <% } %>
   </ul>
 </div>
-
-<script type="text/javascript">
-  let id = document.getElementById('10_41');
-  let status2 = document.getElementById('status2');
-  if (id.value === '10-41 | 10-8') {
-    status2.disabled = false;
-  } else {
-    status2.disabled = true;
-  }
-</script>

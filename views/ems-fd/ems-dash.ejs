@@ -2,14 +2,17 @@
 
 <div class="container-fluid mt-2">
 
-    <h2 class="card-title text-light">Dispatch - AOP: <%= cad.AOP %></h2>
+    <h2 class="card-title text-light">EMS/FD - AOP: <%= cad.AOP %></h2>
     <div class="card bg-secondary  mx-auto mb-4">
         <div class="card-header text-light bolder">
             Utility Panel
             <span class="float-right" id="date"></span>
         </div>
         <div class="card-body row">
-            <button class="btn btn-dark bg-dark text-light mt-2" data-target="#medicalRecord"
+          <a class="btn btn-primary bg-primary text-light mt-2" href="/ems-fd">My EMS/FD Deputies</a>
+
+
+            <button class="btn btn-dark bg-dark text-light mt-2 ml-2" data-target="#medicalRecord"
             data-toggle="modal">Search Person Medial Record</button>
 
                 <button class="btn text-light btn-dark bg-dark  ml-2 mt-2" data-target="#notepad"
@@ -51,7 +54,7 @@
                           </button>
                         </div>
                         <div class="modal-body">
-                          <form action="/ems-fd/update-call-<%= call.id %> " method="POST">
+                          <form action="/global/ems-fd/update-911-call-<%= call.id %> " method="POST">
                               <div class="form-group">
                                 <label for="location">Call Location</label>
                                 <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
@@ -67,7 +70,7 @@
                               </div>
                             </div>
                             <div class="modal-footer">
-                              <a href="/ems-fd/cancel-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
+                              <a href="/global/ems-fd/cancel-911-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
                               <button type="submit" class="container btn btn-success">Update Call</button>
                             </div>
                           </form>
@@ -161,11 +164,12 @@
             if (this.status===200)  {
                 let result = JSON.parse(this.responseText);
                 let info = '';
+                
 
                 if (result.length >0) {
-                    result.forEach(inf => {
+                    result.forEach((inf, index) => {
                     info += '<tr>' +
-                    '<th scope="row">'+ inf.id +'</th>'+
+                    '<th scope="row">'+ ++index +'</th>'+
                        '<td> '+ inf.type +' </td>'+
                        '<td>'+ inf.short_info +'</td>'+
                        '<td>'+ inf.name +'</td>'+
@@ -174,7 +178,7 @@
                     
                 });
                 } else {
-                    info += "Citizen Not Found"
+                    info += "No Medical Records found for this citizen"
                 }
                 
                

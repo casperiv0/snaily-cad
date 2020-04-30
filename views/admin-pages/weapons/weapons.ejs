@@ -1,0 +1,52 @@
+<%- include("../../partials/header.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../../partials/admin-header.ejs") %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <div class="container mt-3">
+        <h1 class="card-title text-light">
+          Weapon management
+          <a href="/admin/weapons/add">+</a>
+        </h1>
+
+        <input
+          class="disabled list-group-item text-light bg-dark"
+          type="text"
+          name=""
+          id=""
+        />
+
+        <% if (weapons.length > 0) {%>
+        <ul class="list-group">
+          <% weapons.forEach((value, index) => { %>
+          <li class="list-group-item text-light bg-dark">
+            <%= ++index %> | <%= value.name %>
+            <a
+              href="/admin/weapons/delete/<%= value.id %>"
+              class="btn btn-danger float-right"
+              >Delete</a
+            >
+            <a
+              href="/admin/weapons/edit/<%= value.id %>"
+              class="btn btn-success float-right margin-right-10"
+              >Edit</a
+            >
+          </li>
+
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p class="alert alert-primary">
+          No weapons found. Go
+          <a href="/admin/weapons/add">here</a> to add
+          weapons.
+        </p>
+        <% } %>
+      </div>
+
+      <div class="mb-4"></div>
+    </main>
+  </div>
+</div>

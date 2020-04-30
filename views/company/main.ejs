@@ -4,7 +4,7 @@
   <h1 class="card-title ">
     <%= req.params.company %>
     <a
-      href="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/create-post"
+      href="/company/<%= req.params.citizenId %>-<%= req.params.company %>/create-post"
       class="float-right btn btn-primary"
       >Create a post</a
     >
@@ -12,7 +12,7 @@
   <div class="float-right">
     <% if (result5[0].rank === "manager" || result5[0].rank === "owner") { %>
     <a
-      href="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit-company"
+      href="/company/<%= req.params.citizenId %>-<%= req.params.company %>/edit"
       class="btn btn-success"
       >Edit Company</a
     >

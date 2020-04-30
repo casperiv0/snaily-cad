@@ -1,0 +1,148 @@
+<%- include("../../partials/header.ejs") %>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../../partials/admin-header.ejs") %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <h1 class="card-title cap text-center text-light mt-2">
+        Edit <%= user[0].username %>
+      </h1>
+      
+      <% if(messageG != ''){ %>
+      <div
+        class="container alert alert-success alert-dismissible fade show"
+        role="alert"
+      >
+        <%= messageG %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <% } %>
+      <% if(message != ''){ %>
+        <div
+          class="container alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          <%= message %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %>
+      <form
+        action="/admin/members/edit/<%= user[0].id %>"
+        class="container card bg-secondary text-light mx-auto mt-2"
+        method="POST"
+      >
+        <div class="p-2"></div>
+        <% if (req.session.username2 === user[0].username) {%>
+        <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
+      
+        <span class="text-light pb-2">You cannot edit your own CAD Permisions</span>
+        <%} else if (user[0].admin == 'owner') { %>
+        <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
+        <span class="text-light pb-2">You cannot edit the head admin of this CAD</span>
+        <% } else { %>
+        <div class="form-group">
+          <label for="exampleInputEmail333" class="text-light">CAD Permisions</label>
+          <select name="admin" class="form-control bg-dark border-dark text-light cap">
+            <option value="<%= user[0].rank %>"><%= user[0].rank %></option>
+            <option disabled value="">--------</option>
+            <option value="admin">admin</option>
+            <option value="moderator">moderator</option>
+            <option value="No Rank">Remove Rank</option>
+          </select>
+        </div>
+        <% } %>
+      
+        <div class="form-group">
+          <label for="exampleInputEmail333" class="text-light">LEO Access</label>
+          <select name="leo" class="form-control bg-dark border-dark text-light cap">
+            <option value="<%= user[0].leo %>"><%= user[0].leo %></option>
+            <option disabled value="">--------</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      
+        <div class="form-group">
+          <label for="exampleInputEmail333" class="text-light">Dispatch Access</label>
+          <select name="dispatch" class="form-control bg-dark border-dark text-light cap">
+            <option value="<%= user[0].dispatch %>"><%= user[0].dispatch %></option>
+            <option disabled value="">--------</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      
+        <div class="form-group">
+          <label for="exampleInputEmail333" class="text-light">EMS/FD Access</label>
+          <select name="ems" class="form-control bg-dark border-dark text-light cap">
+            <option value="<%= user[0].ems_fd %>"><%= user[0].ems_fd %></option>
+            <option disabled value="">--------</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+
+        <% if (cad_info.tow_whitelisted === "yes") { %>
+          <div class="form-group">
+            <label for="exampleInputEmail333" class="text-light">Tow Access</label>
+            <select name="tow" class="form-control bg-dark border-dark text-light cap">
+              <option value="<%= user[0].tow %>"><%= user[0].tow %></option>
+              <option disabled value="">--------</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        <% } %>
+        
+      
+        <!-- <a href="/ems-fd/apply" class="btn btn-success">Apply for PD</a> -->
+        <a href="/admin/members" class="btn btn-danger ">Cancel</a>
+        <button type="submit" class="btn btn-success mt-2">Update</button>
+        <div class="pb-2"></div>
+      </form>
+      
+        
+          <div class="container mx-auto mt-2 card bg-secondary text-light">
+            <div class="card-title bolder fs-20 pt-2">Use The Ban Hammer</div>
+        <% if (req.session.username2 === user[0].username) {%>
+          <span class="text-light pb-3">You cannot ban yourself</span> 
+          <%} else if (user[0].admin == 'owner') { %>
+          <span class="text-light  pb-3">You cannot ban the head admin of this CAD</span>
+          <% } else { %>
+            <% if (user[0].banned === 'true') { %>
+              <form action="/admin/members/unban/<%= user[0].id %>" method="post">
+                <div class="container mx-auto mt-2 card bg-secondary text-light">
+                  <div class="card-title bolder fs-20 pt-2">Unban this user</div>
+                  <div class="form-group"></div>
+                  <button type="submit" class="btn btn-success mb-2">Revoke Ban</button>
+                </div>
+              </form>
+              <%} else { %>
+                <form action="/admin/members/ban/<%= user[0].id %>" method="post">
+                  <div class="form-group">
+                    <label for="reason" class="text-light">Enter Ban Reason</label>
+                    <input
+                      type="text"
+                      name="reason"
+                      placeholder="Reason"
+                      class="form-control bg-dark border-dark text-light"
+                      max="999"
+                      maxlength="999"
+                      min="10"
+                      minlength="10"
+                    />
+                  </div>
+                  <button type="submit" class="btn container btn-danger mb-2">ban user</button>
+                </div>
+              </form>
+              
+              <%} %>
+            <% } %>
+      </main>

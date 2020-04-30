@@ -7,10 +7,13 @@
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
+SET SQL_MODE
+= "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT
+= 0;
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone
+= "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,12 +31,18 @@ SET time_zone = "+00:00";
 -- Table structure for table `911calls`
 --
 
-CREATE TABLE `911calls` (
-  `id` int(11) NOT NULL,
-  `description` varchar(1800) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL
+CREATE TABLE `911calls`
+(
+  `id` int
+(11) NOT NULL,
+  `description` varchar
+(1800) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `location` varchar
+(255) NOT NULL,
+  `status` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -42,10 +51,14 @@ CREATE TABLE `911calls` (
 -- Table structure for table `action_logs`
 --
 
-CREATE TABLE `action_logs` (
-  `id` int(11) NOT NULL,
-  `action_title` varchar(255) NOT NULL,
-  `date` varchar(255) NOT NULL
+CREATE TABLE `action_logs`
+(
+  `id` int
+(11) NOT NULL,
+  `action_title` varchar
+(255) NOT NULL,
+  `date` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -54,9 +67,12 @@ CREATE TABLE `action_logs` (
 -- Table structure for table `bolos`
 --
 
-CREATE TABLE `bolos` (
-  `id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL
+CREATE TABLE `bolos`
+(
+  `id` int
+(11) NOT NULL,
+  `description` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -65,11 +81,16 @@ CREATE TABLE `bolos` (
 -- Table structure for table `businesses`
 --
 
-CREATE TABLE `businesses` (
-  `id` int(11) NOT NULL,
-  `business_name` varchar(255) NOT NULL,
-  `business_owner` varchar(255) NOT NULL,
-  `linked_to` varchar(255) NOT NULL
+CREATE TABLE `businesses`
+(
+  `id` int
+(11) NOT NULL,
+  `business_name` varchar
+(255) NOT NULL,
+  `business_owner` varchar
+(255) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -78,13 +99,20 @@ CREATE TABLE `businesses` (
 -- Table structure for table `cad_info`
 --
 
-CREATE TABLE `cad_info` (
-  `id` int(11) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `cad_name` varchar(255) NOT NULL,
-  `AOP` varchar(255) NOT NULL,
-  `tow_whitelisted` varchar(255) NOT NULL,
-  `whitelisted` varchar(255) NOT NULL
+CREATE TABLE `cad_info`
+(
+  `id` int
+(11) NOT NULL,
+  `owner` varchar
+(255) NOT NULL,
+  `cad_name` varchar
+(255) NOT NULL,
+  `AOP` varchar
+(255) NOT NULL,
+  `tow_whitelisted` varchar
+(255) NOT NULL,
+  `whitelisted` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -93,27 +121,48 @@ CREATE TABLE `cad_info` (
 -- Table structure for table `citizens`
 --
 
-CREATE TABLE `citizens` (
-  `id` int(11) NOT NULL,
-  `full_name` varchar(255) NOT NULL,
-  `stringifyd_name` varchar(500) NOT NULL,
-  `linked_to` varchar(255) NOT NULL,
-  `birth` varchar(255) NOT NULL,
-  `gender` varchar(255) NOT NULL,
-  `ethnicity` varchar(255) NOT NULL,
-  `hair_color` varchar(255) NOT NULL,
-  `eye_color` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `height` varchar(255) NOT NULL,
-  `weight` varchar(255) NOT NULL,
-  `dmv` varchar(255) NOT NULL,
-  `fire_license` varchar(255) NOT NULL,
-  `pilot_license` varchar(255) NOT NULL,
-  `ccw` varchar(255) NOT NULL,
-  `business` varchar(255) NOT NULL,
-  `rank` varchar(255) NOT NULL,
-  `vehicle_reg` varchar(255) NOT NULL,
-  `posts` varchar(255) NOT NULL,
+CREATE TABLE `citizens`
+(
+  `id` int
+(11) NOT NULL,
+  `full_name` varchar
+(255) NOT NULL,
+  `stringifyd_name` varchar
+(500) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL,
+  `birth` varchar
+(255) NOT NULL,
+  `gender` varchar
+(255) NOT NULL,
+  `ethnicity` varchar
+(255) NOT NULL,
+  `hair_color` varchar
+(255) NOT NULL,
+  `eye_color` varchar
+(255) NOT NULL,
+  `address` varchar
+(255) NOT NULL,
+  `height` varchar
+(255) NOT NULL,
+  `weight` varchar
+(255) NOT NULL,
+  `dmv` varchar
+(255) NOT NULL,
+  `fire_license` varchar
+(255) NOT NULL,
+  `pilot_license` varchar
+(255) NOT NULL,
+  `ccw` varchar
+(255) NOT NULL,
+  `business` varchar
+(255) NOT NULL,
+  `rank` varchar
+(255) NOT NULL,
+  `vehicle_reg` varchar
+(255) NOT NULL,
+  `posts` varchar
+(255) NOT NULL,
   `citizen_picture` TEXT NOT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -123,9 +172,12 @@ CREATE TABLE `citizens` (
 -- Table structure for table `departments`
 --
 
-CREATE TABLE `departments` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+CREATE TABLE `departments`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -134,12 +186,18 @@ CREATE TABLE `departments` (
 -- Table structure for table `ems-fd`
 --
 
-CREATE TABLE `ems-fd` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `linked_to` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `status2` varchar(255) NOT NULL
+CREATE TABLE `ems-fd`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL,
+  `status` varchar
+(255) NOT NULL,
+  `status2` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -148,9 +206,12 @@ CREATE TABLE `ems-fd` (
 -- Table structure for table `ethnicities`
 --
 
-CREATE TABLE `ethnicities` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+CREATE TABLE `ethnicities`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -159,9 +220,12 @@ CREATE TABLE `ethnicities` (
 -- Table structure for table `genders`
 --
 
-CREATE TABLE `genders` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+CREATE TABLE `genders`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -170,24 +234,44 @@ CREATE TABLE `genders` (
 -- Table structure for table `in_statuses`
 --
 
-CREATE TABLE `in_statuses` (
-  `id` int(11) NOT NULL,
-  `status` varchar(255) NOT NULL
+CREATE TABLE `in_statuses`
+(
+  `id` int
+(11) NOT NULL,
+  `status` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
+
+CREATE TABLE `medical_records`
+(`id`int
+(11) NOT NULL,`type`varchar
+(255) NOT NULL,`short_info`varchar
+(255) NOT NULL,`name`varchar
+(255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+ALTER TABLE `medical_records` ADD PRIMARY KEY (`id`);
 
 --
 -- Table structure for table `officers`
 --
 
-CREATE TABLE `officers` (
-  `id` int(11) NOT NULL,
-  `officer_name` varchar(255) NOT NULL,
-  `officer_dept` varchar(255) NOT NULL,
-  `linked_to` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `status2` varchar(255) NOT NULL
+CREATE TABLE `officers`
+(
+  `id` int
+(11) NOT NULL,
+  `officer_name` varchar
+(255) NOT NULL,
+  `officer_dept` varchar
+(255) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL,
+  `status` varchar
+(255) NOT NULL,
+  `status2` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -196,14 +280,22 @@ CREATE TABLE `officers` (
 -- Table structure for table `posted_charges`
 --
 
-CREATE TABLE `posted_charges` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `charge` varchar(255) NOT NULL,
-  `notes` varchar(255) NOT NULL,
-  `officer_name` varchar(255) NOT NULL,
-  `date` varchar(255) NOT NULL,
-  `postal` varchar(255) NOT NULL
+CREATE TABLE `posted_charges`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `charge` varchar
+(255) NOT NULL,
+  `notes` varchar
+(255) NOT NULL,
+  `officer_name` varchar
+(255) NOT NULL,
+  `date` varchar
+(255) NOT NULL,
+  `postal` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -212,13 +304,20 @@ CREATE TABLE `posted_charges` (
 -- Table structure for table `posts`
 --
 
-CREATE TABLE `posts` (
-  `id` int(11) NOT NULL,
-  `linked_to_bus` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `uploadedBy` varchar(255) NOT NULL,
-  `uploadedAt` varchar(255) NOT NULL
+CREATE TABLE `posts`
+(
+  `id` int
+(11) NOT NULL,
+  `linked_to_bus` varchar
+(255) NOT NULL,
+  `title` varchar
+(255) NOT NULL,
+  `description` varchar
+(255) NOT NULL,
+  `uploadedBy` varchar
+(255) NOT NULL,
+  `uploadedAt` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -227,16 +326,26 @@ CREATE TABLE `posts` (
 -- Table structure for table `registered_cars`
 --
 
-CREATE TABLE `registered_cars` (
-  `id` int(11) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `vehicle` varchar(255) NOT NULL,
-  `vin_number` varchar(255) NOT NULL,
-  `in_status` varchar(255) NOT NULL,
-  `plate` varchar(255) NOT NULL,
-  `color` varchar(255) NOT NULL,
-  `linked_to` varchar(255) NOT NULL,
-  `company` varchar(255) NOT NULL
+CREATE TABLE `registered_cars`
+(
+  `id` int
+(11) NOT NULL,
+  `owner` varchar
+(255) NOT NULL,
+  `vehicle` varchar
+(255) NOT NULL,
+  `vin_number` varchar
+(255) NOT NULL,
+  `in_status` varchar
+(255) NOT NULL,
+  `plate` varchar
+(255) NOT NULL,
+  `color` varchar
+(255) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL,
+  `company` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -245,13 +354,20 @@ CREATE TABLE `registered_cars` (
 -- Table structure for table `registered_weapons`
 --
 
-CREATE TABLE `registered_weapons` (
-  `id` int(11) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `weapon` varchar(255) NOT NULL,
-  `serial_number` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `linked_to` varchar(255) NOT NULL
+CREATE TABLE `registered_weapons`
+(
+  `id` int
+(11) NOT NULL,
+  `owner` varchar
+(255) NOT NULL,
+  `weapon` varchar
+(255) NOT NULL,
+  `serial_number` varchar
+(255) NOT NULL,
+  `status` varchar
+(255) NOT NULL,
+  `linked_to` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -260,11 +376,16 @@ CREATE TABLE `registered_weapons` (
 -- Table structure for table `tow_calls`
 --
 
-CREATE TABLE `tow_calls` (
-  `id` int(11) NOT NULL,
-  `description` varchar(1800) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL
+CREATE TABLE `tow_calls`
+(
+  `id` int
+(11) NOT NULL,
+  `description` varchar
+(1800) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `location` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -273,18 +394,30 @@ CREATE TABLE `tow_calls` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `rank` varchar(255) NOT NULL,
-  `leo` varchar(255) NOT NULL,
-  `ems_fd` varchar(255) NOT NULL,
-  `dispatch` varchar(255) NOT NULL,
-  `tow` varchar(255) NOT NULL,
-  `banned` varchar(255) NOT NULL,
-  `ban_reason` varchar(255) NOT NULL,
-  `whitelist_status` varchar(255) NOT NULL
+CREATE TABLE `users`
+(
+  `id` int
+(11) NOT NULL,
+  `username` varchar
+(255) NOT NULL,
+  `password` varchar
+(255) NOT NULL,
+  `rank` varchar
+(255) NOT NULL,
+  `leo` varchar
+(255) NOT NULL,
+  `ems_fd` varchar
+(255) NOT NULL,
+  `dispatch` varchar
+(255) NOT NULL,
+  `tow` varchar
+(255) NOT NULL,
+  `banned` varchar
+(255) NOT NULL,
+  `ban_reason` varchar
+(255) NOT NULL,
+  `whitelist_status` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -293,17 +426,24 @@ CREATE TABLE `users` (
 -- Table structure for table `vehicles`
 --
 
-CREATE TABLE `vehicles` (
-  `id` int(11) NOT NULL,
-  `cname` varchar(255) NOT NULL,
-  `default_car` varchar(255) NOT NULL
+CREATE TABLE `vehicles`
+(
+  `id` int
+(11) NOT NULL,
+  `cname` varchar
+(255) NOT NULL,
+  `default_car` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `vehicles`
 --
 
-INSERT INTO `vehicles` (`id`, `cname`, `default_car`) VALUES
+INSERT INTO `vehicles` (`
+id`,
+`cname
+`, `default_car`) VALUES
 (1, 'Albany Alpha		', 'true'),
 (2, 'Albany Buccaneer		', 'true'),
 (3, 'Albany Buccaneer Custom		', 'true'),
@@ -760,12 +900,18 @@ INSERT INTO `vehicles` (`id`, `cname`, `default_car`) VALUES
 -- Table structure for table `warrants`
 --
 
-CREATE TABLE `warrants` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `reason` varchar(255) NOT NULL,
-  `d_from` varchar(255) NOT NULL,
-  `d_to` varchar(255) NOT NULL
+CREATE TABLE `warrants`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `reason` varchar
+(255) NOT NULL,
+  `d_from` varchar
+(255) NOT NULL,
+  `d_to` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -774,9 +920,12 @@ CREATE TABLE `warrants` (
 -- Table structure for table `weapons`
 --
 
-CREATE TABLE `weapons` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
+CREATE TABLE `weapons`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -787,127 +936,148 @@ CREATE TABLE `weapons` (
 -- Indexes for table `911calls`
 --
 ALTER TABLE `911calls`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `action_logs`
 --
 ALTER TABLE `action_logs`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `bolos`
 --
 ALTER TABLE `bolos`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `businesses`
 --
 ALTER TABLE `businesses`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `cad_info`
 --
 ALTER TABLE `cad_info`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `citizens`
 --
 ALTER TABLE `citizens`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `departments`
 --
 ALTER TABLE `departments`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `ems-fd`
 --
 ALTER TABLE `ems-fd`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `ethnicities`
 --
 ALTER TABLE `ethnicities`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `genders`
 --
 ALTER TABLE `genders`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `in_statuses`
 --
 ALTER TABLE `in_statuses`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `officers`
 --
 ALTER TABLE `officers`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `posted_charges`
 --
 ALTER TABLE `posted_charges`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `posts`
 --
 ALTER TABLE `posts`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `registered_cars`
 --
 ALTER TABLE `registered_cars`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `registered_weapons`
 --
 ALTER TABLE `registered_weapons`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `tow_calls`
 --
 ALTER TABLE `tow_calls`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `warrants`
 --
 ALTER TABLE `warrants`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `weapons`
 --
 ALTER TABLE `weapons`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -917,127 +1087,148 @@ ALTER TABLE `weapons`
 -- AUTO_INCREMENT for table `911calls`
 --
 ALTER TABLE `911calls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `action_logs`
 --
 ALTER TABLE `action_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bolos`
 --
 ALTER TABLE `bolos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `businesses`
 --
 ALTER TABLE `businesses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cad_info`
 --
 ALTER TABLE `cad_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `citizens`
 --
 ALTER TABLE `citizens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ems-fd`
 --
 ALTER TABLE `ems-fd`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `ethnicities`
 --
 ALTER TABLE `ethnicities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `genders`
 --
 ALTER TABLE `genders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `in_statuses`
 --
 ALTER TABLE `in_statuses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `officers`
 --
 ALTER TABLE `officers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posted_charges`
 --
 ALTER TABLE `posted_charges`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `registered_cars`
 --
 ALTER TABLE `registered_cars`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `registered_weapons`
 --
 ALTER TABLE `registered_weapons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tow_calls`
 --
 ALTER TABLE `tow_calls`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
 
 --
 -- AUTO_INCREMENT for table `warrants`
 --
 ALTER TABLE `warrants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `weapons`
 --
 ALTER TABLE `weapons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

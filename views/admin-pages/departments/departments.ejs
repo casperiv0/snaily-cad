@@ -1,0 +1,49 @@
+<%- include("../../partials/header.ejs") %>
+
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../../partials/admin-header.ejs") %>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <div class="container mt-3">
+        <h1 class="users-title card-title text-light">
+          Department management
+          <a href="/admin/departments/add">+</a>
+        </h1>
+        <input
+          class="disabled list-group-item text-light bg-dark"
+          type="text"
+          name=""
+          id=""
+        />
+
+        <% if (departments.length > 0) {%>
+        <ul class="list-group">
+          <% departments.forEach((department, index) => { %>
+          <li class="list-group-item text-light bg-dark">
+            <%= ++index %> | <%= department.name %>
+            <a
+              href="/admin/departments/delete/<%= department.id %>"
+              class="btn btn-danger float-right"
+              >Delete</a
+            >
+            <a
+              href="/admin/departments/edit/<%= department.id %>"
+              class="btn btn-success float-right  margin-right-10"
+              >Edit</a
+            >
+          </li>
+
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p class="alert alert-primary">
+          No Departments found. Go
+          <a href="/admin/departments/add">here</a> to add
+          Departments.
+        </p>
+        <% } %>
+      </div>
+      <div class="mb-4"></div>
+    </main>
+  </div>
+</div>

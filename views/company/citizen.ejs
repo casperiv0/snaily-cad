@@ -5,7 +5,7 @@
         Edit <%= current.full_name %>
     </h1>
 
-    <form action="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit/<%= req.params.citizen %>" method="POST">
+    <form action="/company/<%= req.params.citizenId %>-<%= req.params.company %>/<%= req.params.employeeId %>/edit" method="POST">
         <div class="form-group">
           <label for="exampleInputEmail1" class="text-light">Company Rank</label>
           <% if (current.full_name === you.full_name) { %> 
@@ -39,7 +39,7 @@
               <option value="no">No</option>
           </select>
         </div>
-        <a href="/citizen/company/<%= req.params.id %>-<%= req.params.company %>/edit-company" class="btn btn-danger cancel-btn">Cancel</a>
+        <a href="/company/<%= req.params.citizenId %>-<%= req.params.company %>/edit" class="btn btn-danger cancel-btn">Cancel</a>
         <button type="submit" class="btn btn-success">Update</button>
     </form>
 </div>

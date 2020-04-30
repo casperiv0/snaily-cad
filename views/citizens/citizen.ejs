@@ -50,18 +50,18 @@
         <a href="/citizen/add" class="btn btn-primary cap col"
           >add a new citizen</a
         >
-        <a class="btn btn-primary cap col ml-1" href="/cars/register"
+        <a class="btn btn-primary cap col ml-1" href="/c/vehicle/register"
           >register a car</a
         >
         <a
         class="btn btn-primary cap col ml-1"
-        href="/weapons/register"
+        href="/c/weapons/register"
         >register a weapon</a
       >
       </div>
       <div class="row mt-1">
         <a
-        href="/citizen/company"
+        href="/company"
         class="btn btn-primary cap col col"
         >Manage Employment Status</a
       >
@@ -113,7 +113,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/create-tow-call" method="POST">
+              <form action="/global/create-tow-call" method="POST">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Call Description</label>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control" required></textarea>
@@ -147,7 +147,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <form action="/create-911-call" method="POST">
+              <form action="/global/citizen/create-911-call" method="POST">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Call Description</label>
                     <textarea name="description" id="description" cols="30" rows="5" placeholder="Description" class="form-control" required></textarea>
