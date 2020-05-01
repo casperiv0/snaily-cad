@@ -35,6 +35,7 @@ router.get("/", (req, res) => {
 // Edit CAD
 router.post("/", (req, res) => {
     let cad_name = req.body.cad_name
+    let newAop = req.body.aop;
     let whitelisted = req.body.whitelist
     let tow_whitelist = req.body.tow_whitelist
     if (whitelisted === undefined) {
@@ -48,7 +49,7 @@ router.post("/", (req, res) => {
         tow_whitelist = "yes"
     }
 
-    let query4 = "UPDATE `cad_info` SET `cad_name` = ?, `tow_whitelisted` = ?, `whitelisted` = ? ";
+    let query4 = "UPDATE `cad_info` SET `cad_name` = ?, `AOP`= ?,`tow_whitelisted` = ?, `whitelisted` = ? ";
 
     let query = "SELECT * FROM `users` WHERE `username` = ?";
     connection.query(`${query}`, [req.session.username2], (err, result) => {
@@ -58,7 +59,7 @@ router.post("/", (req, res) => {
         } else {
             if (result[0]) {
                 if (result[0].rank == 'owner') {
-                    connection.query(`${query4};`, [cad_name, tow_whitelist, whitelisted], (err) => {
+                    connection.query(`${query4};`, [cad_name, newAop, tow_whitelist, whitelisted], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);

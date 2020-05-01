@@ -32,7 +32,7 @@ router.post("/:id-:full_name/edit-licenses", (req, res) => {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            res.redirect(`/citizens/${citizenId}-${citizenName}`)
+            res.redirect(`/citizen/${citizenId}-${citizenName}`)
         }
     })
 });

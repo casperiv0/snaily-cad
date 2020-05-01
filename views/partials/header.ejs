@@ -5,23 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= title %></title>
     <meta name="description" content="<%= desc %>" />
+
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+
+    <!-- JQuery -->
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Popper Js -->
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Bootstrap Js -->
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
@@ -83,17 +93,11 @@
               aria-expanded="false"
               class="btn btn-dark dropdown-toggle"
             >
-              Updates <span class="badge badge-light">3</span>
+              Updates <span class="badge badge-light">1</span>
             </button>
             <div class="dropdown-menu">
               <li class="dropdown-item">
-                - Fixed a few things on the EMS/FD dashboard
-              </li>
-              <li class="dropdown-item">
-                - Dispatch can now create a 911 Call
-              </li>
-              <li class="dropdown-item">
-                - Fixed ban user "cad_info is undefined"
+                - Fixed Name Search dispatch
               </li>
               <small class="dropdown-item pn border-top border-dark"
                 >These messages will disappear after a few days
@@ -105,22 +109,6 @@
     </nav>
 
     <script>
-      function myFunction() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById('myInput');
-        filter = input.value.toUpperCase();
-        ul = document.getElementById('myUL');
-        li = ul.getElementsByTagName('li');
-        for (i = 0; i < li.length; i++) {
-          a = li[i];
-          txtValue = a.textContent || a.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = '';
-          } else {
-            li[i].style.display = 'none';
-          }
-        }
-      }
       var elem = document.body;
       function openFullscreen() {
         if (elem.requestFullscreen) {
@@ -137,8 +125,8 @@
         }
       }
 
+      // Set The background color
       document.body.style.backgroundColor = '#191919';
-      console.log('Build Version: v5.0.0');
     </script>
   </body>
 </html>

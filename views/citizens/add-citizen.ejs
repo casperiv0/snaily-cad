@@ -63,7 +63,7 @@
     <label for="exampleInputEmail1">Enter Gender</label>
     <select name="gender" class="form-control bg-dark text-light border-dark">
       <% genders.forEach(gender => { %>
-      <option value="<%= gender.gender %>"><%= gender.gender %></option>
+      <option value="<%= gender.name %>"><%= gender.name %></option>
       <% }) %>
     </select>
   </div>

@@ -31,11 +31,15 @@ let db = {
 const { loginAuth } = require("./auth/loginAuth");
 const authRouter = require("./routes/authentication/auth");
 
+// 911 & Tow Route 
+const callRouter = require("./routes/global/911-tow")
+
 // Global Router
 const globalRouter = require("./routes/global/global")
 
 // Admin
-const { adminPanel, actionLogPage } = require("./routes/admin");
+const adminRouter = require("./routes/admin")
+
 // Member Management
 const memberManagementRouter = require("./routes/admin/memberManagement")
 
@@ -81,28 +85,19 @@ const medicalRecordRouter = require("./routes/citizens/medicalRecord");
 const companyRouter = require("./routes/citizens/company");
 
 // Remaining Citizens Routes, will update these asap
-const { citizenPage, citizenDetailPage, addCitizen, addCitizenPage, editCitizenPage, editCitizen, deleteCitizens } = require("./routes/citizens/citizen");
+const citizenRouter = require("./routes/citizens/citizen")
 
-// Registration - Login
-const { editAccountPage, editAccountPassword, deleteAccount } = require("./routes/login-reg");
+// Edit Account Router
+const editAccountRouter = require("./routes/editAccountRouter");
 
 // Admin Departments
 const departmentsRouter = require("./routes/values/departments");
 
-const {
-    dispatchPage,
-    disptachWeaponSearch,
-    disptachAddressSearch,
-    statusChangeDispatch,
-    statusChangeDispatchEMS,
-    editAOP,
-    updateDispatchCall,
-    cancelCall911Dis,
-    dispatchUpdateOfficerStatus
-} = require("./routes/dispatch")
+// Dispatch Router
+const dispatchRouter = require("./routes/dispatch");
 
 // Index Router
-const indexRouter = require("./routes/index")
+const indexRouter = require("./routes/index");
 
 // Tow Router
 const towRouter = require("./routes/tow/tow");
@@ -131,17 +126,16 @@ app.use("/", indexRouter)
 // Login & Registration
 app.use("/auth", authRouter);
 
+// 911 & Tow call
+app.use("/call", callRouter)
 
 // Keep this line here, otherwise the above pages will not work!
 app.use(loginAuth);
 
 
-app.get("/account/edit", editAccountPage);
-app.post("/account/edit", editAccountPassword);
-app.post("/delete-account", deleteAccount)
+// Edit Account Router
+app.use("/account", editAccountRouter);
 
-// Admin
-app.get("/admin", adminPanel);
 
 // Member Management
 app.use("/admin/members", memberManagementRouter)
@@ -149,8 +143,8 @@ app.use("/admin/members", memberManagementRouter)
 // Edit CAD Router
 app.use("/admin/edit-cad", editCadRouter)
 
-// Action log
-app.get("/admin/action-log", actionLogPage)
+// Admin
+app.use("/admin", adminRouter);
 
 
 // Citizens vehicle Stuff
@@ -160,13 +154,7 @@ app.use("/c/vehicle", citizenVehicleRouter);
 app.use("/c/weapons", citizenWeaponRouter)
 
 // Citizens Router
-app.get("/citizen", citizenPage);
-app.get("/citizens/:id-:full_name", citizenDetailPage);
-app.get("/citizen/add", addCitizenPage);
-app.post("/citizen/add", addCitizen);
-app.get("/citizen/edit/:id-:full_name", editCitizenPage);
-app.post("/citizen/edit/:id-:full_name", editCitizen);
-app.get("/citizen/delete/:id-:full_name", deleteCitizens);
+app.use("/citizen", citizenRouter)
 
 // Company Router
 app.use("/company", companyRouter);
@@ -182,47 +170,13 @@ app.use("/tow", towRouter)
 
 
 // Dispatch
-app.get("/dispatch", dispatchPage);
-app.post("/dispatch/search/weapon", disptachWeaponSearch);
-app.post("/dispatch/search/address", disptachAddressSearch);
-app.post("/dispatch/status", statusChangeDispatch);
-app.post("/dispatch/status-ems", statusChangeDispatchEMS);
-app.post("/dispatch/aop", editAOP);
-app.post("/dispatch/update-call-:id", updateDispatchCall)
-app.get("/dispatch/cancel-call-:id", cancelCall911Dis)
-app.post("/dispatch/update-status-:id", dispatchUpdateOfficerStatus)
-// app.get("/dispatch/susdmv/:id", suspendDriversLicense)
-
+app.use("/dispatch", dispatchRouter);
 
 // Officers
 app.use("/officers", officersRouter);
 
-// Use for bolos, 911 calls..
+// Use for bolos, 911 calls, Tow call, update dispatch&Police stuff..
 app.use("/global", globalRouter);
-// app.get("/myofficers", officersPage)
-// app.get("/officers/dash", officersDash)
-// app.get("/officers/penal-codes", penalCodesPage)
-// app.get('/officers/add', addOfficerPage)
-// app.post('/officers/add', addOfficer)
-// app.post("/officers/dash/search/plate/:id-:first_name-:last_name/suspend", suspendLicensePlate)
-// app.post("/myofficers/status", statusChange)
-// app.get("/officers/dash/codes", codesPage)
-// app.post("/officers/bolo", officerBolo)
-// app.get("/officers/remove-bolo-:boloId", removeOfficerBolo)
-// app.post("/officers/dash/search/name/:id-:full_name/suspend/dmv", suspendLicenseName)
-// app.post("/officers/dash/search/name/:id-:full_name/suspend/pilot", suspendLicenseName)
-// app.post("/officers/dash/search/name/:id-:full_name/suspend/fire", suspendLicenseName)
-// app.post("/officers/dash/search/name/:id-:full_name/suspend/ccw", suspendLicenseName)
-// app.post("/officers/dash/add-offence", officerOffencer)
-// app.get("/officers/susdmv/:id", suspendDriversLicense)
-
-
-// app.get("/officers/api/:name", officerAPI)
-// app.get("/officers/api/plate/:plate", officerAPIPlate)
-// app.get("/officers/api/weapon/:serial", officerAPIWeapon)
-// app.post("/officers/quickwarrant", quickWarrant)
-// app.get("/officers/cancel-call-:id", cancelCall911)
-// app.post("/officers/dash/update-call-:id", update911call)
 
 // EMS/FD
 app.use("/ems-fd", emsFdRouter)
@@ -313,12 +267,30 @@ async function main() {
 
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
+    // This SQL Is for update 3.4.1, Adds a column for current unit on a call
+    const query = `IF NOT EXISTS( SELECT NULL
+        FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE table_name = '911calls'
+        AND table_schema = '911calls'
+        AND column_name = 'assigned_unit')  THEN
+        ALTER TABLE \`911calls\` ADD \`assigned_unit\` 	varchar(255) NOT NULL default '';
+        END IF;`
+    connection.query(query, (err) => {
+        if (err) {
+            console.log("Database is already up to date :)");
+        } else {
+            console.log("Updated Database for version: 3.4.1");
+        }
+    });
+
 
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
         console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))
     } else {
         console.log(chalk.green("You are all up to date."));
     }
+
+
 
     // Checks every 12 hours while running
     setInterval(() => {

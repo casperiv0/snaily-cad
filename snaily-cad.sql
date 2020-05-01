@@ -42,7 +42,10 @@ CREATE TABLE `911calls`
   `location` varchar
 (255) NOT NULL,
   `status` varchar
+(255) NOT NULL,
+  `assigned_unit` varchar
 (255) NOT NULL
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

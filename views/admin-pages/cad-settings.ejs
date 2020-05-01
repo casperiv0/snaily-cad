@@ -20,11 +20,14 @@
       <div class="card bg-secondary">
         <h4 class="card-title text-light p-2">Downloads</h4>
           <a download href="/downloads/snailyCAD-towservice.zip" class="ml-2 mb-2 mr-2 btn btn-primary">
-          FiveM call tow service integration(911 calls coming soon)</a>
+          FiveM call tow service integration (/calltow)</a>
+          <a download href="/downloads/snailyCAD-911service.zip" class="ml-2 mb-2 mr-2 btn btn-primary">
+          FiveM call 911 service integration (/call911)</a>
       </div>
     
       <form action="" method="post" class="card bg-secondary mt-3">
         <h4 class="card-title text-light p-2">General Settings</h4>
+        <!-- CAD Name -->
         <div class="ml-2 mr-2 form-group">
           <label for="name" class="text-light">CAD Name</label>
           <input
@@ -35,16 +38,31 @@
             value="<%= current.cad_name %>"
           />
         </div>
+
+        <!-- AOP -->
+        <div class="ml-2 mr-2 form-group">
+          <label for="name" class="text-light">Area Of Roleplay (AOP)</label>
+          <input
+            type="text"
+            id="aop"
+            name="aop"
+            class="form-control bg-dark border-dark text-light"
+            value="<%= current.AOP %>"
+          />
+        </div>
     
     
     
+        <!-- Whitelisted -->
         <div class="form-group p-2">
           <% if(current.whitelisted === "true") { %>
+            <label for="">This Whitelists the CAD for users to directly login, Administrators will need to manually accept or deny these users</label>
           <div class="custom-control custom-switch">
             <input type="checkbox" name="whitelist"  checked class="custom-control-input" id="customSwitch1">
             <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>
           </div>
         <% } else { %>
+          <label for="">This Whitelists the CAD for users to directly login, Administrators will need to manually accept or deny these users</label>
           <div class="custom-control custom-switch">
             <input type="checkbox" name="whitelist" class="custom-control-input" id="customSwitch1">
             <label class="custom-control-label text-light" for="customSwitch1">Whitelisted</label>

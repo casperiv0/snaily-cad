@@ -20,7 +20,7 @@ router.post("/:citizenId-:citizenName/add", (req, res) => {
             console.log(err);
             return res.sendStatus(500);
         } else {
-            res.redirect(`/citizens/${citizenId}-${citizenName}`);
+            res.redirect(`/citizen/${citizenId}-${citizenName}`);
         };
     });
 });

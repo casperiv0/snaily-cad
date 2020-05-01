@@ -32,9 +32,9 @@
         <% if (vehicles.length > 0) {%>
           <input
             type="text"
-            id="myInput"
+            id="vehicleSearchInput"
             class="form-control border-dark mb-2 text-light bg-dark"
-            onkeyup="myFunction()"
+            onkeyup="searchVehicles()"
             placeholder="Search for Vehicles.."
           />
         <ul class="list-group" id="myUL">
@@ -73,6 +73,23 @@
 <div class="mb-4"></div>
 
 <script>
+        function searchVehicles() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('vehicleSearchInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById('myUL');
+        li = ul.getElementsByTagName('li');
+        for (i = 0; i < li.length; i++) {
+          a = li[i];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = '';
+          } else {
+            li[i].style.display = 'none';
+          }
+        }
+      }
+
     function showAll() {
         let dots = document.getElementById("dots2");
         let moreText = document.getElementById("hiddenMore");

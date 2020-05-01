@@ -133,8 +133,8 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
             return res.sendStatus(500)
         } else {
             if (result[0]) {
-                let query = "UPDATE `911calls` SET `location` = ?, `status` = ? WHERE `911calls`.`id` = ?"
-                connection.query(query, [req.body.location, req.body.status, req.params.callId], (err) => {
+                let query = "UPDATE `911calls` SET `location` = ?, `status` = ?, `assigned_unit` = ? WHERE `911calls`.`id` = ?"
+                connection.query(query, [req.body.location, req.body.status, req.body.assigned_unit, req.params.callId], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -155,56 +155,5 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
     });
 });
 
-
-// Create 911 Call
-router.post("/:dir/create-911-call", (req, res) => {
-    let name = req.body.name
-    if (name === "") {
-        name = "Not Specified"
-    }
-    let desc = req.body.description;
-    if (desc === undefined) {
-        desc = "Not Specified"
-    }
-    let location = req.body.location;
-    const query = "INSERT INTO `911calls` (`description`, `name`, `location`, `status`) VALUES (?, ?, ?, ?)";
-
-    connection.query(query, [desc, name, location, 'not assigned'], (err) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        } else {
-            if (req.path.includes("citizen")) {
-                res.redirect("/citizen")
-            } else {
-                res.redirect("/dispatch")
-            }
-        };
-    });
-});
-
-
-// Create Tow Call
-router.post("/create-tow-call", (req, res) => {
-    let name = req.body.name
-    if (name === "") {
-        name = "Not Specified"
-    }
-    let desc = req.body.description;
-    if (desc === undefined) {
-        desc = "Not Specified"
-    }
-    let location = req.body.location;
-    const query = "INSERT INTO `tow_calls` (`description`, `name`, `location`) VALUES (?, ?, ?)"
-
-    connection.query(query, [desc, name, location, req.params.cadID], (err) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500)
-        } else {
-            res.redirect(`/citizen`);
-        };
-    });
-});
 
 module.exports = router;
