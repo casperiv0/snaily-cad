@@ -45,8 +45,9 @@ router.get("/:id-:full_name", (req, res) => {
             const query = "SELECT * FROM `citizens` WHERE id = ?";
             const vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = ? AND `linked_to` = ?";
             const weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = ?  AND `linked_to` = ?";
-            const medicalRecords = "SELECT * FROM `medical_records` WHERE `name` = ?"
-            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${medicalRecords}`, [id, owner, username, owner, username, owner, username, full_name], (err, result) => {
+            const medicalRecords = "SELECT * FROM `medical_records` WHERE `name` = ?";
+            const charges = "SELECT * FROM `posted_charges` WHERE `name` = ?";
+            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${medicalRecords}; ${charges}`, [id, owner, username, owner, username,full_name, full_name], (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -54,13 +55,17 @@ router.get("/:id-:full_name", (req, res) => {
                     if (!result[0][0]) {
                         res.sendStatus(404)
                     } else {
-                        if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
-                            res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req, medicalRecords: result[3] });
+                        if (result[0][0]) {                            
+                            if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
+                                res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req, medicalRecords: result[3], charges: result[4] });
+                            } else {
+                                res.sendStatus(401);
+                            };
                         } else {
-                            res.sendStatus(401);
+                            res.send(usernameNotFound);
                         };
-                    }
-                }
+                    };
+                };
             });
         };
     });
@@ -247,7 +252,6 @@ router.get("/edit/:id-:full_name", (req, res) => {
     });
 });
 
-
 // Edit Citizen 
 router.post("/edit/:id-:full_name", (req, res) => {
     let query;
@@ -262,21 +266,17 @@ router.post("/edit/:id-:full_name", (req, res) => {
     if (height == "") { height = "Unknown" }
     let weight = req.body.weight;
     if (weight == "") { weight = "Unknown" }
-    let dmv = req.body.dmv;
-    let fireArms = req.body.fire;
-    let pilot = req.body.pilot
-    let ccw = req.body.ccw
     let file, fileName
     if (req.files) {
         file = req.files.citizen_pictures;
         fileName = file.name;
-        query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ?, `citizen_picture` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
+        query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `citizen_picture` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
     } else {
-        query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ?, `dmv` = ?, `fire_license` = ?, `pilot_license` = ?, `ccw` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
+        query = 'UPDATE `citizens` SET `birth` = ?, `gender` = ?, `ethnicity` = ?, `hair_color` = ?, `eye_color` = ?, `address` = ?, `height` = ?, `weight` = ? WHERE `citizens`.`id` = "' + req.params.id + '"';
     }
 
 
-    connection.query(`${query};`, [birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, dmv, fireArms, pilot, ccw, fileName], (err) => {
+    connection.query(`${query};`, [birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, fileName], (err) => {
         if (err) {
             console.log(err);
         } else {

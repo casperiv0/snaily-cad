@@ -273,7 +273,7 @@ router.get("/:id/:car/delete", (req, res) => {
                     console.log(err);
                     return res.sendStatus(500);
                 } else {
-                    res.redirect(`/citizens/${result3[0].id}-${result3[0].full_name}`);
+                    res.redirect(`/citizen/${result3[0].id}-${result3[0].full_name}`);
                 }
             });
         };

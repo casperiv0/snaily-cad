@@ -2,19 +2,19 @@
 
 Free NodeJS CAD For your Community
 
-## How To setup?
+## How To setup
 
-**Requirements**
+### Requirements
 
 - [NodeJS](https://nodejs.org)
 - [Xampp MySQL](https://www.apachefriends.org/download.html)
 
-**Installation**
+### Installation
 
 1. Clone this repo to your PC, Run `git clone https://github.com/Dev-CasperTheGhost/SnailyCAD.git`
 2. Go into the folder using: `cd snaily-cad`
 3. Run `npm install` to install all required dependencies
-4. Install XAMPP MySQL server to connect to the database. link: https://www.apachefriends.org/download.html
+4. Install XAMPP MySQL server to connect to the database. link: [https://www.apachefriends.org/download.html](https://www.apachefriends.org/download.html)
 5. Make a database called "snaily-cad"
 6. Import the `snaily-cad.sql` file into that database
 7. Rename `creds-template.json` to `creds.json` and configure if needed.
@@ -22,15 +22,15 @@ Free NodeJS CAD For your Community
 
 ## Found bugs & Suggestions
 
-**Bugs**
+### Bugs
 
 Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new) and I'll fix it asap.
 
-**Suggestions**
+### Suggestions
 
 Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new) and I'll see what I can do!
 
-# FAQ
+## FAQ
 
 - How Do I change the Icon?
 
@@ -39,7 +39,7 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
 - Am I allowed to translate this CAD?
   - Yes, you are allowed to translate this CAD. (Only for your community)
 
-# Main Features
+## Main Features
 
 - Administration Panel
 - Dispatch System

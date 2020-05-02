@@ -69,12 +69,12 @@
       class="form-control bg-dark border-dark text-light"
       r="<%= current.gender %> "
     >
-      <option selected value="<%= current[0].gender %>"
+      <option selected value="<%= current[0].name %>"
         ><%= current[0].gender %></option
       >
       <option disabled value="---------">---------</option>
       <% genders.forEach(gender => { %>
-      <option value="<%= gender.gender %>"><%= gender.gender %></option>
+      <option value="<%= gender.name %>"><%= gender.name %></option>
       <% }) %>
     </select>
     <!-- <input name="gender" type="text" class="form-control" placeholder="Gender" required /> -->

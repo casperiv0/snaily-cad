@@ -26,12 +26,34 @@
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#emergencyCall"
                 data-toggle="modal">Create 911 Call</button>
+
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#notepad"
+                data-toggle="modal">Notepad</button>
         </div>
     </div>        <ul class="list-group list-group-flush ">
 
-            <!-- Name Search Modal -->
-            
+ <!-- Notepad -->
+ <div class="modal fade" id="notepad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content bg-dark border-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Notepad</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea name="notes" id="notes" cols="30" rows="15" class="form-control text-light bg-secondary border-secondary"></textarea>
+        <p>This gets reset after a page reload</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary container" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
+            <!-- Name Search Modal -->
             <div class="modal fade" id="nameSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content bg-dark border-dark">

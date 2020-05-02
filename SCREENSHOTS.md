@@ -105,4 +105,4 @@
 **CAD Settings (Owner Only)**
 ![cadSettings](./public/screenshots/cadSettings.png)
 
-## There's more screenshots but these are the most updated ones!
+## There's more screenshots but these are the most updated ones

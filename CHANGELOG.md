@@ -1,8 +1,15 @@
 # Changelog, starting from version 3.2.1
 
+## 3.4.3
+
+- Added Charges to citizens detail page
+- Fixed Edit Citizen licenses delete
+- Fixed Add officer 404
+- Added notepad for Tow/LEO/Dispatch Dashboard
+
 ## 3.4.1
 
-- Added SCREENSHOTS.md 
+- Added SCREENSHOTS.md
 - Added 911Call Plugin for in game
 - Added Change AOP in CAD Owner section
 - Delete citizen up to date with medical records and more

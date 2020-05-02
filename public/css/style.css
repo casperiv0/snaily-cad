@@ -126,6 +126,10 @@
   display: none;
 }
 
+#chargeMore {
+  display: none;
+}
+
 .bolder {
   font-weight: bolder;
 }
