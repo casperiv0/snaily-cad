@@ -133,8 +133,22 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
             return res.sendStatus(500)
         } else {
             if (result[0]) {
+                const location = req.body.location;
+                const assigned_unit = req.body.assigned_unit;
+                let status = req.body.status;
+                console.log(status);
+                console.log(assigned_unit);
+
+
+                if (assigned_unit !== "") {
+                    status = "Assigned"
+                    console.log(status);
+
+                }
+
+                const callId = req.params.callId;
                 let query = "UPDATE `911calls` SET `location` = ?, `status` = ?, `assigned_unit` = ? WHERE `911calls`.`id` = ?"
-                connection.query(query, [req.body.location, req.body.status, req.body.assigned_unit, req.params.callId], (err) => {
+                connection.query(query, [location, status, assigned_unit, callId], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);

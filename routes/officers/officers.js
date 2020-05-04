@@ -104,13 +104,14 @@ router.get("/dash", (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?"
     const bolosQ = "SELECT * FROM `bolos`";
     const calls = "SELECT * FROM `911calls`"
-    const citizensQ = "SELECT * FROM `citizens`"
+    const citizensQ = "SELECT * FROM `citizens`";
+    const activeOfficers = "SELECT * FROM `officers` WHERE `status` = ?"
     connection.query(`${query};`, [req.session.username2], (err, result) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            connection.query(`${bolosQ}; ${calls}; ${citizensQ}`, (err, result5) => {
+            connection.query(`${bolosQ}; ${calls}; ${citizensQ}; ${activeOfficers}`, ["10-41 | 10-8"], (err, result5) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -128,7 +129,8 @@ router.get("/dash", (req, res) => {
                             penals: penalCodes,
                             citizens: result5[2],
                             calls: result5[1],
-                            messageG: ""
+                            messageG: "",
+                            officers: result5[3]
                         });
                     } else {
                         res.render("403.ejs", { desc: "", title: "unauthorized", isAdmin: result[0].rank, message: "If you'd like to be an officer, Please let a higher up know in your server." })
@@ -184,7 +186,7 @@ router.get("/codes", (req, res) => {
     });
 })
 
-// Add Offence
+// Add Ticket
 router.post("/dash/add-offence", (req, res) => {
     let query = "SELECT * FROM `users` WHERE username = ?"
     connection.query(query, [req.session.username2], (err, result) => {
@@ -196,7 +198,8 @@ router.post("/dash/add-offence", (req, res) => {
                 if (result[0].leo == 'yes') {
                     const d = new Date();
                     const name = req.body.name;
-                    const offence = req.body.offence;
+                    const violations = req.body.violations;
+                    const ticket_amount = req.body.ticket_amount;
                     const date = d.toLocaleString();
                     const officer_name = req.body.officer_name;
                     const postal = req.body.postal;
@@ -205,8 +208,8 @@ router.post("/dash/add-offence", (req, res) => {
                         notes = "None";
                     };
 
-                    let query = "INSERT INTO `posted_charges` (`name`, `charge`, `notes`, `officer_name`, `date`, `postal`) VALUES (?, ?, ?, ?, ?, ?)";
-                    connection.query(query, [name, offence, notes, officer_name, date, postal], (err) => {
+                    let query = "INSERT INTO `posted_charges` (`name`, `charge`, `ticket_amount`, `notes`, `officer_name`, `date`, `postal`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    connection.query(query, [name, violations, ticket_amount, notes, officer_name, date, postal], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
@@ -236,6 +239,49 @@ router.post("/dash/add-offence", (req, res) => {
     });
 });
 
+// Add Arrest Report
+router.post("/dash/create-arrest-report", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE `username` = ?";
+    connection.query(query, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0]) {
+                if (result[0].leo === "yes") {
+                    const d = new Date();
+                    const name = req.body.name;
+                    const officer_name = req.body.officer_name;
+                    const charges = req.body.charges;
+                    const date = d.toLocaleString();
+                    const postal = req.body.postal;
+                    let notes = req.body.notes;
+                    if (notes == "") {
+                        notes = "None";
+                    };
+
+                    let query = "INSERT INTO `arrest_reports` (`name`, `date`, `charges`, `officer_name`, `postal`) VALUES (?, ?, ?, ?, ?)";
+                    connection.query(query, [name, date, charges,  officer_name, postal], (err) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            if (result[0].leo == 'yes') {
+                                res.redirect("/officers/dash")
+                            } else {
+                                res.sendStatus(403);
+                            };
+                        };
+                    });
+                } else {
+                    res.sendStatus(403);
+                }
+            } else {
+                res.send("Something went wrong during the request")
+            }
+        }
+    })
+})
 
 
 // SEARCHES
@@ -243,9 +289,10 @@ router.post("/dash/add-offence", (req, res) => {
 router.get("/api/name/:name", (req, res) => {
     const warrants = "SELECT * FROM `warrants` WHERE `name` = ?";
     const citizen = "SELECT * FROM `citizens` WHERE `full_name` = ?";
-    const charges = "SELECT * FROM `posted_charges` WHERE `name` = ?";
+    const tickets = "SELECT * FROM `posted_charges` WHERE `name` = ?";
+    const arrest_reports = "SELECT * FROM `arrest_reports` WHERE `name` = ?";
 
-    connection.query(`${warrants}; ${citizen}; ${charges}`, [req.params.name, req.params.name, req.params.name], (err, result) => {
+    connection.query(`${warrants}; ${citizen}; ${tickets}; ${arrest_reports}`, [req.params.name, req.params.name, req.params.name, req.params.name], (err, result) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500);

@@ -46,8 +46,9 @@ router.get("/:id-:full_name", (req, res) => {
             const vehiclesQ = "SELECT * FROM `registered_cars` WHERE `owner` = ? AND `linked_to` = ?";
             const weaponsQ = "SELECT * FROM `registered_weapons` WHERE `owner` = ?  AND `linked_to` = ?";
             const medicalRecords = "SELECT * FROM `medical_records` WHERE `name` = ?";
-            const charges = "SELECT * FROM `posted_charges` WHERE `name` = ?";
-            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${medicalRecords}; ${charges}`, [id, owner, username, owner, username,full_name, full_name], (err, result) => {
+            const tickets = "SELECT * FROM `posted_charges` WHERE `name` = ?";
+            const arrestReports = "SELECT * FROM `arrest_reports` WHERE `name` = ?"
+            connection.query(`${query}; ${vehiclesQ}; ${weaponsQ}; ${medicalRecords}; ${tickets}; ${arrestReports}`, [id, owner, username, owner, username,full_name, full_name, full_name], (err, result) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -57,7 +58,7 @@ router.get("/:id-:full_name", (req, res) => {
                     } else {
                         if (result[0][0]) {                            
                             if (result[0][0].linked_to.toLowerCase() === req.session.username2.toLowerCase()) {
-                                res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req, medicalRecords: result[3], charges: result[4] });
+                                res.render("citizens/detail-citizens.ejs", { title: "Citizen Detail | SnailyCAD", desc: "", citizen: result[0], vehicles: result[1], weapons: result[2], isAdmin: result1[0].rank, desc: "See All the information about your current citizen.", req: req, medicalRecords: result[3], tickets: result[4], reports: result[5] });
                             } else {
                                 res.sendStatus(401);
                             };

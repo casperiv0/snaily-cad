@@ -102,4 +102,49 @@ router.get("/delete-all-citizens", (req, res) => {
     });
 });
 
+
+// Company Management
+router.get("/manage-companies", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE `username` = ?"
+    connection.query(`${query}`, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0]) {
+                if (result[0].rank == 'owner' || result[0].rank == 'admin' || result[0].rank == 'moderator') {
+                    let query = "SELECT * FROM `businesses`"
+                    connection.query(`${query}`, (err, result2) => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500);
+                        } else {
+                            res.render("admin-pages/company/manage-companies.ejs", { desc: "", messageG: '', message: '', title: "Manage Companies", isAdmin: result[0].rank, companies: result2 });
+                        };
+                    });
+                } else {
+                    res.sendStatus(403);
+                };
+            } else {
+                res.status(500).send("something went wrong! Please report this bug at Discord DM's CasperTheGhost#4546 ");
+            };
+        };
+    });
+});
+
+// Delete Company
+router.get("/manage-companies/delete/:companyId", (req,res) => {
+    const companyId = req.params.companyId;
+
+    const query = "DELETE FROM `businesses` WHERE `id` = ?";
+    connection.query(query, [companyId], (err) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500)
+        } else {
+            res.redirect("/admin/manage-companies")
+        }
+    })
+});
+
 module.exports = router

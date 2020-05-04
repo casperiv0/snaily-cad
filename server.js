@@ -267,14 +267,16 @@ async function main() {
 
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
-    // This SQL Is for update 3.4.1, Adds a column for current unit on a call
-    const query = `IF NOT EXISTS( SELECT NULL
-        FROM INFORMATION_SCHEMA.COLUMNS
-               WHERE table_name = '911calls'
-        AND table_schema = '911calls'
-        AND column_name = 'assigned_unit')  THEN
-        ALTER TABLE \`911calls\` ADD \`assigned_unit\` 	varchar(255) NOT NULL default '';
-        END IF;`
+    // This SQL Is for update 3.4.4, Creates arrest reports table
+    const query = `CREATE TABLE IF NOT EXISTS \`arrest_reports\` (
+        id int(11) NOT NULL,
+        name varchar(255) NOT NULL,
+        date varchar(255) NOT NULL,
+        charges text NOT NULL,
+        officer_name varchar(255) NOT NULL,
+        postal varchar(255) NOT NULL,
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`arrest_reports\`
+      ADD PRIMARY KEY (id); ALTER TABLE \`posted_charges\` ADD \`ticket_amount\` INT NOT NULL AFTER charge;`
     connection.query(query, (err) => {
         if (err) {
             console.log("Database is already up to date :)");

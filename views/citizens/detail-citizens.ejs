@@ -188,26 +188,46 @@
     
     
                     </div>
+                    <!-- Tickets & Arrest Reports  -->
                     <div class="list-group-item list-group-item-action active bg-dark text-light border-dark mt-1">
                         <div class="d-flex w-100 justify-content-between mb-1">
-                            <h5 class="mb-1">My Charges/offences</h5>
+                            <h5 class="mb-1">My Tickets & Arrest Reports</h5>
                         </div>
                         <div id="chargeDots"></div>
-                        <div id="chargeMore">
-                            <% if (charges.length >0) { %>
-                                <% charges.forEach(charge => { %>
-                                <li class="list-group-item bg-secondary border-secondary"> <%= charge.charge %> <br />  <span class="bolder">Given On </span> <%= charge.date %><br /> <span class="bolder">Nearest Postal</span> <%= charge.postal %> </li>                            
-                                <% }); %>
-                            <% } else { %>
-                                <p class="mb-1">
-                                    <li class="list-group-item  bg-secondary border-secondary">
-                                        Your record seem to be clean, good :)
-                                    </li>
-                                </p>
-                            <% } %>
+                        <div class="row" id="chargeMore">
+                            <div class="col-md-6">
+                                <h4>Tickets </h4>
+                                    <% if (tickets.length >0) { %>
+                                        <% tickets.forEach(ticket => { %>
+                                        <li class="list-group-item bg-secondary border-secondary"> <%= ticket.charge %> <br />  <span class="bolder">Given On </span> <%= ticket.date %><br /> <span class="bolder">Nearest Postal:</span> <%= ticket.postal %> <br /> <span class="bolder">Nearest Postal:</span> <%= ticket.ticket_amount %> </li>                            
+                                        <% }); %>
+                                    <% } else { %>
+                                        <p class="mb-1">
+                                            <li class="list-group-item  bg-secondary border-secondary">
+                                                Your record seem to be clean, good :)
+                                            </li>
+                                        </p>
+                                    <% } %>
+                            </div>
+                            <div class="col-md-6">
+                               <h4>Arrest Reports</h4> 
+                                    <% if (reports.length >0){ %>
+                                        <% reports.forEach(report => { %>
+                                        <li class="list-group-item bg-secondary border-secondary"> <%= report.charges %> <br />  <span class="bolder">Given On </span> <%= report.date %><br /> <span class="bolder">Nearest Postal:</span> <%= report.postal %> </li>                            
+                                        <% }); %>
+                                    <% } else { %>
+                                        <p class="mb-1">
+                                            <li class="list-group-item  bg-secondary border-secondary">
+                                                Your record seem to be clean, good :)
+                                            </li>
+                                        </p>
+                                    <% } %>
+                            </div>
                         </div>
-                        <button class="btn btn-primary mt-3" onclick="charges()" id="chargeBtn">See all</button>
+                        
+                        <button class="btn btn-primary mt-3" onclick="tickets()" id="chargeBtn">See all</button>
                     </div>
+
             </ul>
         <div class="mb-4"></div>
     </div>
@@ -250,18 +270,18 @@
             weapenBtn.textContent = "See Less"
         }
     }
-    function charges() {
+    function tickets() {
         let dots = document.getElementById("chargeDots");
         let moreText = document.getElementById("chargeMore");
         let chargeBtn = document.getElementById("chargeBtn")
 
         if (dots.style.display === "none") {
-            dots.style.display = "inline";
+            dots.style.display = "flex";
             moreText.style.display = "none";
             chargeBtn.textContent = "See All"
         } else {
             dots.style.display = "none";
-            moreText.style.display = "inline";
+            moreText.style.display = "flex";
             chargeBtn.textContent = "See Less"
         }
     }

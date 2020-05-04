@@ -1,5 +1,14 @@
 # Changelog, starting from version 3.2.1
 
+## 3.4.4
+
+- Added arrest reports in citizen details page
+- Divided Tickets and arrest reports
+- Fixed call assign status
+- Added name search citizen picture
+- Added companies list in admin dashboard to see all created companies
+- Fixed where you can't set yourself to a call
+
 ## 3.4.3
 
 - Added Charges to citizens detail page

@@ -82,7 +82,7 @@ router.post("/create", (req, res) => {
                         console.log(err);
                         return res.sendStatus(500);
                     } else {
-                        res.redirect(`/company/${companyName}/`);
+                        res.redirect(`/citizen`);
                     };
                 });
             };

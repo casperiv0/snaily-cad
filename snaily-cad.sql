@@ -67,6 +67,27 @@ CREATE TABLE `action_logs`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `arrest_reports`
+--
+
+CREATE TABLE `arrest_reports`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `date` varchar
+(255) NOT NULL,
+  `charges` text NOT NULL,
+  `officer_name` varchar
+(255) NOT NULL,
+     `postal` varchar
+(255) NOT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bolos`
 --
 
@@ -255,7 +276,9 @@ CREATE TABLE `medical_records`
 (255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
-ALTER TABLE `medical_records` ADD PRIMARY KEY (`id`);
+ALTER TABLE `medical_records`
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Table structure for table `officers`
@@ -949,6 +972,13 @@ ALTER TABLE `action_logs`
 ADD PRIMARY KEY
 (`id`);
 
+--
+-- Indexes for table `arrest_reports`
+--
+
+ALTER TABLE `arrest_reports`
+ADD PRIMARY KEY
+(`id`);
 --
 -- Indexes for table `bolos`
 --
