@@ -9,25 +9,25 @@
             <span class="float-right" id="date"></span>
         </div>
         <div class="card-body row ">
-            <button class="btn btn-primary list-group-item text-light btn-dark bg-dark mt-2" data-target="#nameSearch"
+            <button class="btn btn-primary  text-light btn-dark bg-dark mt-2" data-target="#nameSearch"
             data-toggle="modal">Name Search</button>
 
-            <button class="btn btn-primary list-group-item text-light btn-dark bg-dark ml-2 mt-2" data-target="#plateSearch"
+            <button class="btn btn-primary  text-light btn-dark bg-dark ml-2 mt-2" data-target="#plateSearch"
             data-toggle="modal">Plate Search</button>
 
-            <button class="btn no-out btn-primary list-group-item text-light btn-dark bg-dark ml-2 mt-2" data-target="#eSyBFqXnRU"
+            <button class="btn no-out btn-primary text-light btn-dark bg-dark ml-2 mt-2" data-target="#eSyBFqXnRU"
                 data-toggle="modal">Weapon Search</button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#addressSearch"
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#addressSearch"
                 data-toggle="modal">Address Search</button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#bolo"
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#bolo"
                 data-toggle="modal">Create Bolo</button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#emergencyCall"
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#emergencyCall"
                 data-toggle="modal">Create 911 Call</button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary list-group-item ml-2 mt-2" data-target="#notepad"
+                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#notepad"
                 data-toggle="modal">Notepad</button>
         </div>
     </div>        <ul class="list-group list-group-flush ">
@@ -79,11 +79,22 @@
                                 <h6 class="card-title bolder text-light">Licenses</h6>
                                 <div id="licenses" class="text-light"></div>
                               </div>
+                              <div class="col-sm-6 mt-2">
+                                <img src="/citizen-pictures/loading" alt="Search a Citizen" id="citizen_picture" class="rounded-circle" style="width: 100px; height: 100px;">
+                            </div>
                             </div>
                             <div class="row">
                               <div class="col">
-                                <h6 class="card-title bolder text-light mt-3">Charges/Offences</h6>
-                                    <div id="charges" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+                                <h6 class="card-title bolder text-light mt-3">Tickets</h6>
+                                    <div id="tickets" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+          
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <h6 class="card-title bolder text-light mt-3">Arrest Reports</h6>
+                                    <div id="arrest_reports" class="overflow-auto" style="max-height: 15rem;" class="text-light">
           
                                     </div>
                                 </div>
@@ -524,14 +535,25 @@
 
 
 
-          if (result[2].length > 0) {
-            let charges = result[2].map(charge => {
-              return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On </span> '+ charge.date +' <br /> <span class="bolder">Nearest Postal</span> '+ charge.postal +' </li>'
-            })
-            document.getElementById("charges").innerHTML = charges.join('\n');
-          }  else {
-            document.getElementById("charges").innerHTML = '<li class="list-group-item">Person Has No Charges/Offences</li>'
-          }
+           // Tickets
+           if (result[2].length > 0) {
+              let tickets = result[2].map(charge => {
+                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On </span> '+ charge.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'  </li>'
+              });
+              document.getElementById("tickets").innerHTML = tickets.join('\n');
+            }  else {
+              document.getElementById("tickets").innerHTML = '<li class="list-group-item">Person Has No tickets</li>'
+            }
+
+            // Arrest Reports
+            if (result[3].length > 0) {
+              let arrest_reports = result[3].map(report => {
+                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
+              });
+              document.getElementById("arrest_reports").innerHTML = arrest_reports.join('\n');
+            }  else {
+              document.getElementById("arrest_reports").innerHTML = '<li class="list-group-item">Person Has No arrest reports</li>'
+            }
         
         if (result[0].length > 0) {
           warrants = result[0].map(warrant => {
@@ -545,6 +567,7 @@
 
         document.getElementById("personInfo").innerHTML = person;
         document.getElementById("licenses").innerHTML = licenses;
+        document.getElementById("citizen_picture").src = "/citizen-pictures/"+result[1][0].citizen_picture
       } 
     }
 

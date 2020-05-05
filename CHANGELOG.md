@@ -1,5 +1,10 @@
 # Changelog, starting from version 3.2.1
 
+## 3.4.5
+
+- Fixed name search in dispatch/police
+- updated dispatch name search with picture/arrest-reports/tickets
+
 ## 3.4.4
 
 - Added arrest reports in citizen details page
