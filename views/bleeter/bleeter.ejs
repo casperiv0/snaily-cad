@@ -1,0 +1,28 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="text-light container-fluid mt-3">
+    <% if (message) { %>
+        <div class="alert alert-danger">
+            <%= message %>    
+        </div>
+        <% } %>
+  <div class="">
+    <h1>Latest Bleets</h1>
+    <a class="btn btn-primary" href="/bleeter/new-bleet">Create Bleet</a>
+  </div>
+
+  <% if (bleets.length >0 ) { %> <% bleets.forEach(bleet => { %>
+  <a class="card mt-2 bg-dark border-dark" href="/bleeter/<%= bleet.id %>">
+    <div class="card-header">
+      @<%= bleet.uploaded_by %> | <%= bleet.uploaded_at %>
+    </div>
+    <div class="card-body">
+      <%- bleet.description.slice(0, 200) + "..." %>
+    </div>
+  </a>
+  <% }); %> <% } else { %>
+  <div class="alert alert-warning mt-4">
+    There's no bleet yet. Create One <a href="/bleeter/new-bleet">Here!</a>
+  </div>
+  <% } %>
+</div>

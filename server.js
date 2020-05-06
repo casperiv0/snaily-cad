@@ -102,6 +102,8 @@ const indexRouter = require("./routes/index");
 // Tow Router
 const towRouter = require("./routes/tow/tow");
 
+const bleeterRouter = require("./routes/bleeter/bleeter");
+
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }));
@@ -158,6 +160,9 @@ app.use("/citizen", citizenRouter)
 
 // Company Router
 app.use("/company", companyRouter);
+
+// Bleeter Router
+app.use("/bleeter", bleeterRouter);
 
 // Medical Records Router
 app.use("/medical", medicalRecordRouter);
@@ -268,24 +273,23 @@ async function main() {
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
     // This SQL Is for update 3.4.4, Creates arrest reports table
-    connection.query(`CREATE TABLE \`written_warnings\` (
+    connection.query(`CREATE TABLE \`bleets\` (
         id int(11) NOT NULL,
-        name varchar(255) NOT NULL,
-        date varchar(255) NOT NULL,
-        infractions text NOT NULL,
-        officer_name varchar(255) NOT NULL,
-        postal varchar(255) NOT NULL
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`written_warnings\`
-      ADD PRIMARY KEY (id); ALTER TABLE \`written_warnings\`
-      MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+        title varchar(255) NOT NULL,
+        description TEXT NOT NULL,
+        uploaded_by VARCHAR(255) NOT NULL,
+        uploaded_at varchar(255) NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`bleets\`
+      ADD PRIMARY KEY (id); ALTER TABLE \`bleets\`
+      MODIFY \`id\` int(11) NOT NULL AUTO_INCREMENT;
     COMMIT;`, (err) => {
         if (err) {
             if (err.code === "ER_TABLE_EXISTS_ERROR") {
-                return console.log("Database is up to date");
+                return console.log("Database is up to date.");
             }
             console.log(err);
         } else {
-            console.log("Updated the database");
+            console.log("Updated the database successfully");
 
         }
     })

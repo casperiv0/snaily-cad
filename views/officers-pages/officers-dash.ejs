@@ -21,9 +21,14 @@
       <% } %>
     <div class="card border-dark bg-dark text-light">
       <div class="card-header">
-          <h4 class="card-title">
+          <h1 class="card-title">
             Utility Panel
-          </h4>
+            <!-- <div class="float-right">
+              <a style="width: 100px;" data-toggle="modal" href="#selectOfficer" class="btn btn-primary">10-8</a>
+              <a style="width: 100px;" href="/officers/dash/status/10-7" class="btn btn-primary">10-7</a>
+              <a style="width: 100px;" href="/officers/dash/status/10-97" class="btn btn-primary">10-97</a>
+            </div> -->
+          </h1>
       </div>
       <div class="card-body row mx-auto">
           <a href="/officers/myofficers" class="btn btn-primary ml-2 mt-1">My Officers</a>
@@ -41,7 +46,8 @@
       </div>
     </div>
 
-
+   
+      <!-- 911 Calls -->
       <div class="row">
         <div class="col-md-8">
           <div class="mt-2">
@@ -197,6 +203,40 @@
           </div>
         </div>
       </div>
+
+       <!-- Select Officer -->
+       <!-- <div class="modal fade" id="selectOfficer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Please Select Officer</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/officers/dash/status/10-8">
+                <div class="form-group">
+                  <label for="officer_name">Select Officer to go 10-8</label>
+                  <% if (myOfficers.length >0 ){ %>
+                  <select name="officer_name" id="officer_name" class="form-control">
+                    <% myOfficers.forEach(officer => { %>
+                      <option value="<%= officer.officer_name %>"><%= officer.officer_name %></option>
+                      <% }) %>
+                      </select>
+                  <% } else { %>
+                    <p>You don't have any officers, create one <a href="/officers/myofficers/add">here</a></p>
+                  <% } %>
+                      </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Go 10-8</button>
+            </form>
+          </div>
+        </div>
+      </div> -->
+
   
 
 

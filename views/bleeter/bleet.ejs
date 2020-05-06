@@ -1,0 +1,22 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container text-light">
+  <div class="border-bottom">
+    <h1>
+      <%= bleet.title %> <% if (isAdmin==="admin" || isAdmin==="moderator" || isAdmin==="owner" ) { %>
+      <div class="float-right">
+        <a class="btn btn-danger" href="/bleeter/delete/<%= bleet.id %>">Delete Bleet(admin only)</a>
+        <% } %>
+        <% if (req.session.username2===bleet.uploaded_by) { %>
+            <a class="btn btn-success" href="/bleeter/edit/<%= bleet.id %>">Edit Bleet</a>
+          <% } %>
+      </div>
+      
+    </h1>
+    <div class="float-right pt-3">
+      <p><%= bleet.uploaded_at %> | @<%= bleet.uploaded_by %></p>
+    </div>
+  </div>
+
+  <p class="pt-3"><%- bleet.description %></p>
+</div>

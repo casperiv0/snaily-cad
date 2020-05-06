@@ -1,5 +1,14 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.0
+
+- Added bleeter!
+- able to send bleets in your CAD with custom markdown!
+- Community moderator+ are able to delete bleets when needed
+- bleet poster can edit bleet
+
+**Massive Thank you to everyone who has helped me with bugs and suggestions! Means a lot 🎉🎉**
+
 ## 3.4.6
 
 - Few bug fixes

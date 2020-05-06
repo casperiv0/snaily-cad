@@ -974,6 +974,15 @@ CREATE TABLE `written_warnings` (
   `postal` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `bleets` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` TEXT NOT NULL,
+  `uploaded_by` VARCHAR(255) NOT NULL,
+  `uploaded_at` varchar(255) NOT NULL
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 --
 -- Indexes for dumped tables
 --
@@ -1143,6 +1152,12 @@ ADD PRIMARY KEY
 -- Indexes for table `written_warnings`
 --
 ALTER TABLE `written_warnings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `written_warnings`
+--
+ALTER TABLE `bleets`
   ADD PRIMARY KEY (`id`);
 
 
@@ -1317,6 +1332,13 @@ COMMIT;
 -- AUTO_INCREMENT for table `written_warnings`
 --
 ALTER TABLE `written_warnings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+--
+-- AUTO_INCREMENT for table `written_warnings`
+--
+ALTER TABLE `bleets`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

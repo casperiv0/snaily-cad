@@ -106,12 +106,13 @@ router.get("/dash", (req, res) => {
     const calls = "SELECT * FROM `911calls`"
     const citizensQ = "SELECT * FROM `citizens`";
     const activeOfficers = "SELECT * FROM `officers` WHERE `status` = ?"
+    const myOfficers = "SELECT * FROM `officers` WHERE `linked_to` = ?"
     connection.query(`${query};`, [req.session.username2], (err, result) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            connection.query(`${bolosQ}; ${calls}; ${citizensQ}; ${activeOfficers}`, ["10-41 | 10-8"], (err, result5) => {
+            connection.query(`${bolosQ}; ${calls}; ${citizensQ}; ${activeOfficers}; ${myOfficers}`, ["10-41 | 10-8", req.session.username2], (err, result5) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -130,7 +131,8 @@ router.get("/dash", (req, res) => {
                             citizens: result5[2],
                             calls: result5[1],
                             messageG: "",
-                            officers: result5[3]
+                            officers: result5[3],
+                            myOfficers: result5[4]
                         });
                     } else {
                         res.render("403.ejs", { desc: "", title: "unauthorized", isAdmin: result[0].rank, message: "If you'd like to be an officer, Please let a higher up know in your server." })
@@ -370,6 +372,24 @@ router.get("/api/weapon/:weapon", (req, res) => {
             return res.sendStatus(500)
         } else {
             res.json(result);
+        };
+    });
+});
+
+
+// Quick Update status
+router.get("/dash/status/:status-:officerId", (req, res) => {
+    const query = "SELECT * FROM `users` WHERE `username` = ?";
+    connection.query(query, [req.session.username2], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            if (result[0].leo === "yes") {
+                const query= "UPDATE"
+            } else {
+                res.sendStatus(403);
+            };
         };
     });
 });
