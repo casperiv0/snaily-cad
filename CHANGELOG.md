@@ -1,5 +1,11 @@
 # Changelog, starting from version 3.2.1
 
+## 3.4.6
+
+- Few bug fixes
+- Added Written Warnings
+- Fixed the `snaily-cad.sql` file, if you still encounter an error when importing please let me know.
+
 ## 3.4.5
 
 - Fixed name search in dispatch/police

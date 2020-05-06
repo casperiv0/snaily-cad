@@ -30,6 +30,7 @@
           <a href="#nameSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Name Search</a>
           <a href="#plateSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Plate Search</a>
           <a href="#weaponSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Weapon Search</a>
+          <a href="#writtenWarning"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Written Warning</a>
           <a href="#newTicket"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Ticket</a>
           <a href="#arrestReport"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Arrest Report</a>
           <a href="#boloModal" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Bolo</a>
@@ -437,6 +438,91 @@
       </div>
     </div>
 
+     <!-- writtenWarning -->
+     <div class="modal fade mx-auto" id="writtenWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl"  role="document">
+        <div class="modal-content bg-dark border-dark text-light" >
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New Written Warning</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/officers/dash/create-written-warning" id="modal" method="post">
+              <!-- Name -->
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control bg-secondary border-secondary text-light"
+                  id="warrantCitizensSearch"
+                  required
+                  list="citizen2"
+                  placeholder="Name of subject"
+                  onkeypress="warrantCitizens()"
+                />
+              </div>
+              <!-- Officer Name -->
+              <div class="form-group">
+                <label for="exampleInputPassword1">Officer Name</label>
+                <input
+                  type="text"
+                  name="officer_name"
+                  class="form-control bg-secondary border-secondary text-light"
+                  id="exampleInputPassword1"
+                  required
+                  placeholder="Name of officer"
+                />
+              </div>
+              <!-- Charges -->
+              <div class="form-group">
+                <label for="exampleInputEmail1">Infractions</label>
+                <input
+                  type="text"
+                  list="infractions"
+                  name="infractions"
+                  class="form-control bg-secondary border-secondary text-light"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  required
+                  placeholder="Infractions"
+                />
+                <datalist id="infractions">
+                  <% penals.forEach(penal => {%>
+                    <option value="<%= penal.title %>"></option>
+                    <% }) %>
+                </datalist>
+              </div>
+              <!-- Nearest Postal -->
+              <div class="form-group">
+                <label for="exampleInputPassword1">Nearest Postal:</label>
+                <input
+                  type="text"
+                  name="postal"
+                  class="form-control bg-secondary border-secondary text-light"
+                  id="postal"
+                  placeholder="Nearest Postal"
+                />
+              </div>
+            
+              <div class="form-group">
+                <label for="exampleInputPassword1">Notes:</label>
+                <textarea name="notes" id="notes" cols="5" rows="5" class="form-control bg-secondary border-secondary text-light" placeholder="Notes"></textarea>
+              </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create Written Warning</button>
+      </div>
+      </form>
+        </div>
+      </div>
+    </div>
+
     <!-- Weapon Search -->
     <div class="modal fade text-light" id="weaponSearch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -535,6 +621,14 @@
                     <div class="col-sm-6">
                         <img src="/citizen-pictures/loading" alt="Search a Citizen" id="citizen_picture" class="rounded-circle" style="width: 100px; height: 100px;">
                     </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <h6 class="card-title bolder text-light mt-3">Warnings</h6>
+                          <div id="written_warnings" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+
+                          </div>
+                      </div>
                   </div>
                   <div class="row">
                     <div class="col">
@@ -652,6 +746,15 @@
             '<li><span class="bolder mt-1"> <a class="btn btn-danger" href=\'/global/officers/susdmv/'+ result[1][0].id+'\'> Suspend Drivers License </a> </li>' +
             '</ul>'
   
+              // Written Warnings
+              if (result[4].length > 0) {
+              let written_warnings = result[4].map(written_warning => {
+                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On </span> '+ written_warning.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' </li>'
+              });
+              document.getElementById("written_warnings").innerHTML = written_warnings.join('\n');
+            }  else {
+              document.getElementById("written_warnings").innerHTML = '<li class="list-group-item">Person Has No Warnings</li>'
+            }
   
               // Tickets
             if (result[2].length > 0) {

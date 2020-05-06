@@ -59,7 +59,7 @@ const ethnicityRouter = require("./routes/values/ethnicities");
 const adminLegalStatusesRouter = require("./routes/values/legal");
 
 // Edit CAD Router
-const editCadRouter = require("./routes/editCADRouter");
+const editCadRouter = require("./routes/admin/editCADRouter");
 
 // Officers
 const officersRouter = require("./routes/officers/officers");
@@ -88,7 +88,7 @@ const companyRouter = require("./routes/citizens/company");
 const citizenRouter = require("./routes/citizens/citizen")
 
 // Edit Account Router
-const editAccountRouter = require("./routes/editAccountRouter");
+const editAccountRouter = require("./routes/admin/editAccountRouter");
 
 // Admin Departments
 const departmentsRouter = require("./routes/values/departments");
@@ -268,23 +268,27 @@ async function main() {
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
     // This SQL Is for update 3.4.4, Creates arrest reports table
-    const query = `CREATE TABLE IF NOT EXISTS \`arrest_reports\` (
+    connection.query(`CREATE TABLE \`written_warnings\` (
         id int(11) NOT NULL,
         name varchar(255) NOT NULL,
         date varchar(255) NOT NULL,
-        charges text NOT NULL,
+        infractions text NOT NULL,
         officer_name varchar(255) NOT NULL,
-        postal varchar(255) NOT NULL,
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`arrest_reports\`
-      ADD PRIMARY KEY (id); ALTER TABLE \`posted_charges\` ADD \`ticket_amount\` INT NOT NULL AFTER charge;`
-    connection.query(query, (err) => {
+        postal varchar(255) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`written_warnings\`
+      ADD PRIMARY KEY (id); ALTER TABLE \`written_warnings\`
+      MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+    COMMIT;`, (err) => {
         if (err) {
-            console.log("Database is already up to date :)");
+            if (err.code === "ER_TABLE_EXISTS_ERROR") {
+                return console.log("Database is up to date");
+            }
+            console.log(err);
         } else {
-            console.log("Updated Database for version: 3.4.1");
-        }
-    });
+            console.log("Updated the database");
 
+        }
+    })
 
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
         console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))

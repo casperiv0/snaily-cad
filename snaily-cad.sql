@@ -1,16 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2020 at 10:34 AM
--- Server version: 10.4.8-MariaDB
--- PHP Version: 7.3.11
+-- Generation Time: May 05, 2020 at 06:45 PM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.5
 
 SET SQL_MODE
 = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT
-= 0;
 START TRANSACTION;
 SET time_zone
 = "+00:00";
@@ -22,7 +20,7 @@ SET time_zone
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `snaily-cad`
+-- Database: `snaily-cad-2`
 --
 
 -- --------------------------------------------------------
@@ -45,7 +43,6 @@ CREATE TABLE `911calls`
 (255) NOT NULL,
   `assigned_unit` varchar
 (255) NOT NULL
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -81,8 +78,8 @@ CREATE TABLE `arrest_reports`
   `charges` text NOT NULL,
   `officer_name` varchar
 (255) NOT NULL,
-     `postal` varchar
-(255) NOT NULL,
+  `postal` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -187,7 +184,7 @@ CREATE TABLE `citizens`
 (255) NOT NULL,
   `posts` varchar
 (255) NOT NULL,
-  `citizen_picture` TEXT NOT NULL,
+  `citizen_picture` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -268,17 +265,23 @@ CREATE TABLE `in_statuses`
 
 -- --------------------------------------------------------
 
+--
+-- Table structure for table `medical_records`
+--
+
 CREATE TABLE `medical_records`
-(`id`int
-(11) NOT NULL,`type`varchar
-(255) NOT NULL,`short_info`varchar
-(255) NOT NULL,`name`varchar
-(255) NOT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(
+  `id` int
+(11) NOT NULL,
+  `type` varchar
+(255) NOT NULL,
+  `short_info` varchar
+(255) NOT NULL,
+  `name` varchar
+(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-ALTER TABLE `medical_records`
-ADD PRIMARY KEY
-(`id`);
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `officers`
@@ -462,14 +465,14 @@ CREATE TABLE `vehicles`
 (255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+
 --
 -- Dumping data for table `vehicles`
 --
 
-INSERT INTO `vehicles` (`
-id`,
-`cname
-`, `default_car`) VALUES
+INSERT INTO `vehicles` (`id`,`cname`, `default_car`) VALUES
 (1, 'Albany Alpha		', 'true'),
 (2, 'Albany Buccaneer		', 'true'),
 (3, 'Albany Buccaneer Custom		', 'true'),
@@ -922,6 +925,7 @@ id`,
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `warrants`
 --
@@ -942,9 +946,11 @@ CREATE TABLE `warrants`
 
 -- --------------------------------------------------------
 
+
 --
 -- Table structure for table `weapons`
 --
+
 
 CREATE TABLE `weapons`
 (
@@ -952,6 +958,20 @@ CREATE TABLE `weapons`
 (11) NOT NULL,
   `name` varchar
 (255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `written_warnings`
+--
+
+
+CREATE TABLE `written_warnings` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `infractions` text NOT NULL,
+  `officer_name` varchar(255) NOT NULL,
+  `postal` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -975,10 +995,10 @@ ADD PRIMARY KEY
 --
 -- Indexes for table `arrest_reports`
 --
-
 ALTER TABLE `arrest_reports`
 ADD PRIMARY KEY
 (`id`);
+
 --
 -- Indexes for table `bolos`
 --
@@ -1039,6 +1059,13 @@ ADD PRIMARY KEY
 -- Indexes for table `in_statuses`
 --
 ALTER TABLE `in_statuses`
+ADD PRIMARY KEY
+(`id`);
+
+--
+-- Indexes for table `medical_records`
+--
+ALTER TABLE `medical_records`
 ADD PRIMARY KEY
 (`id`);
 
@@ -1113,6 +1140,13 @@ ADD PRIMARY KEY
 (`id`);
 
 --
+-- Indexes for table `written_warnings`
+--
+ALTER TABLE `written_warnings`
+  ADD PRIMARY KEY (`id`);
+
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1127,6 +1161,13 @@ ALTER TABLE `911calls`
 -- AUTO_INCREMENT for table `action_logs`
 --
 ALTER TABLE `action_logs`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `arrest_reports`
+--
+ALTER TABLE `arrest_reports`
   MODIFY `id` int
 (11) NOT NULL AUTO_INCREMENT;
 
@@ -1194,6 +1235,13 @@ ALTER TABLE `in_statuses`
 (11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `medical_records`
+--
+ALTER TABLE `medical_records`
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `officers`
 --
 ALTER TABLE `officers`
@@ -1247,7 +1295,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `vehicles`
   MODIFY `id` int
-(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=450;
+(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `warrants`
@@ -1262,6 +1310,14 @@ ALTER TABLE `warrants`
 ALTER TABLE `weapons`
   MODIFY `id` int
 (11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+--
+-- AUTO_INCREMENT for table `written_warnings`
+--
+ALTER TABLE `written_warnings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

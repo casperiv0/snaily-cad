@@ -11,7 +11,7 @@ Free NodeJS CAD For your Community
 
 ### Installation
 
-1. Clone this repo to your PC, Run `git clone https://github.com/Dev-CasperTheGhost/SnailyCAD.git`
+1. Clone this repo to your PC, Run `git clone https://github.com/Dev-CasperTheGhost/snaily-cad.git`
 2. Go into the folder using: `cd snaily-cad`
 3. Run `npm install` to install all required dependencies
 4. Install XAMPP MySQL server to connect to the database. link: [https://www.apachefriends.org/download.html](https://www.apachefriends.org/download.html)
@@ -72,14 +72,15 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
 
 - LEO
 
-  - Unlimited Officers
   - Vehicle Search
   - Person Search
   - Penal Codes
   - 10-Codes
   - Create Bolos
   - Expire licenses
+  - Add Written Warnings
   - Add Tickets
+  - Add Arrest Reports
   - Add Warrants
   - And More!
 

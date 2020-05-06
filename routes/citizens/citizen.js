@@ -280,6 +280,7 @@ router.post("/edit/:id-:full_name", (req, res) => {
     connection.query(`${query};`, [birth, gender, ethnicity, hair_color, eyes_color, address, height, weight, fileName], (err) => {
         if (err) {
             console.log(err);
+            return res.sendStatus(500)
         } else {
             if (req.files) {
                 file.mv("./public/citizen-pictures/" + fileName, err => {
