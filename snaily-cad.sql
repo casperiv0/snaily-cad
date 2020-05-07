@@ -317,6 +317,8 @@ CREATE TABLE `posted_charges`
 (255) NOT NULL,
   `charge` varchar
 (255) NOT NULL,
+  `ticket_amount` varchar
+(255) NOT NULL,
   `notes` varchar
 (255) NOT NULL,
   `officer_name` varchar
@@ -472,7 +474,9 @@ CREATE TABLE `vehicles`
 -- Dumping data for table `vehicles`
 --
 
-INSERT INTO `vehicles` (`id`,`cname`, `default_car`) VALUES
+INSERT INTO `vehicles` (`
+id`,`cname
+`, `default_car`) VALUES
 (1, 'Albany Alpha		', 'true'),
 (2, 'Albany Buccaneer		', 'true'),
 (3, 'Albany Buccaneer Custom		', 'true'),
@@ -938,9 +942,7 @@ CREATE TABLE `warrants`
 (255) NOT NULL,
   `reason` varchar
 (255) NOT NULL,
-  `d_from` varchar
-(255) NOT NULL,
-  `d_to` varchar
+  `status` varchar
 (255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -965,21 +967,32 @@ CREATE TABLE `weapons`
 --
 
 
-CREATE TABLE `written_warnings` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `date` varchar(255) NOT NULL,
+CREATE TABLE `written_warnings`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `date` varchar
+(255) NOT NULL,
   `infractions` text NOT NULL,
-  `officer_name` varchar(255) NOT NULL,
-  `postal` varchar(255) NOT NULL
+  `officer_name` varchar
+(255) NOT NULL,
+  `postal` varchar
+(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `bleets` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
+CREATE TABLE `bleets`
+(
+  `id` int
+(11) NOT NULL,
+  `title` varchar
+(255) NOT NULL,
   `description` TEXT NOT NULL,
-  `uploaded_by` VARCHAR(255) NOT NULL,
-  `uploaded_at` varchar(255) NOT NULL
+  `uploaded_by` VARCHAR
+(255) NOT NULL,
+  `uploaded_at` varchar
+(255) NOT NULL
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -1152,13 +1165,15 @@ ADD PRIMARY KEY
 -- Indexes for table `written_warnings`
 --
 ALTER TABLE `written_warnings`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 --
 -- Indexes for table `written_warnings`
 --
 ALTER TABLE `bleets`
-  ADD PRIMARY KEY (`id`);
+ADD PRIMARY KEY
+(`id`);
 
 
 --
@@ -1332,14 +1347,16 @@ COMMIT;
 -- AUTO_INCREMENT for table `written_warnings`
 --
 ALTER TABLE `written_warnings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 --
 -- AUTO_INCREMENT for table `written_warnings`
 --
 ALTER TABLE `bleets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int
+(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

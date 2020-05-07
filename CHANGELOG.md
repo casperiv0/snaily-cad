@@ -1,13 +1,26 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.1
+
+- Added "given by" in the name search
+- Changed warrants "from-to" to "active-inactive"
+- Added written warnings to dispatch name search
+- Added icons to Police and dispatch dashboards
+- Added icons to navigation bar
+
+### New Navigation bar
+
+![newNavbar](./public/screenshots/header.png)
+
 ## 3.5.0
 
+- Updated `snaily-cad.sql`, your database should automatically update
 - Added bleeter!
 - able to send bleets in your CAD with custom markdown!
 - Community moderator+ are able to delete bleets when needed
 - bleet poster can edit bleet
 
-**Massive Thank you to everyone who has helped me with bugs and suggestions! Means a lot 🎉🎉**
+### Massive Thank you to everyone who has helped me with bugs and suggestions! Means a lot 🎉🎉
 
 ## 3.4.6
 

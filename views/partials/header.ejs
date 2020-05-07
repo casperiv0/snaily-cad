@@ -41,7 +41,9 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary sticky-top">
-      <a class="navbar-brand text-light" href="/">Home</a>
+      <a class="navbar-brand text-light" href="/">
+        <img src="/icons/icon.png" alt="d" class="icon">
+      </a>
       <button
         class="navbar-toggler"
         type="button"
@@ -57,34 +59,34 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link text-light" href="/officers/dash">Police Dept.</a>
+            <a class="nav-link text-light" href="/officers/dash">Police Dept.   <img class="testing" src="/icons/internal/Police_Dept.png" alt="officer"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/dispatch">Dispatch</a>
+            <a class="nav-link text-light" href="/dispatch">Dispatch  <img class="testing" src="/icons/internal/Dispatch.png" alt="Dispatch"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/ems-fd/dash">EMS/FD</a>
+            <a class="nav-link text-light" href="/ems-fd/dash">EMS/FD  <img class="testing" src="/icons/internal/fire.png" alt="fire"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/citizen">Citizens</a>
+            <a class="nav-link text-light" href="/citizen">Citizens  <img class="testing" src="/icons/internal/citizen.png" alt="citizen"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/tow">Tow</a>
+            <a class="nav-link text-light" href="/tow">Tow  <img class="testing" src="/icons/internal/tow.png" alt="tow"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/bleeter">Bleeter</a>
+            <a class="nav-link text-light" href="/bleeter">Bleeter  <img class="testing" src="/icons/internal/bleeter.png" alt="bleeter"></a>
           </li>
 
           <% if (isAdmin === 'admin' || isAdmin === 'moderator' || isAdmin === 'owner') {%>
           <li class="nav-item">
-            <a class="nav-link text-light" href="/admin">Admin </a>
+            <a class="nav-link text-light" href="/admin">Admin <img class="testing" src="/icons/internal/gear.png" alt="admin"></a>
           </li>
           <%} else {%>
           <li class="nav-item"></li>
           <%} %>
           <li class="nav-item">
-            <button class="nav-link btn text-light" onclick="openFullscreen()">
-              Fullscreen
+            <button class="nav-link btn text-light  margin-left-10" onclick="openFullscreen()">
+              <img class="testing" src="/icons/internal/fullscreen.png" alt="admin">
             </button>
           </li>
           <div class="btn-group btn-group-sm nav-item">

@@ -10,25 +10,25 @@
         </div>
         <div class="card-body row ">
             <button class="btn btn-primary  text-light btn-dark bg-dark mt-2" data-target="#nameSearch"
-            data-toggle="modal">Name Search</button>
+            data-toggle="modal">Name Search | <img class="testing" src="/icons/internal/name_search.png" alt="name"></button>
 
             <button class="btn btn-primary  text-light btn-dark bg-dark ml-2 mt-2" data-target="#plateSearch"
-            data-toggle="modal">Plate Search</button>
+            data-toggle="modal">Plate Search | <img class="testing" src="/icons/internal/Plate_search.png" alt="plate"></button>
 
             <button class="btn no-out btn-primary text-light btn-dark bg-dark ml-2 mt-2" data-target="#eSyBFqXnRU"
-                data-toggle="modal">Weapon Search</button>
+                data-toggle="modal">Weapon Search | <img class="testing" src="/icons/internal/weapon.png" alt="weapon"></button>
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#addressSearch"
-                data-toggle="modal">Address Search</button>
+                data-toggle="modal">Address Search  | <img class="testing" src="/icons/internal/Adress_Search.png" alt="bolo"></button>
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#bolo"
-                data-toggle="modal">Create Bolo</button>
+                data-toggle="modal">Create Bolo | <img class="testing" src="/icons/internal/bolo.png" alt="bolo"></button>
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#emergencyCall"
-                data-toggle="modal">Create 911 Call</button>
+                data-toggle="modal">Create 911 Call | <img class="testing" src="/icons/internal/call.png" alt="call"></button>
 
                 <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#notepad"
-                data-toggle="modal">Notepad</button>
+                data-toggle="modal">Notepad  | <img class="testing" src="/icons/internal/Notepad.png" alt="notepad"></button>
         </div>
     </div>        <ul class="list-group list-group-flush ">
 
@@ -82,6 +82,14 @@
                               <div class="col-sm-6 mt-2">
                                 <img src="/citizen-pictures/loading" alt="Search a Citizen" id="citizen_picture" class="rounded-circle" style="width: 100px; height: 100px;">
                             </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <h6 class="card-title bolder text-light mt-3">Written Warnings</h6>
+                                    <div id="written_warnings" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+          
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                               <div class="col">
@@ -425,7 +433,7 @@
                       <td><%= call.description %></td>
                       <td><%= call.assigned_unit %></td>
                       <td><%= call.status %></td>
-                      <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
+                      <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call  <img class="testing" src="/icons/internal/View_Call.png" alt="10codes"></button> </td>
                     </tr>
                     <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog" role="document">
@@ -533,12 +541,21 @@
           '<li><span class="bolder mt-1"> <a class="btn btn-danger" href=\'/global/dispatch/susdmv/'+ result[1][0].id+'\'> Suspend Drivers License </a> </li>' +
           '</ul>'
 
+           // Written Warnings
+           if (result[4].length > 0) {
+              let written_warnings = result[4].map(written_warning => {
+                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On:</span> '+ written_warning.date +'<br /> <span class="bolder">Given By: </span> '+ written_warning.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' </li>'
+              });
+              document.getElementById("written_warnings").innerHTML = written_warnings.join('\n');
+            }  else {
+              document.getElementById("written_warnings").innerHTML = '<li class="list-group-item">Person Has No Warnings</li>'
+            }
 
 
            // Tickets
            if (result[2].length > 0) {
               let tickets = result[2].map(charge => {
-                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On </span> '+ charge.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'  </li>'
+                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On: </span> '+ charge.date +' <br /> <span class="bolder">Given By: </span> '+ charge.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'  </li>'
               });
               document.getElementById("tickets").innerHTML = tickets.join('\n');
             }  else {
@@ -548,16 +565,17 @@
             // Arrest Reports
             if (result[3].length > 0) {
               let arrest_reports = result[3].map(report => {
-                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
+                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Given By: </span> '+ report.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
               });
               document.getElementById("arrest_reports").innerHTML = arrest_reports.join('\n');
             }  else {
               document.getElementById("arrest_reports").innerHTML = '<li class="list-group-item">Person Has No arrest reports</li>'
             }
         
+            // Warrants
         if (result[0].length > 0) {
           warrants = result[0].map(warrant => {
-            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Date From, To: </span> '+ warrant.d_from + ' - ' + warrant.d_to +' </li>'
+            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + ' </li>'
           });
           document.getElementById("warrants").innerHTML = warrants.join('\n');
         } else {

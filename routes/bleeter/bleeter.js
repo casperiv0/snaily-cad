@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const marked = require("marked");
+const usernameNotFound = "There was an error getting your username.";
+
 
 // All bleets
 router.get("/", (req, res) => {
@@ -10,7 +12,11 @@ router.get("/", (req, res) => {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            res.render("bleeter/bleeter.ejs", { title: "Bleeter", bleets: result[1], isAdmin: result[0][0].rank, desc: "Bleeter, send an awesome bleet!", message: "" })
+            if (result[0][0]) {
+                res.render("bleeter/bleeter.ejs", { title: "Bleeter", bleets: result[1], isAdmin: result[0][0].rank, desc: "Bleeter, send an awesome bleet!", message: "" })
+            } else {
+                res.send(usernameNotFound)
+            }
         };
     });
 });
@@ -23,7 +29,11 @@ router.get("/new-bleet", (req, res) => {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            res.render("bleeter/new-bleet.ejs", { title: "New Bleet", isAdmin: result[0].rank, desc: "Bleeter, send an awesome bleet!", message: "" })
+            if (result[0]) {
+                res.render("bleeter/new-bleet.ejs", { title: "New Bleet", isAdmin: result[0].rank, desc: "Bleeter, send an awesome bleet!", message: "" })
+            } else {
+                res.send(usernameNotFound)
+            }
         };
     });
 });
@@ -39,8 +49,13 @@ router.post("/new-bleet", (req, res) => {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.render("bleeter/new-bleet.ejs", { title: "New Bleet", isAdmin: result[0].rank, desc: "Bleeter, send an awesome bleet!", message: "script tags are not allowed!" });
-                return res.end()
+                if (result[0]) {
+                    res.render("bleeter/new-bleet.ejs", { title: "New Bleet", isAdmin: result[0].rank, desc: "Bleeter, send an awesome bleet!", message: "script tags are not allowed!" });
+                    return res.end();
+                } else {
+                    res.send(usernameNotFound);
+                };
+
             };
         });
     } else {
@@ -72,9 +87,13 @@ router.get("/:bleetId", (req, res) => {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            res.render("bleeter/bleet.ejs", { title: "Bleet", desc: "Bleet", isAdmin: result[0][0].rank, bleet: result[1][0], req: req })
-        }
-    })
+            if (result[0][0]) {
+                res.render("bleeter/bleet.ejs", { title: "Bleet", desc: "Bleet", isAdmin: result[0][0].rank, bleet: result[1][0], req: req })
+            } else {
+                res.send(usernameNotFound);
+            };
+        };
+    });
 });
 
 // Edit Bleet page

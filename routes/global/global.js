@@ -65,13 +65,12 @@ router.post("/:dir/add-warrant", (req, res) => {
             return res.sendStatus(500)
         } else {
             if (result[0]) {
-                let name = req.body.name;
-                let d_from = req.body.d_from;
-                let d_to = req.body.d_to;
-                let reason = req.body.reason
-                let query = "INSERT INTO `warrants` ( `name`, `reason`, `d_from`, `d_to`) VALUES (?, ?, ?, ?)";
+                const name = req.body.name;
+                const status = req.body.status
+                const reason = req.body.reason
+                const query = "INSERT INTO `warrants` ( `name`, `reason`, `status`) VALUES (?, ?, ?)";
 
-                connection.query(query, [name, reason, d_from, d_to], (err) => {
+                connection.query(query, [name, reason, status], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -143,7 +142,9 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
                 if (assigned_unit !== "") {
                     status = "Assigned"
                     console.log(status);
-
+                }
+                if (assigned_unit === "") {
+                    status = "Not Assigned"
                 }
 
                 const callId = req.params.callId;

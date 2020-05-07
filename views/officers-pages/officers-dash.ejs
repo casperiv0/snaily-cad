@@ -31,17 +31,17 @@
           </h1>
       </div>
       <div class="card-body row mx-auto">
-          <a href="/officers/myofficers" class="btn btn-primary ml-2 mt-1">My Officers</a>
-          <a href="#nameSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Name Search</a>
-          <a href="#plateSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Plate Search</a>
-          <a href="#weaponSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Weapon Search</a>
-          <a href="#writtenWarning"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Written Warning</a>
-          <a href="#newTicket"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Ticket</a>
-          <a href="#arrestReport"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Arrest Report</a>
-          <a href="#boloModal" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Bolo</a>
-          <a href="/officers/penal-codes"  class="btn btn-secondary ml-2 mt-1" >Penal Codes</a>
-          <a href="/officers/codes"  class="btn btn-secondary ml-2 mt-1" >10 Codes</a>
-          <a href="#notepad"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1" >Notepad</a>
+          <a href="/officers/myofficers" class="btn btn-primary ml-2 mt-1">My Officers | <img class="testing" src="/icons/internal/My_Officer.png" alt="Penal_Code"></a>
+          <a href="#nameSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Name Search | <img class="testing" src="/icons/internal/name_search.png" alt="name"></a>
+          <a href="#plateSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Plate Search | <img class="testing" src="/icons/internal/Plate_search.png" alt="plate"></a>
+          <a href="#weaponSearch" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Weapon Search | <img class="testing" src="/icons/internal/weapon.png" alt="weapon"></a>
+          <a href="#writtenWarning"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Written Warning  | <img class="testing" src="/icons/internal/warning.png" alt="warning"></a>
+          <a href="#newTicket"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Ticket  | <img class="testing" src="/icons/internal/Create_Ticket.png" alt="Create_Ticket"></a>
+          <a href="#arrestReport"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Arrest Report  | <img class="testing" src="/icons/internal/arrest.png" alt="arrest"></a>
+          <a href="#boloModal" data-toggle="modal" class="btn btn-secondary ml-2 mt-1">Create Bolo | <img class="testing" src="/icons/internal/bolo.png" alt="bolo"></a>
+          <a href="/officers/penal-codes"  class="btn btn-secondary ml-2 mt-1" >Penal Codes  | <img class="testing" src="/icons/internal/Penal_Code.png" alt="Penal_Code"></a>
+          <a href="/officers/codes"  class="btn btn-secondary ml-2 mt-1" >10 Codes | <img class="testing" src="/icons/internal/list.png" alt="10codes"></a>
+          <a href="#notepad"  data-toggle="modal" class="btn btn-secondary ml-2 mt-1" >Notepad | <img class="testing" src="/icons/internal/Notepad.png" alt="notepad"></a>
 
       </div>
     </div>
@@ -67,15 +67,15 @@
                      </tr>
                    </thead>
                    <tbody>
-                      <% calls.forEach(call => { %>
+                      <% calls.forEach((call, index) => { %>
                         <tr>
-                          <th scope="row"><%= call.id %></th>
+                          <th scope="row"><%= ++index %></th>
                           <td class="cap"><%= call.name %></td>
                           <td class="cap"><%= call.location %></td>
                           <td class="cap"><%= call.description %></td>
                           <td class="cap"><%= call.assigned_unit %></td>
                           <td class="cap"><%= call.status %></td>
-                          <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
+                          <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call </button> </td>
                         </tr>
                         <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -165,26 +165,11 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="From">Valid From</label>
-                  <input
-                    type="text"
-                    name="d_from"
-                    class="form-control text-light border-secondary bg-secondary"
-                    id="From"
-                    placeholder="Valid From"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="To">Valid To</label>
-                  <input
-                    type="text"
-                    name="d_to"
-                    class="form-control text-light border-secondary bg-secondary"
-                    id="To"
-                    placeholder="Valid To"
-                    required
-                  />
+                  <label for="From">Status</label>
+                  <select name="status" id="status" class="form-control border-secondary bg-secondary text-light">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Details</label>
@@ -789,7 +774,7 @@
               // Written Warnings
               if (result[4].length > 0) {
               let written_warnings = result[4].map(written_warning => {
-                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On </span> '+ written_warning.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' </li>'
+                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On:</span> '+ written_warning.date +'<br /> <span class="bolder">Given By: </span> '+ written_warning.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' </li>'
               });
               document.getElementById("written_warnings").innerHTML = written_warnings.join('\n');
             }  else {
@@ -799,7 +784,7 @@
               // Tickets
             if (result[2].length > 0) {
               let tickets = result[2].map(charge => {
-                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On </span> '+ charge.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'  </li>'
+                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On: </span> '+ charge.date +'<br /> <span class="bolder">Given By: </span> '+ charge.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'   </li> '
               });
               document.getElementById("tickets").innerHTML = tickets.join('\n');
             }  else {
@@ -809,7 +794,7 @@
             // Arrest Reports
             if (result[3].length > 0) {
               let arrest_reports = result[3].map(report => {
-                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
+                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On: </span> '+ report.date +' <br /> <span class="bolder">Given By: </span> '+ report.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
               });
               document.getElementById("arrest_reports").innerHTML = arrest_reports.join('\n');
             }  else {
@@ -820,7 +805,7 @@
             // Warrants
           if (result[0].length > 0) {
             warrants = result[0].map(warrant => {
-              return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Date From:  </span> '+ warrant.d_from + '<span class="bolder"> To: </span>' + warrant.d_to +' </li>'
+              return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + '  </li>'
             });
             document.getElementById("warrants").innerHTML = warrants.join('\n');
           } else {

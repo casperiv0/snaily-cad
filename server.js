@@ -34,6 +34,9 @@ const authRouter = require("./routes/authentication/auth");
 // 911 & Tow Route 
 const callRouter = require("./routes/global/911-tow")
 
+// In game
+const getCitizenRouter = require("./routes/global/get-citizen-ingame");
+
 // Global Router
 const globalRouter = require("./routes/global/global")
 
@@ -130,6 +133,8 @@ app.use("/auth", authRouter);
 
 // 911 & Tow call
 app.use("/call", callRouter)
+
+app.use("/global", getCitizenRouter)
 
 // Keep this line here, otherwise the above pages will not work!
 app.use(loginAuth);
@@ -273,18 +278,10 @@ async function main() {
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
     // This SQL Is for update 3.4.4, Creates arrest reports table
-    connection.query(`CREATE TABLE \`bleets\` (
-        id int(11) NOT NULL,
-        title varchar(255) NOT NULL,
-        description TEXT NOT NULL,
-        uploaded_by VARCHAR(255) NOT NULL,
-        uploaded_at varchar(255) NOT NULL
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; ALTER TABLE \`bleets\`
-      ADD PRIMARY KEY (id); ALTER TABLE \`bleets\`
-      MODIFY \`id\` int(11) NOT NULL AUTO_INCREMENT;
-    COMMIT;`, (err) => {
+    connection.query(`ALTER TABLE \`warrants\` DROP \`d_from\`, DROP \`d_to\`; ALTER TABLE \`warrants\` ADD \`status\` VARCHAR(255) NOT NULL AFTER \`reason\`; 
+  `, (err) => {
         if (err) {
-            if (err.code === "ER_TABLE_EXISTS_ERROR") {
+            if (err.code === "ER_DUP_FIELDNAME" || err.code === "ER_CANT_DROP_FIELD_OR_KEY") {
                 return console.log("Database is up to date.");
             }
             console.log(err);
