@@ -47,10 +47,19 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
 - EMS/FD System
 - Citizen Panel
 - Tow
+- Bleeter
+
+- Bleeter
+
+  - able to send bleets
+  - Edit bleets
+  - moderators+ can delete a bleet
 
 - Citizen
 
-  - upload picture of citizen character>
+  - see tickets/arrest reports
+  - Add medical records, allergies/medication/health problems
+  - upload picture of citizen character
   - Register vehicles & weapons
   - Call tow truckers or emergency services
   - Drivers, Pilots, Firearms and CCW License
@@ -82,7 +91,6 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
   - Add Tickets
   - Add Arrest Reports
   - Add Warrants
-  - And More!
 
 - EMS/FD
   - EMS/FD Dashboard

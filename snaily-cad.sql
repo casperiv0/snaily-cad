@@ -470,13 +470,28 @@ CREATE TABLE `vehicles`
 -- --------------------------------------------------------
 
 
+
+
+
 --
--- Dumping data for table `vehicles`
+-- Table structure for table `warrants`
 --
 
-INSERT INTO `vehicles` (`
-id`,`cname
-`, `default_car`) VALUES
+CREATE TABLE `warrants`
+(
+  `id` int
+(11) NOT NULL,
+  `name` varchar
+(255) NOT NULL,
+  `reason` varchar
+(255) NOT NULL,
+  `status` varchar
+(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+INSERT INTO `vehicles` (`id`,`cname`, `default_car`) VALUES
 (1, 'Albany Alpha		', 'true'),
 (2, 'Albany Buccaneer		', 'true'),
 (3, 'Albany Buccaneer Custom		', 'true'),
@@ -927,28 +942,13 @@ id`,`cname
 (448, '  Zirconium Journey', 'true'),
 (449, '  Zirconium Stratum', 'true');
 
--- --------------------------------------------------------
-
-
 --
--- Table structure for table `warrants`
+-- Dumping data for table `vehicles`
 --
 
-CREATE TABLE `warrants`
-(
-  `id` int
-(11) NOT NULL,
-  `name` varchar
-(255) NOT NULL,
-  `reason` varchar
-(255) NOT NULL,
-  `status` varchar
-(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 -- --------------------------------------------------------
-
-
 --
 -- Table structure for table `weapons`
 --
