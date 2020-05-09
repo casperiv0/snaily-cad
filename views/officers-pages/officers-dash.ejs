@@ -674,7 +674,7 @@
                   <div class="row">
                     <div class="col">
                       <h6 class="card-title bolder text-light mt-3">Warrants</h6>
-                          <div id="warrants" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+                          <div id="warrants" class="overflow-auto list-group" style="max-height: 15rem;" class="text-light">
 
                           </div>
                       </div>
@@ -690,7 +690,27 @@
       </div>
     </div>
 
-   
+    <!-- changeWarrantStatus -->
+    <div class="modal fade" id="changeWarrantStatus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Change Warrant Status</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 
     <!-- Container -->
   </div>
@@ -805,7 +825,7 @@
             // Warrants
           if (result[0].length > 0) {
             warrants = result[0].map(warrant => {
-              return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + '  </li>'
+              return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + ' <div class="float-right"><a href="/global/officers/w-status-'+ warrant.id +'" class=" btn btn-primary">Change Status</a>  </div>  </li>'
             });
             document.getElementById("warrants").innerHTML = warrants.join('\n');
           } else {

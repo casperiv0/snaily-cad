@@ -110,7 +110,7 @@
                             <div class="row">
                               <div class="col">
                                 <h6 class="card-title bolder text-light mt-3">Warrants</h6>
-                                    <div id="warrants" class="overflow-auto" style="max-height: 15rem;" class="text-light">
+                                    <div id="warrants" class="overflow-auto list-group" style="max-height: 15rem;" class="text-light">
           
                                     </div>
                                 </div>
@@ -575,7 +575,7 @@
             // Warrants
         if (result[0].length > 0) {
           warrants = result[0].map(warrant => {
-            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + ' </li>'
+            return   '<li class="list-group-item">  <span class="card-title bolder"> Warrant: </span> '+warrant.reason+' <br> <span class="card-title bolder">Status: </span> '+ warrant.status + '  <div class="float-right"><a href="/global/dispatch/w-status-'+ warrant.id +'" class=" btn btn-primary">Change Status</a>  </div> </li>'
           });
           document.getElementById("warrants").innerHTML = warrants.join('\n');
         } else {

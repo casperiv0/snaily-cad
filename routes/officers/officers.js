@@ -386,7 +386,7 @@ router.get("/dash/status/:status-:officerId", (req, res) => {
             return res.sendStatus(500)
         } else {
             if (result[0].leo === "yes") {
-                const query= "UPDATE"
+                const query = "UPDATE"
             } else {
                 res.sendStatus(403);
             };
@@ -415,5 +415,6 @@ router.post("/update-status", (req, res) => {
         };
     });
 })
+
 
 module.exports = router;

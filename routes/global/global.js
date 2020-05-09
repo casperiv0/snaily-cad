@@ -171,4 +171,31 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
 });
 
 
+// Update warrant status
+router.get("/:dir/w-status-:id", (req, res) => {
+    const query = "SELECT * FROM `warrants` WHERE `id` = ?";
+
+    connection.query(query, [req.params.id], (err, result) => {
+        if (result[0].status === "Active") {
+            status = "Inactive";
+        } else {
+            status = "Active";
+        };
+
+        connection.query("UPDATE `warrants` SET `status` = ? WHERE `id` = ?", [status, req.params.id], (err) => {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            } else {
+                if (req.path.includes("officers")) {
+                    res.redirect(`/officers/dash`);
+                } else {
+                    res.redirect(`/dispatch`);
+                }
+            };
+        });
+    });
+});
+
+
 module.exports = router;

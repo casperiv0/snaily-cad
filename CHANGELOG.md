@@ -1,5 +1,12 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.2
+
+- Added change status to inactive/active in warrants in name search
+- Now showing Ticket/Warning/Arrest Reports report given by
+- Fixed citizen details ticket amount/given by
+- new bleeter posts are at the top
+
 ## 3.5.1
 
 - Added "given by" in the name search

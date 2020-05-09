@@ -199,7 +199,7 @@
                                 <h4>Tickets </h4>
                                     <% if (tickets.length >0) { %>
                                         <% tickets.forEach(ticket => { %>
-                                        <li class="list-group-item bg-secondary border-secondary"> <%= ticket.charge %> <br />  <span class="bolder">Given On </span> <%= ticket.date %><br /> <span class="bolder">Nearest Postal:</span> <%= ticket.postal %> <br /> <span class="bolder">Nearest Postal:</span> <%= ticket.ticket_amount %> </li>                            
+                                        <li class="list-group-item bg-secondary border-secondary"> <%= ticket.charge %> <br />  <span class="bolder">Given On </span> <%= ticket.date %><br />  <span class="bolder">Given By </span> <%= ticket.officer_name %><br /> <span class="bolder">Nearest Postal:</span> <%= ticket.postal %> <br /> <span class="bolder">Ticket Amount:</span> <%= ticket.ticket_amount %> </li>                            
                                         <% }); %>
                                     <% } else { %>
                                         <p class="mb-1">
@@ -213,7 +213,7 @@
                                <h4>Arrest Reports</h4> 
                                     <% if (reports.length >0){ %>
                                         <% reports.forEach(report => { %>
-                                        <li class="list-group-item bg-secondary border-secondary"> <%= report.charges %> <br />  <span class="bolder">Given On </span> <%= report.date %><br /> <span class="bolder">Nearest Postal:</span> <%= report.postal %> </li>                            
+                                        <li class="list-group-item bg-secondary border-secondary"> <%= report.charges %> <br />  <span class="bolder">Given On </span> <%= report.date %><br /> <span class="bolder">Given By </span> <%= report.officer_name %><br /> <span class="bolder">Nearest Postal:</span> <%= report.postal %> </li>                            
                                         <% }); %>
                                     <% } else { %>
                                         <p class="mb-1">
