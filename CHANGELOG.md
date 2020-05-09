@@ -1,5 +1,11 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.3
+
+- 911 & tow call description now working in game! (you can find these in the CAD settings tab)
+- Added notes to name search
+- Removed ticket amount
+
 ## 3.5.2
 
 - Added change status to inactive/active in warrants in name search

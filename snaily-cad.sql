@@ -78,6 +78,8 @@ CREATE TABLE `arrest_reports`
   `charges` text NOT NULL,
   `officer_name` varchar
 (255) NOT NULL,
+  `notes` text
+    NOT NULL,
   `postal` varchar
 (255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -317,8 +319,8 @@ CREATE TABLE `posted_charges`
 (255) NOT NULL,
   `charge` varchar
 (255) NOT NULL,
-  `ticket_amount` varchar
-(255) NOT NULL,
+  `notes` text
+    NOT NULL,
   `notes` varchar
 (255) NOT NULL,
   `officer_name` varchar

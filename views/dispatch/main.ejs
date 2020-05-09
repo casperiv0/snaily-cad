@@ -544,7 +544,7 @@
            // Written Warnings
            if (result[4].length > 0) {
               let written_warnings = result[4].map(written_warning => {
-                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On:</span> '+ written_warning.date +'<br /> <span class="bolder">Given By: </span> '+ written_warning.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' </li>'
+                return  '<li class="list-group-item"> ' + written_warning.infractions + ' <br />  <span class="bolder">Given On:</span> '+ written_warning.date +'<br /> <span class="bolder">Given By: </span> '+ written_warning.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ written_warning.postal +' <br /> <span class="bolder">Notes:</span> '+ written_warning.notes +' </li>'
               });
               document.getElementById("written_warnings").innerHTML = written_warnings.join('\n');
             }  else {
@@ -555,7 +555,7 @@
            // Tickets
            if (result[2].length > 0) {
               let tickets = result[2].map(charge => {
-                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On: </span> '+ charge.date +' <br /> <span class="bolder">Given By: </span> '+ charge.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +'<br /> <span class="bolder">Ticket Amount:</span> '+ charge.ticket_amount +'  </li>'
+                return  '<li class="list-group-item"> ' + charge.charge + ' <br />  <span class="bolder">Given On: </span> '+ charge.date +' <br /> <span class="bolder">Given By: </span> '+ charge.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ charge.postal +' <br /> <span class="bolder">Notes:</span> '+ charge.notes +' </li>'
               });
               document.getElementById("tickets").innerHTML = tickets.join('\n');
             }  else {
@@ -565,7 +565,7 @@
             // Arrest Reports
             if (result[3].length > 0) {
               let arrest_reports = result[3].map(report => {
-                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Given By: </span> '+ report.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +' </li>'
+                return  '<li class="list-group-item"> ' + report.charges + ' <br />  <span class="bolder">Given On </span> '+ report.date +' <br /> <span class="bolder">Given By: </span> '+ report.officer_name +' <br /> <span class="bolder">Nearest Postal:</span> '+ report.postal +'  <br /> <span class="bolder">Notes:</span> '+ report.notes +' </li>'
               });
               document.getElementById("arrest_reports").innerHTML = arrest_reports.join('\n');
             }  else {

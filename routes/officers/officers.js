@@ -201,7 +201,6 @@ router.post("/dash/add-offence", (req, res) => {
                     const d = new Date();
                     const name = req.body.name;
                     const violations = req.body.violations;
-                    const ticket_amount = req.body.ticket_amount;
                     const date = d.toLocaleString();
                     const officer_name = req.body.officer_name;
                     const postal = req.body.postal;
@@ -211,7 +210,7 @@ router.post("/dash/add-offence", (req, res) => {
                     };
 
                     let query = "INSERT INTO `posted_charges` (`name`, `charge`, `ticket_amount`, `notes`, `officer_name`, `date`, `postal`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                    connection.query(query, [name, violations, ticket_amount, notes, officer_name, date, postal], (err) => {
+                    connection.query(query, [name, violations, 0, notes, officer_name, date, postal], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
@@ -262,8 +261,8 @@ router.post("/dash/create-arrest-report", (req, res) => {
                         notes = "None";
                     };
 
-                    let query = "INSERT INTO `arrest_reports` (`name`, `date`, `charges`, `officer_name`, `postal`) VALUES (?, ?, ?, ?, ?)";
-                    connection.query(query, [name, date, charges, officer_name, postal], (err) => {
+                    let query = "INSERT INTO `arrest_reports` (`name`, `date`, `charges`, `officer_name`, `notes`, `postal`) VALUES (?, ?, ?, ?, ?, ?)";
+                    connection.query(query, [name, date, charges, officer_name, notes, postal], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
@@ -306,8 +305,8 @@ router.post("/dash/create-written-warning", (req, res) => {
                         notes = "None";
                     };
 
-                    let query = "INSERT INTO `written_warnings` (`name`, `date`, `infractions`, `officer_name`, `postal`) VALUES (?, ?, ?, ?, ?)";
-                    connection.query(query, [name, date, infractions, officer_name, postal], (err) => {
+                    let query = "INSERT INTO `written_warnings` (`name`, `date`, `infractions`, `officer_name`, `notes`, `postal`) VALUES (?, ?, ?, ?, ?, ?)";
+                    connection.query(query, [name, date, infractions, officer_name, notes, postal], (err) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500);
