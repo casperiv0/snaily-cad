@@ -32,7 +32,7 @@ View a complete gallery of screenshots [here](https://github.com/Dev-CasperTheGh
 
 ### Bugs
 
-Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new) and I'll fix it asap.
+Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new?assignees=&labels=bug&template=bug_report.md&title=) and I'll fix it asap.
 
 ### Suggestions
 
