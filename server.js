@@ -291,7 +291,10 @@ async function main() {
     })
 
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
-        console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))
+        console.log(chalk.red(`Your Version is out of date!\n
+Your Version: ${package.version}\n
+Updated Version: ${versionResult.latestVersion}\n
+Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master`))
     } else {
         console.log(chalk.green("You are all up to date."));
     }
