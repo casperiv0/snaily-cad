@@ -1,5 +1,12 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.4
+
+- Positioned Quick Create Warrant to the bottom of the list
+- Assign multiple officer to a 911 call
+- Added given by & notes to citizen detail
+- Updated a few things in `README.md`
+
 ## 3.5.3
 
 - 911 & tow call description now working in game! (you can find these in the CAD settings tab)

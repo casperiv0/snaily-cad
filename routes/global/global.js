@@ -133,15 +133,11 @@ router.post("/:dir/update-911-call-:callId", (req, res) => {
         } else {
             if (result[0]) {
                 const location = req.body.location;
-                const assigned_unit = req.body.assigned_unit;
+                const assigned_unit = [req.body.assigned_unit].join(" ");
                 let status = req.body.status;
-                console.log(status);
-                console.log(assigned_unit);
-
 
                 if (assigned_unit !== "") {
                     status = "Assigned"
-                    console.log(status);
                 }
                 if (assigned_unit === "") {
                     status = "Not Assigned"

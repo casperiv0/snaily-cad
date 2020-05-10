@@ -1,7 +1,7 @@
 {
   "name": "snaily-cad",
-  "version": "3.5.3",
-  "description": "",
+  "version": "3.5.4",
+  "description": "A Free NodeJS CAD/MDT",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

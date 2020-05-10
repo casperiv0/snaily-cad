@@ -49,7 +49,7 @@
    
       <!-- 911 Calls -->
       <div class="row">
-        <div class="col-md-8">
+        <div class="col">
           <div class="mt-2">
             <ul class="list-group scroll-bar overflow-auto mt-3" style="max-height: 20rem;">
               <div class="active list-group-item text-light  sticky-top">Active 911 Calls</div>
@@ -103,12 +103,14 @@
                                     </div>
                                     <div class="form-group">
                                       <label for="officer">Assign Unit</label>
-                                      <input type="text" list="officers" name="assigned_unit" class="form-control bg-secondary border-secondary text-light" value="<%= call.assigned_unit %>">
-                                      <datalist id="officers">
+                                      <div class="custom-control custom-checkbox">
                                         <% officers.forEach(officer => { %>
-                                            <option value="<%= officer.officer_name %>"><%= officer.officer_name %></option>
-                                        <% }); %>
-                                      </datalist>
+                                          <div class="form-group">
+                                            <input type="checkbox" name="assigned_unit" value="<%= officer.officer_name %>" class="custom-control-input" id="<%= officer.id %>">
+                                            <label class="custom-control-label" for="<%= officer.id %>"><%= officer.officer_name %></label>
+                                          </div>
+                                          <% }); %>
+                                      </div>
                                     </div>
                                   </div>
                                   <div class="modal-footer">
@@ -147,81 +149,45 @@
             </ul>
           </div>
         </div>
-        <div class="col col-md-4">
-          <div class="mt-2">
-            <ul class="list-group mb-4" >
-              <div class="active list-group-item text-light">Quick Create Warrant</div>
-              <form class="list-group-item bg-dark border-dark text-light" action="/global/officers/add-warrant" method="post">
-                <div class="form-group">
-                  <label for="name">Full Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    class="form-control text-light border-secondary bg-secondary"
-                    id="name"
-                    aria-describedby="emailHelp"
-                    placeholder="Full Name"
-                  required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="From">Status</label>
-                  <select name="status" id="status" class="form-control border-secondary bg-secondary text-light">
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Details</label>
-                  <input
-                    type="text"
-                    name="reason"
-                    class="form-control text-light border-secondary bg-secondary"
-                    id="exampleInputPassword2"
-                    placeholder="Details"
-                    required
-                  />
-                </div>
-                  <button type="submit" class="container-fluid btn btn-success">Create Warrant</button>
-              </form>
-          </ul>
-          </div>
-        </div>
       </div>
 
-       <!-- Select Officer -->
-       <!-- <div class="modal fade" id="selectOfficer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Please Select Officer</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form action="/officers/dash/status/10-8">
-                <div class="form-group">
-                  <label for="officer_name">Select Officer to go 10-8</label>
-                  <% if (myOfficers.length >0 ){ %>
-                  <select name="officer_name" id="officer_name" class="form-control">
-                    <% myOfficers.forEach(officer => { %>
-                      <option value="<%= officer.officer_name %>"><%= officer.officer_name %></option>
-                      <% }) %>
-                      </select>
-                  <% } else { %>
-                    <p>You don't have any officers, create one <a href="/officers/myofficers/add">here</a></p>
-                  <% } %>
-                      </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Go 10-8</button>
-            </form>
-          </div>
-        </div>
-      </div> -->
 
+      <ul class="list-group mb-4 mt-3" >
+        <div class="active list-group-item text-light">Quick Create Warrant</div>
+        <form class="list-group-item bg-dark border-dark text-light" action="/global/officers/add-warrant" method="post">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              name="name"
+              class="form-control text-light border-secondary bg-secondary"
+              id="name"
+              aria-describedby="emailHelp"
+              placeholder="Full Name"
+            required
+            />
+          </div>
+          <div class="form-group">
+            <label for="From">Status</label>
+            <select name="status" id="status" class="form-control border-secondary bg-secondary text-light">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Details</label>
+            <input
+              type="text"
+              name="reason"
+              class="form-control text-light border-secondary bg-secondary"
+              id="exampleInputPassword2"
+              placeholder="Details"
+              required
+            />
+          </div>
+            <button type="submit" class="container-fluid btn btn-success">Create Warrant</button>
+        </form>
+    </ul>
   
 
 

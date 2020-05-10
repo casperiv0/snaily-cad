@@ -2,6 +2,14 @@
 
 Free NodeJS CAD For your Community
 
+## Changelog
+
+View the full changelog [here](https://github.com/Dev-CasperTheGhost/snaily-cad/blob/master/CHANGELOG.md)
+
+## Screenshots
+
+View a complete gallery of screenshots [here](https://github.com/Dev-CasperTheGhost/snaily-cad/blob/master/SCREENSHOTS.md)
+
 ## How To setup
 
 ### Requirements
