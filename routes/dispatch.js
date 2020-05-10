@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
                             console.log(err)
                             return res.sendStatus(500);
                         } else {
-                            res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5][0], bolos: result[3], calls: result[4] });
+                            res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5][0], bolos: result[3], calls: result[4]});
                         };
                     });
                 } else {
@@ -69,7 +69,7 @@ router.post("/update-status/:officerId", (req, res) => {
         status2 = "----------"
     }
     let query = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `officers`.`id` = ?"
-    
+
     connection.query(query, [status, status2, officerId], (err) => {
         if (err) {
             console.log(err);

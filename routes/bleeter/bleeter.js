@@ -4,9 +4,10 @@ const usernameNotFound = "There was an error getting your username.";
 
 
 // All bleets
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?";
     const bleets = "SELECT * FROM `bleets` ORDER BY `id` DESC"
+    
     connection.query(`${query}; ${bleets}`, [req.session.username2], (err, result) => {
         if (err) {
             console.log(err);
