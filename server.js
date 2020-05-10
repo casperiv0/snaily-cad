@@ -278,10 +278,9 @@ async function main() {
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
     // This SQL Is for update 3.4.4, Creates arrest reports table
-    connection.query(`ALTER TABLE \`arrest_reports\` ADD \`notes\` TEXT NOT NULL AFTER \`officer_name\`; ALTER TABLE \`written_warnings\` ADD \`notes\` TEXT NOT NULL AFTER \`officer_name\`; 
-  `, (err) => {
+    connection.query(`ALTER TABLE \`bleets\` ADD \`file_dir\` TEXT NOT NULL AFTER \`uploaded_at\`;`, (err) => {
         if (err) {
-            if (err.code === "ER_DUP_FIELDNAME" || err.code === "ER_CANT_DROP_FIELD_OR_KEY") {
+            if (err.code === "ER_DUP_FIELDNAME") {
                 return console.log("Database is up to date.");
             }
             console.log(err);

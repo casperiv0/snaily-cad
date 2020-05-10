@@ -1,5 +1,15 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.6
+
+- Edit 911 call description
+- update 911 call now auto changes status
+- Added Bleeter images
+
+## 3.5.5
+
+- Fixed select multiple officers when there's more than 1 call
+
 ## 3.5.4
 
 - Positioned Quick Create Warrant to the bottom of the list

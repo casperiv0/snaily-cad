@@ -7,7 +7,7 @@ const usernameNotFound = "There was an error getting your username.";
 router.get("/", async (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?";
     const bleets = "SELECT * FROM `bleets` ORDER BY `id` DESC"
-    
+
     connection.query(`${query}; ${bleets}`, [req.session.username2], (err, result) => {
         if (err) {
             console.log(err);
@@ -62,20 +62,37 @@ router.post("/new-bleet", (req, res) => {
     } else {
         const posted_at = new Date().toDateString();
         const posted_by = req.session.username2;
+        const query = "INSERT INTO `bleets` (`title`, `description`, `uploaded_by`, `uploaded_at`, `file_dir`) VALUES (?, ?, ?, ?, ?)";
+        let file;
+        let fileName;
 
-        const query = "INSERT INTO `bleets` (`title`, `description`, `uploaded_by`, `uploaded_at`) VALUES (?, ?, ?, ?)";
+        if (req.files) {
+            file = req.files.bleeter_img
+            fileName = file.name;
+        } else {
+            fileName = "no files uploaded"
+        }
 
-        connection.query(query, [title, bleetDescription, posted_by, posted_at], (err, result) => {
+        connection.query(query, [title, bleetDescription, posted_by, posted_at, fileName], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.redirect(`/bleeter/${result.insertId}`)
-            }
-        })
-
-    }
-
+                if (req.files) {
+                    file.mv("./public/bleeter-pictures/" + fileName, err => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            res.redirect(`/bleeter/${result.insertId}`);
+                        }
+                    })
+                } else {
+                    res.redirect(`/bleeter/${result.insertId}`);
+                };
+            };
+        });
+    };
 });
 
 // Bleet page
@@ -115,6 +132,20 @@ router.get("/edit/:bleetId", (req, res) => {
 router.post("/edit/:bleetId", (req, res) => {
     const title = req.body.title;
     const bleetDescription = marked(req.body.description);
+    let file;
+    let query = "";
+    let fileName;
+
+    if (req.files) {
+        file = req.files.bleeter_img
+        fileName = file.name;
+        query = "UPDATE `bleets` SET `title` = ?, `description` = ?, `file_dir` = ?";
+    } else {
+        query = "UPDATE `bleets` SET `title` = ?, `description` = ?";
+    }
+
+
+
     if (bleetDescription.includes("<script>")) {
         const query = "SELECT * FROM `users` WHERE `username` = ?";
         const query2 = "SELECT * FROM `bleets` WHERE `id` = ?"
@@ -129,19 +160,30 @@ router.post("/edit/:bleetId", (req, res) => {
             };
         });
     } else {
-        const query = "UPDATE `bleets` SET `title` = ?, `description` = ?";
 
-        connection.query(query, [title, bleetDescription], (err, result) => {
+        connection.query(query, [title, bleetDescription, fileName], (err, result) => {
             if (err) {
                 console.log(err);
                 return res.sendStatus(500)
             } else {
-                res.redirect(`/bleeter/${req.params.bleetId}`)
-            }
-        })
+                if (req.files) {
+                    file.mv("./public/bleeter-pictures/" + fileName, err => {
+                        if (err) {
+                            console.log(err);
+                            return res.sendStatus(500)
+                        } else {
+                            res.redirect(`/bleeter/${req.params.bleetId}`);
+                        };
+                    });
+                } else {
+                    res.redirect(`/bleeter/${req.params.bleetId}`);
+                };
+            };
+        });
+    };
+});
 
-    }
-})
+
 // Delete bleet
 router.get("/delete/:bleetId", (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?";
@@ -165,7 +207,7 @@ router.get("/delete/:bleetId", (req, res) => {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    res.render("bleeter/bleeter.ejs", { title: "Bleeter", bleets: result[1], isAdmin: result[0][0].rank, desc: "Bleeter, send an awesome bleet!", message: "Deleted Bleet" })
+                                    res.render("bleeter/bleeter.ejs", { title: "Bleeter", bleets: result[1], isAdmin: result[0][0].rank, desc: "Bleeter, send an awesome bleet!", message: "Bleet was successfully deleted!" })
                                 };
                             });
                         }

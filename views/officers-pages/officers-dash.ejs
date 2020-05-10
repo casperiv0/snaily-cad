@@ -63,7 +63,7 @@
                        <th scope="col">Call Description</th>
                        <th scope="col">Assigned Unit</th>
                        <th scope="col">Status</th>
-                       <th scope="col">Actions</th>
+                       <!-- <th scope="col">Actions</th> -->
                      </tr>
                    </thead>
                    <tbody>
@@ -75,13 +75,13 @@
                           <td class="cap"><%= call.description %></td>
                           <td class="cap"><%= call.assigned_unit %></td>
                           <td class="cap"><%= call.status %></td>
-                          <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call </button> </td>
+                          <!-- <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call </button> </td> -->
                         </tr>
-                        <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <!-- <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content bg-dark border-dark text-light">
                               <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Update 911 Call</h5>
+                                <h5 class="modal-title" id="exampleModalLabel">View 911 Call</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                   <span aria-hidden="true" class="text-light">&times;</span>
                                 </button>
@@ -93,23 +93,15 @@
                                       <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
                                     </div>
                                     <div class="form-group">
-                                      <label for="exampleInputPassword1">Call Status</label>
-                                      <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
-                                        <option value="<%= call.status %>"><%= call.status %></option>
-                                        <option class="text-light" disabled value="--------">--------</option>
-                                        <option value="assigned">Assigned</option>
-                                        <option value="not assigned">Not Assigned</option>
-                                      </select>
+                                      <label for="exampleInputPassword1" class="bolder">Call Status</label>
+                                      <div>
+                                        <span><%= call.status %></span>
+                                      </div>
                                     </div>
                                     <div class="form-group">
-                                      <label for="officer">Assign Unit</label>
+                                      <label for="officer" class="bolder">Assigned Units</label>
                                       <div class="">
-                                        <% officers.forEach(officer => { %>
-                                          <div class="form-group">
-                                            <input type="checkbox" name="assigned_unit" value="<%= officer.officer_name %>" class="form-control-input" >
-                                            <label class="" ><%= officer.officer_name %></label>
-                                          </div>
-                                          <% }); %>
+                                        <%= call.assigned_unit %>
                                       </div>
                                     </div>
                                   </div>
@@ -119,7 +111,7 @@
                                   </div>
                                 </form>
                             </div>
-                          </div>
+                          </div> -->
                         </div>
                     <%}) %>
                     <% } else { %>

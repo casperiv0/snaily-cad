@@ -446,6 +446,10 @@
                           </div>
                           <div class="modal-body">
                             <form action="/global/dispatch/update-911-call-<%= call.id %> " method="POST">
+                              <div class="form-group">
+                                <label for="location">Call Description</label>
+                                <textarea type="text" class="cap form-control bg-secondary border-secondary text-light" name="description" value="<%= call.description %>" id="description" aria-describedby="emailHelp" rows="7"><%= call.description %></textarea>
+                              </div>
                                 <div class="form-group">
                                   <label for="location">Call Location</label>
                                   <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
@@ -461,15 +465,6 @@
                                       <% }); %>
                                   </div>
                                  
-                                </div>
-                                <div class="form-group">
-                                  <label for="exampleInputPassword1">Call Status</label>
-                                  <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
-                                    <option value="<%= call.status %>"><%= call.status %></option>
-                                    <option disabled value="--------">--------</option>
-                                    <option value="assigned">Assigned</option>
-                                    <option value="not assigned">Not Assigned</option>
-                                  </select>
                                 </div>
                               </div>
                               <div class="modal-footer">
