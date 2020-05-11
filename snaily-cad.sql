@@ -321,8 +321,6 @@ CREATE TABLE `posted_charges`
 (255) NOT NULL,
   `notes` text
     NOT NULL,
-  `notes` varchar
-(255) NOT NULL,
   `officer_name` varchar
 (255) NOT NULL,
   `date` varchar

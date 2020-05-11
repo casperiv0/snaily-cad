@@ -228,7 +228,8 @@ app.post("/*", (req, res) => {
         isAdmin: "",
         desc: "",
     });
-})
+});
+
 
 async function main() {
     console.log(chalk.blue("CHECKING CAD VERSION."));
