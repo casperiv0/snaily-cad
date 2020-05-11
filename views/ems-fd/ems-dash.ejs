@@ -31,7 +31,6 @@
                  <th scope="col">Caller Location</th>
                  <th scope="col">Call Description</th>
                  <th scope="col">Status</th>
-                 <th scope="col">Actions</th>
                </tr>
              </thead>
              <tbody>
@@ -42,41 +41,7 @@
                     <td><%= call.location %></td>
                     <td><%= call.description %></td>
                     <td><%= call.status %></td>
-                    <td> <button class="btn btn-primary" data-target="#viewCall<%= call.id %>" data-toggle="modal">View Call</button> </td>
                   </tr>
-                  <div class="modal fade" id="viewCall<%= call.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                      <div class="modal-content bg-dark border-dark text-light">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">View Call</h5>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" class="text-light">&times;</span>
-                          </button>
-                        </div>
-                        <div class="modal-body">
-                          <form action="/global/ems-fd/update-911-call-<%= call.id %> " method="POST">
-                              <div class="form-group">
-                                <label for="location">Call Location</label>
-                                <input type="text" class="cap form-control bg-secondary border-secondary text-light" name="location" value="<%= call.location %>" id="location" aria-describedby="emailHelp">
-                              </div>
-                              <div class="form-group">
-                                <label for="exampleInputPassword1">Call Status</label>
-                                <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
-                                  <option value="<%= call.status %>"><%= call.status %></option>
-                                  <option disabled value="--------">--------</option>
-                                  <option value="assigned">Assigned</option>
-                                  <option value="not assigned">Not Assigned</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div class="modal-footer">
-                              <a href="/global/ems-fd/cancel-911-call-<%= call.id %>" class="container btn btn-danger">End Call</a>
-                              <button type="submit" class="container btn btn-success">Update Call</button>
-                            </div>
-                          </form>
-                      </div>
-                    </div>
-                  </div>
               <%}) %>
               <% } else { %>
                 <li class="list-group-item bg-dark text-light">
@@ -109,7 +74,6 @@
                        <th scope="col">Type</th>
                        <th scope="col">Short Information</th>
                        <th scope="col">Name</th>
-                       <th scope="col">Actions</th>
                      </tr>
                    </thead>
                    <tbody  id="mtable">
@@ -173,7 +137,6 @@
                        '<td> '+ inf.type +' </td>'+
                        '<td>'+ inf.short_info +'</td>'+
                        '<td>'+ inf.name +'</td>'+
-                       '<td>Coming soon</td>'+
                     '</tr>'
                     
                 });

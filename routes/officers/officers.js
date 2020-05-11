@@ -394,14 +394,16 @@ router.get("/dash/status/:status-:officerId", (req, res) => {
 });
 
 // Update status
-router.post("/update-status", (req, res) => {
-    const id = req.body.id
+router.post("/update-status/:officerId", (req, res) => {
+    const id = req.params.officerId
     let status = req.body.status;
     let status2 = req.body.status2;
-    if (status === "10-42 | 10-7") {
-        status2 = "----------"
-    }
-    if (status2 === undefined) {
+
+    if (status2 !== undefined) {
+        status = "10-41 | 10-8"
+    } 
+    if (status2 === "10-42 | 10-7") {
+        status = "10-42 | 10-7"
         status2 = "----------"
     }
     let query1 = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `officers`.`id` = ?"
@@ -413,7 +415,22 @@ router.post("/update-status", (req, res) => {
             res.redirect(`/officers/myofficers`);
         };
     });
-})
+});
+
+// Delete Officer
+router.get("/delete/:officerId", (req, res) => {
+    const id = req.params.officerId
+
+    let query1 = "DELETE FROM `officers` WHERE `officers`.`id` = ?"
+    connection.query(`${query1};`, [id], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            res.redirect(`/officers/myofficers`);
+        };
+    });
+});
 
 
 module.exports = router;

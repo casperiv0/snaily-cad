@@ -27,6 +27,8 @@ View a complete gallery of screenshots [here](https://github.com/Dev-CasperTheGh
 6. Import the `snaily-cad.sql` file into that database
 7. Rename `creds-template.json` to `creds.json` and configure if needed.
 8. Run `npm start` to start the CAD
+9. The console should display on what port the CAD is running on, default is 80 [http://localhost/](http://localhost/)
+10. Enjoy!
 
 ## Found bugs & Suggestions
 

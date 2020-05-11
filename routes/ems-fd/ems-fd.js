@@ -115,15 +115,17 @@ router.get("/api/:citizenName", (req, res) => {
     });
 });
 
-// Update Status
-router.post("/update-status", (req, res) => {
-    let id = req.body.id
+// Update status
+router.post("/update-status/:deputyId", (req, res) => {
+    const id = req.params.deputyId
     let status = req.body.status;
     let status2 = req.body.status2;
-    if (status === "10-42 | 10-7") {
-        status2 = "----------"
-    }
-    if (status2 === undefined) {
+
+    if (status2 !== undefined) {
+        status = "10-41 | 10-8"
+    } 
+    if (status2 === "10-42 | 10-7") {
+        status = "10-42 | 10-7"
         status2 = "----------"
     }
     let query1 = "UPDATE `ems-fd` SET `status` = ?, `status2` = ? WHERE `ems-fd`.`id` = ?"
@@ -135,6 +137,22 @@ router.post("/update-status", (req, res) => {
             res.redirect(`/ems-fd`);
         };
     });
-})
+});
+
+// Delete EMS_FD deputy
+router.get("/delete/:deputyId", (req, res) => {
+    const id = req.params.deputyId
+
+    let query1 = "DELETE FROM `ems-fd` WHERE `ems-fd`.`id` = ?"
+    connection.query(`${query1};`, [id], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            res.redirect(`/ems-fd`);
+        };
+    });
+});
+
 
 module.exports = router;

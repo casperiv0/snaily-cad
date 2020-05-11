@@ -1,5 +1,13 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.7
+
+- Better update checker output
+- now auto changes 10-8 & 10-7 status
+- Removed "updates" dropdown from header
+- Better change status page
+- Delete Officers/ems-fd deputies
+
 ## 3.5.6
 
 - Edit 911 call description

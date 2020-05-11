@@ -263,9 +263,6 @@ async function main() {
         });
     };
     handleDisconnect();
-    app.listen(port, () => {
-        console.log(`Running on ${port}`)
-    });
     setInterval(function () {
         connection.query("SELECT 1", (err) => {
             if (err) {
@@ -290,27 +287,43 @@ async function main() {
         }
     })
 
+    let upToDate ="You are all up to date."
+
+    // Version checker
     if (`${package.version}` !== `${versionResult.latestVersion}`) {
-        console.log(chalk.red(`Your Version is out of date!\n
-Your Version: ${package.version}\n
-Updated Version: ${versionResult.latestVersion}\n
-Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master`))
-    } else {
-        console.log(chalk.green("You are all up to date."));
-    }
+        upToDate = false
+        console.warn(chalk.red(`
+-------------------------------\n
+Your Version is out of date!
+Your Version: ${package.version}
+Updated Version: ${versionResult.latestVersion}
+Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master\n
+
+Warning: Your CAD will still run
+-------------------------------\n`))
+    } 
 
 
 
     // Checks every 12 hours while running
     setInterval(() => {
         if (`${package.version}` !== `${versionResult.latestVersion}`) {
-            console.log(chalk.red("Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"))
+            upToDate = "Your Version is out of date! Please Pull the latest version on the GitHub page: https://github.com/Dev-CasperTheGhost/snaily-cad Or Run: git pull origin master"
         } else {
             console.log(chalk.green("You are all up to date."));
         }
     }, 43200000)
 
-}
+    // Show in console that CAD was started
+    app.listen(port, () => {
+        upToDate ?
+        console.log(`
+-------------------------------\n
+CAD is successfully running on Port: ${port} \n
+${upToDate}\n
+-------------------------------\n`) : null
+    });
 
+}
 
 main();
