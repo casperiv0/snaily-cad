@@ -3,5 +3,3 @@ node_modules
 creds.json
 ./hasher.js
 ./instertCars.js
-public/citizen-pictures/*
-public/bleeter-pictures/*
