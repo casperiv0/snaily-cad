@@ -1,0 +1,71 @@
+<%- include("../../partials/header.ejs") %> 
+
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../../partials/admin-header.ejs") %>
+    
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+        <h1 class="users-title card-title text-center mt-3 text-light">
+          Member management
+        </h1>
+          <div class="" id="members" role="tabpanel" aria-labelledby="home-tab">
+            <input
+            type="text"
+            class=" form-control mt-2 text-light bg-dark border-dark"
+            id="myInput"
+            onkeyup="myFunction()"
+            placeholder="Search for members.."
+          />
+          <ul class="list-group " id="myUL">
+            <% citizens.forEach((citizen, index) => { %>
+            <li class="list-group-item mt-1 text-light bg-dark">
+              <h4><%= ++index %> | <%= citizen.full_name %></h4> <br>
+               <span class="bolder">Linked To: </span>  <%= citizen.linked_to %> <br>
+               <a class="btn btn-primary float-right ml-2 mt-2" data-toggle="collapse" href="#collapseExample<%= citizen.id %>" role="button" aria-expanded="false" aria-controls="collapseExample">View More</a>
+               <div class="collapse mt-2" id="collapseExample<%= citizen.id %>">
+                <div class="card card-body bg-secondary border-secondary">
+                    <h6 class="card-title bolder text-light">Citizen Info</h6>
+                    Full name: <%= citizen.full_name %> <br />
+                    Date of Birth: <%= citizen.birth %> <br />
+                    Gender: <%= citizen.gender %> <br />
+                    Hair Color: <%= citizen.hair_color %> <br />
+                    Eye Color: <%= citizen.eye_color %> <br />
+                    Address: <%= citizen.address %> <br />
+                    Height: <%= citizen.height %> <br />
+                    Weight: <%= citizen.weight %> <br />
+                    <a href="/admin/citizens/<%= citizen.id %>/delete" class="btn btn-danger mt-2">Delete Citizen</a>
+                    <a href="/admin/citizens/<%= citizen.id %>/edit" class="btn btn-success mt-2">Edit Citizen</a>
+                </div>
+              </div>
+            </li>
+            <% }) %>
+          </ul>
+          </div>
+      </div>
+    </div>
+
+  </main>
+
+  
+
+
+
+<script>
+  function myFunction() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('myInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById('myUL');
+    li = ul.getElementsByTagName('li');
+    for (i = 0; i < li.length; i++) {
+      a = li[i];
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        li[i].style.display = '';
+      } else {
+        li[i].style.display = 'none';
+      }
+    }
+  }
+</script>

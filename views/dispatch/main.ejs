@@ -267,12 +267,13 @@
                             <form action="/dispatch/address-search" id="modal" method="post">
                                 <div class="form-group">
                                     <label for="address-search">Search By Address</label>
-                                    <select name="address_search" id="weapon-search" class="form-control text-light bg-secondary border-secondary"
+                                    <input list="addresses" class="form-control bg-secondary border-secondary text-light" name="address" />
+                                    <datalist id="addresses">
                                         placeholder="Search By address">
                                         <% address.forEach(add => {%>
                                         <option value="<%= add.address %>"><%= add.address %></option>
                                         <% }) %>
-                                    </select>
+                                    </datalist>
 
                                 </div>
 

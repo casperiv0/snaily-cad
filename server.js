@@ -46,6 +46,8 @@ const adminRouter = require("./routes/admin")
 // Member Management
 const memberManagementRouter = require("./routes/admin/memberManagement")
 
+const citizenManagementRouter = require("./routes/admin/citizenManagement")
+
 // Vehicles Router
 const adminVehicleRouter = require("./routes/values/vehicles")
 
@@ -146,6 +148,8 @@ app.use("/account", editAccountRouter);
 
 // Member Management
 app.use("/admin/members", memberManagementRouter)
+
+app.use("/admin/citizens/", citizenManagementRouter);
 
 // Edit CAD Router
 app.use("/admin/edit-cad", editCadRouter)

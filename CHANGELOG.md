@@ -1,5 +1,11 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.8
+
+- Added citizen management for moderators+
+- Writable list for dispatch name search
+- Fixed edit licenses cancel 404
+
 ## 3.5.7
 
 - Better update checker output

@@ -4,9 +4,7 @@
   <h1 class="card-title text-center mt-3 text-light">Penal Codes</h1>
 
   <ul class="list-group mt-2" id="myUL">
-    <a
-      href="/officers/dash"
-      class="btn btn-primary text-light "
+    <a href="/officers/dash" class="btn btn-primary text-light"
       >Police Dashboard</a
     >
     <input
@@ -16,13 +14,11 @@
       onkeyup="search()"
       placeholder="Search by Title or Description.."
     />
-    <% penalCodes.forEach(value => { %>
+    <% penalCodes.forEach(penal => { %>
 
     <li href="#" class="list-group-item mt-2 text-light bg-dark">
-      <div class="d-flex w-100 justify-content-between bolder">
-        <h5 class="bolder"><%= value.title %></h5>
-      </div>
-      <p class="mb-1"><%- value.des %></p>
+      <h5 class="bolder"><%= penal.title %></h5>
+      <p class="mb-1"><%- penal.des %></p>
     </li>
 
     <% }) %>

@@ -1,0 +1,159 @@
+<%- include("../../partials/header.ejs") %>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <%- include("../../partials/admin-header.ejs") %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 text-light mt-2">
+      <h1 class="card-title cap text-center text-light mt-2">
+        Edit <%= citizen.full_name %>
+      </h1>
+      
+      <% if(message != ''){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= message %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %>
+        <form action="" enctype="application/x-www-form-urlencoded" method="POST">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Full Name</label>
+          <input
+            name="full_name"
+            type="text"
+            class="form-control bg-dark border-dark text-light pn"
+            placeholder="Full Name"
+            value="<%= citizen.full_name %> "
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Birthday</label>
+          <input
+            name="birth"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Birthday"
+            required
+            value="<%= citizen.birth %> "
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Ethnicity</label>
+          <select
+            name="ethnicity"
+            class="form-control bg-dark border-dark text-light"
+            slot="<%= citizen.ethnicity %>"
+          >
+            <option selected value="<%= citizen.ethnicity %>"
+              ><%= citizen.ethnicity %></option
+            >
+            <option disabled value="---------">---------</option>
+            <% ethnicities.forEach(ethnicity => { %>
+            <option value="<%= ethnicity.name %>"
+              ><%= ethnicity.name %></option
+            >
+            <% }) %>
+          </select>
+        </div>
+      
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Gender</label>
+          <select
+            name="gender"
+            class="form-control bg-dark border-dark text-light"
+            value="<%= citizen.gender %> "
+          >
+            <option selected value="<%= citizen.name %>"
+              ><%= citizen.gender %></option
+            >
+            <option disabled value="---------">---------</option>
+            <% genders.forEach(gender => { %>
+            <option value="<%= gender.name %>"><%= gender.name %></option>
+            <% }) %>
+          </select>
+          <!-- <input name="gender" type="text" class="form-control" placeholder="Gender" required /> -->
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Hair Color</label>
+          <input
+            name="hair"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Hair Color"
+            required
+            value="<%= citizen.hair_color %>"
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Eye Color</label>
+          <input
+            name="eyes"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Eye Color"
+            required
+            value="<%= citizen.eye_color %>"
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Address</label>
+          <input
+            name="address"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Address"
+            required
+            value="<%= citizen.address %>"
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+      
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Height</label>
+          <input
+            name="height"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Height"
+            value="<%= citizen.height %>"
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter Weight</label>
+          <input
+            name="weight"
+            type="text"
+            class="form-control bg-dark border-dark text-light"
+            placeholder="Weight"
+            value="<%= citizen.weight %>"
+            minlength="1"
+            maxlength="255"
+          />
+        </div>
+      
+        <button type="submit" class="btn btn-primary float-right">
+          Edit Citizen
+          </button>
+        <a
+          href="/admin/citizens"
+          class="btn cancel-btn btn-danger float-right"
+          >Cancel</a
+        >
+      </form>
+
+      </main>

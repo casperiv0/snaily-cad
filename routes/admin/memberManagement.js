@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         } else {
             if (result[1][0]) {
                 if (result[1][0].rank == 'admin' || result[1][0].rank == 'owner') {
-                    res.render("admin-pages/members/members.ejs", { desc: "", title: 'Admin Panel | Citizens', users: result[2], isAdmin: result[1][0].rank, pending: result[3], whitelist: result[0][0] })
+                    res.render("admin-pages/management/members.ejs", { desc: "", title: 'Admin Panel | Citizens', users: result[2], isAdmin: result[1][0].rank, pending: result[3], whitelist: result[0][0] })
                 } else {
                     res.sendStatus(403)
                 };
@@ -41,7 +41,7 @@ router.get("/edit/:memberId", (req, res) => {
         } else {
             if (result[0][0]) {
                 if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
-                    res.render("admin-pages/members/edit-member.ejs", { desc: "", messageG: '', message: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].rank, req: req, cad_info: result[2][0] })
+                    res.render("admin-pages/management/edit-member.ejs", { desc: "", messageG: '', message: '', title: 'Admin Panel | Citizens', user: result[1], isAdmin: result[0][0].rank, req: req, cad_info: result[2][0] })
                 } else {
                     res.sendStatus(403)
                 };
@@ -106,7 +106,7 @@ router.post("/edit/:memberId", (req, res) => {
                                     } else {
                                         if (result[0][0]) {
                                             if (result[0][0].rank == 'admin' || result[0][0].rank == 'owner') {
-                                                res.render("admin-pages/members/edit-member.ejs", { desc: "", messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result5[0][0].rank, req: req, cad_info: result5[2][0] })
+                                                res.render("admin-pages/management/edit-member.ejs", { desc: "", messageG: 'Successfully saved changes', message: '', title: 'Edit User | SnailyCAD', user: result[1], isAdmin: result5[0][0].rank, req: req, cad_info: result5[2][0] })
                                             } else {
                                                 res.sendStatus(403);
                                             };
@@ -160,7 +160,7 @@ router.post("/ban/:memberId", (req, res) => {
                                 console.log(err);
                                 return res.sendStatus(500)
                             } else {
-                                res.render("admin-pages/members/edit-member.ejs", { desc: "", message: 'You are not able to ban yourself.', messageG: '', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
+                                res.render("admin-pages/management/edit-member.ejs", { desc: "", message: 'You are not able to ban yourself.', messageG: '', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
                             };
                         });
                     } else {
@@ -191,7 +191,7 @@ router.post("/ban/:memberId", (req, res) => {
                                                 console.log(err);
                                                 return res.sendStatus(500)
                                             } else {
-                                                res.render("admin-pages/members/edit-member.ejs", { desc: "", message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
+                                                res.render("admin-pages/management/edit-member.ejs", { desc: "", message: '', messageG: `User was successfully banned. Reason: ${banReason}`, title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
                                             };
                                         });
                                     }
@@ -242,7 +242,7 @@ router.post("/unban/:memberId", (req, res) => {
                                     console.log(err);
                                     return res.sendStatus(500)
                                 } else {
-                                    res.render("admin-pages/members/edit-member.ejs", { desc: "", message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
+                                    res.render("admin-pages/management/edit-member.ejs", { desc: "", message: '', messageG: 'User was successfully unbanned.', title: 'Edit user | SnailyCAD', user: result[1], isAdmin: result55[0].rank, req: req, cad_info: result[2][0] });
                                 };
                             });
                         }

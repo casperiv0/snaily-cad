@@ -41,7 +41,7 @@ router.post("/address-search", (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?"
     connection.query(query, [req.session.username2], (err, result1) => {
         if (result1[0]) {
-            let searchQ = req.body.address_search;
+            let searchQ = req.body.address;
             let query = "SELECT * FROM citizens WHERE address = ?";
 
             connection.query(query, [searchQ], (err, result) => {

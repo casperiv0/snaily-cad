@@ -47,7 +47,17 @@ Open an issue [here](https://github.com/Dev-CasperTheGhost/snaily-cad/issues/new
   - goto `public/icons/` and there will be a file called `icon.png` replace this file with yours, It might take a little before the changes have been saved
 
 - Am I allowed to translate this CAD?
+
   - Yes, you are allowed to translate this CAD. (Only for your community)
+
+- How can I make backups of the database?
+
+  - This is fairly simple! Only takes a few steps
+
+    1. Head on over to the phpmyadmin, [http://localhost/phpmyadmin/](http://localhost/phpmyadmin/)
+    2. Select the snaily-cad database you created
+    3. At the top you will see a few icons and buttons, head over to "Export"
+    4. Now Export the database by clicking go.
 
 ## Main Features
 
