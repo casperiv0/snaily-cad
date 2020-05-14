@@ -362,7 +362,7 @@ router.get("/api/plate/:plate", (req, res) => {
     });
 });
 // Weapon Search
-router.get("/api/weapon/:weapon", (req, res) => {
+router.get("/api/weapon/:serial", (req, res) => {    
     const query = "SELECT * FROM `registered_weapons` WHERE `serial_number` = ?"
 
     connection.query(`${query};`, [req.params.serial], (err, result) => {
@@ -401,7 +401,7 @@ router.post("/update-status/:officerId", (req, res) => {
 
     if (status2 !== undefined) {
         status = "10-41 | 10-8"
-    } 
+    }
     if (status2 === "10-42 | 10-7") {
         status = "10-42 | 10-7"
         status2 = "----------"

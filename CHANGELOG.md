@@ -1,5 +1,9 @@
 # Changelog, starting from version 3.2.1
 
+## 3.5.9
+
+- Fixed weapon Search
+
 ## 3.5.8
 
 - Added citizen management for moderators+
