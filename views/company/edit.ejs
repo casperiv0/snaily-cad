@@ -26,6 +26,18 @@
         >Vehicles</a
       >
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link bg-dark border-dark text-light"
+        id="profile-tab"
+        data-toggle="tab"
+        href="#awaiting"
+        role="tab"
+        aria-controls="profile"
+        aria-selected="false"
+        >Awaiting Access <div class="badge badge-primary"><%= awaitingEmployees.length %></div> </a
+      >
+    </li>
   </ul>
   <div class="tab-content text-light" id="myTabContent">
     <div
@@ -50,6 +62,8 @@
         <% }) %>
       </ul>
     </div>
+
+    <!-- Vehicles -->
     <div
       class="tab-pane fade mt-2"
       id="vehicles"
@@ -69,6 +83,32 @@
          <% } else { %>
         <li class="list-group-item bg-dark border-dark">
           There are no vehicles registered to this company.
+        </li>
+        <% } %>
+      </ul>
+    </div>
+
+    <!-- Awaiting  -->
+    <div
+      class="tab-pane fade mt-2"
+      id="awaiting"
+      role="tabpanel"
+      aria-labelledby="profile-tab"
+    >
+      <h1 class="card-title mt-1">Awaiting Approval</h1>
+      <ul class="list-group mt-1">
+        <% if (awaitingEmployees.length >0) { %> <% awaitingEmployees.forEach(employee => { %>
+        <li class="list-group-item bg-dark border-dark text-light cap">
+          <span class="bolder">Name:</span> <%= employee.full_name %> <br />
+          <div class="float-right">
+            <a class="btn btn-success" href="/company/<%= req.params.citizenId %>-<%= req.params.company %>/accept/<%= employee.id %>">Accept</a>
+            <a class="btn btn-danger" href="/company/<%= req.params.citizenId %>-<%= req.params.company %>/decline/<%= employee.id %>">Decline</a>
+          </div>
+        </li>
+        <% }) %>
+         <% } else { %>
+        <li class="list-group-item bg-dark border-dark">
+          There's no employees awaiting approval.
         </li>
         <% } %>
       </ul>

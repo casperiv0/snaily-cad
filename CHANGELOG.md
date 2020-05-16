@@ -1,5 +1,10 @@
 # Changelog, starting from version 3.2.1
 
+## 3.6.0
+
+- Fixed minor bugs
+- Added Company Whitelist (More features for this coming soon!)
+
 ## 3.5.9
 
 - Fixed weapon Search

@@ -30,16 +30,63 @@ router.get("/", (req, res) => {
 router.post("/join", (req, res) => {
     const joined_business = req.body.join_business;
     const citizen_name = req.body.citizen_name;
-    const query = 'UPDATE `citizens` SET `business` = ? WHERE `citizens`.`full_name` = ?';
 
-    connection.query(query, [joined_business, citizen_name], (err) => {
+    connection.query("SELECT * FROM `businesses` WHERE `business_name` = ?", [joined_business], (err, result) => {
         if (err) {
             console.log(err);
-            return res.sendStatus(500);
+            return res.sendStatus(500)
         } else {
-            res.redirect(`/citizen`);
-        };
-    });
+            if (result[0].whitelisted === "Yes") {
+                const query = 'UPDATE `citizens` SET `business` = ?, `b_status` = ? WHERE `citizens`.`full_name` = ?';
+
+                connection.query(query, [joined_business, "awaiting", citizen_name], (err) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        const query = "SELECT * FROM `users` WHERE username = ?";
+                        connection.query(query, [req.session.username2], (err, result1) => {
+                            if (err) {
+                                console.log(err);
+                                return res.sendStatus(500)
+                            } else {
+                                const query = "SELECT * FROM `citizens` WHERE linked_to = ?";
+                                const query3 = "SELECT * FROM `users`";
+                                const query4 = "SELECT * FROM `cad_info`"
+                                connection.query(`${query3}; ${query4}`, (err, result4) => {
+                                    if (err) {
+                                        console.log(err);
+                                        return res.sendStatus(500)
+                                    } else {
+                                        connection.query(`${query}`, [req.session.username2], (err, result) => {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                res.render("citizens/citizen.ejs", { title: "Citizens | SnailyCAD", citizen: result, isAdmin: result1[0].rank, message: "", messageG: 'This company is whitelisted, You have been set to "awaiting" access', username: req.session.username2, cadName: result4[1][0].cad_name, aop: result4[1][0].AOP, desc: "See All your citizens, register vehicles or weapons here too." });
+                                            }
+                                        });
+                                    };
+                                });
+                            }
+                        });
+                    };
+                });
+            } else {
+                const query = 'UPDATE `citizens` SET `business` = ?, `b_status` = ? WHERE `citizens`.`full_name` = ?';
+
+                connection.query(query, [joined_business, "accepted", citizen_name ], (err) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500);
+                    } else {
+                        res.redirect(`/citizen`);
+                    };
+                });
+            }
+        }
+    })
+
+
 });
 
 // Create Company
@@ -47,6 +94,7 @@ router.post("/create", (req, res) => {
     const linked_to = req.session.username2
     const companyName = req.body.companyName;
     const owner = req.body.owner;
+    const whitelisted = req.body.whitelisted;
     const query = "SELECT * FROM `businesses` WHERE `business_name` = ?"
 
     connection.query(query, [companyName], (err, results) => {
@@ -74,10 +122,10 @@ router.post("/create", (req, res) => {
                     };
                 });
             } else {
-                const query = "INSERT INTO `businesses` (`business_name`, `business_owner`, `linked_to`) VALUES (?, ?, ?)";
+                const query = "INSERT INTO `businesses` (`business_name`, `business_owner`, `linked_to`, `whitelisted`) VALUES (?, ?, ?, ?)";
                 const query2 = "UPDATE `citizens` SET `business` = ?, `rank` = ? WHERE `citizens`.`full_name` = ?";
 
-                connection.query(`${query}; ${query2}`, [companyName, owner, linked_to, companyName, 'owner', owner], (err) => {
+                connection.query(`${query}; ${query2}`, [companyName, owner, linked_to, whitelisted, companyName, 'owner', owner], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -107,7 +155,16 @@ router.get("/:citizenId-:company", (req, res) => {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result5[0]) {
+                    if (result5[0]) {                        
+                        if(result5[0].business !== companyName) {
+                            return res.send("You are not working here!")
+                        }
+                        if ( result5[0].business === companyName && result5[0].b_status === "awaiting") {
+                           return res.send("Sorry! You are currently awaiting to access this company page")
+                        }
+                        if (result5[0].b_status==="declined") {
+                           return res.send("Sorry! You had been declined from this company")
+                        }
                         const posts = "SELECT * FROM `posts` WHERE `linked_to_bus` = ?";
                         const totalEmployees = "SELECT * FROM `citizens` WHERE  `business` = ?"
                         const ownerQ = "SELECT * FROM `businesses` WHERE `business_owner` = ?"
@@ -217,12 +274,13 @@ router.get("/:citizenId-:company/edit", (req, res) => {
                     let query2 = "SELECT * FROM `businesses` WHERE `business_name` = ?"
                     let query3 = "SELECT * FROM `citizens` WHERE `business` = ?"
                     let query4 = "SELECT * FROM `registered_cars` WHERE `company` = ?"
-                    connection.query(`${query2}; ${query3}; ${query4}`, [companyName, companyName, companyName], (err, result1) => {
+                    const awaitingEmployees = "SELECT * FROM `citizens` WHERE `business` = ? AND `b_status` = ?"
+                    connection.query(`${query2}; ${query3}; ${query4}; ${awaitingEmployees}`, [companyName, companyName, companyName, companyName, "awaiting"], (err, result1) => {
                         if (err) {
                             console.log(err);
                             return res.sendStatus(500)
                         } else {
-                            res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], isAdmin: result[1][0].rank, employees: result1[1], req: req, vehicles: result1[2] });
+                            res.render("company/edit.ejs", { title: "Edit Company | SnailyCAD", desc: "", current: result1[0][0], isAdmin: result[1][0].rank, employees: result1[1], req: req, vehicles: result1[2], awaitingEmployees: result1[3] });
                         };
                     });
                 } else {
@@ -302,6 +360,39 @@ router.post("/:citizenId-:company/:employeeId/edit", (req, res) => {
 })
 
 
+
+// Accept Employee
+router.get("/:citizenId-:company/accept/:employeeId", (req, res) => {
+    const citizenId = req.params.citizenId;
+    const employeeId = req.params.employeeId;
+    const companyName = req.params.company;
+    const query = "UPDATE `citizens` SET `b_status` = ? WHERE `id` = ?";
+    connection.query(query, ["accepted", employeeId], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            res.redirect(`/company/${citizenId}-${companyName}/edit`);
+        }
+    })
+})
+
+
+// Deny Employee
+router.get("/:citizenId-:company/decline/:employeeId", (req, res) => {
+    const citizenId = req.params.citizenId;
+    const employeeId = req.params.employeeId;
+    const companyName = req.params.company;
+    const query = "UPDATE `citizens` SET `b_status` = ? WHERE `id` = ?";
+    connection.query(query, ["declined", employeeId], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            res.redirect(`/company/${citizenId}-${companyName}/edit`);
+        }
+    })
+})
 
 
 module.exports = router
