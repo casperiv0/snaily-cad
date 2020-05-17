@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
             if (usernameResult[0]) {
                 if (usernameResult[0].dispatch == 'yes') {
                     const addresses = "SELECT * FROM `citizens`"
-                    const officersQ = "SELECT * FROM `officers` WHERE `status` = '10-41 | 10-8'"
+                    const officersQ = "SELECT * FROM `officers` WHERE `status` = '10-41 | '"
                     const EMS = "SELECT * FROM `ems-fd` WHERE `status` = '10-41 | 10-8'";
                     const bolosQ = "SELECT * FROM `bolos`";
                     const callsQ = "SELECT * FROM `911calls`";
@@ -65,8 +65,13 @@ router.post("/update-status/:officerId", (req, res) => {
     if (status2 === undefined) {
         status2 = "----------"
     }
-    if (status === "10-41 | 10-7") {
-        status2 = "----------"
+    if (status === "10-42") {
+        status = "10-42 | "
+        status2 = " 10-7"
+    }
+
+    if (status === "10-41") {
+        status = "10-41 | "
     }
     let query = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `officers`.`id` = ?"
 

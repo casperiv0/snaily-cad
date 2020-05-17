@@ -1,5 +1,10 @@
 # Changelog, starting from version 3.2.1
 
+## 3.6.2
+
+- Added ease of access officer buttons
+- Go to the my officers page to go on-duty, then you can use the buttons
+
 ## 3.6.1
 
 - Fixed register error

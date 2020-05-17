@@ -308,7 +308,6 @@
                        <th scope="col">Officer Name</th>
                        <th scope="col">Officer Department</th>
                        <th scope="col">Status</th>
-                       <th scope="col">Status</th>
                        <th scope="col">Actions</th>
                      </tr>
                    </thead>
@@ -318,8 +317,7 @@
                           <th scope="row"><%= ++index %></th>
                           <td><%= officer.officer_name %></td>
                           <td><%= officer.officer_dept %></td>
-                          <td><%= officer.status %></td>
-                          <td><%= officer.status2 %></td>
+                          <td><%= officer.status %><%= officer.status2 %></td>
                           <td> <button class="btn btn-primary" data-target="#editStatus<%= officer.id %>" data-toggle="modal">Edit Status</button> </td>
                         </tr>
                         <div class="modal fade" id="editStatus<%= officer.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -338,9 +336,9 @@
                                       <select name="status" id="status" class="form-control bg-secondary border-secondary text-light cap">
                                         <option value="<%= officer.status %>"><%= officer.status %></option>
                                         <option class="color-light" disabled value="--------">--------</option>
-                                        <option class="text-light" value="10-41 | 10-8"
+                                        <option class="text-light" value="10-41"
                                         >10-41 | 10-8</option>
-                                      <option class="text-light" value="10-42 | 10-7"
+                                      <option class="text-light" value="10-42"
                                         >10-42 | 10-7</option>
                                       </select>
                                     </div>

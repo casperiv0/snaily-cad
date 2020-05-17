@@ -24,8 +24,7 @@ router.get("/myofficers", (req, res) => {
                                 return res.sendStatus(500)
                             } else {
                                 res.render("officers-pages/officers.ejs", {
-                                    title: "Police Department | SnailyCAD",
-                                    users: "qsd",
+                                    title: "Police Department",
                                     desc: "",
                                     isAdmin: result1[0].rank,
                                     officers: result[0],
@@ -84,7 +83,7 @@ router.post("/add", (req, res) => {
                 }
                 let query = "INSERT INTO `officers` ( `officer_name`,`officer_dept`,`linked_to`,`status`,`status2`) VALUES (?, ?, ?, ?, ?)";
 
-                connection.query(query, [officer_name, dept, req.session.username2, '10-42 | 10-7', '----------'], (err) => {
+                connection.query(query, [officer_name, dept, req.session.username2, '10-42 | ', '10-7'], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500)
@@ -106,13 +105,14 @@ router.get("/dash", (req, res) => {
     const calls = "SELECT * FROM `911calls`"
     const citizensQ = "SELECT * FROM `citizens`";
     const activeOfficers = "SELECT * FROM `officers` WHERE `status` = ?"
-    const myOfficers = "SELECT * FROM `officers` WHERE `linked_to` = ?"
+    const myOfficers = "SELECT * FROM `officers` WHERE `linked_to` = ?";
+    const currentStatus = "SELECT * FROM `officers` WHERE `linked_to` = ? AND `id` = ?"
     connection.query(`${query};`, [req.session.username2], (err, result) => {
         if (err) {
             console.log(err);
             return res.sendStatus(500)
         } else {
-            connection.query(`${bolosQ}; ${calls}; ${citizensQ}; ${activeOfficers}; ${myOfficers}`, ["10-41 | 10-8", req.session.username2], (err, result5) => {
+            connection.query(`${bolosQ}; ${calls}; ${citizensQ}; ${activeOfficers}; ${myOfficers}; ${currentStatus}`, ["10-41 | 10-8", req.session.username2, req.session.username2, req.session.officerId], (err, result5) => {
                 if (err) {
                     console.log(err);
                     return res.sendStatus(500)
@@ -132,7 +132,8 @@ router.get("/dash", (req, res) => {
                             calls: result5[1],
                             messageG: "",
                             officers: result5[3],
-                            myOfficers: result5[4]
+                            myOfficers: result5[4],
+                            currentStatus: result5[5][0]
                         });
                     } else {
                         res.render("403.ejs", { desc: "", title: "unauthorized", isAdmin: result[0].rank, message: "If you'd like to be an officer, Please let a higher up know in your server." })
@@ -362,7 +363,7 @@ router.get("/api/plate/:plate", (req, res) => {
     });
 });
 // Weapon Search
-router.get("/api/weapon/:serial", (req, res) => {    
+router.get("/api/weapon/:serial", (req, res) => {
     const query = "SELECT * FROM `registered_weapons` WHERE `serial_number` = ?"
 
     connection.query(`${query};`, [req.params.serial], (err, result) => {
@@ -377,7 +378,7 @@ router.get("/api/weapon/:serial", (req, res) => {
 
 
 // Quick Update status
-router.get("/dash/status/:status-:officerId", (req, res) => {
+router.get("/dash/status/:status/:officerId", (req, res) => {
     const query = "SELECT * FROM `users` WHERE `username` = ?";
     connection.query(query, [req.session.username2], (err, result) => {
         if (err) {
@@ -385,7 +386,40 @@ router.get("/dash/status/:status-:officerId", (req, res) => {
             return res.sendStatus(500)
         } else {
             if (result[0].leo === "yes") {
-                const query = "UPDATE"
+
+                let status = "";
+                let status2 = req.params.status;
+                let query = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `officers`.`id` = ?"
+                let lastQuery = req.session.username2
+
+
+            
+                if (status2 !== undefined) {
+                    status = "10-41 | "
+                }
+                if (status2 === "10-42") {
+                    status = "10-42 | "
+                    status2 = "----------"
+                }
+
+                if (status2 === "108") {
+                    officerId = req.params.officerId;
+                    req.session.officerId = officerId;
+                    status = "10-41 | "
+                    status2 = "10-8"
+                    lastQuery = officerId;
+                }
+                
+                
+
+                connection.query(query, [status, status2, req.session.officerId], (err) => {
+                    if (err) {
+                        console.log(err);
+                        return res.sendStatus(500)
+                    } else {
+                        res.redirect("/officers/dash")
+                    }
+                })
             } else {
                 res.sendStatus(403);
             };
@@ -393,29 +427,6 @@ router.get("/dash/status/:status-:officerId", (req, res) => {
     });
 });
 
-// Update status
-router.post("/update-status/:officerId", (req, res) => {
-    const id = req.params.officerId
-    let status = req.body.status;
-    let status2 = req.body.status2;
-
-    if (status2 !== undefined) {
-        status = "10-41 | 10-8"
-    }
-    if (status2 === "10-42 | 10-7") {
-        status = "10-42 | 10-7"
-        status2 = "----------"
-    }
-    let query1 = "UPDATE `officers` SET `status` = ?, `status2` = ? WHERE `officers`.`id` = ?"
-    connection.query(`${query1};`, [status, status2, id], (err) => {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500)
-        } else {
-            res.redirect(`/officers/myofficers`);
-        };
-    });
-});
 
 // Delete Officer
 router.get("/delete/:officerId", (req, res) => {
