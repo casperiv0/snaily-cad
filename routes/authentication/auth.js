@@ -202,7 +202,7 @@ router.post("/register", (req, res) => {
                                                         });
                                                     } else {
                                                         // CAD & Tow Not whitelisted
-                                                        let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                                                        let query = "INSERT INTO users (`username`, `password`, `rank`, `leo`, `ems_fd`, `dispatch`, `tow`, `banned`, `ban_reason`, `whitelist_status`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
                                                         connection.query(query, [username, hash, "No Rank", "no", "no", "no", "yes", "", "", "accepted"], function (error) {
                                                             if (error) {
                                                                 console.log(error);

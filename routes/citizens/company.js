@@ -74,7 +74,7 @@ router.post("/join", (req, res) => {
             } else {
                 const query = 'UPDATE `citizens` SET `business` = ?, `b_status` = ? WHERE `citizens`.`full_name` = ?';
 
-                connection.query(query, [joined_business, "accepted", citizen_name ], (err) => {
+                connection.query(query, [joined_business, "accepted", citizen_name], (err) => {
                     if (err) {
                         console.log(err);
                         return res.sendStatus(500);
@@ -155,15 +155,15 @@ router.get("/:citizenId-:company", (req, res) => {
                     console.log(err);
                     return res.sendStatus(500)
                 } else {
-                    if (result5[0]) {                        
-                        if(result5[0].business !== companyName) {
+                    if (result5[0]) {
+                        if (result5[0].business !== companyName) {
                             return res.send("You are not working here!")
                         }
-                        if ( result5[0].business === companyName && result5[0].b_status === "awaiting") {
-                           return res.send("Sorry! You are currently awaiting to access this company page")
+                        if (result5[0].business === companyName && result5[0].b_status === "awaiting") {
+                            return res.send("Sorry! You are currently awaiting to access this company page")
                         }
-                        if (result5[0].b_status==="declined") {
-                           return res.send("Sorry! You had been declined from this company")
+                        if (result5[0].b_status === "declined") {
+                            return res.send("Sorry! You had been declined from this company")
                         }
                         const posts = "SELECT * FROM `posts` WHERE `linked_to_bus` = ?";
                         const totalEmployees = "SELECT * FROM `citizens` WHERE  `business` = ?"

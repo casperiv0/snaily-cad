@@ -1,5 +1,9 @@
 # Changelog, starting from version 3.2.1
 
+## 3.6.1
+
+- Fixed register error
+
 ## 3.6.0
 
 - Fixed minor bugs
