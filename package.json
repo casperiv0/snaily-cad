@@ -1,6 +1,6 @@
 {
   "name": "snaily-cad",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "A Free NodeJS CAD/MDT",
   "main": "server.js",
   "scripts": {
