@@ -2,6 +2,16 @@
 
 Free NodeJS CAD For your Community
 
+**Update**
+
+I'm currently working on a v2 for this CAD/MDT! I hope to release v2 end of June, mid July.
+
+Things that will change when v2 releases:
+
+- **v1** will not receive any updates unless bug fixes
+- **v1** and **v2** will both still get support
+- More coming soon!
+
 ## Changelog
 
 View the full changelog [here](https://github.com/Dev-CasperTheGhost/snaily-cad/blob/master/CHANGELOG.md)
