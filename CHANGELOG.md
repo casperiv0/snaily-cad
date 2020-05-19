@@ -1,5 +1,11 @@
 # Changelog, starting from version 3.2.1
 
+## 3.6.3
+
+- Added more ease of access buttons
+- Added ease of access buttons in dispatch
+- Started on [SnailyCAD v2](https://github.com/Dev-CasperTheGhost/snaily-cadv2)
+
 ## 3.6.2
 
 - Added ease of access officer buttons

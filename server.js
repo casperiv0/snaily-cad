@@ -280,8 +280,7 @@ async function main() {
     const versionResult = await fetch(versionUrl).then(res => res.json());
 
     // This SQL Is for update 3.4.4, Creates arrest reports table
-    connection.query(`ALTER TABLE \`citizens\` ADD \`b_status\` VARCHAR(255) NOT NULL AFTER \`citizen_picture\`;
-    ALTER TABLE \`businesses\` ADD \`whitelisted\` VARCHAR(255) NOT NULL AFTER \`linked_to\`;`, (err) => {
+    connection.query(`ALTER TABLE \`users\` ADD \`dispatch_status\` VARCHAR(255) NOT NULL AFTER \`whitelist_status\`;`, (err) => {
         if (err) {
             if (err.code === "ER_DUP_FIELDNAME") {
                 return console.log("Database is up to date.");

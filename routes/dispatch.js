@@ -17,12 +17,13 @@ router.get("/", (req, res) => {
                     const bolosQ = "SELECT * FROM `bolos`";
                     const callsQ = "SELECT * FROM `911calls`";
                     const cadInfo = "SELECT * FROM `cad_info`"
-                    connection.query(`${addresses}; ${officersQ}; ${EMS}; ${bolosQ}; ${callsQ}; ${cadInfo}`, (err, result) => {
+                    const currentStatus = "SELECT dispatch_status FROM `users` WHERE `username` = ?";
+                    connection.query(`${addresses}; ${officersQ}; ${EMS}; ${bolosQ}; ${callsQ}; ${cadInfo}; ${currentStatus}`, [req.session.username2], (err, result) => {
                         if (err) {
                             console.log(err)
                             return res.sendStatus(500);
-                        } else {
-                            res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5][0], bolos: result[3], calls: result[4]});
+                        } else {                            
+                            res.render("dispatch/main.ejs", { desc: "", title: "Dispatch | SnailyCAD", isAdmin: usernameResult[0].rank, address: result[0], officers: result[1], ems: result[2], cad: result[5][0], bolos: result[3], calls: result[4], currentStatus: result[6][0] });
                         };
                     });
                 } else {
@@ -105,5 +106,19 @@ router.post("/update-aop", (req, res) => {
     });
 })
 
+
+router.get("/status/:status", (req, res) => {
+    const  status  = req.params.status ;
+
+    const query = "UPDATE `users` SET `dispatch_status` = ? WHERE `users`.`username` = ?";
+    connection.query(query, [status, req.session.username2], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500)
+        } else {
+            res.redirect("/dispatch")
+        }
+    });
+});
 
 module.exports = router

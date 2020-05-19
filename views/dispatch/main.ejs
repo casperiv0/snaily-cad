@@ -3,32 +3,41 @@
 <div class="container-fluid mt-2">
 
     <h2 class="card-title text-light">Dispatch - AOP: <%= cad.AOP %></h2>
-    <div class="card bg-secondary  mx-auto mb-4">
+    <div class="card bg-dark  mx-auto mb-4">
         <div class="card-header text-light bolder">
             Utility Panel
+            <div class="float-right ml-2">
+                Current Status: <%= currentStatus.dispatch_status %>
+            </div>
             <span class="float-right" id="date"></span>
         </div>
         <div class="card-body row ">
-            <button class="btn btn-primary  text-light btn-dark bg-dark mt-2" data-target="#nameSearch"
+            <button class="btn btn-primary  text-light btn-secondary bg-secondary mt-2" data-target="#nameSearch"
             data-toggle="modal">Name Search | <img class="testing" src="/icons/internal/name_search.png" alt="name"></button>
 
-            <button class="btn btn-primary  text-light btn-dark bg-dark ml-2 mt-2" data-target="#plateSearch"
+            <button class="btn btn-primary  text-light btn-secondary bg-secondary ml-2 mt-2" data-target="#plateSearch"
             data-toggle="modal">Plate Search | <img class="testing" src="/icons/internal/Plate_search.png" alt="plate"></button>
 
-            <button class="btn no-out btn-primary text-light btn-dark bg-dark ml-2 mt-2" data-target="#eSyBFqXnRU"
+            <button class="btn no-out btn-primary text-light btn-secondary bg-secondary ml-2 mt-2" data-target="#eSyBFqXnRU"
                 data-toggle="modal">Weapon Search | <img class="testing" src="/icons/internal/weapon.png" alt="weapon"></button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#addressSearch"
+                <button class="btn text-light btn-secondary bg-secondary no-out btn-primary  ml-2 mt-2" data-target="#addressSearch"
                 data-toggle="modal">Address Search  | <img class="testing" src="/icons/internal/Adress_Search.png" alt="bolo"></button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#bolo"
+                <button class="btn text-light btn-secondary bg-secondary no-out btn-primary  ml-2 mt-2" data-target="#bolo"
                 data-toggle="modal">Create Bolo | <img class="testing" src="/icons/internal/bolo.png" alt="bolo"></button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#emergencyCall"
+                <button class="btn text-light btn-secondary bg-secondary no-out btn-primary  ml-2 mt-2" data-target="#emergencyCall"
                 data-toggle="modal">Create 911 Call | <img class="testing" src="/icons/internal/call.png" alt="call"></button>
 
-                <button class="btn text-light btn-dark bg-dark no-out btn-primary  ml-2 mt-2" data-target="#notepad"
+                <button class="btn text-light btn-secondary bg-secondary no-out btn-primary  ml-2 mt-2" data-target="#notepad"
                 data-toggle="modal">Notepad  | <img class="testing" src="/icons/internal/Notepad.png" alt="notepad"></button>
+        </div>
+        <div class="card-footer d-flex justify-content-center">
+          <a style="width: 100px;" href="/dispatch/status/10-7" class="btn btn-secondary mr-2">10-7</a>
+          <a style="width: 100px;" href="/dispatch/status/10-8" class="btn btn-secondary mr-2">10-8</a>
+          <a style="width: 100px;" href="/dispatch/status/10-10" class="btn btn-secondary mr-2">10-10</a>
+          <a style="width: 100px;" href="/dispatch/status/code 7" class="btn btn-secondary  mr-2">Code 7</a>
         </div>
     </div>        <ul class="list-group list-group-flush ">
 
