@@ -1,5 +1,9 @@
 # Changelog, starting from version 3.2.1
 
+## 3.6.4
+
+- Hotfixes
+
 ## 3.6.3
 
 - Added more ease of access buttons
